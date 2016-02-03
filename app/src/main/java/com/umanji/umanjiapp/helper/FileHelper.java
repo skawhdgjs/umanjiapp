@@ -19,9 +19,6 @@ import android.support.v4.content.CursorLoader;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 
-import com.androidquery.AQuery;
-import com.umanji.umanjiapp.R;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,7 +39,7 @@ public final class FileHelper {
     public static File getFileFromUri(Context context, Uri uri) {
         String realPath;
 
-        if (Build.VERSION.SDK_INT <= 19)
+        if (Build.VERSION.SDK_INT < 19)
             realPath = FileHelper.getRealPathFromURI_API11to18(context, uri);
         else
             realPath = FileHelper.getRealPathFromURI_API19(context, uri);
