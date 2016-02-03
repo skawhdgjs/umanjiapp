@@ -8,7 +8,7 @@ import com.umanji.umanjiapp.ui.page.channel.community.create.CommunityCreateFrag
 
 
 public class KeywordCreateActivity extends BaseActivity {
-    private static final String TAG = "CommunityCreateActivity";
+    private static final String TAG = "KeywordCreateActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +16,6 @@ public class KeywordCreateActivity extends BaseActivity {
     }
 
     protected Fragment createFragment() {
-        return CommunityCreateFragment.newInstance(getIntent().getBundleExtra("bundle"));
+        return KeywordCreateFragment.newInstance(getIntent().getBundleExtra("bundle"));
     }
 }

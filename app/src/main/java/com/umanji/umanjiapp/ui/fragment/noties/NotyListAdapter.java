@@ -71,6 +71,8 @@ public class NotyListAdapter extends BaseChannelListAdapter {
         final ChannelData userData  = notyData.getFrom();
         final boolean isRead = notyData.isRead();
 
+        if(channelData == null && channelData.getType() == null) return;
+
         switch (channelData.getType()) {
             case TYPE_POST:
                 holder.name.setText("글을 작성하였습니다.");

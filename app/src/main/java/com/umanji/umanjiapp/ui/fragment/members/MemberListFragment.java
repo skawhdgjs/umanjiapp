@@ -64,6 +64,7 @@ public class MemberListFragment extends BaseChannelListFragment {
         mUnJoinBtn = (Button)view.findViewById(R.id.unJoinBtn);
         mUnJoinBtn.setOnClickListener(this);
 
+        updateView();
         return view;
     }
 

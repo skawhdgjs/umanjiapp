@@ -18,7 +18,7 @@
         android:text="@string/spot_join_btn"
         android:background="@drawable/default_btn_radius"
         android:padding="5dp"
-        android:textColor="@color/gray_text"
+        android:textColor="#FFFFFF"
         android:textSize="14dp"
         android:layout_margin="14dp"
         android:visibility="gone"/>
@@ -33,7 +33,7 @@
         android:text="@string/spot_unjoin_btn"
         android:background="@drawable/default2_btn_radius"
         android:padding="5dp"
-        android:textColor="@color/gray_text"
+        android:textColor="@color/gray"
         android:textSize="14dp"
         android:layout_margin="14dp"
         android:visibility="gone"/>

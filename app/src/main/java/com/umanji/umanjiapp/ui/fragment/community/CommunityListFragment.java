@@ -23,6 +23,7 @@ import com.umanji.umanjiapp.ui.fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.page.channel.community.create.CommunityCreateActivity;
 import com.umanji.umanjiapp.ui.page.channel.spot.create.SpotCreateActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -97,6 +98,35 @@ public class CommunityListFragment extends BaseChannelListFragment {
                 startActivity(intent);
 
                 break;
+        }
+    }
+
+
+    @Override
+    public void onEvent(SuccessData event) {
+        if (event.response == null) return;
+
+        super.onEvent(event);
+        if (api_links_createKeyword.equals(event.type)) {
+            try {
+                String id = event.response.optString("parent");
+                if (mId.equals(id)) {
+                    JSONArray jsonArray = event.response.getJSONArray("data");
+                    for (int idx = 0; idx < jsonArray.length(); idx++) {
+                        JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                        ChannelData doc = new ChannelData(jsonDoc);
+
+                        mAdapter.addBottom(doc);
+                    }
+
+                    updateView();
+                }
+
+
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+            return;
         }
     }
 

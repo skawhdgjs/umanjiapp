@@ -271,7 +271,7 @@ public class MainFragment extends BaseFragment {
         if(AuthHelper.isLogin(mContext)) {
             mSignBtn.setVisibility(View.GONE);
             mAvatarImageBtn.setVisibility(View.VISIBLE);
-            String userPhoto = AuthHelper.getPhoto(mContext);
+            String userPhoto = mUser.getPhoto();
             if(!TextUtils.isEmpty(userPhoto)) {
                 Glide.with(mContext)
                         .load(userPhoto)
