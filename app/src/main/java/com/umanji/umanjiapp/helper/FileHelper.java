@@ -21,9 +21,6 @@ import android.support.v4.content.CursorLoader;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 
-import com.androidquery.AQuery;
-import com.umanji.umanjiapp.R;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
