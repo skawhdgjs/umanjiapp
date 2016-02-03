@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardPanel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="5dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/spotImage"
+        android:src="@drawable/spot_default"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Some F"
+        android:textSize="20dp"
+        android:textColor="#fff"
+        android:shadowColor="#000"
+        android:shadowRadius="7.0"
+        android:id="@+id/floorText"
+        android:layout_alignBottom="@+id/spotKeyword"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <!--
+                    광고 ImageView 추가
+                    1. id/ads_image  : 광고 사진
+
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+
+                    -->
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/userPhoto"
+        android:layout_width="@dimen/list_item_avatar_size"
+        android:layout_height="@dimen/list_item_avatar_size"
+        android:layout_marginRight="24dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default_0"
+        app:riv_border_color="@color/colorPrimary"
+        app:riv_border_width="1px"
+        app:riv_corner_radius="5dp"
+        app:riv_oval="false"
+        android:layout_below="@+id/linkName"
+        android:layout_toLeftOf="@+id/editText"
+        android:layout_toStartOf="@+id/editText"
+        android:layout_marginEnd="24dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="보드람치킨"
+        android:textSize="18dp"
+        android:layout_alignBottom="@+id/editText"
+        android:layout_toRightOf="@+id/spotImage"
+        android:layout_toEndOf="@+id/spotImage"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp" />
+
+    <TextView
+        android:id="@+id/linkName"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="@color/text"
+        android:textStyle="bold"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@+id/userName"
+        />
+
+    <TextView
+        android:id="@+id/spotKeyword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="치킨집"
+        android:textSize="12dp"
+        android:textColor="@color/text"
+        android:layout_alignBottom="@+id/userPhoto"
+        android:layout_alignLeft="@+id/name"
+        android:layout_alignStart="@+id/name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:text=">"
+        android:layout_below="@+id/linkName"
+        android:layout_alignRight="@+id/spotKeyword"
+        android:layout_alignEnd="@+id/spotKeyword"
+        android:textSize="20dp"/>
+
+
+</RelativeLayout>

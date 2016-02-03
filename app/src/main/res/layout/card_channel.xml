@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="5dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/photo"
+        android:layout_width="@dimen/list_item_avatar_size"
+        android:layout_height="@dimen/list_item_avatar_size"
+        android:layout_marginRight="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default_0"
+        app:riv_border_color="@color/colorPrimary"
+        app:riv_border_width="1px"
+        app:riv_corner_radius="5dp"
+        app:riv_oval="false"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/photo"
+        />
+
+    <TextView
+        android:id="@+id/point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="point"
+        android:textSize="8dp"
+        android:textColor="@color/text"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/name"
+        android:layout_toRightOf="@+id/photo"
+        />
+
+
+</RelativeLayout>

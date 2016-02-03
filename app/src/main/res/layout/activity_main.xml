@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/slidingUpPanelLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:umanoPanelHeight="200dp"
+        sothree:umanoParallaxOffset="200dp"
+        sothree:umanoShadowHeight="4dp">
+
+        <!-- MAIN CONTENT -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <fragment
+                android:id="@+id/mMapFragment"
+                android:name="com.google.android.gms.maps.MapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/activity_main" />
+
+            <!--
+                    광고 ImageView 추가
+                    1. id/ads_image  : 광고 사진
+
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+
+                    -->
+
+            <ImageView
+                android:layout_width="400dp"
+                android:layout_height="53dp"
+                android:id="@+id/ads_image"
+                android:src="@drawable/ad_sample"
+                android:scaleType="fitXY"/>
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mAvatarImageBtn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar_default_0"
+                app:riv_border_color="@color/colorPrimary"
+                app:riv_border_width="1px"
+                app:riv_corner_radius="5dp"
+                app:riv_oval="false"
+                android:layout_below="@+id/ads_image"
+                android:layout_alignLeft="@+id/mZoomBtn"
+                android:layout_alignStart="@+id/mZoomBtn"
+                android:layout_marginTop="5dp" />
+
+            <Button
+                android:id="@+id/mNotyCount"
+                android:text="0"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_margin="5dp"
+                android:layout_below="@+id/ads_image"
+                android:layout_toRightOf="@+id/mAvatarImageBtn"
+                android:background="@drawable/default_btn_red_radius"
+                android:textColor="#FFFFFF"
+                android:textSize="10dp"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:visibility="gone"
+                />
+
+            <Button
+                android:id="@+id/mZoomBtn"
+                android:text="zoom In"
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_margin="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:padding="5dp"
+                android:background="@drawable/default_btn_radius"
+                android:textColor="#FFFFFF"
+                android:textSize="10dp"
+                android:shadowColor="#A8A8A8"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="3"
+
+                />
+
+            <TextView
+                android:id="@+id/mCreateSpotText"
+                android:text="@string/main_map_create_spot"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18dp"
+                android:background="#55555555"
+                android:textColor="#ffffff"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:visibility="gone"
+                android:gravity="center_vertical"/>
+
+        </RelativeLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mainListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/feed_bg"
+            android:clickable="true"
+            android:focusable="false"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/headerPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/mZoomLevelText"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Zoom Level"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/mSignBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="LOGIN"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/mNotyBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:text="알람"
+                    android:textSize="14sp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/mRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+</RelativeLayout>

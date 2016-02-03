@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@color/feed_bg" >
+
+    <Button
+        android:id="@+id/dongBtn"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="동단위 정보센터 지정"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/guBtn"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="구단위 정보센터 지정"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/cityBtn"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="시단위 정보센터 지정"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+
+    <Button
+        android:id="@+id/createKeywordBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/keyword_create_btn"
+        android:background="@drawable/default_btn_radius"
+        android:padding="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="14dp"
+        android:layout_margin="14dp"
+
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+
+
+
+</LinearLayout>
+

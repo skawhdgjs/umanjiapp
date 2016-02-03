@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cardPanel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="5dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/userPhoto"
+        android:layout_width="@dimen/list_item_avatar_size"
+        android:layout_height="@dimen/list_item_avatar_size"
+        android:layout_marginRight="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default_0"
+        app:riv_border_color="@color/colorPrimary"
+        app:riv_border_width="1px"
+        app:riv_corner_radius="5dp"
+        app:riv_oval="false"/>
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="bruce"
+        android:textSize="12dp"
+        android:layout_marginTop="2dp"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@+id/userPhoto"
+        />
+
+    <TextView
+        android:id="@+id/linkName"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="@color/text"
+        android:textStyle="bold"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@+id/userName"
+        />
+
+    <TextView
+        android:id="@+id/createdAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="2015:11:05"
+        android:textSize="8dp"
+        android:textColor="@color/text"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/userName"
+        android:layout_toRightOf="@+id/userPhoto"
+        />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="내용입니다."
+        android:layout_marginTop="17dp"
+        android:textColor="@color/text"
+        android:layout_below="@+id/userPhoto"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:text=">"
+        android:layout_below="@+id/linkName"
+        android:layout_alignRight="@+id/createdAt"
+        android:layout_alignEnd="@+id/createdAt"
+        android:textSize="20dp"/>
+
+
+</RelativeLayout>
