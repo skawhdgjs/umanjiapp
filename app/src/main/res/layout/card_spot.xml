@@ -5,56 +5,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:layout_marginTop="5dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp">
+    android:padding="0dp"
+    android:layout_marginTop="5dp">
 
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/spotImage"
-        android:src="@drawable/spot_default"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Some F"
-        android:textSize="20dp"
-        android:textColor="#fff"
-        android:shadowColor="#000"
-        android:shadowRadius="7.0"
-        android:id="@+id/floorText"
-        android:layout_alignBottom="@+id/spotKeyword"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <!--
-                    광고 ImageView 추가
-                    1. id/ads_image  : 광고 사진
+    <RelativeLayout
+        android:id="@+id/imagePanel"
+        android:layout_width="90dp"
+        android:layout_height="88dp"
+        android:padding="0dp">
 
-                        android:shadowColor="#000"
-                        android:shadowRadius="7.0"
+        <ImageView
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="2dp"
+            android:scaleType="fitXY"
 
-                    -->
+            android:id="@+id/photo"
+            android:src="@drawable/spot_default"/>
+        <ImageView
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:scaleType="fitXY"
+
+            android:src="@drawable/spot_dark_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="24dp"
+            android:textColor="#fff"
+            android:shadowColor="#000"
+            android:shadowRadius="2"
+            android:id="@+id/floor"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="14dp"
+            android:text="층정보없음"
+            android:textColor="#fff"
+            android:shadowColor="#000"
+            android:shadowRadius="2"
+            android:id="@+id/emptyFloor"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
 
     <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/userPhoto"
-        android:layout_width="@dimen/list_item_avatar_size"
-        android:layout_height="@dimen/list_item_avatar_size"
-        android:layout_marginRight="24dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:scaleType="centerCrop"
         android:src="@drawable/avatar_default_0"
         app:riv_border_color="@color/colorPrimary"
         app:riv_border_width="1px"
         app:riv_corner_radius="5dp"
         app:riv_oval="false"
-        android:layout_below="@+id/linkName"
-        android:layout_toLeftOf="@+id/editText"
-        android:layout_toStartOf="@+id/editText"
-        android:layout_marginEnd="24dp" />
+        android:layout_alignBottom="@+id/imagePanel"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/name"
@@ -62,48 +81,54 @@
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceListItem"
         android:text="보드람치킨"
-        android:textSize="18dp"
-        android:layout_alignBottom="@+id/editText"
-        android:layout_toRightOf="@+id/spotImage"
-        android:layout_toEndOf="@+id/spotImage"
-        android:layout_marginLeft="29dp"
-        android:layout_marginStart="29dp" />
-
-    <TextView
-        android:id="@+id/linkName"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:textColor="@color/text"
+        android:textSize="20dp"
         android:textStyle="bold"
-        android:layout_marginTop="2dp"
+        android:textColor="@color/gray_text"
+        android:layout_below="@+id/linkName"
+        android:layout_toRightOf="@+id/imagePanel"
+        android:layout_toEndOf="@+id/imagePanel"
         android:layout_marginLeft="10dp"
-        android:layout_alignParentRight="false"
-        android:layout_toRightOf="@+id/userName"
-        />
+        android:layout_marginTop="8dp"/>
+
 
     <TextView
         android:id="@+id/spotKeyword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:text="치킨집"
-        android:textSize="12dp"
-        android:textColor="@color/text"
-        android:layout_alignBottom="@+id/userPhoto"
-        android:layout_alignLeft="@+id/name"
-        android:layout_alignStart="@+id/name" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:text=">"
-        android:layout_below="@+id/linkName"
-        android:layout_alignRight="@+id/spotKeyword"
-        android:layout_alignEnd="@+id/spotKeyword"
-        android:textSize="20dp"/>
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="#키워드"
+        android:textSize="12dp"
+        android:textColor="@color/gray_text"
+        android:layout_alignBottom="@+id/imagePanel"
+        android:layout_alignLeft="@+id/memberCount"
+        android:layout_alignStart="@+id/memberCount"
+        android:layout_marginBottom="8dp"/>
 
+    <TextView
+        android:id="@+id/memberCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="멤버 5명"
+        android:textSize="12dp"
+        android:textColor="@color/gray_text"
+        android:layout_above="@+id/spotKeyword"
+        android:layout_toRightOf="@+id/imagePanel"
+        android:layout_toEndOf="@+id/imagePanel"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="2dp"/>
+
+    <TextView
+        android:id="@+id/point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="1000 p"
+        android:textSize="12dp"
+        android:textColor="@color/gray_text"
+        android:layout_alignTop="@+id/memberCount"
+        android:layout_toRightOf="@+id/memberCount"
+        android:layout_toEndOf="@+id/memberCount"
+        android:layout_marginLeft="15dp"/>
 
 </RelativeLayout>

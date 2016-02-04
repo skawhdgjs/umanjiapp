@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.base.BaseActivity;
 
 
@@ -18,7 +19,7 @@ public class SpotActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         mEnterAnim = getIntent().getIntExtra("enterAnim", R.anim.slide_in_right);
-        mExitAnim = getIntent().getIntExtra("exitAnim", R.anim.move_back);
+        mExitAnim = getIntent().getIntExtra("exitAnim", R.anim.slide_out_right);
 
         this.overridePendingTransition(mEnterAnim, R.anim.move_back);
 

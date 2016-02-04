@@ -1,0 +1,10 @@
+<resources>
+    <string-array name="floorList">
+        <item>1 F</item><item>2 F</item><item>3 F</item><item>4 F</item><item>5 F</item>
+        <item>6 F</item><item>7 F</item><item>8 F</item><item>9 F</item><item>10 F</item>
+        <item>11 F</item><item>12 F</item><item>13 F</item><item>14 F</item><item>15 F</item>
+        <item>16 F</item><item>17 F</item><item>18 F</item><item>19 F</item><item>20 F</item>
+        <item>21 F</item><item>22 F</item><item>23 F</item><item>24 F</item><item>25 F</item>
+        <item>26 F</item><item>27 F</item><item>28 F</item><item>29 F</item><item>30 F</item>
+    </string-array>
+</resources>

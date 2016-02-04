@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,8 @@ public class CommunityListFragment extends BaseChannelListFragment {
                     break;
             }
         }
+
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -107,25 +110,11 @@ public class CommunityListFragment extends BaseChannelListFragment {
         if (event.response == null) return;
 
         super.onEvent(event);
+
         if (api_links_createKeyword.equals(event.type)) {
-            try {
-                String id = event.response.optString("parent");
-                if (mId.equals(id)) {
-                    JSONArray jsonArray = event.response.getJSONArray("data");
-                    for (int idx = 0; idx < jsonArray.length(); idx++) {
-                        JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                        ChannelData doc = new ChannelData(jsonDoc);
-
-                        mAdapter.addBottom(doc);
-                    }
-
-                    updateView();
-                }
-
-
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
+            ChannelData channelData = new ChannelData(event.response);
+            mAdapter.addTop(channelData);
+            mAdapter.notifyDataSetChanged();
             return;
         }
     }

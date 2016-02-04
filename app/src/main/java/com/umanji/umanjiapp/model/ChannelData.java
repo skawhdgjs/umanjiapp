@@ -30,8 +30,8 @@ public class ChannelData {
     private String email;
     private String type;
     private String name;
-    private String desc;
-    private String point;
+    private JSONObject desc;
+    private int point;
     private int level;
 
 
@@ -100,9 +100,9 @@ public class ChannelData {
 
 
             this.name = data.optString("name");
-            this.desc = data.optString("desc");
+            this.desc = data.optJSONObject("desc");
             this.level = data.optInt("level");
-            this.point = data.optString("point");
+            this.point = data.optInt("point");
 
 
             this.address = data.optString("address");
@@ -253,11 +253,11 @@ public class ChannelData {
         this.name = name;
     }
 
-    public String getDesc() {
+    public JSONObject getDesc() {
         return desc;
     }
 
-    public void setDesc(String desc) {
+    public void setDesc(JSONObject desc) {
         this.desc = desc;
     }
 
@@ -265,11 +265,11 @@ public class ChannelData {
         return level;
     }
 
-    public String getPoint() {
+    public int getPoint() {
         return point;
     }
 
-    public void setPoint(String point) {
+    public void setPoint(int point) {
         this.point = point;
     }
 

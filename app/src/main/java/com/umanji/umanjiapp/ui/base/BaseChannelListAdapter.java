@@ -170,6 +170,9 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
 
         public final TextView     keyword;
+        public final TextView     floor;
+        public final TextView     floorEmpty;
+
 
 
 
@@ -192,7 +195,9 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             replyBtn        = (Button) view.findViewById(R.id.replyBtn);
 
 
-            keyword        = (TextView) view.findViewById(R.id.spotKeyword);
+            keyword         = (TextView) view.findViewById(R.id.spotKeyword);
+            floor           = (TextView) view.findViewById(R.id.floor);
+            floorEmpty      = (TextView) view.findViewById(R.id.emptyFloor);
 
 
         }
