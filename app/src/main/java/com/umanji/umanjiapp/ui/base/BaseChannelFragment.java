@@ -1,7 +1,6 @@
 package com.umanji.umanjiapp.ui.base;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,7 +29,6 @@ import com.umanji.umanjiapp.ui.fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.fragment.spots.SpotListFragment;
 import com.umanji.umanjiapp.ui.page.channel.post.create.PostCreateActivity;
-import com.umanji.umanjiapp.ui.page.channel.spot.create.SpotCreateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,6 +59,11 @@ public class BaseChannelFragment extends BaseFragment {
 
     protected ViewPager mViewPager;
     protected TabLayout mTabLayout;
+
+
+    protected TextView mReplyTitle;
+
+
 
 
     /****************************************************
@@ -106,8 +108,10 @@ public class BaseChannelFragment extends BaseFragment {
             mFab.setVisibility(View.GONE);
         }
 
+        mReplyTitle = (TextView) view.findViewById(R.id.name);
 
-        mName = (TextView) view.findViewById(R.id.name);
+        mName= (TextView) view.findViewById(R.id.replyTitle);
+        mName.setVisibility(View.VISIBLE);
         mName.setOnClickListener(this);
 
         mPhoto = (ImageView) view.findViewById(R.id.photo);
