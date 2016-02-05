@@ -8,11 +8,9 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,7 +41,6 @@ import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.model.NotyData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.base.BaseFragment;
 import com.umanji.umanjiapp.ui.fragment.posts.PostListAdapter;
@@ -330,6 +326,9 @@ public class MainFragment extends BaseFragment {
                 if(AuthHelper.isLogin(mContext)) {
                     logout();
                 } else {
+
+
+
                     Intent intent = new Intent(getActivity(), SignupActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putDouble("latitude", mLatLng.latitude);
@@ -785,6 +784,13 @@ public class MainFragment extends BaseFragment {
                     mMainListAdapter.setCurrentPage(0);
                     loadData();
                 }
+            }
+        });
+
+        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+                mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
             }
         });
 
