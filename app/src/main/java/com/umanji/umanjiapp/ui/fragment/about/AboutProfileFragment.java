@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
@@ -28,6 +29,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
      *  View
      ****************************************************/
     protected Button mLogoutBtn;
+    protected TextView mAddress;
 
     public static AboutProfileFragment newInstance(Bundle bundle) {
         AboutProfileFragment fragment = new AboutProfileFragment();
@@ -53,6 +55,8 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         mLogoutBtn = (Button) view.findViewById(R.id.logoutBtn);
         mLogoutBtn.setOnClickListener(this);
 
+        mAddress = (TextView) view.findViewById(R.id.address);
+
         return view;
     }
 
@@ -67,5 +71,11 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 mActivity.finish();
                 break;
         }
+    }
+
+    @Override
+    public void updateView() {
+        super.updateView();
+        mAddress.setText(mChannel.getCountryName() + " " + mChannel.getAdminArea() + " " + mChannel.getLocality() + " " + mChannel.getThoroughfare() + " " + mChannel.getFeatureName() );
     }
 }

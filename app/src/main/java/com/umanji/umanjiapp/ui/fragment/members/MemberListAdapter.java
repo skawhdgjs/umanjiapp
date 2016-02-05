@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,8 +52,14 @@ public class MemberListAdapter extends BaseChannelListAdapter {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData channelData = mChannels.get(position);
-        final ChannelData userData    = channelData.getOwner();
-        holder.name.setText(channelData.getName());
+        final ChannelData userData;
+        if(channelData.getOwner() != null) {
+            userData = channelData.getOwner();
+        } else {
+            userData = channelData;
+        }
+
+        holder.name.setText(userData.getUserName());
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,14 +73,16 @@ public class MemberListAdapter extends BaseChannelListAdapter {
             }
         });
 
-        holder.point.setText(channelData.getPoint() + " p");
+        holder.point.setText(userData.getPoint() + " p");
 
-        String [] photos = channelData.getPhotos();
-        if(photos != null && photos[0] != null) {
+        String photo = userData.getPhoto();
+        if(!TextUtils.isEmpty(photo)) {
             Glide.with(mActivity)
-                    .load(photos[0])
-                    .placeholder(R.drawable.empty)
-                    .animate(R.anim.abc_fade_in)
+                    .load(photo)
+                    .into(holder.photo);
+        }else {
+            Glide.with(mActivity)
+                    .load(R.drawable.avatar_default_0)
                     .into(holder.photo);
         }
     }

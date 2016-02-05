@@ -111,7 +111,7 @@ public class MainFragment extends BaseFragment {
     private boolean             isLoading = false;
     private int                 mPreFocusedItem = 0;
 
-
+    private LatLng              mLatLng;
 
 
     public static MainFragment newInstance(Bundle bundle) {
@@ -331,7 +331,11 @@ public class MainFragment extends BaseFragment {
                     logout();
                 } else {
                     Intent intent = new Intent(getActivity(), SignupActivity.class);
-                    startActivityForResult(intent, UiHelper.CODE_MAIN_ACTIVITY);
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("latitude", mLatLng.latitude);
+                    bundle.putDouble("longitude", mLatLng.longitude);
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
                 }
                 break;
 
@@ -419,6 +423,10 @@ public class MainFragment extends BaseFragment {
         switch (event.type) {
             case TYPE_ERROR_AUTH:
                 Intent intent = new Intent(getActivity(), SignupActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("latitude", mLatLng.latitude);
+                bundle.putDouble("longitude", mLatLng.longitude);
+                intent.putExtra("bundle", bundle);
                 startActivity(intent);
                 break;
         }
@@ -478,7 +486,6 @@ public class MainFragment extends BaseFragment {
                 break;
             case api_channels_getByPoint:
                 mChannel = new ChannelData(event.response);
-
                 if(TextUtils.isEmpty(mChannel.getId())) {
 
                     if(!CommonHelper.isAuthError(mActivity)) {
@@ -530,6 +537,10 @@ public class MainFragment extends BaseFragment {
                         showCreateSpotDialog();
                     }else {
                         Intent intent = new Intent(getActivity(), SignupActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putDouble("latitude", mLatLng.latitude);
+                        bundle.putDouble("longitude", mLatLng.longitude);
+                        intent.putExtra("bundle", bundle);
                         startActivity(intent);
                     }
 
@@ -592,13 +603,13 @@ public class MainFragment extends BaseFragment {
 
                 if(location != null) {
 
-                    latitude  = location.getLatitude();
+                    latitude = location.getLatitude();
                     longitude = location.getLongitude();
 
-                    LatLng latLng = new LatLng(latitude, longitude);
+                    mLatLng = new LatLng(latitude, longitude);
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
-                            .target(new LatLng(latitude, longitude))
+                            .target(mLatLng)
                             .zoom(10)
                             .bearing(90)
                             .tilt(40)
@@ -773,7 +784,6 @@ public class MainFragment extends BaseFragment {
 
                     mMainListAdapter.setCurrentPage(0);
                     loadData();
-                    Log.d(TAG, "onCameraChange: loadData()");
                 }
             }
         });
@@ -846,8 +856,19 @@ public class MainFragment extends BaseFragment {
         try {
             mMarkers = jsonObject.getJSONArray("data");
 
+            int idx = 0;
+
+            if(mCurrentChannel != null) {
+                if(CommonHelper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
+                    addMarkerToMap(mCurrentChannel, idx);
+                    idx++;
+                }else {
+                    mCurrentChannel = null;
+                }
+            }
+
             if(mMarkers != null) {
-                for(int idx = 0 ; idx < mMarkers.length() ; idx ++ ) {
+                for(; idx < mMarkers.length() ; idx ++ ) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
 
                     String id           = channelData.getId();
@@ -858,50 +879,8 @@ public class MainFragment extends BaseFragment {
                     LatLng position     = new LatLng(latitude, longitude);
 
                     if(TextUtils.isEmpty(name)) name = "이름없음";
-                    switch(channelData.getLevel()) {
-                        case LEVEL_DONG:
-                            mMap.addMarker(new MarkerOptions().position(position)
-                                    .title(name)
-                                    .snippet(String.valueOf(idx))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
-                                    .anchor(0.45f, 1.0f));
 
-                            break;
-                        case LEVEL_GUGUN:
-                            mMap.addMarker(new MarkerOptions().position(position)
-                                    .title(name)
-                                    .snippet(String.valueOf(idx))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow))
-                                    .anchor(0.45f, 1.0f));
-
-
-                            break;
-                        case LEVEL_DOSI:
-                            mMap.addMarker(new MarkerOptions().position(position)
-                                    .title(name)
-                                    .snippet(String.valueOf(idx))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_pink))
-                                    .anchor(0.45f, 1.0f));
-
-                            break;
-                        case LEVEL_COUNTRY:
-                            mMap.addMarker(new MarkerOptions().position(position)
-                                    .title(name)
-                                    .snippet(String.valueOf(idx))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red))
-                                    .anchor(0.45f, 1.0f));
-
-                            break;
-                        default:
-                            mMap.addMarker(new MarkerOptions().position(position)
-                                    .title(name)
-                                    .snippet(String.valueOf(idx))
-                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
-                                    .anchor(0.45f, 1.0f));
-
-                            break;
-                    }
-
+                    addMarkerToMap(channelData, idx);
                 }
             }
 
@@ -951,7 +930,7 @@ public class MainFragment extends BaseFragment {
                     params.put("type", TYPE_SPOT);
                     mApiHelper.call(api_channels_createSpot, params);
                     dialog.cancel();
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
                 }
             }
@@ -992,5 +971,46 @@ public class MainFragment extends BaseFragment {
             return false;
         }
         return true;
+    }
+
+    private Marker addMarkerToMap(ChannelData channelData, int index) {
+
+        LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
+        Marker marker;
+        switch (channelData.getLevel()) {
+            case LEVEL_DONG:
+                marker = mMap.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
+                        .anchor(0.45f, 1.0f));
+
+                break;
+            case LEVEL_GUGUN:
+                marker = mMap.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow))
+                        .anchor(0.45f, 1.0f));
+
+                break;
+            case LEVEL_DOSI:
+                marker = mMap.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red))
+                        .anchor(0.45f, 1.0f));
+                break;
+            default:
+                marker = mMap.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
+                        .anchor(0.45f, 1.0f));
+                break;
+
+        }
+
+        return marker;
     }
 }

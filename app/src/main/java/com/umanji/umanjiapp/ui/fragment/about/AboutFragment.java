@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.UiHelper;
@@ -30,6 +31,7 @@ public class AboutFragment extends BaseChannelListFragment {
     protected Button mGuBtn;
     protected Button mCityBtn;
 
+    protected TextView mAddress;
 
     public static AboutFragment newInstance(Bundle bundle) {
         AboutFragment fragment = new AboutFragment();
@@ -61,6 +63,8 @@ public class AboutFragment extends BaseChannelListFragment {
         mDongBtn = (Button) view.findViewById(R.id.dongBtn);
         mDongBtn.setOnClickListener(this);
 
+        mAddress = (TextView) view.findViewById(R.id.address);
+
         return view;
     }
 
@@ -90,6 +94,8 @@ public class AboutFragment extends BaseChannelListFragment {
     public void updateView() {
         super.updateView();
 
+        mAddress.setText(mChannel.getCountryName() + " " + mChannel.getAdminArea() + " " + mChannel.getLocality() + " " + mChannel.getThoroughfare() + " " + mChannel.getFeatureName());
+
         switch (mLevel) {
             case LEVEL_LOCAL:
                 mCreateKeywordBtn.setVisibility(View.VISIBLE);
@@ -100,4 +106,5 @@ public class AboutFragment extends BaseChannelListFragment {
         }
 
     }
+
 }

@@ -2,8 +2,8 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-//    String REST_SERVER_URL = "http://10.10.0.76:3000/v1"; /* 로컬 API Server */
-    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+    String REST_SERVER_URL = "http://10.10.0.76:3000/v1"; /* 로컬 API Server */
+//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -33,6 +33,7 @@ public interface AppConfig {
     String api_logout                   = "DELETE /logout";
     String api_signup                   = "POST /signup";
 
+    String api_sign_getByPoint          = "GET  /channels/sign/point";
     String api_channels_getByPoint      = "GET  /channels/point";
     String api_channels_createSpot      = "POST /channels/spot";
 

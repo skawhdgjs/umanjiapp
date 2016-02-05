@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.umanji.umanjiapp.ui.base.BaseActivity;
+import com.umanji.umanjiapp.ui.page.channel.spot.SpotFragment;
 
 public class SignupActivity extends BaseActivity {
     @Override
@@ -13,7 +14,6 @@ public class SignupActivity extends BaseActivity {
 
     @Override
     protected Fragment createFragment() {
-        return new SignupFragment();
+        return SignupFragment.newInstance(getIntent().getBundleExtra("bundle"));
     }
-
 }

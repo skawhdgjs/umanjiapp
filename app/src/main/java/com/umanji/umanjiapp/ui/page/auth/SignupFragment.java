@@ -10,10 +10,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.AuthData;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.base.BaseFragment;
 
@@ -33,12 +35,28 @@ public class SignupFragment extends BaseFragment {
 
 
     /****************************************************
-     *  onCreate
+     *  Etc
      ****************************************************/
+    private LatLng mLatLng;
+
+
+    public static SignupFragment newInstance(Bundle bundle) {
+        SignupFragment fragment = new SignupFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        if(getArguments() != null) {
+            double latitude = getArguments().getDouble("latitude");
+            double longitude = getArguments().getDouble("longitude");
+            mLatLng = new LatLng(latitude, longitude);
+        }
     }
 
     @Override
@@ -51,12 +69,23 @@ public class SignupFragment extends BaseFragment {
 
         mSubmit = (Button)view.findViewById(R.id.submit);
         mSubmit.setOnClickListener(this);
+
+
+        loadData();
         return view;
     }
 
     @Override
     public void loadData() {
+        try {
+            JSONObject params = new JSONObject();
+            params.put("latitude", mLatLng.latitude);
+            params.put("longitude", mLatLng.longitude);
 
+            mApiHelper.call(api_sign_getByPoint, params);
+        } catch(JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
     }
 
     @Override
@@ -103,6 +132,9 @@ public class SignupFragment extends BaseFragment {
                     //TODO: 회원가입 오류 처리
                 }
                 break;
+            case api_sign_getByPoint:
+                mChannel = new ChannelData(event.response);
+                break;
         }
     }
 
@@ -133,7 +165,7 @@ public class SignupFragment extends BaseFragment {
         final String fPassword  = mPassword.getText().toString();
 
         try {
-            JSONObject params = new JSONObject();
+            JSONObject params = mChannel.getAddressJSONObject();
             params.put("email", fEmail);
             params.put("password", fPassword);
 

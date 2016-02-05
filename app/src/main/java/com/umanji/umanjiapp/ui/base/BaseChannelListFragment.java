@@ -38,6 +38,7 @@ public abstract class BaseChannelListFragment extends BaseFragment {
     protected String mListApiName;
 
     private boolean isLoading = true;
+    private int mPreFocusedItem = 0;
 
 
     @Override
@@ -70,9 +71,17 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     int totalItemCount = mLayoutManager.getItemCount();
                     int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
 
-                    if(isLoading) {
-                        if( (visibleItemCount + pastVisiblesItems) >= ( totalItemCount - 5 )) {
-                            isLoading = false;
+                    ArrayList<ChannelData> channels = mAdapter.getDocs();
+
+                    int currentFocusedIndex = visibleItemCount + pastVisiblesItems;
+                    if (currentFocusedIndex == mPreFocusedItem) return;
+                    mPreFocusedItem = currentFocusedIndex;
+                    if (channels.size() <= mPreFocusedItem) return;
+
+                    if (!isLoading) {
+                        if (mPreFocusedItem == (totalItemCount - 4)) {
+                            Log.d(TAG, "isLoading = true");
+                            isLoading = true;
                             mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
                             loadMoreData();
                         }
@@ -113,26 +122,36 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     }
                     params.put("owner", mChannel.getId());
                     break;
-                case TYPE_COMMUNITY:
-                    params.put("level", mChannel.getLevel());
                 default:
-                    switch (mChannel.getLevel()) {
-                        case LEVEL_DONG:
-                            params.put("thoroughfare", mChannel.getThoroughfare());
-                        case LEVEL_GUGUN:
-                            params.put("locality", mChannel.getLocality());
-                        case LEVEL_DOSI:
-                            params.put("countryName", mChannel.getCountryName());
-                            params.put("adminArea", mChannel.getAdminArea());
-                            break;
-                        case LEVEL_LOCAL:
-                            params.put("parent", mChannel.getId());
-                            break;
-                    }
 
-                    params.put("parent", mChannel.getId());
-                    params.put("level", mChannel.getLevel());
-                    params.put("type", mType);
+                    if(mChannel.getLevel() >= LEVEL_LOCAL) {
+                        params.put("parent", mChannel.getId());
+                        params.put("level", mChannel.getLevel());
+                        params.put("type", mType);
+                    }else {
+                        switch (mChannel.getLevel()) {
+                            case LEVEL_DONG:
+                                params.put("thoroughfare", mChannel.getThoroughfare());
+                            case LEVEL_GUGUN:
+                                params.put("locality", mChannel.getLocality());
+                            case LEVEL_DOSI:
+                                params.put("countryName", mChannel.getCountryName());
+                                params.put("adminArea", mChannel.getAdminArea());
+                                break;
+                            case LEVEL_LOCAL:
+                                break;
+                        }
+
+                        params.put("parent", mChannel.getId());
+                        params.put("level", mChannel.getLevel());
+
+                        if(mType.equals(TYPE_MEMBER)) {
+                            params.put("type", TYPE_USER);
+                        }else {
+                            params.put("type", mType);
+                        }
+
+                    }
                     break;
             }
 
@@ -168,9 +187,8 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                         ChannelData doc = new ChannelData(jsonDoc);
 
                         mAdapter.addBottom(doc);
-
-                        updateView();
                     }
+                    updateView();
                 }
 
 
