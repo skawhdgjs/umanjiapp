@@ -59,10 +59,13 @@ public class SpotListAdapter extends BaseChannelListAdapter {
             holder.keyword.setText(keywords[0]);
         }
 */
+
+
+
         if(spotSubLinks != null && spotSubLinks.size() > 0) {
             holder.keyword.setText(spotSubLinks.get(0).getName());
         }else {
-            holder.keyword.setText("error");
+            holder.keyword.setText("키워드를 설정해 주세요");
         }
 
         JSONObject descJson = channelData.getDesc();
