@@ -10,11 +10,8 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.ui.base.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.base.BaseTabAdapter;
-import com.umanji.umanjiapp.ui.fragment.about.AboutFragment;
-import com.umanji.umanjiapp.ui.fragment.community.CommunityListFragment;
 import com.umanji.umanjiapp.ui.fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.fragment.posts.PostListFragment;
-import com.umanji.umanjiapp.ui.fragment.spots.SpotListFragment;
 import com.umanji.umanjiapp.ui.page.channel.spot.create.SpotCreateActivity;
 
 public class PostFragment extends BaseChannelFragment {
@@ -41,9 +38,12 @@ public class PostFragment extends BaseChannelFragment {
         super.updateView();
 
         if(!TextUtils.isEmpty(mChannel.getName())) {
-            mName.setText(mChannel.getName() + " 포스트");
+            mReplyTitle.setVisibility(View.VISIBLE);
+            mReplyTitle.setText("댓글릴레이");
+
+            mName.setText(mChannel.getName());
         } else {
-            mName.setText("포스트");
+            mName.setText("제목없음");
         }
 
         mPoint.setText(mChannel.getPoint() + " p");
@@ -55,7 +55,7 @@ public class PostFragment extends BaseChannelFragment {
                     .into(mPhoto);
         }else {
             Glide.with(mContext)
-                    .load(R.drawable.multi_spot_background)
+                    .load(R.drawable.reply_background)
                     .animate(R.anim.abc_fade_in)
                     .into(mPhoto);
         }
