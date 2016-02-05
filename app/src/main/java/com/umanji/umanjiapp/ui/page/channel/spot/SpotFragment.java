@@ -79,13 +79,6 @@ public class SpotFragment extends BaseChannelFragment {
                     .into(mPhoto);
         }
 
-
-        if(mType.equals("SPOT_INNER")) {
-            mSpotAddBtn.setVisibility(View.GONE);
-        } else {
-            mSpotAddBtn.setVisibility(View.VISIBLE);
-            mSpotAddBtn.setOnClickListener(this);
-        }
     }
 
     @Override

@@ -67,6 +67,9 @@
         <activity android:name=".ui.page.channel.post.create.PostCreateActivity" />
         <activity android:name=".ui.page.channel.profile.ProfileActivity" />
 
+        <activity android:name=".ui.page.util.ImageViewActivity" />
+
+
 
 
         <receiver

@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:layout_marginTop="5dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp">
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp">
 
     <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -28,6 +28,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceListItem"
         android:layout_alignParentRight="true"
+        android:text="이름"
         android:layout_toRightOf="@+id/photo"
         />
 
@@ -38,7 +39,7 @@
         android:layout_marginTop="2dp"
         android:textAppearance="?attr/textAppearanceListItem"
         android:text="point"
-        android:textSize="8dp"
+        android:textSize="10dp"
         android:textColor="@color/text"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/name"

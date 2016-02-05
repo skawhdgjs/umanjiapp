@@ -53,7 +53,6 @@ public class MemberListAdapter extends BaseChannelListAdapter {
         final ChannelData channelData = mChannels.get(position);
         final ChannelData userData    = channelData.getOwner();
         holder.name.setText(channelData.getName());
-
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +65,8 @@ public class MemberListAdapter extends BaseChannelListAdapter {
 
             }
         });
+
+        holder.point.setText(channelData.getPoint() + " p");
 
         String [] photos = channelData.getPhotos();
         if(photos != null && photos[0] != null) {

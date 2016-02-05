@@ -168,9 +168,9 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                         ChannelData doc = new ChannelData(jsonDoc);
 
                         mAdapter.addBottom(doc);
-                    }
 
-                    updateView();
+                        updateView();
+                    }
                 }
 
 
@@ -183,6 +183,7 @@ public abstract class BaseChannelListFragment extends BaseFragment {
         if(mCreateApiName != null && mCreateApiName.equals(event.type)) {
             if(TextUtils.equals(mId, channelData.getParent().getId())){
                 mAdapter.addTop(channelData);
+                mAdapter.notifyDataSetChanged();
             }else if(TextUtils.equals(mId, channelData.getParent().getParentId())) {
                 try {
                     String parent = event.response.getString("parent");
@@ -194,7 +195,6 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                 }
             }
 
-            mAdapter.notifyDataSetChanged();
             return;
         }
 
@@ -213,7 +213,6 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     updateView();
                 } else if(TextUtils.equals(mId, channelData.getParent().getId())){
                     mAdapter.updateDoc(channelData);
-                    updateView();
                 }
 
                 break;

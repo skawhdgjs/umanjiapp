@@ -51,6 +51,7 @@ import com.umanji.umanjiapp.ui.fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.page.auth.SignupActivity;
 import com.umanji.umanjiapp.ui.page.channel.community.CommunityActivity;
 import com.umanji.umanjiapp.ui.page.channel.info.InfoActivity;
+import com.umanji.umanjiapp.ui.page.channel.post.PostActivity;
 import com.umanji.umanjiapp.ui.page.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.page.channel.spot.SpotActivity;
 
@@ -63,6 +64,7 @@ import java.util.ArrayList;
 public class MainFragment extends BaseFragment {
     private static final String TAG      = "MainFragment";
 
+    private static final int DEFAULT_MIN_FLING_VELOCITY = 10000;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     private final static String ZOOM_IN  = "ZOOM-IN";
@@ -106,7 +108,8 @@ public class MainFragment extends BaseFragment {
     private LatLng              mPoint;
     private Marker              mMarker;
     private boolean             isBlock = false;
-    private boolean             isLoading = true;
+    private boolean             isLoading = false;
+    private int                 mPreFocusedItem = 0;
 
 
 
@@ -162,23 +165,25 @@ public class MainFragment extends BaseFragment {
 
                     ArrayList<ChannelData> channels = mMainListAdapter.getDocs();
 
-
-                    if(channels.size() <= pastVisiblesItems) return;
+                    int currentFocusedIndex = visibleItemCount + pastVisiblesItems;
+                    if (currentFocusedIndex == mPreFocusedItem) return;
+                    mPreFocusedItem = currentFocusedIndex;
+                    if (channels.size() <= mPreFocusedItem) return;
 
                     ChannelData channelData = channels.get(pastVisiblesItems);
 
-                    if(mCurrentChannel == null || (!TextUtils.equals(channelData.getId(), mCurrentChannel.getId()))) {
+                    if (mCurrentChannel == null || (!TextUtils.equals(channelData.getId(), mCurrentChannel.getId()))) {
                         isBlock = true;
 
                         mCurrentChannel = channels.get(pastVisiblesItems);
                         mPoint = new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude());
 
-                        if(mMarker != null) {
+                        if (mMarker != null) {
                             mMarker.remove();
                         }
 
                         mMap.animateCamera(CameraUpdateFactory.newLatLng(mPoint), 500, null);
-                        switch(mCurrentChannel.getLevel()) {
+                        switch (mCurrentChannel.getLevel()) {
                             case LEVEL_DONG:
                                 mMarker = mMap.addMarker(new MarkerOptions().position(mPoint)
                                         .title(mCurrentChannel.getName())
@@ -214,9 +219,13 @@ public class MainFragment extends BaseFragment {
 
                     }
 
-                    if (isLoading) {
-                        if ((visibleItemCount + pastVisiblesItems) >= (totalItemCount - 3)) {
-                            isLoading = false;
+                    if (!isLoading) {
+                        Log.d(TAG, "mPreFocusedItem " + mPreFocusedItem);
+                        Log.d(TAG, "totalItemCount " + totalItemCount);
+
+                        if (mPreFocusedItem == (totalItemCount - 4)) {
+                            Log.d(TAG, "isLoading = true");
+                            isLoading = true;
                             mMainListAdapter.setCurrentPage(mMainListAdapter.getCurrentPage() + 1);
                             loadMoreMainPosts();
                         }
@@ -234,6 +243,7 @@ public class MainFragment extends BaseFragment {
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanelLayout);
         mSlidingUpPanelLayout.setPanelHeight(CommonHelper.dpToPixel(mActivity, 200));
         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
+        mSlidingUpPanelLayout.setMinFlingVelocity(DEFAULT_MIN_FLING_VELOCITY);
 
 
         mHeaderPanel= (LinearLayout) view.findViewById(R.id.headerPanel);
@@ -394,6 +404,7 @@ public class MainFragment extends BaseFragment {
             JSONObject params = JsonHelper.getZoomMinMaxLatLngParams(mMap);
             params.put("type", TYPE_POST);
             params.put("page", mMainListAdapter.getCurrentPage());
+            params.put("limit", loadingLimit);
             mApiHelper.call(api_channels_findPosts, params);
         }catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
@@ -461,7 +472,8 @@ public class MainFragment extends BaseFragment {
                 addChannelsToMap(event.response);
                 break;
             case api_channels_findPosts:
-                isLoading = true;
+                isLoading = false;
+                Log.d(TAG, "isLoading = false");
                 addChannelsToList(event.response);
                 break;
             case api_channels_getByPoint:
@@ -687,21 +699,22 @@ public class MainFragment extends BaseFragment {
                             case TYPE_SPOT:
                             case TYPE_SPOT_INNER:
                                 intent = new Intent(mContext, SpotActivity.class);
-                                intent.putExtra("bundle", bundle);
                                 intent.putExtra("enterAnim", R.anim.zoom_out);
                                 intent.putExtra("exitAnim", R.anim.zoom_in);
                                 break;
 
                             case TYPE_INFO_CENTER:
                                 intent = new Intent(mContext, InfoActivity.class);
-                                intent.putExtra("bundle", bundle);
                                 break;
 
                             case TYPE_COMMUNITY:
                                 intent = new Intent(mContext, CommunityActivity.class);
-                                intent.putExtra("bundle", bundle);
+                                break;
+                            case TYPE_POST:
+                                intent = new Intent(mContext, PostActivity.class);
                                 break;
                         }
+                        intent.putExtra("bundle", bundle);
                         startActivityForResult(intent, UiHelper.CODE_MAIN_ACTIVITY);
                     }
 
@@ -741,11 +754,9 @@ public class MainFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
-                Log.d(TAG, "onCameraChange: zoom: " + position.zoom);
-
-                if(isBlock) {
+                if (isBlock) {
                     isBlock = false;
-                }else {
+                } else {
                     TextView zoomLevelText = (TextView) mActivity.findViewById(R.id.mZoomLevelText);
                     TextView createSpotText = (TextView) mActivity.findViewById(R.id.mCreateSpotText);
                     Button zoomBtn = (Button) mActivity.findViewById(R.id.mZoomBtn);
@@ -762,6 +773,7 @@ public class MainFragment extends BaseFragment {
 
                     mMainListAdapter.setCurrentPage(0);
                     loadData();
+                    Log.d(TAG, "onCameraChange: loadData()");
                 }
             }
         });
@@ -782,14 +794,28 @@ public class MainFragment extends BaseFragment {
             Bundle bundle = new Bundle();
             bundle.putString("channel", channelData.getJsonObject().toString());
 
-            if(mType.equals(TYPE_SPOT)) {
-                intent = new Intent(mActivity, SpotActivity.class);
-
-            } else if(mType.equals(TYPE_COMMUNITY)) {
-                intent = new Intent(mActivity, CommunityActivity.class);
-            } else {
-                intent = new Intent(mActivity, SpotActivity.class);
+            switch (mType) {
+                case TYPE_SPOT:
+                case TYPE_SPOT_INNER:
+                    intent = new Intent(mActivity, SpotActivity.class);
+                    break;
+                case TYPE_COMMUNITY:
+                    intent = new Intent(mActivity, CommunityActivity.class);
+                    break;
+                case TYPE_INFO_CENTER:
+                    intent = new Intent(mActivity, InfoActivity.class);
+                    break;
+                case TYPE_USER:
+                    intent = new Intent(mActivity, ProfileActivity.class);
+                    break;
+                case TYPE_MEMBER:
+                    intent = new Intent(mActivity, ProfileActivity.class);
+                    break;
+                case TYPE_POST:
+                    intent = new Intent(mActivity, PostActivity.class);
+                    break;
             }
+
 
             intent.putExtra("bundle", bundle);
             startActivityForResult(intent, UiHelper.CODE_MAIN_ACTIVITY);
@@ -854,6 +880,14 @@ public class MainFragment extends BaseFragment {
                             mMap.addMarker(new MarkerOptions().position(position)
                                     .title(name)
                                     .snippet(String.valueOf(idx))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_pink))
+                                    .anchor(0.45f, 1.0f));
+
+                            break;
+                        case LEVEL_COUNTRY:
+                            mMap.addMarker(new MarkerOptions().position(position)
+                                    .title(name)
+                                    .snippet(String.valueOf(idx))
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red))
                                     .anchor(0.45f, 1.0f));
 
@@ -887,6 +921,7 @@ public class MainFragment extends BaseFragment {
                 mMainListAdapter.addBottom(doc);
             }
 
+            Log.d(TAG, "notifyDataSetChanged");
             mMainListAdapter.notifyDataSetChanged();
 
         }catch(JSONException e) {

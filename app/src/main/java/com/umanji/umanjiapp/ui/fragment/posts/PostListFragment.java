@@ -28,8 +28,6 @@ import java.util.ArrayList;
 public class PostListFragment extends BaseChannelListFragment {
     private static final String TAG = "PostListFragment";
 
-    private TextView mEmptyPost;
-
     public static PostListFragment newInstance(Bundle bundle) {
         PostListFragment fragment = new PostListFragment();
         fragment.setArguments(bundle);
@@ -53,8 +51,6 @@ public class PostListFragment extends BaseChannelListFragment {
         RecyclerView rView = (RecyclerView)view.findViewById(R.id.recyclerView);
         super.onCreateView(rView);
 
-        mEmptyPost = (TextView) view.findViewById(R.id.emptyPost);
-
         return view;
     }
 
@@ -63,36 +59,4 @@ public class PostListFragment extends BaseChannelListFragment {
         return new PostListAdapter(getActivity(), this);
     }
 
-    @Override
-    public void onEvent(SuccessData event) {
-        super.onEvent(event);
-
-
-        if(mListApiName != null && mListApiName.equals(event.type)) {
-            try {
-                String id = event.response.optString("parent");
-                if(mId.equals(id)) {
-                    JSONArray jsonArray = event.response.getJSONArray("data");
-                    if(jsonArray.length() > 0) {
-                        mEmptyPost.setVisibility(View.GONE);
-                    } else {
-                        mEmptyPost.setVisibility(View.VISIBLE);
-                    }
-                }
-
-
-            } catch(JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-            return;
-        }
-
-        ChannelData channelData = new ChannelData(event.response);
-
-        if(mCreateApiName != null && mCreateApiName.equals(event.type)) {
-            if(TextUtils.equals(mId, channelData.getParent().getId())){
-                mEmptyPost.setVisibility(View.GONE);
-            }
-        }
-    }
 }

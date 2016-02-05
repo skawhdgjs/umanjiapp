@@ -47,8 +47,8 @@ public class CommunityListAdapter extends BaseChannelListAdapter {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData channelData = mChannels.get(position);
-        holder.name.setText(channelData.getName());
 
+        holder.name.setText(channelData.getName());
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,6 +61,8 @@ public class CommunityListAdapter extends BaseChannelListAdapter {
                 mFragment.startActivityForResult(intent, UiHelper.CODE_CHANNEL_ACTIVITY);
             }
         });
+
+        holder.point.setText(channelData.getPoint() + " p");
 
         String [] photos = channelData.getPhotos();
         if(photos != null && photos[0] != null) {

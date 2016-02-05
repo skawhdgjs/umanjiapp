@@ -45,6 +45,7 @@ public class SpotListAdapter extends BaseChannelListAdapter {
         final ChannelData parentData = channelData.getParent();
 
         holder.name.setText(channelData.getName());
+        holder.point.setText(channelData.getPoint() + " p");
 
         JSONObject descJson = channelData.getDesc();
         if(descJson != null) {
@@ -64,7 +65,7 @@ public class SpotListAdapter extends BaseChannelListAdapter {
             holder.keyword.setText(keywords[0]);
         }
 
-        holder.point.setText(channelData.getPoint() + " p");
+
 
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +94,7 @@ public class SpotListAdapter extends BaseChannelListAdapter {
         }
 
         String userPhoto = userData.getPhoto();
-        if(!TextUtils.isEmpty(photo)) {
+        if(!TextUtils.isEmpty(userPhoto)) {
             Glide.with(mActivity)
                     .load(userPhoto)
                     .placeholder(R.drawable.empty)

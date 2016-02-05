@@ -60,8 +60,6 @@ public class BaseChannelFragment extends BaseFragment {
     protected TextView mKeywords;
 
 
-    protected Button mSpotAddBtn;
-
     protected ViewPager mViewPager;
     protected TabLayout mTabLayout;
 
@@ -123,8 +121,6 @@ public class BaseChannelFragment extends BaseFragment {
         mPoint = (TextView) view.findViewById(R.id.point);
         mKeywords = (TextView) view.findViewById(R.id.keywords);
 
-
-        mSpotAddBtn = (Button) view.findViewById(R.id.spotAddBtn);
 
         // tabs
         mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);

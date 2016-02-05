@@ -28,6 +28,7 @@ import com.umanji.umanjiapp.ui.page.channel.info.InfoActivity;
 import com.umanji.umanjiapp.ui.page.channel.post.PostActivity;
 import com.umanji.umanjiapp.ui.page.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.page.channel.spot.SpotActivity;
+import com.umanji.umanjiapp.ui.page.util.ImageViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,12 +97,10 @@ public class PostListAdapter extends BaseChannelListAdapter {
             }
         });
 
-        String [] photos = channelData.getPhotos();
-        if(photos != null && photos[0] != null) {
+        String photo = channelData.getPhoto();
+        if(!TextUtils.isEmpty(photo)) {
             Glide.with(mActivity)
-                    .load(photos[0])
-                    .placeholder(R.drawable.empty)
-                    .animate(R.anim.abc_fade_in)
+                    .load(photo)
                     .into(holder.photo);
 
             holder.photo.setVisibility(View.VISIBLE);
@@ -109,22 +108,29 @@ public class PostListAdapter extends BaseChannelListAdapter {
             holder.photo.setVisibility(View.GONE);
         }
 
+        holder.photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, ImageViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("channel", channelData.getJsonObject().toString());
+                intent.putExtra("bundle", bundle);
+                mFragment.startActivity(intent);
+            }
+        });
+
 
 
         String userPhoto = userData.getPhoto();
-        if(userPhoto != null) {
+        if(!TextUtils.isEmpty(userPhoto)) {
             Glide.with(mActivity)
                     .load(userPhoto)
-                    .placeholder(R.drawable.empty)
-                    .animate(R.anim.abc_fade_in)
                     .override(40, 40)
                     .into(holder.userPhoto);
 
         }else {
             Glide.with(mActivity)
                     .load(R.drawable.avatar_default_0)
-                    .placeholder(R.drawable.empty)
-                    .animate(R.anim.abc_fade_in)
                     .override(40, 40)
                     .into(holder.userPhoto);
         }

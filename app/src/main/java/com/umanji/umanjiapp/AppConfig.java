@@ -2,17 +2,19 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-    String REST_SERVER_URL = "http://192.168.0.14:3000/v1"; /* 로컬 API Server */
-//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+//    String REST_SERVER_URL = "http://10.10.0.76:3000/v1"; /* 로컬 API Server */
+    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
     String REST_S3_URL      = "https://s3-ap-northeast-1.amazonaws.com/umanji-0001/";
 //    String REST_S3_URL      = "https://s3.ap-northeast-2.amazonaws.com/umanjiapp-0001/";
 
-    int iItemViewCacheSize              = 20;
+    int iItemViewCacheSize              = 30;
     int scaledImageLimit                = 800;
 
+
+    int loadingLimit                    = 10;
 
 
     int LEVEL_LOCAL                     = 18;
