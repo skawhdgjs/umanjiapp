@@ -1,9 +1,5 @@
 package com.umanji.umanjiapp.model;
 
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -13,11 +9,13 @@ public class SubLinkData {
     private String owner;
     private String id;
     private String type;
+    private String name;
 
     public SubLinkData(JSONObject jsonObject) {
         this.owner  = jsonObject.optString("owner");
         this.id     = jsonObject.optString("id");
         this.type   = jsonObject.optString("type");
+        this.name   = jsonObject.optString("name");
     }
 
     public String getOwner() {
@@ -42,5 +40,13 @@ public class SubLinkData {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
