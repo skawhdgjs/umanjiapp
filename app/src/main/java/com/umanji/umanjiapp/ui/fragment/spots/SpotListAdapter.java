@@ -13,10 +13,13 @@ import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.page.channel.spot.SpotActivity;
 
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class SpotListAdapter extends BaseChannelListAdapter {
@@ -47,6 +50,21 @@ public class SpotListAdapter extends BaseChannelListAdapter {
         holder.name.setText(channelData.getName());
         holder.point.setText(channelData.getPoint() + " p");
 
+        ArrayList<SubLinkData> spotSubLinks = channelData.getSubLinks(TYPE_KEYWORD);
+
+        //holder.keyword.setText(channelData.getKeywords());
+        /*
+        String [] keywords = channelData.getKeywords();
+        if(keywords != null && keywords[0] != null) {
+            holder.keyword.setText(keywords[0]);
+        }
+*/
+        if(spotSubLinks != null && spotSubLinks.size() > 0) {
+            holder.keyword.setText(spotSubLinks.get(0).getName());
+        }else {
+            holder.keyword.setText("error");
+        }
+
         JSONObject descJson = channelData.getDesc();
         if(descJson != null) {
             int floor = descJson.optInt("floor");
@@ -57,14 +75,6 @@ public class SpotListAdapter extends BaseChannelListAdapter {
             holder.floor.setVisibility(View.GONE);
             holder.floorEmpty.setVisibility(View.VISIBLE);
         }
-
-
-        //holder.keyword.setText(channelData.getKeywords());
-        String [] keywords = channelData.getKeywords();
-        if(keywords != null && keywords[0] != null) {
-            holder.keyword.setText(keywords[0]);
-        }
-
 
 
         holder.name.setOnClickListener(new View.OnClickListener() {
