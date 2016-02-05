@@ -447,8 +447,6 @@ public class MainFragment extends BaseFragment {
                 logout();
                 break;
 
-            case api_channels_join:
-            case api_channels_unJoin:
             case api_links_createPost:
                 try {
                     String parentId = event.response.getString("parent");
@@ -703,7 +701,7 @@ public class MainFragment extends BaseFragment {
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", doc.getJsonObject().toString());
 
-                    if(doc != null) {
+                    if (doc != null) {
 
                         Intent intent = null;
                         switch (doc.getType()) {
@@ -785,6 +783,13 @@ public class MainFragment extends BaseFragment {
                     mMainListAdapter.setCurrentPage(0);
                     loadData();
                 }
+            }
+        });
+
+        mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+            @Override
+            public void onMyLocationChange(Location location) {
+                mLatLng = new LatLng(location.getLatitude(), location.getLongitude());
             }
         });
 

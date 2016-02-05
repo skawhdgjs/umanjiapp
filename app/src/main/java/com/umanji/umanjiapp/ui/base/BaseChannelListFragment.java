@@ -18,6 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public abstract class BaseChannelListFragment extends BaseFragment {
     private static final String TAG = "BaseChannelListFragment";
 
@@ -225,22 +227,10 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     mChannel = channelData;
                     mUser = mChannel.getOwner();
                     updateView();
-                } else if(TextUtils.equals(mId, channelData.getParent().getId())){
+                } else {
                     mAdapter.updateDoc(channelData);
                 }
 
-                break;
-            case api_channels_unJoin:
-                mAdapter.removeDoc(channelData);
-            case api_channels_join:
-                try {
-                    String parentId = event.response.getString("parent");
-                    JSONObject params = new JSONObject();
-                    params.put("id", parentId);
-                    mApiHelper.call(api_channels_get, params);
-                } catch(JSONException e) {
-                    Log.e(TAG, "error " + e.toString());
-                }
                 break;
         }
     }

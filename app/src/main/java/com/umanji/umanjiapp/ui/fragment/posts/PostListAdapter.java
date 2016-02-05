@@ -14,13 +14,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidquery.AQuery;
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SubLinkData;
+import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.model.UserData;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.page.channel.community.CommunityActivity;
@@ -40,6 +47,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.TimeZone;
+
+import de.greenrobot.event.EventBus;
 
 
 public class PostListAdapter extends BaseChannelListAdapter {
@@ -101,6 +110,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
         if(!TextUtils.isEmpty(photo)) {
             Glide.with(mActivity)
                     .load(photo)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(holder.photo);
 
             holder.photo.setVisibility(View.VISIBLE);
@@ -128,7 +138,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
                     .override(40, 40)
                     .into(holder.userPhoto);
 
-        }else {
+        } else {
             Glide.with(mActivity)
                     .load(R.drawable.avatar_default_0)
                     .override(40, 40)
@@ -136,7 +146,6 @@ public class PostListAdapter extends BaseChannelListAdapter {
         }
 
         String actionId = channelData.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mActivity));
-        holder.likeBtn.setEnabled(true);
         if(!TextUtils.isEmpty(actionId)) {
             holder.likeBtn.setTag(actionId);
             holder.likeBtn.setBackgroundResource( R.drawable.default2_btn_radius);
@@ -160,17 +169,51 @@ public class PostListAdapter extends BaseChannelListAdapter {
                         params.put("parent", channelData.getId());
                         params.put("id", actionId);
 
-                        mApiHelper.call(api_channels_unJoin, params);
-                        holder.likeBtn.setEnabled(false);
+                        mApiHelper.call(api_channels_unJoin, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                if (status.getCode() == 500) {
+                                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                                } else {
+                                    ChannelData parentData = new ChannelData(json);
+                                    ArrayList<SubLinkData> likeSubLinks = parentData.getSubLinks(TYPE_MEMBER);
+                                    if (likeSubLinks != null && likeSubLinks.size() > 0) {
+                                        holder.point.setText("" + (likeSubLinks.size() * 100));
+                                    } else {
+                                        holder.point.setText("" + 0);
+                                    }
+                                    holder.likeBtn.setTag(null);
+                                    holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
+                                }
+                            }
+                        });
 
                     }else {
                         JSONObject params = channelData.getAddressJSONObject();
                         params.put("parent", channelData.getId());
                         params.put("type", TYPE_MEMBER);
                         params.put("name", AuthHelper.getUserName(mActivity));
+                        mApiHelper.call(api_channels_join, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                if (status.getCode() == 500) {
+                                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                                } else {
+                                    ChannelData channelData = new ChannelData(json);
+                                    ChannelData parentData = channelData.getParent();
+                                    ArrayList<SubLinkData> likeSubLinks = parentData.getSubLinks(TYPE_MEMBER);
+                                    if(likeSubLinks != null && likeSubLinks.size() > 0) {
+                                        holder.point.setText("" + (likeSubLinks.size() * 100));
+                                    }else {
+                                        holder.point.setText("" + 0);
+                                    }
+                                    String actionId = parentData.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mActivity));
+                                    holder.likeBtn.setTag(actionId);
+                                    holder.likeBtn.setBackgroundResource( R.drawable.default2_btn_radius);
+                                }
+                            }
+                        });
 
-                        mApiHelper.call(api_channels_join, params);
-                        holder.likeBtn.setEnabled(false);
                     }
 
 

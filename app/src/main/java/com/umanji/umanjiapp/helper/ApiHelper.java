@@ -44,6 +44,34 @@ public class ApiHelper implements AppConfig {
         aQuery = new AQuery(context);
     }
 
+    public void call(String api, JSONObject params, AjaxCallback<JSONObject> callback) {
+        String method = api.substring(0, api.indexOf(" "));
+        String uri = api.substring(api.indexOf("/"));
+        String url = REST_SERVER_URL + uri;
+
+        final String fApi = api;
+        final JSONObject fParams = params;
+
+        try{
+            params.put("access_token", AuthHelper.getToken(mContext));
+
+            if(method.equals("GET")) {
+                url = ApiHelper.buildGETParams(url, params);
+                aQuery.ajax(url, JSONObject.class, callback);
+            }else if(method.equals("POST")) {
+                aQuery.post(url, params, JSONObject.class, callback);
+            }else if(method.equals("PUT")) {
+                aQuery.put(url, params, JSONObject.class, callback);
+            }else if(method.equals("DELETE")) {
+                url = ApiHelper.buildGETParams(url, params);
+                aQuery.delete(url, JSONObject.class, callback);
+            }
+
+        }catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+    }
+
     public void call(String api, JSONObject params) {
 
         String method = api.substring(0, api.indexOf(" "));

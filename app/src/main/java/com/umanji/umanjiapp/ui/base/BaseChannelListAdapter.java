@@ -124,6 +124,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
                 if(doc.getId().equals(channelData.getId())){
                     mChannels.set(idx, channelData);
+                    notifyItemChanged(idx);
                     return;
                 }
             }
