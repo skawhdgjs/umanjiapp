@@ -78,14 +78,9 @@ public class PostListAdapter extends BaseChannelListAdapter {
         holder.name.setText(channelData.getName());
         holder.userName.setText(channelData.getOwner().getUserName());
 
-        ArrayList<SubLinkData> likeSubLinks = channelData.getSubLinks(TYPE_MEMBER);
         ArrayList<SubLinkData> replySubLinks = channelData.getSubLinks(TYPE_POST);
 
-        if(likeSubLinks != null && likeSubLinks.size() > 0) {
-            holder.point.setText("" + (likeSubLinks.size() * 100));
-        }else {
-            holder.point.setText("" + 0);
-        }
+        holder.point.setText("" + channelData.getPoint());
 
         if(replySubLinks != null && replySubLinks.size() > 0) {
             holder.replyCount.setText("" + replySubLinks.size() + " 개");
@@ -176,12 +171,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
                                     EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
                                 } else {
                                     ChannelData parentData = new ChannelData(json);
-                                    ArrayList<SubLinkData> likeSubLinks = parentData.getSubLinks(TYPE_MEMBER);
-                                    if (likeSubLinks != null && likeSubLinks.size() > 0) {
-                                        holder.point.setText("" + (likeSubLinks.size() * 100));
-                                    } else {
-                                        holder.point.setText("" + 0);
-                                    }
+                                    holder.point.setText("" + parentData.getPoint());
                                     holder.likeBtn.setTag(null);
                                     holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
                                 }
@@ -201,12 +191,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
                                 } else {
                                     ChannelData channelData = new ChannelData(json);
                                     ChannelData parentData = channelData.getParent();
-                                    ArrayList<SubLinkData> likeSubLinks = parentData.getSubLinks(TYPE_MEMBER);
-                                    if(likeSubLinks != null && likeSubLinks.size() > 0) {
-                                        holder.point.setText("" + (likeSubLinks.size() * 100));
-                                    }else {
-                                        holder.point.setText("" + 0);
-                                    }
+                                    holder.point.setText("" + parentData.getPoint());
                                     String actionId = parentData.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mActivity));
                                     holder.likeBtn.setTag(actionId);
                                     holder.likeBtn.setBackgroundResource( R.drawable.default2_btn_radius);

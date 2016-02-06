@@ -120,13 +120,15 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     }
                     params.put("owner", mChannel.getId());
                     break;
+                case TYPE_INFO_CENTER:
+                    params.put("parentType", TYPE_INFO_CENTER);
                 default:
 
                     if(mChannel.getLevel() >= LEVEL_LOCAL) {
                         params.put("parent", mChannel.getId());
                         params.put("level", mChannel.getLevel());
                         params.put("type", mType);
-                    }else {
+                    } else {
                         switch (mChannel.getLevel()) {
                             case LEVEL_DONG:
                                 params.put("thoroughfare", mChannel.getThoroughfare());
@@ -148,6 +150,9 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                         }else {
                             params.put("type", mType);
                         }
+
+
+                        params.put("sort", "point DESC");
 
                     }
                     break;

@@ -179,11 +179,12 @@ public class MainFragment extends BaseFragment {
                         }
 
                         mMap.animateCamera(CameraUpdateFactory.newLatLng(mPoint), 500, null);
+
                         switch (mCurrentChannel.getLevel()) {
                             case LEVEL_DONG:
                                 mMarker = mMap.addMarker(new MarkerOptions().position(mPoint)
                                         .title(mCurrentChannel.getName())
-                                        .snippet(String.valueOf(pastVisiblesItems))
+                                        .snippet(FOCUSED_ITEM_MARKER)
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
                                         .anchor(0.45f, 1.0f));
 
@@ -191,7 +192,7 @@ public class MainFragment extends BaseFragment {
                             case LEVEL_GUGUN:
                                 mMarker = mMap.addMarker(new MarkerOptions().position(mPoint)
                                         .title(mCurrentChannel.getName())
-                                        .snippet(String.valueOf(pastVisiblesItems))
+                                        .snippet(FOCUSED_ITEM_MARKER)
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow))
                                         .anchor(0.45f, 1.0f));
 
@@ -199,20 +200,19 @@ public class MainFragment extends BaseFragment {
                             case LEVEL_DOSI:
                                 mMarker = mMap.addMarker(new MarkerOptions().position(mPoint)
                                         .title(mCurrentChannel.getName())
-                                        .snippet(String.valueOf(pastVisiblesItems))
+                                        .snippet(FOCUSED_ITEM_MARKER)
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red))
                                         .anchor(0.45f, 1.0f));
                                 break;
                             default:
                                 mMarker = mMap.addMarker(new MarkerOptions().position(mPoint)
                                         .title(mCurrentChannel.getName())
-                                        .snippet(String.valueOf(pastVisiblesItems))
+                                        .snippet(FOCUSED_ITEM_MARKER)
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
                                         .anchor(0.45f, 1.0f));
                                 break;
 
                         }
-
                     }
 
                     if (!isLoading) {
@@ -389,6 +389,7 @@ public class MainFragment extends BaseFragment {
                 params.put("name", mName);
             }
 
+            params.put("sort", "point DESC");
             mApiHelper.call(api_channels_findMarkers, params);
         }catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
@@ -408,6 +409,8 @@ public class MainFragment extends BaseFragment {
             params.put("type", TYPE_POST);
             params.put("page", mMainListAdapter.getCurrentPage());
             params.put("limit", loadingLimit);
+
+            params.put("sort", "point DESC");
             mApiHelper.call(api_channels_findPosts, params);
         }catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
@@ -489,7 +492,6 @@ public class MainFragment extends BaseFragment {
                         isBlock = true;
 
                         int zoom = (int) mMap.getCameraPosition().zoom;
-
 
                         switch(mChannel.getLevel()) {
                             case LEVEL_DONG:
@@ -695,8 +697,14 @@ public class MainFragment extends BaseFragment {
             public void onInfoWindowClick(Marker marker) {
                 String index = marker.getSnippet();
 
+                ChannelData doc;
                 try {
-                    ChannelData doc = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
+
+                    if(index.equals(FOCUSED_ITEM_MARKER)) {
+                        doc = mCurrentChannel.getParent();
+                    }else {
+                        doc = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
+                    }
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", doc.getJsonObject().toString());
 
