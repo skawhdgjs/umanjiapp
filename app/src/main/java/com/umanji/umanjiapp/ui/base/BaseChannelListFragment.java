@@ -115,15 +115,18 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                 case TYPE_USER:
                     if(mType.equals(TYPE_SPOT_INNER)) {
                         params.put("type", TYPE_SPOTS);
-                    }else {
+                    } else if(mType.equals(TYPE_COMMUNITY)) {
+                        params.put("type", mType);
+                        params.put("level", LEVEL_LOCAL);
+                    } else {
                         params.put("type", mType);
                     }
                     params.put("owner", mChannel.getId());
+                    params.put("sort", "point DESC");
                     break;
                 case TYPE_INFO_CENTER:
                     params.put("parentType", TYPE_INFO_CENTER);
                 default:
-
                     if(mChannel.getLevel() >= LEVEL_LOCAL) {
                         params.put("parent", mChannel.getId());
                         params.put("level", mChannel.getLevel());

@@ -78,7 +78,7 @@ public class BaseChannelFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_channel, container, false);
+        View view = getLayoutView(inflater, container, savedInstanceState);
         super.onCreateView(view);
 
         final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
@@ -136,6 +136,11 @@ public class BaseChannelFragment extends BaseFragment {
 
         updateView();
 
+        return view;
+    }
+
+    protected View getLayoutView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_channel, container, false);
         return view;
     }
 

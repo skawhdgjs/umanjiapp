@@ -4,12 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
+import com.umanji.umanjiapp.AppConfig;
+import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.page.auth.SignupActivity;
 
 
-public final class CommonHelper {
+public final class CommonHelper implements AppConfig{
 
 
     public static boolean isInVisibleResion(GoogleMap map, LatLng point) {
@@ -45,5 +51,47 @@ public final class CommonHelper {
         }
 
         return isAuthError;
+    }
+
+
+    public static Marker addMarkerToMap(GoogleMap map, ChannelData channelData, int index) {
+
+        LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
+        Marker marker;
+        switch (channelData.getLevel()) {
+            case LEVEL_DONG:
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
+                        .anchor(0.45f, 1.0f));
+
+                break;
+            case LEVEL_GUGUN:
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow))
+                        .anchor(0.45f, 1.0f));
+
+                break;
+            case LEVEL_DOSI:
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red))
+                        .anchor(0.45f, 1.0f));
+                break;
+            default:
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
+                        .anchor(0.45f, 1.0f));
+                break;
+
+        }
+
+        return marker;
     }
 }

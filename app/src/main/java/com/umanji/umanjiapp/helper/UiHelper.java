@@ -8,7 +8,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -48,6 +51,7 @@ public final class UiHelper implements AppConfig {
 
 
     final static public int CODE_GALLERY_ACTIVITY           = 30;
+    final static public int CODE_CAMERA_ACTIVITY            = 31;
 
     final static public int CODE_PROFILE_SET_HOME_ACTIVITY  = 40;
 
@@ -64,6 +68,31 @@ public final class UiHelper implements AppConfig {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         fragment.startActivityForResult(intent, UiHelper.CODE_GALLERY_ACTIVITY);
+    }
+
+    public static String callCamera(Fragment fragment) {
+        String folderName = "umanji";
+        String fileName = "umanji-photo";
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+        // 폴더명 및 파일명
+        String folderPath = path + File.separator + folderName;
+        String filePath = path + File.separator + folderName + File.separator +  fileName + ".jpg";
+
+        // 저장 폴더 지정 및 폴더 생성
+        File fileFolderPath = new File(folderPath);
+        fileFolderPath.mkdir();
+
+        // 파일 이름 지정
+        File file = new File(filePath);
+        Uri outputFileUri = Uri.fromFile(file);
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+
+        fragment.startActivityForResult(cameraIntent, UiHelper.CODE_CAMERA_ACTIVITY);
+
+        return filePath;
     }
 
     public static void showCustomToast(AppCompatActivity context, String message) {

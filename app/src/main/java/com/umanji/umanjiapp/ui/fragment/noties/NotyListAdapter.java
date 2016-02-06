@@ -16,12 +16,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.NotyData;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.page.channel.community.CommunityActivity;
@@ -37,6 +41,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
+
+import de.greenrobot.event.EventBus;
 
 
 public class NotyListAdapter extends BaseChannelListAdapter {
@@ -126,23 +132,63 @@ public class NotyListAdapter extends BaseChannelListAdapter {
 
                 mType = channelData.getType();
 
-                Intent intent = null;
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", channelData.getJsonObject().toString());
+                ChannelData channel = null;
+                if(mType.equals(TYPE_MEMBER)) {
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("id", channelData.getParentId());
+                        mApiHelper.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                if (status.getCode() == 500) {
+                                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                                } else {
+                                    Intent intent = null;
+                                    Bundle bundle = new Bundle();
+                                    ChannelData parentData = new ChannelData(json);
+                                    bundle.putString("channel", parentData.getJsonObject().toString());
+                                    String type = parentData.getType();
+                                    if(type.equals(TYPE_SPOT)) {
+                                        intent = new Intent(mActivity, SpotActivity.class);
+                                    } else if(type.equals(TYPE_COMMUNITY)) {
+                                        intent = new Intent(mActivity, CommunityActivity.class);
+                                    } else if(type.equals(TYPE_POST)) {
+                                        intent = new Intent(mActivity, PostActivity.class);
+                                    } else {
+                                        intent = new Intent(mActivity, SpotActivity.class);
+                                    }
 
-                if(mType.equals(TYPE_SPOT)) {
-                    intent = new Intent(mActivity, SpotActivity.class);
+                                    intent.putExtra("bundle", bundle);
+                                    mActivity.startActivity(intent);
+                                }
+                            }
+                        });
 
-                } else if(mType.equals(TYPE_COMMUNITY)) {
-                    intent = new Intent(mActivity, CommunityActivity.class);
-                } else if(mType.equals(TYPE_POST)) {
-                    intent = new Intent(mActivity, PostActivity.class);
+                    }catch (JSONException e) {
+                        Log.e(TAG, "Error " + e.toString());
+                    }
+
+
                 } else {
-                    intent = new Intent(mActivity, SpotActivity.class);
+                    Intent intent = null;
+                    Bundle bundle = new Bundle();
+
+                    bundle.putString("channel", channelData.getJsonObject().toString());
+
+                    if(mType.equals(TYPE_SPOT)) {
+                        intent = new Intent(mActivity, SpotActivity.class);
+                    } else if(mType.equals(TYPE_COMMUNITY)) {
+                        intent = new Intent(mActivity, CommunityActivity.class);
+                    } else if(mType.equals(TYPE_POST)) {
+                        intent = new Intent(mActivity, PostActivity.class);
+                    } else {
+                        intent = new Intent(mActivity, SpotActivity.class);
+                    }
+
+                    intent.putExtra("bundle", bundle);
+                    mActivity.startActivity(intent);
                 }
 
-                intent.putExtra("bundle", bundle);
-                mActivity.startActivity(intent);
             }
         });
     }

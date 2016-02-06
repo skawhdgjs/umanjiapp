@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.page.channel.profile;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +42,12 @@ public class ProfileFragment extends BaseChannelFragment {
         return mAdapter;
     }
 
+    protected void initTabs() {
+        if (mViewPager != null) {
+            mViewPager.setAdapter(initTabAdapter());
+            mTabLayout.setupWithViewPager(mViewPager);
+        }
+    }
 
     @Override
     public void loadData() {
@@ -88,12 +95,6 @@ public class ProfileFragment extends BaseChannelFragment {
                     .load(R.drawable.avatar_default_0)
                     .animate(R.anim.abc_fade_in)
                     .into(mUserPhoto);
-        }
-
-        if(AuthHelper.isLogin(mActivity)) {
-            mFab.setVisibility(View.VISIBLE);
-        }else {
-            mFab.setVisibility(View.GONE);
         }
 
         mFab.setVisibility(View.GONE);

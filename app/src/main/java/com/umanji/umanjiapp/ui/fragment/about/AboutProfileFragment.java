@@ -19,6 +19,7 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.base.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.base.BaseFragment;
 import com.umanji.umanjiapp.ui.page.channel.community.create.CommunityCreateActivity;
+import com.umanji.umanjiapp.ui.page.map.MapActivity;
 
 import org.json.JSONObject;
 
@@ -30,6 +31,8 @@ public class AboutProfileFragment extends BaseChannelListFragment {
      ****************************************************/
     protected Button mLogoutBtn;
     protected TextView mAddress;
+
+    protected LinearLayout mHomePanel;
 
     public static AboutProfileFragment newInstance(Bundle bundle) {
         AboutProfileFragment fragment = new AboutProfileFragment();
@@ -54,8 +57,10 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
         mLogoutBtn = (Button) view.findViewById(R.id.logoutBtn);
         mLogoutBtn.setOnClickListener(this);
-
         mAddress = (TextView) view.findViewById(R.id.address);
+
+        mHomePanel = (LinearLayout) view.findViewById(R.id.homePanel);
+        mHomePanel.setOnClickListener(this);
 
         return view;
     }
@@ -69,6 +74,13 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 JSONObject params = new JSONObject();
                 mApiHelper.call(api_logout, params);
                 mActivity.finish();
+                break;
+            case R.id.homePanel:
+                Intent intent = new Intent(mActivity, MapActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("channel", mChannel.getJsonObject().toString());
+                intent.putExtra("bundle", bundle);
+                mActivity.startActivity(intent);
                 break;
         }
     }

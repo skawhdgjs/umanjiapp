@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.base;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,8 +34,11 @@ public class BaseChannelCreateFragment extends BaseFragment {
 
     protected AutoCompleteTextView mName;
     protected Button mPhotoBtn;
+    protected Button mGallaryBtn;
+
     protected Button mCreateBtn;
     protected ImageView mPhoto;
+
 
     /****************************************************
      *  Etc.
@@ -43,6 +47,9 @@ public class BaseChannelCreateFragment extends BaseFragment {
     protected File mResizedFile;
 
     protected String mCreateApiName;
+
+    // 카메라 찍은 후 저장될 파일 경로
+    private String mFilePath;
 
 
     @Override
@@ -57,6 +64,9 @@ public class BaseChannelCreateFragment extends BaseFragment {
 
         mPhotoBtn = (Button) view.findViewById(R.id.photoBtn);
         mPhotoBtn.setOnClickListener(this);
+
+        mGallaryBtn = (Button) view.findViewById(R.id.gallaryBtn);
+        mGallaryBtn.setOnClickListener(this);
 
         super.onCreateView(view);
         return view;
@@ -84,6 +94,9 @@ public class BaseChannelCreateFragment extends BaseFragment {
                 create();
                 break;
             case R.id.photoBtn:
+                mFilePath = UiHelper.callCamera(this);
+                break;
+            case R.id.gallaryBtn:
                 UiHelper.callGallery(this);
                 break;
         }
@@ -120,10 +133,15 @@ public class BaseChannelCreateFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, intent);
         Log.d("BaseChannelCreate", "onActivityResult");
 
+        File file = null;
         switch (requestCode) {
             case UiHelper.CODE_GALLERY_ACTIVITY:
 
-                File file = FileHelper.getFileFromUri(mContext, intent.getData());
+                file = FileHelper.getFileFromUri(mContext, intent.getData());
+                mResizedFile = UiHelper.imageUploadAndDisplay(mActivity, mApiHelper, file, mResizedFile, mPhoto, false);
+                break;
+            case UiHelper.CODE_CAMERA_ACTIVITY:
+                file = new File(mFilePath);
                 mResizedFile = UiHelper.imageUploadAndDisplay(mActivity, mApiHelper, file, mResizedFile, mPhoto, false);
                 break;
         }

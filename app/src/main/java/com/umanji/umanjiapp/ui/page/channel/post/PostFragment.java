@@ -3,7 +3,9 @@ package com.umanji.umanjiapp.ui.page.channel.post;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
@@ -23,6 +25,11 @@ public class PostFragment extends BaseChannelFragment {
         return fragment;
     }
 
+    @Override
+    protected View getLayoutView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_post, container, false);
+        return view;
+    }
 
     @Override
     protected BaseTabAdapter initTabAdapter() {
@@ -43,7 +50,7 @@ public class PostFragment extends BaseChannelFragment {
 
             mName.setText(mChannel.getName());
         } else {
-            mName.setText("제목없음");
+            mName.setText("내용없음");
         }
 
         mPoint.setText(mChannel.getPoint() + " p");

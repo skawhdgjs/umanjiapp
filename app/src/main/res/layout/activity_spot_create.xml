@@ -44,14 +44,30 @@
                 android:layout_marginTop="20dp"
                 android:prompt="@string/spot_input_floor"/>
 
-            <Button
-                android:id="@+id/photoBtn"
-                style="?android:textAppearanceSmall"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/post_gallery_btn"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/photoBtn"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="사진찍기"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/gallaryBtn"
+                    style="?android:textAppearanceSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="앨범"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/createBtn"

@@ -107,8 +107,7 @@ public class MainFragment extends BaseFragment {
     private boolean             isLoading = false;
     private int                 mPreFocusedItem = 0;
 
-    private LatLng              mLatLng;
-
+    private LatLng              mLatLng = new LatLng(37.491361, 126.923978);
 
     public static MainFragment newInstance(Bundle bundle) {
         MainFragment fragment = new MainFragment();
@@ -872,7 +871,7 @@ public class MainFragment extends BaseFragment {
 
             if(mCurrentChannel != null) {
                 if(CommonHelper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
-                    addMarkerToMap(mCurrentChannel, idx);
+                    CommonHelper.addMarkerToMap(mMap, mCurrentChannel, idx);
                     idx++;
                 }else {
                     mCurrentChannel = null;
@@ -892,7 +891,7 @@ public class MainFragment extends BaseFragment {
 
                     if(TextUtils.isEmpty(name)) name = "이름없음";
 
-                    addMarkerToMap(channelData, idx);
+                    CommonHelper.addMarkerToMap(mMap, channelData, idx);
                 }
             }
 
@@ -983,46 +982,5 @@ public class MainFragment extends BaseFragment {
             return false;
         }
         return true;
-    }
-
-    private Marker addMarkerToMap(ChannelData channelData, int index) {
-
-        LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
-        Marker marker;
-        switch (channelData.getLevel()) {
-            case LEVEL_DONG:
-                marker = mMap.addMarker(new MarkerOptions().position(point)
-                        .title(channelData.getName())
-                        .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
-                        .anchor(0.45f, 1.0f));
-
-                break;
-            case LEVEL_GUGUN:
-                marker = mMap.addMarker(new MarkerOptions().position(point)
-                        .title(channelData.getName())
-                        .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow))
-                        .anchor(0.45f, 1.0f));
-
-                break;
-            case LEVEL_DOSI:
-                marker = mMap.addMarker(new MarkerOptions().position(point)
-                        .title(channelData.getName())
-                        .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red))
-                        .anchor(0.45f, 1.0f));
-                break;
-            default:
-                marker = mMap.addMarker(new MarkerOptions().position(point)
-                        .title(channelData.getName())
-                        .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
-                        .anchor(0.45f, 1.0f));
-                break;
-
-        }
-
-        return marker;
     }
 }

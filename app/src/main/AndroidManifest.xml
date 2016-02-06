@@ -10,6 +10,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -67,6 +69,7 @@
         <activity android:name=".ui.page.channel.post.create.PostCreateActivity" />
         <activity android:name=".ui.page.channel.profile.ProfileActivity" />
 
+        <activity android:name=".ui.page.map.MapActivity" />
         <activity android:name=".ui.page.util.ImageViewActivity" />
 
 
