@@ -52,17 +52,7 @@ public class SpotListAdapter extends BaseChannelListAdapter {
 
         ArrayList<SubLinkData> spotSubLinks = channelData.getSubLinks(TYPE_KEYWORD);
 
-        //holder.keyword.setText(channelData.getKeywords());
-        /*
-        String [] keywords = channelData.getKeywords();
-        if(keywords != null && keywords[0] != null) {
-            holder.keyword.setText(keywords[0]);
-        }
-*/
-
-
-
-        if(spotSubLinks != null && spotSubLinks.size() > 0) {
+       if(spotSubLinks != null && spotSubLinks.size() > 0) {
             holder.keyword.setText(spotSubLinks.get(0).getName());
         }else {
             holder.keyword.setText("키워드를 설정해 주세요");
