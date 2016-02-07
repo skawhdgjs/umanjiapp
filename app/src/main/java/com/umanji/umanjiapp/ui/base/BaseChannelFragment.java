@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -48,6 +49,8 @@ public class BaseChannelFragment extends BaseFragment {
     protected FloatingActionButton mFab;
 
     protected TextView mName;
+    protected TextView mParentName;
+    protected TextView mHeaderBorder;
     protected ImageView mPhoto;
 
     protected ImageView mUserPhoto;
@@ -59,9 +62,6 @@ public class BaseChannelFragment extends BaseFragment {
 
     protected ViewPager mViewPager;
     protected TabLayout mTabLayout;
-
-
-    protected TextView mReplyTitle;
 
 
 
@@ -108,11 +108,15 @@ public class BaseChannelFragment extends BaseFragment {
             mFab.setVisibility(View.GONE);
         }
 
-        mReplyTitle = (TextView) view.findViewById(R.id.name);
-
-        mName= (TextView) view.findViewById(R.id.replyTitle);
+        mName= (TextView) view.findViewById(R.id.name);
         mName.setVisibility(View.VISIBLE);
         mName.setOnClickListener(this);
+
+        mParentName= (TextView) view.findViewById(R.id.parentName);
+        mParentName.setOnClickListener(this);
+
+        mHeaderBorder = (TextView) view.findViewById(R.id.headerBorder);
+
 
         mPhoto = (ImageView) view.findViewById(R.id.photo);
         mUserPhoto = (ImageView) view.findViewById(R.id.userPhoto);
@@ -199,6 +203,24 @@ public class BaseChannelFragment extends BaseFragment {
 
     @Override
     public void updateView() {
+
+        ChannelData parentData = mChannel.getParent();
+
+        if(parentData == null) {
+            mHeaderBorder.setVisibility(View.GONE);
+            mParentName.setVisibility(View.GONE);
+        } else {
+            mHeaderBorder.setVisibility(View.VISIBLE);
+            mParentName.setVisibility(View.VISIBLE);
+
+            if(TextUtils.isEmpty(parentData.getName())) {
+                mParentName.setText("이름없음");
+            } else {
+                mParentName.setText(parentData.getName());
+            }
+
+        }
+
         if(mUser != null) {
             String userPhoto = mUser.getPhoto();
             if(userPhoto != null) {
@@ -272,6 +294,9 @@ public class BaseChannelFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.parentName:
+                CommonHelper.startActivity(mActivity, mChannel.getParent());
+                break;
             case R.id.userPhoto:
                 if(AuthHelper.getUserId(mContext).equals(mChannel.getId())) {
                     UiHelper.callGallery(this);

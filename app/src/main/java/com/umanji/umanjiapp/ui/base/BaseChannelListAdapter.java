@@ -158,6 +158,9 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
         public final ImageView  photo;
         public final TextView   name;
+        public final TextView   parentName;
+
+        public final TextView   desc;
         public final ImageView  userPhoto;
         public final TextView   linkName;
         public final TextView   userName;
@@ -184,6 +187,9 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
             photo           = (ImageView) view.findViewById(R.id.photo);
             name            = (TextView) view.findViewById(R.id.name);
+            parentName      = (TextView) view.findViewById(R.id.parentName);
+
+            desc            = (TextView) view.findViewById(R.id.desc);
             userPhoto       = (ImageView) view.findViewById(R.id.userPhoto);
             linkName        = (TextView) view.findViewById(R.id.linkName);
             userName        = (TextView) view.findViewById(R.id.userName);

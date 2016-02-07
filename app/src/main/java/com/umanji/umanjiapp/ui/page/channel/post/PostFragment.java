@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
@@ -18,6 +19,8 @@ import com.umanji.umanjiapp.ui.page.channel.spot.create.SpotCreateActivity;
 
 public class PostFragment extends BaseChannelFragment {
     private static final String TAG = "PostFragment";
+
+    protected TextView mReplyTitle;
 
     public static PostFragment newInstance(Bundle bundle) {
         PostFragment fragment = new PostFragment();
@@ -45,9 +48,6 @@ public class PostFragment extends BaseChannelFragment {
         super.updateView();
 
         if(!TextUtils.isEmpty(mChannel.getName())) {
-            mReplyTitle.setVisibility(View.VISIBLE);
-            mReplyTitle.setText("댓글릴레이");
-
             mName.setText(mChannel.getName());
         } else {
             mName.setText("내용없음");

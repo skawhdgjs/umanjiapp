@@ -20,7 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class NotyListFragment extends BaseChannelListFragment {
-    private static final String TAG = "CommunityListFragment";
+    private static final String TAG = "NotyListFragment";
 
     public static NotyListFragment newInstance(Bundle bundle) {
         NotyListFragment fragment = new NotyListFragment();

@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.base.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.base.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.fragment.about.AboutFragment;
@@ -53,7 +54,7 @@ public class SpotFragment extends BaseChannelFragment {
             if(!TextUtils.isEmpty(mChannel.getName())) {
                 mName.setText(mChannel.getName() + " 건물");
             } else {
-                mName.setText("건물");
+                mName.setText("이름없는 건물");
             }
         }else {
             if(!TextUtils.isEmpty(mChannel.getName())) {

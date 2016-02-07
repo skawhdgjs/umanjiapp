@@ -86,5 +86,31 @@
         android:layout_alignEnd="@+id/createdAt"
         android:textSize="20dp"/>
 
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="글작성"
+        android:textSize="12dp"
+        android:layout_above="@+id/createdAt"
+        android:layout_toRightOf="@+id/userName"
+        android:layout_toEndOf="@+id/userName"
+        android:layout_marginLeft="15dp"/>
+
+    <TextView
+        android:id="@+id/parentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="부모링크"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:layout_above="@+id/createdAt"
+        android:layout_toRightOf="@+id/desc"
+        android:layout_toEndOf="@+id/desc"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"/>
+
 
 </RelativeLayout>

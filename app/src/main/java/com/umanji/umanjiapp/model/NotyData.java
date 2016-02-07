@@ -12,6 +12,7 @@ public class NotyData implements Serializable {
     public ChannelData from;
     public ChannelData to;
     public ChannelData channel;
+    public ChannelData parent;
     public boolean read;
 
     public NotyData(JSONObject jsonObject) {
@@ -24,6 +25,7 @@ public class NotyData implements Serializable {
             this.from       = new ChannelData(data.optJSONObject("from"));
             this.to         = new ChannelData(data.optJSONObject("to"));
             this.channel    = new ChannelData(data.optJSONObject("channel"));
+            this.parent     = new ChannelData(data.optJSONObject("parent"));
             this.read       = data.optBoolean("read");
         } catch (Exception e) {
             Log.e("Document: Error: ", e.toString());
@@ -52,6 +54,14 @@ public class NotyData implements Serializable {
 
     public void setChannel(ChannelData channel) {
         this.channel = channel;
+    }
+
+    public ChannelData getParent() {
+        return parent;
+    }
+
+    public void setParent(ChannelData parent) {
+        this.parent = parent;
     }
 
     public boolean isRead() {

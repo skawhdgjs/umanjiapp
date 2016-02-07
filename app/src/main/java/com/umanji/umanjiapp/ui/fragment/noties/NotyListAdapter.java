@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
@@ -74,6 +76,7 @@ public class NotyListAdapter extends BaseChannelListAdapter {
 
         final NotyData notyData     = mNoties.get(position);
         final ChannelData channelData = notyData.getChannel();
+        final ChannelData parentData = notyData.getParent();
         final ChannelData userData  = notyData.getFrom();
         final boolean isRead = notyData.isRead();
 
@@ -81,14 +84,38 @@ public class NotyListAdapter extends BaseChannelListAdapter {
 
         switch (channelData.getType()) {
             case TYPE_POST:
-                holder.name.setText("글을 작성하였습니다.");
+                holder.desc.setText("글을 작성하였습니다.");
+                holder.name.setVisibility(View.VISIBLE);
+                holder.name.setText(channelData.getName());
                 break;
             case TYPE_MEMBER:
-                holder.name.setText("참여하였습니다.");
+                holder.desc.setText("참여 하였습니다.");
+                holder.name.setVisibility(View.GONE);
                 break;
         }
 
         holder.userName.setText(userData.getUserName());
+
+        if(parentData != null && parentData.getId() != null) {
+            if(TextUtils.isEmpty(parentData.getName())) {
+                holder.parentName.setVisibility(View.VISIBLE);
+                holder.parentName.setText("/ 이름없음");
+            } else {
+                holder.parentName.setVisibility(View.VISIBLE);
+                holder.parentName.setText("/ " + parentData.getName());
+            }
+
+        } else {
+            holder.parentName.setVisibility(View.GONE);
+        }
+
+        holder.parentName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonHelper.startActivity(mActivity, parentData);
+            }
+        });
+
 
         String userPhoto = userData.getPhoto();
         if(userPhoto != null) {

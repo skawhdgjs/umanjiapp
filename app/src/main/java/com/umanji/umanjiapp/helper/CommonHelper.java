@@ -2,6 +2,8 @@ package com.umanji.umanjiapp.helper;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -13,6 +15,11 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.page.auth.SignupActivity;
+import com.umanji.umanjiapp.ui.page.channel.community.CommunityActivity;
+import com.umanji.umanjiapp.ui.page.channel.info.InfoActivity;
+import com.umanji.umanjiapp.ui.page.channel.post.PostActivity;
+import com.umanji.umanjiapp.ui.page.channel.profile.ProfileActivity;
+import com.umanji.umanjiapp.ui.page.channel.spot.SpotActivity;
 
 
 public final class CommonHelper implements AppConfig{
@@ -94,4 +101,37 @@ public final class CommonHelper implements AppConfig{
 
         return marker;
     }
+
+
+    public static void startActivity(Activity activity, ChannelData channelData) {
+        Intent intent = null;
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channelData.getJsonObject().toString());
+
+        switch (channelData.getType()) {
+            case TYPE_SPOT:
+            case TYPE_SPOT_INNER:
+                intent = new Intent(activity, SpotActivity.class);
+                break;
+            case TYPE_COMMUNITY:
+                intent = new Intent(activity, CommunityActivity.class);
+                break;
+            case TYPE_INFO_CENTER:
+                intent = new Intent(activity, InfoActivity.class);
+                break;
+            case TYPE_USER:
+                intent = new Intent(activity, ProfileActivity.class);
+                break;
+            case TYPE_MEMBER:
+                intent = new Intent(activity, ProfileActivity.class);
+                break;
+            case TYPE_POST:
+                intent = new Intent(activity, PostActivity.class);
+                break;
+        }
+
+        intent.putExtra("bundle", bundle);
+        activity.startActivity(intent);
+    }
+
 }
