@@ -55,22 +55,34 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.page.auth.SignupActivity" />
-        <activity android:name=".ui.page.channel.spot.SpotActivity" />
-        <activity android:name=".ui.page.channel.spot.create.SpotCreateActivity" />
-        <activity android:name=".ui.page.channel.info.InfoActivity" />
-        <activity android:name=".ui.page.channel.post.PostActivity" />
+        <activity android:name=".ui.page.auth.SignupActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.page.channel.spot.SpotActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.page.channel.spot.create.SpotCreateActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.page.channel.info.InfoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.page.channel.post.PostActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.page.channel.community.CommunityActivity" />
-        <activity android:name=".ui.page.channel.community.create.CommunityCreateActivity" />
-        <activity android:name=".ui.page.channel.keyword.create.KeywordCreateActivity" />
+        <activity android:name=".ui.page.channel.community.CommunityActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.page.channel.community.create.CommunityCreateActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.page.channel.keyword.create.KeywordCreateActivity"
+            android:screenOrientation="portrait"/>
 
 
-        <activity android:name=".ui.page.channel.post.create.PostCreateActivity" />
-        <activity android:name=".ui.page.channel.profile.ProfileActivity" />
+        <activity android:name=".ui.page.channel.post.create.PostCreateActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.page.channel.profile.ProfileActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.page.map.MapActivity" />
-        <activity android:name=".ui.page.util.ImageViewActivity" />
+        <activity android:name=".ui.page.map.MapActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.page.util.ImageViewActivity"
+            android:screenOrientation="portrait"/>
 
 
 
