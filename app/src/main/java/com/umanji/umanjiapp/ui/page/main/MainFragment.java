@@ -207,9 +207,8 @@ public class MainFragment extends BaseFragment {
                                 mMarker = mMap.addMarker(new MarkerOptions().position(mPoint)
                                         .title(mCurrentChannel.getName())
                                         .snippet(FOCUSED_ITEM_MARKER)
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
                                         .anchor(0.45f, 1.0f));
-                                mMarker.setAlpha(127);
                                 break;
 
                         }
@@ -517,7 +516,7 @@ public class MainFragment extends BaseFragment {
                             default:
                                 mMarker = mMap.addMarker(new MarkerOptions().position(mPoint)
                                         .title("스팟생성")
-                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
                                         .anchor(0.45f, 1.0f));
                                 break;
                         }
