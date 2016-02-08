@@ -3,7 +3,6 @@ package com.umanji.umanjiapp.helper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -71,6 +70,7 @@ public final class CommonHelper implements AppConfig{
                         .title(channelData.getName())
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
+                        .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
 
                 break;
@@ -79,6 +79,7 @@ public final class CommonHelper implements AppConfig{
                         .title(channelData.getName())
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow))
+                        .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
 
                 break;
@@ -87,13 +88,15 @@ public final class CommonHelper implements AppConfig{
                         .title(channelData.getName())
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red))
+                        .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
             default:
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(channelData.getName())
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
+                        .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
 
