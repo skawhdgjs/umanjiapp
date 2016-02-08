@@ -2,7 +2,6 @@ package com.umanji.umanjiapp.ui.fragment.about;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +14,7 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.base.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.fragment.community.CommunityListAdapter;
-import com.umanji.umanjiapp.ui.page.channel.community.CommunityActivity;
-import com.umanji.umanjiapp.ui.page.channel.community.create.CommunityCreateActivity;
+import com.umanji.umanjiapp.ui.page.channel.about.edit.AboutEditActivity;
 import com.umanji.umanjiapp.ui.page.channel.keyword.create.KeywordCreateActivity;
 
 public class AboutFragment extends BaseChannelListFragment {
@@ -27,6 +24,7 @@ public class AboutFragment extends BaseChannelListFragment {
      *  View
      ****************************************************/
     protected Button mCreateKeywordBtn;
+    protected Button mEditBackgroundBtn;
     protected Button mDongBtn;
     protected Button mGuBtn;
     protected Button mCityBtn;
@@ -55,6 +53,9 @@ public class AboutFragment extends BaseChannelListFragment {
 
         mCreateKeywordBtn = (Button) view.findViewById(R.id.createKeywordBtn);
         mCreateKeywordBtn.setOnClickListener(this);
+
+        mEditBackgroundBtn = (Button) view.findViewById(R.id.editBackgroundBtn);
+        mEditBackgroundBtn.setOnClickListener(this);
 
         mCityBtn = (Button) view.findViewById(R.id.cityBtn);
         mCityBtn.setOnClickListener(this);
@@ -87,6 +88,16 @@ public class AboutFragment extends BaseChannelListFragment {
 
                 startActivityForResult(intent, UiHelper.CODE_ABOUT_FRAGMENT);
                 break;
+
+            case R.id.editBackgroundBtn:
+                Intent aboutIntent = new Intent(mContext, AboutEditActivity.class);
+                Bundle aboutBundle = new Bundle();
+                aboutBundle.putString("channel", mChannel.getJsonObject().toString());
+                aboutBundle.putString("type", mType);
+                aboutIntent.putExtra("bundle", aboutBundle);
+
+                startActivityForResult(aboutIntent, UiHelper.CODE_ABOUT_FRAGMENT);
+                break;
         }
     }
 
@@ -99,9 +110,11 @@ public class AboutFragment extends BaseChannelListFragment {
         switch (mLevel) {
             case LEVEL_LOCAL:
                 mCreateKeywordBtn.setVisibility(View.VISIBLE);
+                mEditBackgroundBtn.setVisibility(View.VISIBLE);
                 break;
             default:
                 mCreateKeywordBtn.setVisibility(View.GONE);
+                mEditBackgroundBtn.setVisibility(View.GONE);
                 break;
         }
 
