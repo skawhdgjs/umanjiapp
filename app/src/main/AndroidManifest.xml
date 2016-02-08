@@ -84,6 +84,10 @@
         <activity android:name=".ui.page.util.ImageViewActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".ui.page.channel.about.edit.AboutEditActivity"
+            android:screenOrientation="portrait"/>
+
+
 
 
 
