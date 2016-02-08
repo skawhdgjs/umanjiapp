@@ -50,6 +50,8 @@ public interface AppConfig {
     String api_channels_communities_find= "GET  /channels/id/communities";
     String api_channels_spots_find      = "GET  /channels/id/spots";
 
+    String api_channels_spots_update    = "PUT  /channels/id/spots";
+
 
 
     String api_links_create             = "POST /channels/id/link";
