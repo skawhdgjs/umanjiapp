@@ -36,8 +36,8 @@ public class AboutEditFragment extends BaseChannelCreateFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCreateApiName = api_links_createSpot;
-        mType = TYPE_SPOT_INNER;
+        mCreateApiName = api_channels_spots_update;
+        mType = TYPE_SPOT;
     }
 
     @Override
