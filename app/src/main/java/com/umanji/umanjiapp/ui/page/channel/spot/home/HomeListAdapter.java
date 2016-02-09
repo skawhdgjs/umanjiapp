@@ -1,32 +1,35 @@
-package com.umanji.umanjiapp.ui.fragment.spots;
+package com.umanji.umanjiapp.ui.page.channel.spot.home;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.page.channel.spot.SpotActivity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 
-public class SpotListAdapter extends BaseChannelListAdapter {
+public class HomeListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "SpotListAdapter";
 
 
-    public SpotListAdapter(Activity activity, Fragment fragment) {
+    public HomeListAdapter(Activity activity, Fragment fragment) {
         super(activity, fragment);
     }
 
@@ -75,17 +78,20 @@ public class SpotListAdapter extends BaseChannelListAdapter {
         }
 
 
-        holder.name.setOnClickListener(new View.OnClickListener() {
+        holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity, SpotActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", channelData.getJsonObject().toString());
-                intent.putExtra("bundle", bundle);
-
-                mFragment.startActivityForResult(intent, UiHelper.CODE_CHANNEL_ACTIVITY);
+                try {
+                    JSONObject params = channelData.getAddressJSONObject();
+                    params.put("id", AuthHelper.getUserId(mActivity));
+                    mApiHelper.call(api_channels_id_update, params);
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error " + e.toString());
+                }
             }
         });
+
+
 
         String photo = channelData.getPhoto();
         if(!TextUtils.isEmpty(photo)) {

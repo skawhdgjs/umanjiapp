@@ -61,6 +61,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.page.channel.spot.create.SpotCreateActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".ui.page.channel.spot.home.HomeListActivity"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".ui.page.channel.info.InfoActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.page.channel.post.PostActivity"
@@ -81,7 +83,7 @@
 
         <activity android:name=".ui.page.map.MapActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.util.ImageViewActivity"
+        <activity android:name=".ui.page.util.image.ImageViewActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.page.channel.about.edit.AboutEditActivity"

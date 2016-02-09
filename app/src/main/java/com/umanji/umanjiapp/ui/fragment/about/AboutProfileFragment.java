@@ -16,9 +16,11 @@ import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
+import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.base.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.base.BaseFragment;
 import com.umanji.umanjiapp.ui.page.channel.community.create.CommunityCreateActivity;
+import com.umanji.umanjiapp.ui.page.channel.spot.home.HomeListActivity;
 import com.umanji.umanjiapp.ui.page.map.MapActivity;
 
 import org.json.JSONObject;
@@ -32,7 +34,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     protected Button mLogoutBtn;
     protected TextView mAddress;
 
-    protected LinearLayout mHomePanel;
+    private Button addHomeBtn;
 
     public static AboutProfileFragment newInstance(Bundle bundle) {
         AboutProfileFragment fragment = new AboutProfileFragment();
@@ -45,7 +47,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         super.onCreate(savedInstanceState);
         mCreateApiName = api_links_createCommunity;
         mListApiName = api_channels_keywords_find;
-        mType   = TYPE_COMMUNITY;
+        mType   = TYPE_KEYWORD;
     }
 
     @Override
@@ -59,10 +61,15 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         mLogoutBtn.setOnClickListener(this);
         mAddress = (TextView) view.findViewById(R.id.address);
 
-        mHomePanel = (LinearLayout) view.findViewById(R.id.homePanel);
-        mHomePanel.setOnClickListener(this);
+        addHomeBtn = (Button)view.findViewById(R.id.addHomeBtn);
+        addHomeBtn.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public BaseChannelListAdapter getListAdapter() {
+        return new KeywordListAdapter(getActivity(), this);
     }
 
     @Override
@@ -75,12 +82,16 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 mApiHelper.call(api_logout, params);
                 mActivity.finish();
                 break;
-            case R.id.homePanel:
-                Intent intent = new Intent(mActivity, MapActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                intent.putExtra("bundle", bundle);
-                mActivity.startActivity(intent);
+            case R.id.addHomeBtn:
+
+                Intent homeIntent = new Intent(mContext, HomeListActivity.class);
+
+                Bundle homeBundle = new Bundle();
+                homeBundle.putString("channel", mChannel.getJsonObject().toString());
+                homeIntent.putExtra("bundle", homeBundle);
+
+                startActivity(homeIntent);
+
                 break;
         }
     }
@@ -88,6 +99,18 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     @Override
     public void updateView() {
         super.updateView();
-        mAddress.setText(mChannel.getCountryName() + " " + mChannel.getAdminArea() + " " + mChannel.getLocality() + " " + mChannel.getThoroughfare() + " " + mChannel.getFeatureName() );
+        mAddress.setText(mChannel.getCountryName() + " " + mChannel.getAdminArea() + " " + mChannel.getLocality() + " " + mChannel.getThoroughfare() + " " + mChannel.getFeatureName());
+    }
+
+    @Override
+    public void onEvent(SuccessData event) {
+        super.onEvent(event);
+
+        switch (event.type) {
+            case api_channels_id_update:
+                mChannel = new ChannelData(event.response);
+                updateView();
+                break;
+        }
     }
 }

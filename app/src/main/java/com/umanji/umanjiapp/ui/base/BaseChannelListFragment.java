@@ -35,8 +35,8 @@ public abstract class BaseChannelListFragment extends BaseFragment {
     protected String mCreateApiName;
     protected String mListApiName;
 
-    private boolean isLoading = true;
-    private int mPreFocusedItem = 0;
+    protected boolean isLoading = true;
+    protected int mPreFocusedItem = 0;
 
 
     @Override

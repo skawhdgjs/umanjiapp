@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
@@ -24,6 +25,7 @@ import com.umanji.umanjiapp.ui.fragment.community.CommunityListAdapter;
 import com.umanji.umanjiapp.ui.fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.page.channel.community.create.CommunityCreateActivity;
 import com.umanji.umanjiapp.ui.page.channel.spot.create.SpotCreateActivity;
+import com.umanji.umanjiapp.ui.page.channel.spot.home.HomeListActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

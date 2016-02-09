@@ -5,6 +5,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/guide"
+        android:text="@string/main_map_create_spot"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="18dp"
+        android:background="#55555555"
+        android:textColor="#ffffff"
+        android:shadowColor="#000"
+        android:shadowRadius="7.0"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:visibility="gone"
+        android:gravity="center_vertical"/>
+
     <fragment
         android:id="@+id/mMapFragment"
         android:name="com.google.android.gms.maps.MapFragment"
