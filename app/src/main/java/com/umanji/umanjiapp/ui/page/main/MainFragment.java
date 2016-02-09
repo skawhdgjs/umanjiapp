@@ -549,6 +549,7 @@ public class MainFragment extends BaseFragment {
                 break;
             case api_channels_createSpot:
                 mChannel = new ChannelData(event.response);
+                if(mMarker != null) mMarker.remove();
                 startSpotActivity();
                 break;
             case api_profile_id_update:
@@ -882,15 +883,6 @@ public class MainFragment extends BaseFragment {
                 for(; idx < mMarkers.length() ; idx ++ ) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
 
-                    String id           = channelData.getId();
-                    String name         = channelData.getName();
-
-                    Double latitude     = channelData.getLatitude();
-                    Double longitude    = channelData.getLongitude();
-                    LatLng position     = new LatLng(latitude, longitude);
-
-                    if(TextUtils.isEmpty(name)) name = "이름없음";
-
                     CommonHelper.addMarkerToMap(mMap, channelData, idx);
                 }
             }
@@ -929,7 +921,7 @@ public class MainFragment extends BaseFragment {
         intent.putExtra("enterAnim", R.anim.zoom_out);
         intent.putExtra("exitAnim", R.anim.zoom_in);
 
-        mActivity.startActivity(intent);
+        startActivityForResult(intent, UiHelper.CODE_CHANNEL_ACTIVITY);
     }
 
     private void showCreateSpotDialog() {

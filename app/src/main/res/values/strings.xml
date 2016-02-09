@@ -15,6 +15,12 @@
     <!-- 메인 지도 -->
     <string name="main_map_create_spot">지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.</string>
 
+
+    <!-- 채널 공통 -->
+    <string name="delete_confirm">정말 삭제하시겠습니까?</string>
+    <string name="delete_btn">삭제</string>
+    <string name="cancel_btn">취소</string>
+
     <!-- 스팟 어드민 -->
     <string name="admin_set_dong_level">동단위 정보센터 지정</string>
     <string name="admin_set_gu_level">구단위 정보센터 지정</string>
@@ -25,7 +31,6 @@
     <string name="admin_remove_city_level">동단위 정보센터 해제</string>
 
 
-
     <!-- 스팟 관려 -->
     <string name="spot_no_name">이름없는 스팟</string>
     <string name="spot_input_name">이름을 입력해 주세요.</string>
@@ -34,6 +39,9 @@
     <string name="spot_join_btn">참여하기</string>
     <string name="spot_unjoin_btn">탈퇴하기</string>
     <string name="spot_create_btn">스팟 생성</string>
+
+
+
     <string name="spot_create_success">스팟 생성 성공!</string>
     <string name="spot_create_confirm">이곳에 스팟(장소)를 만드시겠습니까?</string>
     <string name="spot_create_error">네트워크 상태가 좋지 않습니다. 잠시후 다시 시도해주세요.</string>

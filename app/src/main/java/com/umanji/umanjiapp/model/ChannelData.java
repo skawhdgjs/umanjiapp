@@ -157,6 +157,17 @@ public class ChannelData {
         return params;
     }
 
+    public boolean isOwner(String userId) {
+
+        if(userId.equals(this.ownerId)) {
+            return true;
+        } else if(this.owner != null && userId.equals(this.owner.getId())) {
+            return true;
+        }
+
+        return false;
+    }
+
     public String getActionId(String type, String userId) {
         boolean isDone = false;
 

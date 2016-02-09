@@ -43,14 +43,5 @@ public class KeywordListAdapter extends BaseChannelListAdapter {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData doc = mChannels.get(position);
         holder.name.setText(doc.getName());
-
-        String [] photos = doc.getPhotos();
-        if(photos != null && photos[0] != null) {
-            Glide.with(mActivity)
-                    .load(photos[0])
-                    .placeholder(R.drawable.empty)
-                    .animate(R.anim.abc_fade_in)
-                    .into(holder.photo);
-        }
     }
 }

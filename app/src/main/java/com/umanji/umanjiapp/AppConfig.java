@@ -38,6 +38,7 @@ public interface AppConfig {
     String api_channels_getByPoint      = "GET  /channels/point";
     String api_channels_createSpot      = "POST /channels/spot";
 
+
     String api_channels_get             = "GET  /channels/id";
 
     String api_channels_findMarkers     = "GET  /channels/markers";
@@ -66,6 +67,7 @@ public interface AppConfig {
     String api_channels_id_update       = "PUT  /channels/id";
     String api_profile_id_update        = "PUT  /channels/id/profile";
 
+    String api_channels_id_delete       = "DELETE /channels/id";
 
     String api_noites_find              = "GET  /noties";
     String api_noites_new_count         = "GET  /noties/new/count";

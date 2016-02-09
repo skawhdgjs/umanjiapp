@@ -3,6 +3,7 @@ package com.umanji.umanjiapp.helper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -64,10 +65,15 @@ public final class CommonHelper implements AppConfig{
 
         LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
         Marker marker;
+        String name = channelData.getName();
+        if(TextUtils.isEmpty(name)) {
+            name = "이름없음";
+        }
+
         switch (channelData.getLevel()) {
             case LEVEL_DONG:
                 marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(channelData.getName())
+                        .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.dong))
                         .alpha(0.7f)  // default 1.0
@@ -76,7 +82,7 @@ public final class CommonHelper implements AppConfig{
             // ic_marker_blue
             case LEVEL_GUGUN:
                 marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(channelData.getName())
+                        .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.gugun))
                         .alpha(0.7f)  // default 1.0
@@ -85,7 +91,7 @@ public final class CommonHelper implements AppConfig{
             // ic_marker_yellow
             case LEVEL_DOSI:
                 marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(channelData.getName())
+                        .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.city))
                         .alpha(0.7f)  // default 1.0
@@ -95,7 +101,7 @@ public final class CommonHelper implements AppConfig{
 
             case LEVEL_COUNTRY:
                 marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(channelData.getName())
+                        .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
                         .alpha(0.7f)  // default 1.0
@@ -104,7 +110,7 @@ public final class CommonHelper implements AppConfig{
 
             default:
                 marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(channelData.getName())
+                        .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
                         .alpha(0.7f)  // default 1.0

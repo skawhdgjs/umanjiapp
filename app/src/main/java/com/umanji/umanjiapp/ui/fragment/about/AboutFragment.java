@@ -1,8 +1,11 @@
 package com.umanji.umanjiapp.ui.fragment.about;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.base.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.page.channel.about.edit.AboutEditActivity;
 import com.umanji.umanjiapp.ui.page.channel.keyword.create.KeywordCreateActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class AboutFragment extends BaseChannelListFragment {
     private static final String TAG = "AboutFragment";
@@ -25,11 +32,10 @@ public class AboutFragment extends BaseChannelListFragment {
      ****************************************************/
     protected Button mCreateKeywordBtn;
     protected Button mEditBackgroundBtn;
-    protected Button mDongBtn;
-    protected Button mGuBtn;
-    protected Button mCityBtn;
-
+    protected Button mDeleteBtn;
     protected TextView mAddress;
+
+    private AlertDialog.Builder mAlert;
 
     public static AboutFragment newInstance(Bundle bundle) {
         AboutFragment fragment = new AboutFragment();
@@ -57,14 +63,12 @@ public class AboutFragment extends BaseChannelListFragment {
         mEditBackgroundBtn = (Button) view.findViewById(R.id.editBackgroundBtn);
         mEditBackgroundBtn.setOnClickListener(this);
 
-        mCityBtn = (Button) view.findViewById(R.id.cityBtn);
-        mCityBtn.setOnClickListener(this);
-        mGuBtn = (Button) view.findViewById(R.id.guBtn);
-        mGuBtn.setOnClickListener(this);
-        mDongBtn = (Button) view.findViewById(R.id.dongBtn);
-        mDongBtn.setOnClickListener(this);
+        mDeleteBtn = (Button) view.findViewById(R.id.deleteBtn);
+        mDeleteBtn.setOnClickListener(this);
 
         mAddress = (TextView) view.findViewById(R.id.address);
+
+        mAlert = new AlertDialog.Builder(mActivity);
 
         return view;
     }
@@ -98,6 +102,10 @@ public class AboutFragment extends BaseChannelListFragment {
 
                 startActivityForResult(aboutIntent, UiHelper.CODE_ABOUT_FRAGMENT);
                 break;
+
+            case R.id.deleteBtn:
+                showCreateSpotDialog();
+                break;
         }
     }
 
@@ -118,6 +126,42 @@ public class AboutFragment extends BaseChannelListFragment {
                 break;
         }
 
+
+        if(mChannel.isOwner(AuthHelper.getUserId(mActivity))) {
+            mDeleteBtn.setVisibility(View.VISIBLE);
+        }else {
+            mDeleteBtn.setVisibility(View.GONE);
+        }
+
     }
 
+
+
+    private void showCreateSpotDialog() {
+        mAlert.setPositiveButton(R.string.delete_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+
+                    JSONObject params = new JSONObject();
+                    params.put("id", mChannel.getId());
+                    mApiHelper.call(api_channels_id_delete, params);
+                    dialog.cancel();
+                    mActivity.finish();
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error " + e.toString());
+                }
+            }
+        });
+
+        mAlert.setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        mAlert.setTitle(R.string.delete_confirm);
+        mAlert.show();
+    }
 }
