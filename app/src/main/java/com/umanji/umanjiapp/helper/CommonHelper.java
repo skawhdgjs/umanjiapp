@@ -91,12 +91,22 @@ public final class CommonHelper implements AppConfig{
                         .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
-            // ic_marker_red
-            default:
+            // ic_marker_red  LEVEL_COUNTRY
+
+            case LEVEL_COUNTRY:
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(channelData.getName())
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
+                        .alpha(0.7f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+                break;
+
+            default:
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
                         .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
