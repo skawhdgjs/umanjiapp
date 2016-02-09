@@ -3,7 +3,6 @@ package com.umanji.umanjiapp.helper;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -70,30 +69,45 @@ public final class CommonHelper implements AppConfig{
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(channelData.getName())
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_blue))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.dong))
+                        .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-
                 break;
+            // ic_marker_blue
             case LEVEL_GUGUN:
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(channelData.getName())
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_yellow))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.gugun))
+                        .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-
                 break;
+            // ic_marker_yellow
             case LEVEL_DOSI:
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(channelData.getName())
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_red))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.city))
+                        .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
+            // ic_marker_red  LEVEL_COUNTRY
+
+            case LEVEL_COUNTRY:
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(channelData.getName())
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
+                        .alpha(0.7f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+                break;
+
             default:
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(channelData.getName())
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
+                        .alpha(0.7f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
 

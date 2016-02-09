@@ -62,6 +62,19 @@
 
 
     <Button
+        android:id="@+id/editBackgroundBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/background_image_btn"
+        android:background="@drawable/default_btn_radius"
+        android:padding="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="14dp"
+        android:layout_margin="14dp"
+
+        android:visibility="gone"/>
+
+    <Button
         android:id="@+id/createKeywordBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
