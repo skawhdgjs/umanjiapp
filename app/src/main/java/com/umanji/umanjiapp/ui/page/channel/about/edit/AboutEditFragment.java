@@ -82,7 +82,7 @@ public class AboutEditFragment extends BaseChannelCreateFragment {
         try {
 
             JSONObject params = mChannel.getAddressJSONObject();
-            params.put("parent", mChannel.getId());
+            params.put("id", mChannel.getId());
             params.put("type", mType);
             params.put("name", fName);
 
