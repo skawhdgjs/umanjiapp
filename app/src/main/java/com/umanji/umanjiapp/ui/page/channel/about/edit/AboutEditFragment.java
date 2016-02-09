@@ -53,6 +53,11 @@ public class AboutEditFragment extends BaseChannelCreateFragment {
         mPhotoBtn = (Button) view.findViewById(R.id.photoBtn);
         mPhotoBtn.setOnClickListener(this);
 
+        // gallaryBtn  mGallaryBtn
+        mGallaryBtn = (Button) view.findViewById(R.id.gallaryBtn);
+        mGallaryBtn.setOnClickListener(this);
+
+
         mFloorSpinner = (Spinner) view.findViewById(R.id.floorSpinner);
 
         String[] floorList = mActivity.getResources().getStringArray(R.array.floorList);
@@ -82,7 +87,7 @@ public class AboutEditFragment extends BaseChannelCreateFragment {
         try {
 
             JSONObject params = mChannel.getAddressJSONObject();
-            params.put("parent", mChannel.getId());
+            params.put("id", mChannel.getId());
             params.put("type", mType);
             params.put("name", fName);
 
