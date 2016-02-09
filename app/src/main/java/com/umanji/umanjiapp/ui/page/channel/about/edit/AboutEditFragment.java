@@ -37,7 +37,7 @@ public class AboutEditFragment extends BaseChannelCreateFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCreateApiName = api_channels_spots_update;
-        mType = TYPE_SPOT;
+        //mType = TYPE_SPOT;
     }
 
     @Override
@@ -83,6 +83,9 @@ public class AboutEditFragment extends BaseChannelCreateFragment {
         final String fName = mName.getText().toString();
         String floor = mFloorSpinner.getSelectedItem().toString();
         final int fFloor = Integer.parseInt(floor.substring(0, floor.indexOf("F") - 1));
+
+        Bundle mbundle = getArguments();
+        mType = mbundle.getString(mChannel.getType());
 
         try {
 
