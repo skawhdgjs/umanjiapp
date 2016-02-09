@@ -53,6 +53,11 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
         mPhotoBtn = (Button) view.findViewById(R.id.photoBtn);
         mPhotoBtn.setOnClickListener(this);
 
+        // gallaryBtn  mGallaryBtn
+        mGallaryBtn = (Button) view.findViewById(R.id.gallaryBtn);
+        mGallaryBtn.setOnClickListener(this);
+
+
         mFloorSpinner = (Spinner) view.findViewById(R.id.floorSpinner);
 
         String[] floorList = mActivity.getResources().getStringArray(R.array.floorList);
