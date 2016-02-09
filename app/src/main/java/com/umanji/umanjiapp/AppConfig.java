@@ -2,8 +2,8 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-    String REST_SERVER_URL = "http://172.30.1.7:3000/v1"; /* 로컬 API Server */
-//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+//    String REST_SERVER_URL = "http://172.30.1.7:3000/v1"; /* 로컬 API Server */
+    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
