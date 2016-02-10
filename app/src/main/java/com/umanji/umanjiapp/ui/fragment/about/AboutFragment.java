@@ -18,7 +18,7 @@ import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.base.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.page.channel.about.edit.AboutEditActivity;
+import com.umanji.umanjiapp.ui.fragment.about.edit.AboutEditActivity;
 import com.umanji.umanjiapp.ui.page.channel.keyword.create.KeywordCreateActivity;
 
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.page.channel.about.edit;
+package com.umanji.umanjiapp.ui.fragment.about.edit;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

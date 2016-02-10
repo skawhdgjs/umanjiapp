@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -166,6 +167,12 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         public final TextView   userName;
         public final TextView   createdAt;
 
+
+        public final LinearLayout metaPanel;
+        public final ImageView metaPhoto;
+        public final TextView metaTitle;
+        public final TextView metaDesc;
+
         public final RelativeLayout actionPanel;
         public final TextView   point;
         public final TextView   replyCount;
@@ -194,6 +201,11 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             linkName        = (TextView) view.findViewById(R.id.linkName);
             userName        = (TextView) view.findViewById(R.id.userName);
             createdAt       = (TextView) view.findViewById(R.id.createdAt);
+
+            metaPanel       = (LinearLayout) view.findViewById(R.id.metaPanel);
+            metaPhoto       = (ImageView) view.findViewById(R.id.metaPhoto);
+            metaTitle       = (TextView) view.findViewById(R.id.metaTitle);
+            metaDesc        = (TextView) view.findViewById(R.id.metaDesc);
 
             actionPanel     = (RelativeLayout) view.findViewById(R.id.actionPanel);
             point           = (TextView) view.findViewById(R.id.point);

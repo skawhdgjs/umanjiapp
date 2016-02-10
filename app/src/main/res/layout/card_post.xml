@@ -82,7 +82,8 @@
             android:textColor="@color/text"
             android:layout_below="@+id/userPhoto"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="5dp"/>
 
         <ImageView
             android:id="@+id/photo"
@@ -93,6 +94,40 @@
             android:src="@drawable/empty"
             android:layout_below="@+id/name"
             android:visibility="visible"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/metaPanel"
+            android:orientation="vertical"
+            android:background="@drawable/default_bordered"
+            android:padding="5dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metaTitle"
+                android:text="제목"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metaDesc"
+                android:text="설명"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/metaPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:visibility="gone"/>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

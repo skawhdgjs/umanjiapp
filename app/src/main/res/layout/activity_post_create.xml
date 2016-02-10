@@ -70,26 +70,46 @@
                 android:text="@string/post_create_btn"
                 android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/metaTitle"
-                android:text="제목"
-                android:visibility="gone"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/metaDesc"
-                android:text="설명"
-                android:visibility="gone"/>
-
             <ImageView
                 android:id="@+id/photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:visibility="visible"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/metaPanel"
+                android:orientation="vertical"
+                android:background="@drawable/default_bordered"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/metaTitle"
+                    android:text="제목"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/metaDesc"
+                    android:text="설명"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"/>
+                <ImageView
+                    android:id="@+id/metaPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"/>
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

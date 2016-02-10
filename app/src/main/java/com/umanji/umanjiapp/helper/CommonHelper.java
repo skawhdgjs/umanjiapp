@@ -162,4 +162,13 @@ public final class CommonHelper implements AppConfig{
             return str;
         }
     }
+
+    public static String getShortenString(String str, int size) {
+
+        if(str.length() > size) {
+            return str.substring(0, size) + "..";
+        }else {
+            return str;
+        }
+    }
 }

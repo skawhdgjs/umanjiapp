@@ -72,28 +72,49 @@ public class PostListAdapter extends BaseChannelListAdapter {
 
         holder.userName.setText(channelData.getOwner().getUserName());
 
-        ArrayList<SubLinkData> replySubLinks = channelData.getSubLinks(TYPE_POST);
 
-        holder.point.setText("" + channelData.getPoint());
 
-        if(replySubLinks != null && replySubLinks.size() > 0) {
-            holder.replyCount.setText("" + replySubLinks.size() + " 개");
+        JSONObject descJson = channelData.getDesc();
+        if(descJson != null) {
+            String metaTitle = descJson.optString("metaTitle");
+            String metaDesc = descJson.optString("metaTitle");
+            String metaPhoto = descJson.optString("metaPhoto");
+
+            if(!TextUtils.isEmpty(metaTitle) || !TextUtils.isEmpty(metaDesc) || !TextUtils.isEmpty(metaPhoto)) {
+                holder.metaPanel.setVisibility(View.VISIBLE);
+                if(!TextUtils.isEmpty(metaTitle)) {
+                    holder.metaTitle.setVisibility(View.VISIBLE);
+                    holder.metaTitle.setText(metaTitle);
+                }else {
+                    holder.metaTitle.setVisibility(View.GONE);
+                }
+
+                if(!TextUtils.isEmpty(metaDesc)) {
+                    holder.metaDesc.setVisibility(View.VISIBLE);
+                    holder.metaDesc.setText(metaDesc);
+                }else {
+                    holder.metaDesc.setVisibility(View.GONE);
+                }
+
+                if(!TextUtils.isEmpty(metaPhoto)) {
+                    holder.metaPhoto.setVisibility(View.VISIBLE);
+                    Glide.with(mActivity)
+                            .load(metaPhoto)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(holder.metaPhoto);
+                }else {
+                    holder.metaPhoto.setVisibility(View.GONE);
+                }
+
+            }else {
+                holder.metaPanel.setVisibility(View.GONE);
+            }
         }else {
-            holder.replyCount.setText("0 개");
+            holder.metaPanel.setVisibility(View.GONE);
         }
 
-        holder.actionPanel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mActivity, PostActivity.class);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", channelData.getJsonObject().toString());
-                intent.putExtra("bundle", bundle);
 
-                mFragment.startActivity(intent);
-            }
-        });
 
         String photo = channelData.getPhoto();
         if(!TextUtils.isEmpty(photo)) {
@@ -114,6 +135,31 @@ public class PostListAdapter extends BaseChannelListAdapter {
                 Bundle bundle = new Bundle();
                 bundle.putString("channel", channelData.getJsonObject().toString());
                 intent.putExtra("bundle", bundle);
+                mFragment.startActivity(intent);
+            }
+        });
+
+
+
+        ArrayList<SubLinkData> replySubLinks = channelData.getSubLinks(TYPE_POST);
+
+        holder.point.setText("" + channelData.getPoint());
+
+        if(replySubLinks != null && replySubLinks.size() > 0) {
+            holder.replyCount.setText("" + replySubLinks.size() + " 개");
+        }else {
+            holder.replyCount.setText("0 개");
+        }
+
+        holder.actionPanel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, PostActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("channel", channelData.getJsonObject().toString());
+                intent.putExtra("bundle", bundle);
+
                 mFragment.startActivity(intent);
             }
         });

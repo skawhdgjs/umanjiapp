@@ -22,6 +22,7 @@ import com.leocardz.link.preview.library.SearchUrls;
 import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -49,10 +50,11 @@ public class BaseChannelCreateFragment extends BaseFragment {
     protected Button mCreateBtn;
     protected ImageView mPhoto;
 
+    protected LinearLayout mMetaPanel;
+    protected ImageView mMetaPhoto;
     protected TextView mMetaTitle;
     protected TextView mMetaDesc;
-
-    protected LinearLayout mLinearLayout;
+    protected boolean isPreview = false;
 
     /****************************************************
      *  Etc.
@@ -60,6 +62,7 @@ public class BaseChannelCreateFragment extends BaseFragment {
     TextCrawler textCrawler;
 
     protected String mPhotoUri;
+    protected String mMetaPhotoUrl;
     protected File mResizedFile;
 
     protected String mCreateApiName;
@@ -76,9 +79,10 @@ public class BaseChannelCreateFragment extends BaseFragment {
 
             @Override
             public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
-                ArrayList<String> urls = SearchUrls.matches(mName.getText().toString());
+                String name = mName.getText().toString().replace("\n", " ");
+                ArrayList<String> urls = SearchUrls.matches(name);
 
-                if(arg1 == 66 && urls.size() > 0) {
+                if (arg1 == 66 && urls.size() > 0) {
 
                     textCrawler
                             .makePreview(new LinkPreviewCallback() {
@@ -92,26 +96,36 @@ public class BaseChannelCreateFragment extends BaseFragment {
                                 public void onPos(SourceContent sourceContent, boolean isNull) {
                                     Log.d(TAG, "onPos");
 
-                                    if(sourceContent.getImages().size() > 0) {
-                                        Glide.with(mActivity).load(sourceContent.getImages().get(0)).into(mPhoto);
-                                        mPhotoUri = sourceContent.getImages().get(0);
+                                    if (isNull || sourceContent.getFinalUrl().equals("")) {
+                                        isPreview = false;
+                                        mMetaPanel.setVisibility(View.GONE);
+
+                                    } else {
+                                        isPreview = true;
+                                        mMetaPanel.setVisibility(View.VISIBLE);
+
+                                        if(sourceContent.getImages().size() > 0) {
+                                            mMetaPhotoUrl = sourceContent.getImages().get(0);
+                                            mMetaPhoto.setVisibility(View.VISIBLE);
+                                            Glide.with(mActivity).load(mMetaPhotoUrl).into(mMetaPhoto);
+                                        }else {
+                                            mMetaPhoto.setVisibility(View.GONE);
+                                        }
+
+                                        if(TextUtils.isEmpty(sourceContent.getTitle())) {
+                                            mMetaTitle.setVisibility(View.GONE);
+                                        }else {
+                                            mMetaTitle.setVisibility(View.VISIBLE);
+                                            mMetaTitle.setText(sourceContent.getTitle());
+                                        }
+
+                                        if(TextUtils.isEmpty(sourceContent.getDescription())) {
+                                            mMetaDesc.setVisibility(View.GONE);
+                                        }else {
+                                            mMetaDesc.setVisibility(View.VISIBLE);
+                                            mMetaDesc.setText(sourceContent.getDescription());
+                                        }
                                     }
-
-                                    if(TextUtils.isEmpty(sourceContent.getTitle())) {
-                                        mMetaTitle.setVisibility(View.GONE);
-                                    }else {
-                                        mMetaTitle.setVisibility(View.VISIBLE);
-                                        mMetaTitle.setText(sourceContent.getTitle());
-                                    }
-
-                                    if(TextUtils.isEmpty(sourceContent.getDescription())) {
-                                        mMetaDesc.setVisibility(View.GONE);
-                                    }else {
-                                        mMetaDesc.setVisibility(View.VISIBLE);
-                                        mMetaDesc.setText(sourceContent.getDescription());
-                                    }
-
-
 
                                     mProgress.hide();
                                 }
@@ -132,6 +146,8 @@ public class BaseChannelCreateFragment extends BaseFragment {
         mGallaryBtn = (Button) view.findViewById(R.id.gallaryBtn);
         mGallaryBtn.setOnClickListener(this);
 
+        mMetaPanel = (LinearLayout) view.findViewById(R.id.metaPanel);
+        mMetaPhoto = (ImageView) view.findViewById(R.id.metaPhoto);
         mMetaTitle = (TextView) view.findViewById(R.id.metaTitle);
         mMetaDesc = (TextView) view.findViewById(R.id.metaDesc);
 
@@ -159,7 +175,7 @@ public class BaseChannelCreateFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.createBtn:
-                create();
+                submit();
                 break;
             case R.id.photoBtn:
                 mFilePath = UiHelper.callCamera(this);
@@ -221,15 +237,71 @@ public class BaseChannelCreateFragment extends BaseFragment {
      *  Methods
      ****************************************************/
 
+    protected void submit() {
+
+        String name = mName.getText().toString().replace("\n", " ");
+        ArrayList<String> urls = SearchUrls.matches(name);
+
+        if (isPreview == false && urls.size() > 0) {
+            textCrawler
+                    .makePreview(new LinkPreviewCallback() {
+                        @Override
+                        public void onPre() {
+                            Log.d(TAG, "onPre");
+                            mProgress.show();
+                        }
+
+                        @Override
+                        public void onPos(SourceContent sourceContent, boolean isNull) {
+                            Log.d(TAG, "onPos");
+
+                            if (isNull || sourceContent.getFinalUrl().equals("")) {
+                                isPreview = false;
+                                mMetaPanel.setVisibility(View.GONE);
+
+                            } else {
+                                isPreview = true;
+                                mMetaPanel.setVisibility(View.VISIBLE);
+
+                                if(sourceContent.getImages().size() > 0) {
+                                    mMetaPhotoUrl = sourceContent.getImages().get(0);
+                                    mMetaPhoto.setVisibility(View.VISIBLE);
+                                    Glide.with(mActivity).load(mMetaPhotoUrl).into(mMetaPhoto);
+                                }else {
+                                    mMetaPhoto.setVisibility(View.GONE);
+                                }
+
+                                if(TextUtils.isEmpty(sourceContent.getTitle())) {
+                                    mMetaTitle.setVisibility(View.GONE);
+                                }else {
+                                    mMetaTitle.setVisibility(View.VISIBLE);
+                                    mMetaTitle.setText(sourceContent.getTitle());
+                                }
+
+                                if(TextUtils.isEmpty(sourceContent.getDescription())) {
+                                    mMetaDesc.setVisibility(View.GONE);
+                                }else {
+                                    mMetaDesc.setVisibility(View.VISIBLE);
+                                    mMetaDesc.setText(sourceContent.getDescription());
+                                }
+                            }
+
+                            mProgress.hide();
+                            create();
+                        }
+                    }, urls.get(0));
+        } else {
+            create();
+        }
+
+    }
+
     protected void create() {
-        final String fName = mName.getText().toString();
-
         try {
-
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
+            params.put("name", mName.getText().toString());
             params.put("type", mType);
-            params.put("name", fName);
 
 
             if(mPhotoUri != null) {
@@ -237,6 +309,15 @@ public class BaseChannelCreateFragment extends BaseFragment {
                 photos.add(mPhotoUri);
                 params.put("photos", new JSONArray(photos));
                 mPhotoUri = null;
+            }
+
+            if(isPreview) {
+                JSONObject descParams = new JSONObject();
+                descParams.put("metaTitle", mMetaTitle.getText().toString());
+                descParams.put("metaDesc", CommonHelper.getShortenString(mMetaDesc.getText().toString(), 50));
+                descParams.put("metaPhoto", mMetaPhotoUrl);
+
+                params.put("desc", descParams);
             }
 
             mApiHelper.call(mCreateApiName, params);
