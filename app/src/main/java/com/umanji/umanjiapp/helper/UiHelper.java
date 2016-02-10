@@ -245,7 +245,6 @@ public final class UiHelper implements AppConfig {
             params.put("photo", resizedFile);
             apiHelper.call(api_photo, params);
 
-
             // getReCalculatedHeight
             int deviceWidth = metrics.widthPixels;
             float rate;

@@ -9,6 +9,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.base.BaseChannelFragment;
@@ -52,13 +53,13 @@ public class SpotFragment extends BaseChannelFragment {
 
         if(mType.equals(TYPE_SPOT)) {
             if(!TextUtils.isEmpty(mChannel.getName())) {
-                mName.setText(mChannel.getName() + " 건물");
+                mName.setText(CommonHelper.getShortenString(mChannel.getName()) + " 건물");
             } else {
                 mName.setText("이름없는 건물");
             }
         }else {
             if(!TextUtils.isEmpty(mChannel.getName())) {
-                mName.setText(mChannel.getName() + " 스팟");
+                mName.setText(CommonHelper.getShortenString(mChannel.getName()) + " 스팟");
             } else {
                 mName.setText("스팟");
             }

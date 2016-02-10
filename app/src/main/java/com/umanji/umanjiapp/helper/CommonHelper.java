@@ -154,4 +154,12 @@ public final class CommonHelper implements AppConfig{
         activity.startActivity(intent);
     }
 
+    public static String getShortenString(String str) {
+
+        if(str.length() > 10) {
+            return str.substring(0, 10) + "..";
+        }else {
+            return str;
+        }
+    }
 }

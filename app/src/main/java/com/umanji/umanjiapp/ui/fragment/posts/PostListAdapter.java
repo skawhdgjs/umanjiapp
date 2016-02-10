@@ -218,7 +218,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
             if(TextUtils.isEmpty(parentChannelData.getName())) {
                 holder.linkName.setText("이름없음");
             }else {
-                holder.linkName.setText(parentChannelData.getName());
+                holder.linkName.setText(CommonHelper.getShortenString(parentChannelData.getName()));
             }
 
             holder.linkName.setOnClickListener(new View.OnClickListener() {

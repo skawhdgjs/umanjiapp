@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SubLinkData;
@@ -48,7 +49,7 @@ public class SpotListAdapter extends BaseChannelListAdapter {
         final ChannelData parentData = channelData.getParent();
 
         if(!TextUtils.isEmpty(channelData.getName())) {
-            holder.name.setText(channelData.getName());
+            holder.name.setText(CommonHelper.getShortenString(channelData.getName()));
         }else {
             holder.name.setText("이름없음");
         }

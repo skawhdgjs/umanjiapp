@@ -1,32 +1,42 @@
 package com.umanji.umanjiapp.ui.base;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.leocardz.link.preview.library.LinkPreviewCallback;
+import com.leocardz.link.preview.library.Regex;
+import com.leocardz.link.preview.library.SearchUrls;
+import com.leocardz.link.preview.library.SourceContent;
+import com.leocardz.link.preview.library.TextCrawler;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
-import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
 
 
 public class BaseChannelCreateFragment extends BaseFragment {
-    private static final String TAG = "BaseChannelCreateFragment";
+    private static final String TAG = "BaseChannelCreate";
 
     /****************************************************
      *  View
@@ -39,10 +49,16 @@ public class BaseChannelCreateFragment extends BaseFragment {
     protected Button mCreateBtn;
     protected ImageView mPhoto;
 
+    protected TextView mMetaTitle;
+    protected TextView mMetaDesc;
+
+    protected LinearLayout mLinearLayout;
 
     /****************************************************
      *  Etc.
      ****************************************************/
+    TextCrawler textCrawler;
+
     protected String mPhotoUri;
     protected File mResizedFile;
 
@@ -55,8 +71,56 @@ public class BaseChannelCreateFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = getView(inflater, container);
-
         mName = (AutoCompleteTextView) view.findViewById(R.id.name);
+        mName.setOnKeyListener(new View.OnKeyListener() {
+
+            @Override
+            public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
+                ArrayList<String> urls = SearchUrls.matches(mName.getText().toString());
+
+                if(arg1 == 66 && urls.size() > 0) {
+
+                    textCrawler
+                            .makePreview(new LinkPreviewCallback() {
+                                @Override
+                                public void onPre() {
+                                    Log.d(TAG, "onPre");
+                                    mProgress.show();
+                                }
+
+                                @Override
+                                public void onPos(SourceContent sourceContent, boolean isNull) {
+                                    Log.d(TAG, "onPos");
+
+                                    if(sourceContent.getImages().size() > 0) {
+                                        Glide.with(mActivity).load(sourceContent.getImages().get(0)).into(mPhoto);
+                                        mPhotoUri = sourceContent.getImages().get(0);
+                                    }
+
+                                    if(TextUtils.isEmpty(sourceContent.getTitle())) {
+                                        mMetaTitle.setVisibility(View.GONE);
+                                    }else {
+                                        mMetaTitle.setVisibility(View.VISIBLE);
+                                        mMetaTitle.setText(sourceContent.getTitle());
+                                    }
+
+                                    if(TextUtils.isEmpty(sourceContent.getDescription())) {
+                                        mMetaDesc.setVisibility(View.GONE);
+                                    }else {
+                                        mMetaDesc.setVisibility(View.VISIBLE);
+                                        mMetaDesc.setText(sourceContent.getDescription());
+                                    }
+
+
+
+                                    mProgress.hide();
+                                }
+                            }, urls.get(0));
+                }
+                return false;
+            }
+        });
+
         mPhoto = (ImageView) view.findViewById(R.id.photo);
 
         mCreateBtn = (Button) view.findViewById(R.id.createBtn);
@@ -68,6 +132,10 @@ public class BaseChannelCreateFragment extends BaseFragment {
         mGallaryBtn = (Button) view.findViewById(R.id.gallaryBtn);
         mGallaryBtn.setOnClickListener(this);
 
+        mMetaTitle = (TextView) view.findViewById(R.id.metaTitle);
+        mMetaDesc = (TextView) view.findViewById(R.id.metaDesc);
+
+        textCrawler = new TextCrawler();
         super.onCreateView(view);
         return view;
     }

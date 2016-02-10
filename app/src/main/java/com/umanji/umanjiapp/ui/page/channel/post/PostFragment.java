@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.ui.base.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.base.BaseTabAdapter;
@@ -48,7 +49,7 @@ public class PostFragment extends BaseChannelFragment {
         super.updateView();
 
         if(!TextUtils.isEmpty(mChannel.getName())) {
-            mName.setText(mChannel.getName());
+            mName.setText(CommonHelper.getShortenString(mChannel.getName()));
         } else {
             mName.setText("내용없음");
         }

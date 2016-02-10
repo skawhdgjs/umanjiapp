@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.ui.base.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.base.BaseTabAdapter;
@@ -43,7 +44,7 @@ public class CommunityFragment extends BaseChannelFragment {
         mLookAround.setVisibility(View.VISIBLE);
 
         if(!TextUtils.isEmpty(mChannel.getName())) {
-            mName.setText(mChannel.getName() + " 커뮤니티");
+            mName.setText(CommonHelper.getShortenString(mChannel.getName()) + " 커뮤니티");
         }
         else {
             mName.setText("커뮤니티");

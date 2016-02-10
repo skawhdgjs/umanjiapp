@@ -70,6 +70,20 @@
                 android:text="@string/post_create_btn"
                 android:textStyle="bold" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metaTitle"
+                android:text="제목"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metaDesc"
+                android:text="설명"
+                android:visibility="gone"/>
+
             <ImageView
                 android:id="@+id/photo"
                 android:layout_width="match_parent"

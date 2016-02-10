@@ -84,12 +84,12 @@ public class NotyListAdapter extends BaseChannelListAdapter {
 
         switch (channelData.getType()) {
             case TYPE_POST:
-                holder.desc.setText("글을 작성하였습니다.");
+                holder.desc.setText("글작성");
                 holder.name.setVisibility(View.VISIBLE);
                 holder.name.setText(channelData.getName());
                 break;
             case TYPE_MEMBER:
-                holder.desc.setText("참여 하였습니다.");
+                holder.desc.setText("참여");
                 holder.name.setVisibility(View.GONE);
                 break;
         }
@@ -102,7 +102,9 @@ public class NotyListAdapter extends BaseChannelListAdapter {
                 holder.parentName.setText("/ 이름없음");
             } else {
                 holder.parentName.setVisibility(View.VISIBLE);
-                holder.parentName.setText("/ " + parentData.getName());
+
+                String parentName = CommonHelper.getShortenString(parentData.getName());
+                holder.parentName.setText("/ " + parentName);
             }
 
         } else {

@@ -948,6 +948,7 @@ public class MainFragment extends BaseFragment {
         });
 
         mAlert.setTitle(R.string.spot_create_confirm);
+        mAlert.setMessage(mChannel.getCountryName() + " " + mChannel.getAdminArea() + " " + mChannel.getLocality() + " " + mChannel.getThoroughfare() + " " + mChannel.getFeatureName());
         mAlert.show();
     }
 

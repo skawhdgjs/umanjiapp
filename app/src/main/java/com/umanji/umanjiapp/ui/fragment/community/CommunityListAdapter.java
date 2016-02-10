@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
@@ -48,7 +49,7 @@ public class CommunityListAdapter extends BaseChannelListAdapter {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData channelData = mChannels.get(position);
 
-        holder.name.setText(channelData.getName());
+        holder.name.setText(CommonHelper.getShortenString(channelData.getName()));
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
