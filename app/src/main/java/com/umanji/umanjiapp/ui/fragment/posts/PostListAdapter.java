@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +68,9 @@ public class PostListAdapter extends BaseChannelListAdapter {
         final ChannelData userData          = channelData.getOwner();
 
         holder.name.setText(channelData.getName());
+        Linkify.addLinks(holder.name, Linkify.WEB_URLS);
+        holder.name.setMovementMethod(LinkMovementMethod.getInstance());
+
         holder.userName.setText(channelData.getOwner().getUserName());
 
         ArrayList<SubLinkData> replySubLinks = channelData.getSubLinks(TYPE_POST);
