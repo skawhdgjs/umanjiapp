@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,7 +68,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
 
         holder.name.setText(channelData.getName());
         Linkify.addLinks(holder.name, Linkify.WEB_URLS);
-        holder.name.setMovementMethod(LinkMovementMethod.getInstance());
+        //holder.name.setMovementMethod(LinkMovementMethod.getInstance());  // 있어도 그만 없어도 그만인데 혹시라도 모르니 남겨둠.
 
         holder.userName.setText(channelData.getOwner().getUserName());
 
