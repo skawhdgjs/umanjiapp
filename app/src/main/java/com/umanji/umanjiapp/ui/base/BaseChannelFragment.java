@@ -205,6 +205,7 @@ public class BaseChannelFragment extends BaseFragment {
     public void updateView() {
 
         ChannelData parentData = mChannel.getParent();
+        ChannelData userData = mChannel.getOwner();
 
         if(parentData == null) {
             mHeaderBorder.setVisibility(View.GONE);
@@ -221,8 +222,8 @@ public class BaseChannelFragment extends BaseFragment {
 
         }
 
-        if(mUser != null) {
-            String userPhoto = mUser.getPhoto();
+        if(userData != null) {
+            String userPhoto = userData.getPhoto();
             if(userPhoto != null) {
                 Glide.with(mContext)
                         .load(userPhoto)
@@ -231,6 +232,11 @@ public class BaseChannelFragment extends BaseFragment {
                         .override(40, 40)
                         .into(mUserPhoto);
             }
+        } else {
+            Glide.with(mContext)
+                    .load(R.drawable.avatar_default_0)
+                    .animate(R.anim.abc_fade_in)
+                    .into(mUserPhoto);
         }
     }
 
