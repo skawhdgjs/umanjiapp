@@ -92,6 +92,10 @@ public class NotyListAdapter extends BaseChannelListAdapter {
                 holder.desc.setText("참여");
                 holder.name.setVisibility(View.GONE);
                 break;
+            case TYPE_LIKE:
+                holder.desc.setText("도움");
+                holder.name.setVisibility(View.GONE);
+                break;
         }
 
         holder.userName.setText(userData.getUserName());

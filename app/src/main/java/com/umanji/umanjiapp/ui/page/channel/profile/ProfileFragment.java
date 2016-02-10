@@ -44,11 +44,18 @@ public class ProfileFragment extends BaseChannelFragment {
         return mAdapter;
     }
 
+    @Override
     protected void initTabs() {
         if (mViewPager != null) {
             mViewPager.setAdapter(initTabAdapter());
             mTabLayout.setupWithViewPager(mViewPager);
         }
+    }
+
+    @Override
+    protected View getLayoutView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_profile, container, false);
+        return view;
     }
 
     @Override
@@ -73,8 +80,6 @@ public class ProfileFragment extends BaseChannelFragment {
         else {
             mName.setText("프로필");
         }
-
-        mPoint.setText(mChannel.getPoint() + " p");
 
         String userPhoto = mChannel.getPhoto();
         if(userPhoto != null) {

@@ -23,6 +23,7 @@ import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.fragment.about.AboutFragment;
 import com.umanji.umanjiapp.ui.fragment.community.CommunityListFragment;
@@ -222,6 +223,14 @@ public class BaseChannelFragment extends BaseFragment {
 
         }
 
+        mPoint.setText(mChannel.getPoint() + " p");
+        ArrayList<SubLinkData> memberSubLinks = mChannel.getSubLinks(TYPE_MEMBER);
+
+
+        if(mMemberCount!=null && memberSubLinks != null) {
+            mMemberCount.setText(memberSubLinks.size()+ " 명");
+        }
+
         if(userData != null) {
             String userPhoto = userData.getPhoto();
             if(userPhoto != null) {
@@ -238,6 +247,7 @@ public class BaseChannelFragment extends BaseFragment {
                     .animate(R.anim.abc_fade_in)
                     .into(mUserPhoto);
         }
+
     }
 
     @Override

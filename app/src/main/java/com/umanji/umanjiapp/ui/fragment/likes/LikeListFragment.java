@@ -1,7 +1,6 @@
-package com.umanji.umanjiapp.ui.fragment.members;
+package com.umanji.umanjiapp.ui.fragment.likes;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,29 +11,24 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.base.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.base.BaseFragment;
-import com.umanji.umanjiapp.ui.fragment.posts.PostListAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-public class MemberListFragment extends BaseChannelListFragment {
-    private static final String TAG = "MemberListFragment";
+public class LikeListFragment extends BaseChannelListFragment {
+    private static final String TAG = "LikeListFragment";
 
 
-    private Button mJoinBtn;
-    private Button mUnJoinBtn;
+    private Button mLikeBtn;
+    private Button mUnLikeBtn;
 
-    public static MemberListFragment newInstance(Bundle bundle) {
-        MemberListFragment fragment = new MemberListFragment();
+    public static LikeListFragment newInstance(Bundle bundle) {
+        LikeListFragment fragment = new LikeListFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -43,26 +37,26 @@ public class MemberListFragment extends BaseChannelListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCreateApiName = api_channels_join;
-        mListApiName = api_channels_members_find;
-        mType   = TYPE_MEMBER;
+        mCreateApiName = api_channels_like;
+        mListApiName = api_channels_likes_find;
+        mType   = TYPE_LIKE;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LinearLayout view = (LinearLayout) inflater.inflate(
-                R.layout.fragment_members, container, false);
+                R.layout.fragment_likes, container, false);
 
         RecyclerView rView = (RecyclerView)view.findViewById(R.id.recyclerView);
         super.onCreateView(rView);
 
 
 
-        mJoinBtn = (Button)view.findViewById(R.id.joinBtn);
-        mJoinBtn.setOnClickListener(this);
+        mLikeBtn = (Button)view.findViewById(R.id.likeBtn);
+        mLikeBtn.setOnClickListener(this);
 
-        mUnJoinBtn = (Button)view.findViewById(R.id.unJoinBtn);
-        mUnJoinBtn.setOnClickListener(this);
+        mUnLikeBtn = (Button)view.findViewById(R.id.unLikeBtn);
+        mUnLikeBtn.setOnClickListener(this);
 
         updateView();
         return view;
@@ -70,7 +64,7 @@ public class MemberListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new MemberListAdapter(getActivity(), this);
+        return new LikeListAdapter(getActivity(), this);
     }
 
     @Override
@@ -79,59 +73,59 @@ public class MemberListFragment extends BaseChannelListFragment {
 
         switch (mLevel) {
             case LEVEL_LOCAL:
-                mJoinBtn.setVisibility(View.VISIBLE);
+                mLikeBtn.setVisibility(View.VISIBLE);
 
-                String actionId = mChannel.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mContext));
+                String actionId = mChannel.getActionId(TYPE_LIKE, AuthHelper.getUserId(mContext));
 
                 if(!TextUtils.isEmpty(actionId)) {
-                    mJoinBtn.setVisibility(View.GONE);
-                    mUnJoinBtn.setVisibility(View.VISIBLE);
+                    mLikeBtn.setVisibility(View.GONE);
+                    mUnLikeBtn.setVisibility(View.VISIBLE);
 
                 }else {
-                    mJoinBtn.setVisibility(View.VISIBLE);
-                    mUnJoinBtn.setVisibility(View.GONE);
+                    mLikeBtn.setVisibility(View.VISIBLE);
+                    mUnLikeBtn.setVisibility(View.GONE);
                 }
 
                 break;
             default:
-                mJoinBtn.setVisibility(View.GONE);
+                mLikeBtn.setVisibility(View.GONE);
                 break;
         }
 
-        mJoinBtn.setEnabled(true);
-        mUnJoinBtn.setEnabled(true);
+        mLikeBtn.setEnabled(true);
+        mUnLikeBtn.setEnabled(true);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.joinBtn:
+            case R.id.likeBtn:
                 try {
                     JSONObject params = mChannel.getAddressJSONObject();
                     params.put("parent", mId);
                     params.put("type", mType);
                     params.put("name", AuthHelper.getUserName(mContext));
 
-                    mApiHelper.call(api_channels_join, params);
-                    mJoinBtn.setEnabled(false);
-                    mUnJoinBtn.setEnabled(false);
+                    mApiHelper.call(api_channels_like, params);
+                    mLikeBtn.setEnabled(false);
+                    mUnLikeBtn.setEnabled(false);
 
                 }catch(JSONException e) {
                     Log.e("BaseChannelCreate", "error " + e.toString());
                 }
 
                 break;
-            case R.id.unJoinBtn:
+            case R.id.unLikeBtn:
                 try {
-                    String actionId = mChannel.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mContext));
+                    String actionId = mChannel.getActionId(TYPE_LIKE, AuthHelper.getUserId(mContext));
 
                     JSONObject params = new JSONObject();
                     params.put("parent", mChannel.getId());
                     params.put("id", actionId);
 
-                    mApiHelper.call(api_channels_unJoin, params);
-                    mJoinBtn.setEnabled(false);
-                    mUnJoinBtn.setEnabled(false);
+                    mApiHelper.call(api_channels_unLike, params);
+                    mLikeBtn.setEnabled(false);
+                    mUnLikeBtn.setEnabled(false);
 
                 }catch(JSONException e) {
                     Log.e("BaseChannelCreate", "error " + e.toString());
@@ -146,7 +140,7 @@ public class MemberListFragment extends BaseChannelListFragment {
         super.onEvent(event);
 
         ChannelData channelData = new ChannelData(event.response);
-        if(api_channels_unJoin.equals(event.type)) {
+        if(api_channels_unLike.equals(event.type)) {
             if(TextUtils.equals(mId, channelData.getId())){
                 loadData();
 

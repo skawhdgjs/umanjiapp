@@ -66,8 +66,6 @@ public class SpotFragment extends BaseChannelFragment {
         }
 
 
-        mPoint.setText(mChannel.getPoint() + " p");
-
         String photoUrl = mChannel.getPhoto();
         if(photoUrl != null) {
             Glide.with(mContext)
@@ -81,25 +79,8 @@ public class SpotFragment extends BaseChannelFragment {
                     .into(mPhoto);
         }
 
-    }
 
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
 
-        switch (v.getId()) {
-            case R.id.spotAddBtn:
-                Intent intent = new Intent(mContext, SpotCreateActivity.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                bundle.putString("type", TYPE_SPOT_INNER);
-                intent.putExtra("bundle", bundle);
-
-                startActivityForResult(intent, UiHelper.CODE_SPOT_ACTIVITY);
-
-                break;
-        }
 
     }
 

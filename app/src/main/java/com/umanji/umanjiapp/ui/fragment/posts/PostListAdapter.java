@@ -73,7 +73,6 @@ public class PostListAdapter extends BaseChannelListAdapter {
         holder.userName.setText(channelData.getOwner().getUserName());
 
 
-
         JSONObject descJson = channelData.getDesc();
         if(descJson != null) {
             String metaTitle = descJson.optString("metaTitle");
@@ -180,7 +179,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
                     .into(holder.userPhoto);
         }
 
-        String actionId = channelData.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mActivity));
+        String actionId = channelData.getActionId(TYPE_LIKE, AuthHelper.getUserId(mActivity));
         if(!TextUtils.isEmpty(actionId)) {
             holder.likeBtn.setTag(actionId);
             holder.likeBtn.setBackgroundResource( R.drawable.default2_btn_radius);
@@ -188,8 +187,6 @@ public class PostListAdapter extends BaseChannelListAdapter {
             holder.likeBtn.setTag(null);
             holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
         }
-
-
 
 
         holder.likeBtn.setOnClickListener(new View.OnClickListener() {
@@ -221,7 +218,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
                     }else {
                         JSONObject params = channelData.getAddressJSONObject();
                         params.put("parent", channelData.getId());
-                        params.put("type", TYPE_MEMBER);
+                        params.put("type", TYPE_LIKE);
                         params.put("name", AuthHelper.getUserName(mActivity));
                         mApiHelper.call(api_channels_join, params, new AjaxCallback<JSONObject>() {
                             @Override
@@ -232,7 +229,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
                                     ChannelData channelData = new ChannelData(json);
                                     ChannelData parentData = channelData.getParent();
                                     holder.point.setText("" + parentData.getPoint());
-                                    String actionId = parentData.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mActivity));
+                                    String actionId = parentData.getActionId(TYPE_LIKE, AuthHelper.getUserId(mActivity));
                                     holder.likeBtn.setTag(actionId);
                                     holder.likeBtn.setBackgroundResource( R.drawable.default2_btn_radius);
                                 }
@@ -275,34 +272,53 @@ public class PostListAdapter extends BaseChannelListAdapter {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = null;
-                    Bundle bundle = new Bundle();
-                    bundle.putString("channel", parentChannelData.getJsonObject().toString());
-                    switch (parentChannelData.getType()) {
-                        case TYPE_POST:
-                            intent = new Intent(mActivity, PostActivity.class);
-                            intent.putExtra("bundle", bundle);
-                            break;
-                        case TYPE_SPOT:
-                            intent = new Intent(mActivity, SpotActivity.class);
-                            intent.putExtra("bundle", bundle);
-                            break;
-                        case TYPE_SPOT_INNER:
-                            intent = new Intent(mActivity, SpotActivity.class);
-                            intent.putExtra("bundle", bundle);
-                            break;
-                        case TYPE_INFO_CENTER:
-                            intent = new Intent(mActivity, InfoActivity.class);
-                            intent.putExtra("bundle", bundle);
-                            break;
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("id", parentChannelData.getId());
 
-                        case TYPE_COMMUNITY:
-                            intent = new Intent(mActivity, CommunityActivity.class);
-                            intent.putExtra("bundle", bundle);
-                            break;
+
+                        mApiHelper.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject json, AjaxStatus status) {
+                                if (status.getCode() == 500) {
+                                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                                } else {
+                                    ChannelData channelData = new ChannelData(json);
+
+                                    Intent intent = null;
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("channel", channelData.getJsonObject().toString());
+                                    switch (channelData.getType()) {
+                                        case TYPE_POST:
+                                            intent = new Intent(mActivity, PostActivity.class);
+                                            intent.putExtra("bundle", bundle);
+                                            break;
+                                        case TYPE_SPOT:
+                                            intent = new Intent(mActivity, SpotActivity.class);
+                                            intent.putExtra("bundle", bundle);
+                                            break;
+                                        case TYPE_SPOT_INNER:
+                                            intent = new Intent(mActivity, SpotActivity.class);
+                                            intent.putExtra("bundle", bundle);
+                                            break;
+                                        case TYPE_INFO_CENTER:
+                                            intent = new Intent(mActivity, InfoActivity.class);
+                                            intent.putExtra("bundle", bundle);
+                                            break;
+
+                                        case TYPE_COMMUNITY:
+                                            intent = new Intent(mActivity, CommunityActivity.class);
+                                            intent.putExtra("bundle", bundle);
+                                            break;
+                                    }
+
+                                    mFragment.startActivityForResult(intent, UiHelper.CODE_POST_FRAGMENT);
+                                }
+                            }
+                        });
+                    } catch(JSONException e) {
+                        Log.e(TAG, "error " + e.toString());
                     }
-
-                    mFragment.startActivityForResult(intent, UiHelper.CODE_POST_FRAGMENT);
                 }
             });
 

@@ -50,8 +50,6 @@ public class InfoFragment extends BaseChannelFragment {
             mName.setText("정보센터");
         }
 
-        mPoint.setText(mChannel.getPoint() + " p");
-
         String photoUrl = mChannel.getPhoto();
         if(photoUrl != null) {
             Glide.with(mContext)

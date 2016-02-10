@@ -833,6 +833,9 @@ public class MainFragment extends BaseFragment {
                 case TYPE_MEMBER:
                     intent = new Intent(mActivity, ProfileActivity.class);
                     break;
+                case TYPE_LIKE:
+                    intent = new Intent(mActivity, ProfileActivity.class);
+                    break;
                 case TYPE_POST:
                     intent = new Intent(mActivity, PostActivity.class);
                     break;

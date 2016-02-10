@@ -145,6 +145,8 @@ public final class CommonHelper implements AppConfig{
             case TYPE_MEMBER:
                 intent = new Intent(activity, ProfileActivity.class);
                 break;
+            case TYPE_LIKE:
+                intent = new Intent(activity, ProfileActivity.class);
             case TYPE_POST:
                 intent = new Intent(activity, PostActivity.class);
                 break;

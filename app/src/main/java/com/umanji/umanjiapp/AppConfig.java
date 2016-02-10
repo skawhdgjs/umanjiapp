@@ -2,8 +2,8 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-//    String REST_SERVER_URL = "http://172.30.1.7:3000/v1"; /* 로컬 API Server */
-    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+    String REST_SERVER_URL = "http://172.30.1.3:3000/v1"; /* 로컬 API Server */
+//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -48,6 +48,7 @@ public interface AppConfig {
     String api_channels_posts_find      = "GET  /channels/id/posts";
     String api_channels_keywords_find   = "GET  /channels/id/keywords";
     String api_channels_members_find    = "GET  /channels/id/members";
+    String api_channels_likes_find      = "GET  /channels/id/likes";
     String api_channels_communities_find= "GET  /channels/id/communities";
     String api_channels_spots_find      = "GET  /channels/id/spots";
 
@@ -79,14 +80,9 @@ public interface AppConfig {
     String api_channels_join            = "POST /channels/id/join";
     String api_channels_unJoin          = "DELETE /channels/id/join";
 
+    String api_channels_like            = "POST /channels/id/like";
+    String api_channels_unLike          = "DELETE /channels/id/like";
 
-
-    String api_users_posts_find         = "GET  /users/id/posts";
-    String api_users_spots_find         = "GET  /users/id/spots";
-    String api_users_communities_find   = "GET  /users/id/communities";
-    String api_users_keywords_find      = "GET  /users/id/keywords";
-
-    String api_channels_action          = "PUT  /channels/id/action";
 
     String api_users_get                = "GET  /users/id";
 

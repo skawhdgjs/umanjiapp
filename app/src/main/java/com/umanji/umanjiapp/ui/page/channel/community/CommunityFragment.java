@@ -50,9 +50,6 @@ public class CommunityFragment extends BaseChannelFragment {
             mName.setText("커뮤니티");
         }
 
-        mPoint.setText(mChannel.getPoint() + " p");
-
-
         String photoUrl = mChannel.getPhoto();
         if(photoUrl != null) {
             Glide.with(mContext)

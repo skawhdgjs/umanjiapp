@@ -63,6 +63,8 @@
     <string name="post_create_btn">포스트 생성</string>
     <string name="post_create_success">포스트 생성 성공!</string>
     <string name="post_create_error">네트워크 상태가 좋지 않습니다. 잠시후 다시 시도해주세요.</string>
+    <string name="post_like_btn">도움</string>
+    <string name="post_unlike_btn">도움취소</string>
 
     <!-- 커뮤니티 -->
     <string name="community_input_name">커뮤니티 이름</string>

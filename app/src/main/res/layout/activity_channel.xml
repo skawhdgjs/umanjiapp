@@ -126,7 +126,7 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginBottom="5dp"
-                        android:layout_above="@+id/textView7"
+                        android:layout_above="@+id/keywords"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true" />
 
@@ -176,7 +176,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="#키워드를 등록해 주세요"
-                        android:id="@+id/textView7"
+                        android:id="@+id/keywords"
                         android:textSize="16dp"
                         android:shadowColor="#000"
                         android:shadowRadius="7.0"
