@@ -47,7 +47,8 @@
         android:layout_marginLeft="5dp"
         android:layout_alignParentRight="false"
         android:layout_toRightOf="@+id/userName"
-        android:padding="5dp"/>
+        android:padding="5dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/createdAt"

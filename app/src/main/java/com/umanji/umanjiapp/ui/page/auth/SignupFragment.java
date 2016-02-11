@@ -71,7 +71,8 @@ public class SignupFragment extends BaseFragment {
         mSubmit.setOnClickListener(this);
 
 
-        loadData();
+        if(mLatLng != null) loadData();
+
         return view;
     }
 
@@ -165,7 +166,14 @@ public class SignupFragment extends BaseFragment {
         final String fPassword  = mPassword.getText().toString();
 
         try {
-            JSONObject params = mChannel.getAddressJSONObject();
+
+            JSONObject params;
+            if(mChannel != null) {
+                params = mChannel.getAddressJSONObject();
+            } else {
+                params = new JSONObject();
+            }
+
             params.put("email", fEmail);
             params.put("password", fPassword);
 

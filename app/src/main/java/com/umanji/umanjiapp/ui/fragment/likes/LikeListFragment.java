@@ -64,7 +64,7 @@ public class LikeListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new LikeListAdapter(getActivity(), this);
+        return new LikeListAdapter(getActivity(), this, mChannel);
     }
 
     @Override

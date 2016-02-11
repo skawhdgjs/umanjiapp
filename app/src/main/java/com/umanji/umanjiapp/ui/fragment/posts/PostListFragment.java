@@ -56,7 +56,7 @@ public class PostListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new PostListAdapter(getActivity(), this);
+        return new PostListAdapter(getActivity(), this, mChannel);
     }
 
 }

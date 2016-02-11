@@ -26,8 +26,8 @@ import java.util.ArrayList;
 public class KeywordListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "BaseChannelListAdapter";
 
-    public KeywordListAdapter(Activity activity, Fragment fragment) {
-        super(activity, fragment);
+    public KeywordListAdapter(Activity activity, Fragment fragment, ChannelData channelData) {
+        super(activity, fragment, channelData);
     }
 
 

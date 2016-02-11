@@ -15,12 +15,14 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.SubLinkData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseChannelListAdapter.ViewHolder> implements AppConfig{
@@ -35,15 +37,17 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
     protected String mType;
 
+    protected ChannelData mChannel;
     /****************************************************
      *  ArrayList
      ****************************************************/
     protected ArrayList<ChannelData> mChannels;
     protected int mCurrentPage = 0;
 
-    public BaseChannelListAdapter(Activity activity, Fragment fragment) {
+    public BaseChannelListAdapter(Activity activity, Fragment fragment, ChannelData channelData) {
         this.mActivity = activity;
         this.mFragment = fragment;
+        this.mChannel = channelData;
         mApiHelper  = new ApiHelper(activity, null);
         mChannels   = new ArrayList<ChannelData>();
     }
@@ -59,6 +63,20 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         }else {
             return mChannels.size();
         }
+    }
+
+    public String getIdByUserId(String userId) {
+        if(mChannels != null && mChannels.size() > 0) {
+            Iterator<ChannelData> iterator = mChannels.iterator();
+
+            while(iterator.hasNext()) {
+                ChannelData data = iterator.next();
+                if(data.getOwner().getId().equals(userId)) {
+                    return data.getId();
+                }
+            }
+        }
+        return "";
     }
 
     public int getCurrentPage() {

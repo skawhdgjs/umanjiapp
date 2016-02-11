@@ -69,7 +69,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new KeywordListAdapter(getActivity(), this);
+        return new KeywordListAdapter(getActivity(), this, mChannel);
     }
 
     @Override

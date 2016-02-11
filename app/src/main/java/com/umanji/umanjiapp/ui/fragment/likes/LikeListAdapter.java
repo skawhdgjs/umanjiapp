@@ -21,8 +21,8 @@ public class LikeListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "LikeListAdapter";
 
 
-    public LikeListAdapter(Activity activity, Fragment fragment) {
-        super(activity, fragment);
+    public LikeListAdapter(Activity activity, Fragment fragment, ChannelData channelData) {
+        super(activity, fragment, channelData);
     }
 
 

@@ -19,6 +19,7 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.NotyData;
 import com.umanji.umanjiapp.model.UserData;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.page.channel.community.CommunityActivity;
@@ -36,10 +37,9 @@ public class MemberListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "MemberListAdapter";
 
 
-    public MemberListAdapter(Activity activity, Fragment fragment) {
-        super(activity, fragment);
+    public MemberListAdapter(Activity activity, Fragment fragment, ChannelData channelData) {
+        super(activity, fragment, channelData);
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

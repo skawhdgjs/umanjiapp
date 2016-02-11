@@ -32,8 +32,8 @@ import java.util.ArrayList;
 public class CommunityListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "CommunityListAdapter";
 
-    public CommunityListAdapter(Activity activity, Fragment fragment) {
-        super(activity, fragment);
+    public CommunityListAdapter(Activity activity, Fragment fragment, ChannelData channelData) {
+        super(activity, fragment, channelData);
     }
 
 

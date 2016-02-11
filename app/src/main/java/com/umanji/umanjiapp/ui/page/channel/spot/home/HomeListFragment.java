@@ -115,7 +115,7 @@ public class HomeListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new HomeListAdapter(getActivity(), this);
+        return new HomeListAdapter(getActivity(), this, mChannel);
     }
 
     @Override

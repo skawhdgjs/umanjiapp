@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -53,7 +54,22 @@ public final class CommonHelper implements AppConfig{
 
         boolean isAuthError = !AuthHelper.isLogin(activity);
         if(isAuthError) {
+            GoogleMap map = ((MapFragment) activity.getFragmentManager().findFragmentById(R.id.mMapFragment))
+                    .getMap();
+
+            double latitude = 0.0f;
+            double longitude = 0.0f;
+            Bundle bundle = new Bundle();
+
+            if(map != null) {
+                latitude =  map.getMyLocation().getLatitude();
+                longitude = map.getMyLocation().getLongitude();
+                bundle.putDouble("latitude", latitude);
+                bundle.putDouble("longitude", longitude);
+            }
+
             Intent intent = new Intent(activity, SignupActivity.class);
+            intent.putExtra("bundle", bundle);
             activity.startActivity(intent);
         }
 

@@ -102,6 +102,6 @@ public class SpotListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new SpotListAdapter(getActivity(), this);
+        return new SpotListAdapter(getActivity(), this, mChannel);
     }
 }

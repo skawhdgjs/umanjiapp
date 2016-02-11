@@ -55,8 +55,8 @@ public class NotyListAdapter extends BaseChannelListAdapter {
      ****************************************************/
     protected ArrayList<NotyData> mNoties;
 
-    public NotyListAdapter(Activity activity, Fragment fragment) {
-        super(activity, fragment);
+    public NotyListAdapter(Activity activity, Fragment fragment, ChannelData channelData) {
+        super(activity, fragment, channelData);
         mNoties = new ArrayList<NotyData>();
     }
 

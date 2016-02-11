@@ -231,7 +231,7 @@ public class MainFragment extends BaseFragment {
 
         rView.setItemViewCacheSize(iItemViewCacheSize);
 
-        mMainListAdapter = new PostListAdapter(getActivity(), this);
+        mMainListAdapter = new PostListAdapter(getActivity(), this, mChannel);
         mMainListAdapter.setType(TYPE_MAIN);
         rView.setAdapter(mMainListAdapter);
 
@@ -593,7 +593,6 @@ public class MainFragment extends BaseFragment {
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, true);
 
-
             double latitude     = 37.491361;
             double longitude    = 126.923978;
 
@@ -622,7 +621,6 @@ public class MainFragment extends BaseFragment {
             LatLng latLng = new LatLng(latitude, longitude);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-
         }
 
 

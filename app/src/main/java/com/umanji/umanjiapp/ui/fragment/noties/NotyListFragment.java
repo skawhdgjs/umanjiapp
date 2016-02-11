@@ -45,7 +45,7 @@ public class NotyListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new NotyListAdapter(getActivity(), this);
+        return new NotyListAdapter(getActivity(), this, mChannel);
     }
 
 

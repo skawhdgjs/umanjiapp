@@ -65,7 +65,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new CommunityListAdapter(getActivity(), this);
+        return new CommunityListAdapter(getActivity(), this, mChannel);
     }
 
     @Override

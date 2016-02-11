@@ -29,8 +29,8 @@ public class HomeListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "SpotListAdapter";
 
 
-    public HomeListAdapter(Activity activity, Fragment fragment) {
-        super(activity, fragment);
+    public HomeListAdapter(Activity activity, Fragment fragment, ChannelData channelData) {
+        super(activity, fragment, channelData);
     }
 
 

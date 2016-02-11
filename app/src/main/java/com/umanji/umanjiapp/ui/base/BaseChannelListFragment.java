@@ -103,7 +103,7 @@ public abstract class BaseChannelListFragment extends BaseFragment {
     }
 
     public BaseChannelListAdapter getListAdapter() {
-        return new PostListAdapter(getActivity(), this);
+        return new PostListAdapter(getActivity(), this, mChannel);
     }
 
     public void loadMoreData() {
@@ -125,38 +125,50 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     params.put("sort", "point DESC");
                     break;
                 case TYPE_INFO_CENTER:
-                    params.put("parentType", TYPE_INFO_CENTER);
-                default:
-                    if(mChannel.getLevel() >= LEVEL_LOCAL) {
-                        params.put("parent", mChannel.getId());
-                        params.put("level", mChannel.getLevel());
+                    params.put("parentType", mChannel.getType());
+                    switch (mChannel.getLevel()) {
+                        case LEVEL_LOCAL:
+                            params.put("featureName", mChannel.getFeatureName());
+                        case LEVEL_DONG:
+                            params.put("thoroughfare", mChannel.getThoroughfare());
+                        case LEVEL_GUGUN:
+                            params.put("locality", mChannel.getLocality());
+                        case LEVEL_DOSI:
+                            params.put("countryName", mChannel.getCountryName());
+                            params.put("adminArea", mChannel.getAdminArea());
+                            break;
+
+                    }
+                    params.put("parent", mChannel.getId());
+                    params.put("level", mChannel.getLevel());
+
+                    if(mType.equals(TYPE_MEMBER)) {
+                        params.put("type", TYPE_USER);
+                    }else {
                         params.put("type", mType);
-                    } else {
-                        switch (mChannel.getLevel()) {
-                            case LEVEL_DONG:
-                                params.put("thoroughfare", mChannel.getThoroughfare());
-                            case LEVEL_GUGUN:
-                                params.put("locality", mChannel.getLocality());
-                            case LEVEL_DOSI:
-                                params.put("countryName", mChannel.getCountryName());
-                                params.put("adminArea", mChannel.getAdminArea());
-                                break;
-                            case LEVEL_LOCAL:
-                                break;
-                        }
+                    }
+                    break;
+                case TYPE_SPOT:
+                    params.put("parentType", mChannel.getType());
+                default:
+                    switch (mChannel.getLevel()) {
+                        case LEVEL_LOCAL:
+                            params.put("featureName", mChannel.getFeatureName());
+                        case LEVEL_DONG:
+                            params.put("thoroughfare", mChannel.getThoroughfare());
+                        case LEVEL_GUGUN:
+                            params.put("locality", mChannel.getLocality());
+                        case LEVEL_DOSI:
+                            params.put("countryName", mChannel.getCountryName());
+                            params.put("adminArea", mChannel.getAdminArea());
+                            break;
+                    }
+                    params.put("parent", mChannel.getId());
+                    params.put("type", mType);
+                    params.put("sort", "point DESC");
 
-                        params.put("parent", mChannel.getId());
-                        params.put("level", mChannel.getLevel());
-
-                        if(mType.equals(TYPE_MEMBER)) {
-                            params.put("type", TYPE_USER);
-                        }else {
-                            params.put("type", mType);
-                        }
-
-
-                        params.put("sort", "point DESC");
-
+                    if(mType.equals(TYPE_MEMBER)) {
+                        params.put("distinct", "owner.id");
                     }
                     break;
             }

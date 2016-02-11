@@ -70,26 +70,34 @@ public class MemberListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new MemberListAdapter(getActivity(), this);
+        return new MemberListAdapter(getActivity(), this, mChannel);
     }
 
     @Override
     public void updateView() {
         super.updateView();
 
+        mJoinBtn.setEnabled(true);
+        mUnJoinBtn.setEnabled(true);
+
         switch (mLevel) {
             case LEVEL_LOCAL:
+                if(mChannel == null) break;
                 mJoinBtn.setVisibility(View.VISIBLE);
-
                 String actionId = mChannel.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mContext));
+                String channelIdByUserId = mAdapter.getIdByUserId(AuthHelper.getUserId(mContext));
 
-                if(!TextUtils.isEmpty(actionId)) {
+                if(!TextUtils.isEmpty(channelIdByUserId)) {
                     mJoinBtn.setVisibility(View.GONE);
                     mUnJoinBtn.setVisibility(View.VISIBLE);
-
-                }else {
+                    mUnJoinBtn.setEnabled(false);
+                }else if(TextUtils.isEmpty(channelIdByUserId) && TextUtils.isEmpty(actionId)) {
                     mJoinBtn.setVisibility(View.VISIBLE);
                     mUnJoinBtn.setVisibility(View.GONE);
+                    mUnJoinBtn.setEnabled(true);
+                }else if(TextUtils.isEmpty(channelIdByUserId) && !TextUtils.isEmpty(actionId)) {
+                    mJoinBtn.setVisibility(View.GONE);
+                    mUnJoinBtn.setVisibility(View.VISIBLE);
                 }
 
                 break;
@@ -98,8 +106,6 @@ public class MemberListFragment extends BaseChannelListFragment {
                 break;
         }
 
-        mJoinBtn.setEnabled(true);
-        mUnJoinBtn.setEnabled(true);
     }
 
     @Override

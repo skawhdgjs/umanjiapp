@@ -45,10 +45,9 @@ import de.greenrobot.event.EventBus;
 public class PostListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "PostListAdapter";
 
-    public PostListAdapter(Activity activity, Fragment fragment) {
-        super(activity, fragment);
+    public PostListAdapter(Activity activity, Fragment fragment, ChannelData channelData) {
+        super(activity, fragment, channelData);
     }
-
 
 
 
@@ -63,7 +62,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData channelData       = mChannels.get(position);
-        final ChannelData parentChannelData   = channelData.getParent();
+        final ChannelData parentChannelData = channelData.getParent();
         final ChannelData userData          = channelData.getOwner();
 
         holder.name.setText(channelData.getName());
@@ -250,7 +249,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
             @Override
             public void onClick(View v) {
 
-                if(!CommonHelper.isAuthError(mActivity)) {
+                if (!CommonHelper.isAuthError(mActivity)) {
                     Intent intent = new Intent(mActivity, PostCreateActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", channelData.getJsonObject().toString());
@@ -261,7 +260,12 @@ public class PostListAdapter extends BaseChannelListAdapter {
             }
         });
 
-        if(TYPE_MAIN.equals(mType) && parentChannelData != null) {
+
+        String parentId = "";
+        if(mChannel != null ) parentId = mChannel.getId();
+        if(parentChannelData != null && !TextUtils.equals(parentChannelData.getId(), parentId)) {
+            holder.linkName.setVisibility(View.VISIBLE);
+
             if(TextUtils.isEmpty(parentChannelData.getName())) {
                 holder.linkName.setText("이름없음");
             }else {
@@ -316,12 +320,14 @@ public class PostListAdapter extends BaseChannelListAdapter {
                                 }
                             }
                         });
-                    } catch(JSONException e) {
+                    } catch (JSONException e) {
                         Log.e(TAG, "error " + e.toString());
                     }
                 }
             });
 
+        }else {
+            holder.linkName.setVisibility(View.GONE);
         }
 
         String dateString = channelData.getCreatedAt();

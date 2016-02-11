@@ -27,8 +27,8 @@ public class SpotListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "SpotListAdapter";
 
 
-    public SpotListAdapter(Activity activity, Fragment fragment) {
-        super(activity, fragment);
+    public SpotListAdapter(Activity activity, Fragment fragment, ChannelData channelData) {
+        super(activity, fragment, channelData);
     }
 
 
