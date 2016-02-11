@@ -14,6 +14,7 @@
 
     <!-- 메인 지도 -->
     <string name="main_map_create_spot">지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.</string>
+    <string name="main_map_create_complex">지도을 터치하면 거대장소를 만들수 있어요.</string>
 
 
     <!-- 채널 공통 -->
