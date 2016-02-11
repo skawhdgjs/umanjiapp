@@ -136,6 +136,18 @@ public class ChannelData {
         }
     }
 
+    public void setAddressJSONObject(ChannelData channelData) {
+        this.address = channelData.getAddress();
+        this.countryCode = channelData.getCountryCode();
+        this.countryName = channelData.getCountryName();
+        this.adminArea = channelData.getAdminArea();
+        this.locality = channelData.getLocality();
+        this.thoroughfare = channelData.getThoroughfare();
+        this.featureName = channelData.getFeatureName();
+        this.latitude = channelData.getLatitude();
+        this.longitude = channelData.getLongitude();
+    }
+
     public JSONObject getAddressJSONObject() {
         JSONObject params = new JSONObject();
         try {

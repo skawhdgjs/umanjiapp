@@ -77,8 +77,7 @@ public final class CommonHelper implements AppConfig{
     }
 
 
-    public static Marker addMarkerToMap(GoogleMap map, ChannelData channelData, int index) {
-
+    public static Marker addMarkerToMap(GoogleMap map, ChannelData channelData, int index, boolean isDraggable) {
         LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
         Marker marker;
         String name = channelData.getName();
@@ -92,7 +91,8 @@ public final class CommonHelper implements AppConfig{
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.dong))
-                        .alpha(0.7f)  // default 1.0
+                        .draggable(isDraggable)
+                        .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
             // ic_marker_blue
@@ -101,7 +101,8 @@ public final class CommonHelper implements AppConfig{
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.gugun))
-                        .alpha(0.7f)  // default 1.0
+                        .draggable(isDraggable)
+                        .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
             // ic_marker_yellow
@@ -110,7 +111,8 @@ public final class CommonHelper implements AppConfig{
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.city))
-                        .alpha(0.7f)  // default 1.0
+                        .draggable(isDraggable)
+                        .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
             // ic_marker_red  LEVEL_COUNTRY
@@ -120,7 +122,8 @@ public final class CommonHelper implements AppConfig{
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
-                        .alpha(0.7f)  // default 1.0
+                        .draggable(isDraggable)
+                        .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
 
@@ -129,13 +132,17 @@ public final class CommonHelper implements AppConfig{
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
-                        .alpha(0.7f)  // default 1.0
+                        .draggable(isDraggable)
+                        .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
 
         }
 
         return marker;
+    }
+    public static Marker addMarkerToMap(GoogleMap map, ChannelData channelData, int index) {
+        return addMarkerToMap(map, channelData, index, false);
     }
 
 
@@ -188,5 +195,9 @@ public final class CommonHelper implements AppConfig{
         }else {
             return str;
         }
+    }
+
+    public static String getFullAddress(ChannelData channelData) {
+        return channelData.getCountryName() + " " + channelData.getAdminArea() + " " + channelData.getLocality() + " " + channelData.getThoroughfare() + " " + channelData.getFeatureName();
     }
 }

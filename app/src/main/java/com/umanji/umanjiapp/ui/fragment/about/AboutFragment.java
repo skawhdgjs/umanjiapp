@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.ui.base.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.base.BaseChannelListFragment;
@@ -113,7 +114,7 @@ public class AboutFragment extends BaseChannelListFragment {
     public void updateView() {
         super.updateView();
 
-        mAddress.setText(mChannel.getCountryName() + " " + mChannel.getAdminArea() + " " + mChannel.getLocality() + " " + mChannel.getThoroughfare() + " " + mChannel.getFeatureName());
+        mAddress.setText(CommonHelper.getFullAddress(mChannel));
 
         switch (mLevel) {
             case LEVEL_LOCAL:

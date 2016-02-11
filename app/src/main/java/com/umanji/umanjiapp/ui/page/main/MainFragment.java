@@ -584,10 +584,11 @@ public class MainFragment extends BaseFragment {
             final float scale = getResources().getDisplayMetrics().density;
             int paddingInPx = (int) (paddingInDp * scale + 0.5f);
 
-            mMap.setPadding(0,paddingInPx,0,0);
+            mMap.setPadding(0, paddingInPx, 0, 0);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.setMyLocationEnabled(true);
+
 
             LocationManager locationManager = (LocationManager) mActivity.getSystemService(mActivity.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
@@ -952,7 +953,7 @@ public class MainFragment extends BaseFragment {
         });
 
         mAlert.setTitle(R.string.spot_create_confirm);
-        mAlert.setMessage(mChannel.getCountryName() + " " + mChannel.getAdminArea() + " " + mChannel.getLocality() + " " + mChannel.getThoroughfare() + " " + mChannel.getFeatureName());
+        mAlert.setMessage(CommonHelper.getFullAddress(mChannel));
         mAlert.show();
     }
 

@@ -77,16 +77,6 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:text=">"
-        android:layout_below="@+id/linkName"
-        android:layout_alignRight="@+id/createdAt"
-        android:layout_alignEnd="@+id/createdAt"
-        android:textSize="20dp"/>
-
-    <TextView
         android:id="@+id/desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

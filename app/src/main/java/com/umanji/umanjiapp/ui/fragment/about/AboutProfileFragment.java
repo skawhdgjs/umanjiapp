@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -99,7 +100,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     @Override
     public void updateView() {
         super.updateView();
-        mAddress.setText(mChannel.getCountryName() + " " + mChannel.getAdminArea() + " " + mChannel.getLocality() + " " + mChannel.getThoroughfare() + " " + mChannel.getFeatureName());
+        mAddress.setText(CommonHelper.getFullAddress(mChannel));
     }
 
     @Override
