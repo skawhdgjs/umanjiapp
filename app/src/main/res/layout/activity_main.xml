@@ -98,6 +98,22 @@
                 />
 
             <TextView
+                android:id="@+id/mCreateComplexText"
+                android:text="@string/main_map_create_complex"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textSize="18dp"
+                android:background="#55555555"
+                android:textColor="#ffffff"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:visibility="gone"
+                android:gravity="center_vertical"/>
+
+            <TextView
                 android:id="@+id/mCreateSpotText"
                 android:text="@string/main_map_create_spot"
                 android:layout_width="260dp"

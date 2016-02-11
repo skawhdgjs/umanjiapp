@@ -523,6 +523,32 @@ public class MainFragment extends BaseFragment {
 
 
                         LatLng tmpPoint;
+
+                        switch(zoom){
+                            case 14:
+                                tmpPoint = new LatLng(mPoint.latitude - 0.0006, mPoint.longitude);
+                                break;
+                            case 15:
+                                tmpPoint = new LatLng(mPoint.latitude - 0.0005, mPoint.longitude);
+                                break;
+                            case 16:
+                                tmpPoint = new LatLng(mPoint.latitude - 0.0004, mPoint.longitude);
+                                break;
+                            case 17:
+                                tmpPoint = new LatLng(mPoint.latitude - 0.0003, mPoint.longitude);
+                                break;
+                            case 18:
+                                tmpPoint = new LatLng(mPoint.latitude - 0.0002, mPoint.longitude);
+                                break;
+                            case 19:
+                                tmpPoint = new LatLng(mPoint.latitude - 0.0001, mPoint.longitude);
+                                break;
+                            default:
+                                tmpPoint = new LatLng(mPoint.latitude - 0.00005, mPoint.longitude);
+                                break;
+                        }
+
+                        /*
                         if(zoom == 18) {
                             tmpPoint = new LatLng(mPoint.latitude - 0.0002, mPoint.longitude);
                         } else if(zoom == 19) {
@@ -530,6 +556,7 @@ public class MainFragment extends BaseFragment {
                         } else {
                             tmpPoint = new LatLng(mPoint.latitude - 0.00005, mPoint.longitude);
                         }
+                        */
                         mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
 
                         showCreateSpotDialog();
@@ -648,6 +675,21 @@ public class MainFragment extends BaseFragment {
 
                 mPoint = point;
                 int zoom = (int) mMap.getCameraPosition().zoom;
+
+                if(zoom >= 14 && zoom <= 17){
+                    final LatLng fPoint = point;
+
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("latitude", point.latitude);
+                        params.put("longitude", point.longitude);
+
+                        mApiHelper.call(api_channels_getByPoint, params);
+                    } catch(JSONException e) {
+                        Log.e(TAG, "error " + e.toString());
+                    }
+
+                }
 
                 if (isSpotCreatable(zoom)) {
 
@@ -774,9 +816,16 @@ public class MainFragment extends BaseFragment {
                 } else {
                     TextView zoomLevelText = (TextView) mActivity.findViewById(R.id.mZoomLevelText);
                     TextView createSpotText = (TextView) mActivity.findViewById(R.id.mCreateSpotText);
+                    TextView createComplexText = (TextView) mActivity.findViewById(R.id.mCreateComplexText);
                     Button zoomBtn = (Button) mActivity.findViewById(R.id.mZoomBtn);
 
                     zoomLevelText.setText("Zoom: " + (int) position.zoom);
+
+                    if((int) position.zoom >= 14 && (int) position.zoom <= 17){
+                        createComplexText.setVisibility(View.VISIBLE);
+                    } else {
+                        createComplexText.setVisibility(View.GONE);
+                    }
 
                     if (isSpotCreatable((int) position.zoom)) {
                         createSpotText.setVisibility(View.VISIBLE);
@@ -861,6 +910,7 @@ public class MainFragment extends BaseFragment {
         map.animateCamera(CameraUpdateFactory.zoomTo(level), 1000, null);
     }
 
+
     public static boolean isSpotCreatable(int zoom ) {
         if(zoom >= 18) {
             return true;
@@ -868,6 +918,7 @@ public class MainFragment extends BaseFragment {
             return false;
         }
     }
+
 
     private void addChannelsToMap(JSONObject jsonObject) {
         try {
