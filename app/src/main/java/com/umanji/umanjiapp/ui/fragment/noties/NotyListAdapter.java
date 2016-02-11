@@ -94,12 +94,12 @@ public class NotyListAdapter extends BaseChannelListAdapter {
         if(parentData != null && parentData.getId() != null) {
             if(TextUtils.isEmpty(parentData.getName())) {
                 holder.parentName.setVisibility(View.VISIBLE);
-                holder.parentName.setText("/ 이름없음");
+                holder.parentName.setText("@이름없음");
             } else {
                 holder.parentName.setVisibility(View.VISIBLE);
 
                 String parentName = CommonHelper.getShortenString(parentData.getName());
-                holder.parentName.setText("/ " + parentName);
+                holder.parentName.setText("@" + parentName);
             }
 
         } else {

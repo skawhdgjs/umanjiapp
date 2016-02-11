@@ -45,7 +45,7 @@
         android:textColor="@color/text"
         android:textStyle="bold"
         android:layout_marginTop="2dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_alignParentRight="false"
         android:layout_toRightOf="@+id/userName"
         />

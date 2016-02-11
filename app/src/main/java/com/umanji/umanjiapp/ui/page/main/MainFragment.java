@@ -848,6 +848,9 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(AuthHelper.isLogin(mContext)) {
+            loadNewNoties();
+        }
         loadMainMarkers();
     }
 
@@ -874,6 +877,7 @@ public class MainFragment extends BaseFragment {
             if(mCurrentChannel != null) {
                 if(CommonHelper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
                     CommonHelper.addMarkerToMap(mMap, mCurrentChannel, idx);
+                    mMarkers.put(0, mCurrentChannel);
                     idx++;
                 }else {
                     mCurrentChannel = null;
@@ -883,7 +887,6 @@ public class MainFragment extends BaseFragment {
             if(mMarkers != null) {
                 for(; idx < mMarkers.length() ; idx ++ ) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-
                     CommonHelper.addMarkerToMap(mMap, channelData, idx);
                 }
             }
