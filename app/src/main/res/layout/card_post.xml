@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/metaPanel"
             android:orientation="vertical"
-            android:background="@drawable/default_bordered"
+            android:background="@drawable/meta_bordered"
             android:padding="5dp"
             android:visibility="gone">
 
