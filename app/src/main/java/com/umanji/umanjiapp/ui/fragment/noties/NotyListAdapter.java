@@ -1,29 +1,20 @@
 package com.umanji.umanjiapp.ui.fragment.noties;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
-import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.ApiHelper;
-import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.CommonHelper;
 import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -34,7 +25,6 @@ import com.umanji.umanjiapp.ui.page.channel.community.CommunityActivity;
 import com.umanji.umanjiapp.ui.page.channel.post.PostActivity;
 import com.umanji.umanjiapp.ui.page.channel.spot.SpotActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -87,6 +77,7 @@ public class NotyListAdapter extends BaseChannelListAdapter {
                 holder.desc.setText("글작성");
                 holder.name.setVisibility(View.VISIBLE);
                 holder.name.setText(channelData.getName());
+                Linkify.addLinks(holder.name, Linkify.WEB_URLS);
                 break;
             case TYPE_MEMBER:
                 holder.desc.setText("참여");
