@@ -16,6 +16,7 @@
 
 package com.umanji.umanjiapp.gcm;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,9 +24,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.androidquery.AQuery;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
@@ -34,17 +32,13 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
-import com.umanji.umanjiapp.model.SuccessData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import de.greenrobot.event.EventBus;
 
 public class GcmRegistrationIntentService extends IntentService implements AppConfig {
 

@@ -25,8 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.ui.BaseActivity;
+import com.umanji.umanjiapp.ui.auth.SignupActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -284,6 +287,16 @@ public final class UiHelper implements AppConfig {
     }
     public static boolean isPasswordValid(String password) {
         return password.length() > 4;
+    }
+
+
+    public static void startSignupActivity(BaseActivity activity, LatLng position) {
+        Intent intent = new Intent(activity, SignupActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putDouble("latitude", position.latitude);
+        bundle.putDouble("longitude", position.longitude);
+        intent.putExtra("bundle", bundle);
+        activity.startActivity(intent);
     }
 
 }

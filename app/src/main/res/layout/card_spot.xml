@@ -84,7 +84,6 @@
         android:textSize="20dp"
         android:textStyle="bold"
         android:textColor="@color/gray_text"
-        android:layout_below="@+id/linkName"
         android:layout_toRightOf="@+id/imagePanel"
         android:layout_toEndOf="@+id/imagePanel"
         android:layout_marginLeft="10dp"

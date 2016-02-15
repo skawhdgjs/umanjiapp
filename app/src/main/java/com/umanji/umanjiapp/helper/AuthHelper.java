@@ -1,12 +1,16 @@
 package com.umanji.umanjiapp.helper;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.google.android.gms.auth.api.Auth;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public final class AuthHelper {
 

@@ -5,13 +5,11 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.umanji.umanjiapp.helper.ApiHelper;
-import com.umanji.umanjiapp.helper.AuthHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 

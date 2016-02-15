@@ -5,14 +5,13 @@ import android.content.Context;
 import android.util.Log;
 
 import com.androidquery.AQuery;
-import com.androidquery.auth.AccountHandle;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.AppConfig;
-import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
+import com.umanji.umanjiapp.ui.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,18 +30,12 @@ public class ApiHelper implements AppConfig {
     private AQuery aQuery;
     private Context mContext;
 
-    private ProgressDialog mProgress;
-
     public ApiHelper(Context context) {
-        this.mContext = context;
-        aQuery = new AQuery(context);
+        this.mContext = (context);
+        this.aQuery = new AQuery(mContext);
     }
 
-    public ApiHelper(Context context, ProgressDialog progress) {
-        this.mContext = context;
-        this.mProgress = progress;
-        aQuery = new AQuery(context);
-    }
+
 
     public void call(String api, JSONObject params, AjaxCallback<JSONObject> callback) {
         String method = api.substring(0, api.indexOf(" "));
@@ -86,64 +79,19 @@ public class ApiHelper implements AppConfig {
 
             if(method.equals("GET")) {
                 url = ApiHelper.buildGETParams(url, params);
-                aQuery.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-
-                        if(status.getCode() == 500) {
-                            EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                        }else {
-                            EventBus.getDefault().post(new SuccessData( fApi, json));
-                        }
-                    }
-                });
+                aQuery.ajax(url, JSONObject.class, getCallback(api));
             }else if(method.equals("POST")) {
-                aQuery.post(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-
-                        if(status.getCode() == 500) {
-                            EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                        }else {
-                            EventBus.getDefault().post(new SuccessData( fApi, json));
-                        }
-                    }
-                });
+                aQuery.post(url, params, JSONObject.class, getCallback(api));
             }else if(method.equals("PUT")) {
-                aQuery.put(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        if(status.getCode() == 500) {
-                            EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                        }else {
-                            EventBus.getDefault().post(new SuccessData( fApi, json));
-                        }
-                    }
-                });
+                aQuery.put(url, params, JSONObject.class, getCallback(api));
             }else if(method.equals("DELETE")) {
                 url = ApiHelper.buildGETParams(url, params);
-                aQuery.delete(url, JSONObject.class, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        if(status.getCode() == 500) {
-                            EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                        }else {
-                            EventBus.getDefault().post(new SuccessData( fApi, json));
-                        }
-                    }
-                });
+                aQuery.delete(url, JSONObject.class, getCallback(api));
             }
 
         }catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
-    }
-
-    public void call(String api) {
-
-        JSONObject params = new JSONObject();
-        call(api, params);
-
     }
 
     public void call(String api, Map<String, Object> params) {
@@ -155,24 +103,36 @@ public class ApiHelper implements AppConfig {
 
         params.put("access_token", AuthHelper.getToken(mContext));
 
-        if(mProgress != null) {
-            aQuery.progress(mProgress).ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    EventBus.getDefault().post(new SuccessData( fApi, json));
-                }
-            });
-        }else {
-            aQuery.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    EventBus.getDefault().post(new SuccessData( fApi, json));
-                }
-            });
-        }
+        aQuery.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                EventBus.getDefault().post(new SuccessData(fApi, json));
+            }
+        });
+    }
 
+    public void call(String api) {
+        JSONObject params = new JSONObject();
+        call(api, params);
 
     }
+
+    public static AjaxCallback<JSONObject> getCallback(String api) {
+        final String fApi = api;
+        return new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+
+                if(status.getCode() == 500) {
+                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                }else {
+                    EventBus.getDefault().post(new SuccessData( fApi, json));
+                }
+            }
+        };
+    }
+
+
 
     public static String buildGETParams(String url, JSONObject params) {
 

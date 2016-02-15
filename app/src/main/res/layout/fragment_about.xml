@@ -40,7 +40,7 @@
 
 
     <Button
-        android:id="@+id/editBackgroundBtn"
+        android:id="@+id/editChannelBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/background_image_btn"
@@ -53,7 +53,7 @@
         android:visibility="gone"/>
 
     <Button
-        android:id="@+id/createKeywordBtn"
+        android:id="@+id/addKeywordBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/keyword_create_btn"

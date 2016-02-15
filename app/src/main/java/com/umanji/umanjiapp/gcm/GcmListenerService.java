@@ -24,11 +24,10 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.ui.page.main.MainActivity;
+import com.umanji.umanjiapp.ui.main.MainActivity;
 
 public class GcmListenerService extends com.google.android.gms.gcm.GcmListenerService implements AppConfig {
 

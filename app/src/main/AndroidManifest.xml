@@ -50,7 +50,7 @@
             android:value="@string/google_maps_key" />
         <uses-library android:name="com.google.android.maps" />
 
-        <activity android:name=".ui.page.main.MainActivity"
+        <activity android:name=".ui.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
@@ -61,72 +61,32 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.page.auth.SignupActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.channel.spot.SpotActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.channel.spot.create.SpotCreateActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.channel.spot.home.HomeListActivity"
+        <activity android:name=".ui.auth.SignupActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.channel.info.InfoActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.channel.post.PostActivity"
-            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.page.channel.community.CommunityActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.channel.community.create.CommunityCreateActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.channel.keyword.create.KeywordCreateActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.profile.ProfileActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.spot.SpotActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.post.PostActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.info.InfoActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.community.CommunityActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.post.create.PostCreateActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.spot.create.SpotCreateActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.spot.edit.SpotEditActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.community.create.CommunityCreateActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.keyword.create.KeywordCreateActivity"
+                  android:screenOrientation="portrait"/>
 
-
-        <activity android:name=".ui.page.channel.post.create.PostCreateActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.channel.profile.ProfileActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".ui.page.map.MapActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.page.util.image.ImageViewActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".ui.fragment.about.edit.AboutEditActivity"
-            android:screenOrientation="portrait"/>
-
-
-
-
-
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-                <category android:name="com.umanji.umanjiapp" />
-            </intent-filter>
-        </receiver>
-        <service
-            android:name=".gcm.GcmListenerService"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".gcm.GcmInstanceIDListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
-            </intent-filter>
-        </service>
-        <service
-            android:name=".gcm.GcmRegistrationIntentService"
-            android:exported="false">
-        </service>
+        <activity android:name=".ui.setting.home.HomeActivity"
+                  android:screenOrientation="portrait"/>
 
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
