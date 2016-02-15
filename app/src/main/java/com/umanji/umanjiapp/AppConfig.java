@@ -103,5 +103,5 @@ public interface AppConfig {
     String ZOOM_OUT                     = "ZOOM-OUT";
 
 
-    String FOCUSED_ITEM_MARKER          = "FOCUSED_ITEM_MARKER";
+    int POST_MARKER_INDEX               = -1;
 }

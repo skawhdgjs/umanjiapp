@@ -88,7 +88,6 @@ public class MainFragment extends BaseFragment {
     private ChannelData         mCurrentChannel;
     private ArrayList<ChannelData> mPosts;
 
-    private LatLng              mPoint;
 
     private boolean             isBlock = false;
     private boolean             isLoading = false;
@@ -98,6 +97,8 @@ public class MainFragment extends BaseFragment {
     private ChannelData         mChannelByPoint;
     private Marker              mMarkerByPoint;
     private Marker              mMarkerByPost;
+    private LatLng              mPointByPost;
+
 
 
     public static MainFragment newInstance(Bundle bundle) {
@@ -132,6 +133,22 @@ public class MainFragment extends BaseFragment {
                     if (currentFocusedIndex == mPreFocusedItem) return;
                     mPreFocusedItem = currentFocusedIndex;
                     if (channels.size() <= mPreFocusedItem) return;
+
+                    ChannelData channelData = channels.get(pastVisiblesItems);
+
+                    if (mCurrentChannel == null || (!TextUtils.equals(channelData.getId(), mCurrentChannel.getId()))) {
+                        isBlock = true;
+
+                        mCurrentChannel = channels.get(pastVisiblesItems);
+                        mPointByPost = new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude());
+
+                        if (mMarkerByPost != null) {
+                            mMarkerByPost.remove();
+                        }
+
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(mPointByPost), 500, null);
+                        mMarkerByPost = Helper.addMarkerToMap(mMap, mCurrentChannel, POST_MARKER_INDEX);
+                    }
 
                     if (!isLoading) {
                         if (mPreFocusedItem == (totalItemCount - 4)) {
@@ -470,7 +487,7 @@ public class MainFragment extends BaseFragment {
 
                 ChannelData channelData;
                 try {
-                    if(index.equals(FOCUSED_ITEM_MARKER)) {
+                    if(TextUtils.equals(index, String.valueOf(POST_MARKER_INDEX))) {
                         channelData = mCurrentChannel.getParent();
                     }else {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
