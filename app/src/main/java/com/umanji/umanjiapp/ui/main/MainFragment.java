@@ -497,15 +497,18 @@ public class MainFragment extends BaseFragment {
                     zoomLevelText.setText("Zoom: " + (int) position.zoom);
 
                     int zoom = (int) position.zoom;
-                    if (zoom >= 15 && zoom <= 17) {
+                    if (isComplexCreatable(zoom)) {
                         createComplexText.setVisibility(View.VISIBLE);
                         createSpotText.setVisibility(View.GONE);
-                    } else if (zoom >= 18) {
+                        zoomBtn.setText(ZOOM_IN);
+                    } else if (isSpotCreatable(zoom)) {
                         createComplexText.setVisibility(View.GONE);
                         createSpotText.setVisibility(View.VISIBLE);
+                        zoomBtn.setText(ZOOM_OUT);
                     } else {
                         createComplexText.setVisibility(View.GONE);
                         createSpotText.setVisibility(View.GONE);
+                        zoomBtn.setText(ZOOM_IN);
                     }
 
                     loadData();
