@@ -222,11 +222,12 @@ public final class Helper implements AppConfig {
 
         switch (channelData.getType()) {
             case TYPE_SPOT:
-            case TYPE_SPOT_INNER:
                 intent = new Intent(activity, SpotActivity.class);
                 intent.putExtra("enterAnim", R.anim.zoom_out);
                 intent.putExtra("exitAnim", R.anim.zoom_in);
                 break;
+            case TYPE_SPOT_INNER:
+
             case TYPE_USER:
                 intent = new Intent(activity, ProfileActivity.class);
                 break;
