@@ -9,6 +9,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -16,8 +17,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
@@ -73,7 +77,13 @@ public class MainFragment extends BaseFragment {
     private TextView mSignBtn;
     private Button mZoomBtn;
 
+
+    private RelativeLayout mNoticePanel;
+    private TextView mNoticeMessage;
+
     private AlertDialog.Builder mAlert;
+
+
 
 
     /****************************************************
@@ -124,6 +134,7 @@ public class MainFragment extends BaseFragment {
         initMap();
 
 
+
         return view;
     }
 
@@ -156,6 +167,9 @@ public class MainFragment extends BaseFragment {
 
         mNotyCountBtn = (Button) view.findViewById(R.id.mNotyCount);
         mNotyCountBtn.setOnClickListener(this);
+
+        mNoticePanel = (RelativeLayout) view.findViewById(R.id.noticePanel);
+        mNoticeMessage = (TextView) view.findViewById(R.id.noticeMessage);
 
         mAlert = new AlertDialog.Builder(mActivity);
 
@@ -231,6 +245,14 @@ public class MainFragment extends BaseFragment {
             case api_noites_read:
                 mNotyCountBtn.setVisibility(View.GONE);
                 mNotyCountBtn.setText("");
+                break;
+
+            case api_channels_id_like:
+                showNoticePanel("포인트 10 증가");
+                break;
+
+            case api_channels_id_unLike:
+                showNoticePanel("포인트 10 감소");
                 break;
         }
     }
@@ -522,6 +544,24 @@ public class MainFragment extends BaseFragment {
                 mCurrentMyPosition = new LatLng(location.getLatitude(), location.getLongitude());
             }
         });
+
+    }
+
+    private void showNoticePanel(String message) {
+        Animation ani = AnimationUtils.loadAnimation(mActivity, R.anim.notice_down);
+        mNoticePanel.setVisibility(View.VISIBLE);
+        mNoticePanel.startAnimation(ani);
+        mNoticeMessage.setText(message);
+
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation ani = AnimationUtils.loadAnimation(mActivity, R.anim.notice_up);
+                mNoticePanel.startAnimation(ani);
+                mNoticePanel.setVisibility(View.GONE);
+            }
+        }, 3000);
 
     }
 

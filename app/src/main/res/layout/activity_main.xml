@@ -28,15 +28,6 @@
                 android:layout_height="match_parent"
                 tools:layout="@layout/activity_main" />
 
-            <!--
-                    광고 ImageView 추가
-                    1. id/ads_image  : 광고 사진
-
-                        android:shadowColor="#000"
-                        android:shadowRadius="7.0"
-
-                    -->
-
             <ImageView
                 android:layout_width="400dp"
                 android:layout_height="53dp"
@@ -198,4 +189,22 @@
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:id="@+id/noticePanel"
+        android:padding="10dp"
+        android:background="@color/orange"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/noticeMessage"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:text="포인트 10 증가"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
 </RelativeLayout>

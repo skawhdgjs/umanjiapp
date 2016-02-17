@@ -336,6 +336,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                     holder.point.setText("" + parentData.getPoint());
                                     holder.likeBtn.setTag(null);
                                     holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
+
+                                    EventBus.getDefault().post(new SuccessData(api_channels_id_unLike, json));
                                 }
                             }
                         });
@@ -356,7 +358,9 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                     holder.point.setText("" + parentData.getPoint());
                                     String actionId = parentData.getActionId(TYPE_LIKE, AuthHelper.getUserId(mActivity));
                                     holder.likeBtn.setTag(actionId);
-                                    holder.likeBtn.setBackgroundResource( R.drawable.default2_btn_radius);
+                                    holder.likeBtn.setBackgroundResource(R.drawable.default2_btn_radius);
+
+                                    EventBus.getDefault().post(new SuccessData(api_channels_id_like, json));
                                 }
                             }
                         });
