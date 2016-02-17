@@ -151,6 +151,12 @@ public class AboutFragment extends BaseChannelListFragment {
                 mAddBtn.setVisibility(View.VISIBLE);
                 mEditChannelBtn.setVisibility(View.VISIBLE);
                 break;
+
+            case LEVEL_COMPLEX:
+                mAddBtn.setVisibility(View.VISIBLE);
+                mEditChannelBtn.setVisibility(View.VISIBLE);
+                break;
+
             default:
                 mAddBtn.setVisibility(View.GONE);
                 mEditChannelBtn.setVisibility(View.GONE);
