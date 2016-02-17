@@ -1,34 +1,19 @@
 package com.umanji.umanjiapp.ui.channel.post;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.AuthHelper;
-import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
-import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.BaseTabAdapter;
+import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.likes.LikeListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
-import java.util.ArrayList;
 
 public class PostFragment extends BaseChannelFragment {
     private static final String TAG = "ProfileFragment";

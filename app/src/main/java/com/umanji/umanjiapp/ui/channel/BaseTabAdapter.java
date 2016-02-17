@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui;
+package com.umanji.umanjiapp.ui.channel;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

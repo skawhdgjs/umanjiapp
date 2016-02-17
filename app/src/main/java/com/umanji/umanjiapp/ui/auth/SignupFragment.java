@@ -56,7 +56,6 @@ public class SignupFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         if(getArguments() != null) {
             double latitude = getArguments().getDouble("latitude");
             double longitude = getArguments().getDouble("longitude");

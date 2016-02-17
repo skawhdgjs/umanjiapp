@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.BaseTabAdapter;
+import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.about.AboutFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;

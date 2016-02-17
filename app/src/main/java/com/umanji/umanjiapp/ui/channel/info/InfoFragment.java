@@ -8,13 +8,12 @@ import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.BaseTabAdapter;
+import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.about.AboutFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 
 public class InfoFragment extends BaseChannelFragment {

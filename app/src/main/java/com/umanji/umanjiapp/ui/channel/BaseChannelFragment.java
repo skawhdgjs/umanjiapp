@@ -1,7 +1,6 @@
 package com.umanji.umanjiapp.ui.channel;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -19,21 +18,16 @@ import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
-import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 
@@ -151,15 +145,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
         onTabSelected(mTabLayout);
     }
 
-    protected void addFragmentToTabAdapter(BaseTabAdapter adapter) {
-        Bundle bundle = new Bundle();
-        bundle.putString("channel", mChannel.getJsonObject().toString());
-        adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
-//        mAdapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
-//        mAdapter.addFragment(SpotListFragment.newInstance(bundle), "SPOTS");
-//        mAdapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
-//        mAdapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
-    }
+    protected abstract void addFragmentToTabAdapter(BaseTabAdapter adapter);
 
     protected void onTabSelected(TabLayout tabLayout) {
         tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
@@ -175,10 +161,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                             mFab.setVisibility(View.VISIBLE);
                         }
                         break;
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
+                    case 1: case 2: case 3: case 4:
                         mFab.setVisibility(View.GONE);
                         break;
 

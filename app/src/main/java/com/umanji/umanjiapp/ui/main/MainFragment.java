@@ -110,55 +110,8 @@ public class MainFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        RecyclerView rView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(rView.getContext());
-        rView.setLayoutManager(mLayoutManager);
-        rView.setItemViewCacheSize(iItemViewCacheSize);
 
-        mAdapter = new PostListAdapter(mActivity, this);
-        rView.setAdapter(mAdapter);
-
-
-        rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) {
-                    int visibleItemCount = mLayoutManager.getChildCount();
-                    int totalItemCount = mLayoutManager.getItemCount();
-                    int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
-
-                    ArrayList<ChannelData> channels = mAdapter.getDocs();
-
-                    int currentFocusedIndex = visibleItemCount + pastVisiblesItems;
-                    if (currentFocusedIndex == mPreFocusedItem) return;
-                    mPreFocusedItem = currentFocusedIndex;
-                    if (channels.size() <= mPreFocusedItem) return;
-
-                    ChannelData channelData = channels.get(pastVisiblesItems);
-
-                    if (mCurrentChannel == null || (!TextUtils.equals(channelData.getId(), mCurrentChannel.getId()))) {
-                        isBlock = true;
-
-                        mCurrentChannel = channels.get(pastVisiblesItems);
-                        mPointByPost = new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude());
-
-                        if (mMarkerByPost != null) {
-                            mMarkerByPost.remove();
-                        }
-
-                        mMap.animateCamera(CameraUpdateFactory.newLatLng(mPointByPost), 500, null);
-                        mMarkerByPost = Helper.addMarkerToMap(mMap, mCurrentChannel, POST_MARKER_INDEX);
-                    }
-
-                    if (!isLoading) {
-                        if (mPreFocusedItem == (totalItemCount - 4)) {
-                            loadMoreMainPosts();
-                        }
-                    }
-                }
-            }
-        });
-
+        initMainListView(view);
 
         if(AuthHelper.isLogin(mActivity)) {
             loginByToken();
@@ -778,4 +731,60 @@ public class MainFragment extends BaseFragment {
         startActivity(intent);
     }
 
+    protected void addOnScrollListener(RecyclerView rView) {
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(rView.getContext());
+        rView.setLayoutManager(mLayoutManager);
+
+        rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    ArrayList<ChannelData> channels = mAdapter.getDocs();
+
+                    int currentFocusedIndex = visibleItemCount + pastVisiblesItems;
+                    if (currentFocusedIndex == mPreFocusedItem) return;
+                    mPreFocusedItem = currentFocusedIndex;
+                    if (channels.size() <= mPreFocusedItem) return;
+
+                    ChannelData channelData = channels.get(pastVisiblesItems);
+
+                    if (mCurrentChannel == null || (!TextUtils.equals(channelData.getId(), mCurrentChannel.getId()))) {
+                        isBlock = true;
+
+                        mCurrentChannel = channels.get(pastVisiblesItems);
+                        mPointByPost = new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude());
+
+                        if (mMarkerByPost != null) {
+                            mMarkerByPost.remove();
+                        }
+
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(mPointByPost), 500, null);
+                        mMarkerByPost = Helper.addMarkerToMap(mMap, mCurrentChannel, POST_MARKER_INDEX);
+                    }
+
+                    if (!isLoading) {
+                        if (mPreFocusedItem == (totalItemCount - 4)) {
+                            loadMoreMainPosts();
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+
+    protected RecyclerView initMainListView(View view) {
+        RecyclerView rView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        rView.setItemViewCacheSize(iItemViewCacheSize);
+        mAdapter = new PostListAdapter(mActivity, this);
+        rView.setAdapter(mAdapter);
+
+        addOnScrollListener(rView);
+        return rView;
+    }
 }
