@@ -6,18 +6,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.NotyData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListAdapter;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 
 import org.json.JSONArray;
@@ -48,7 +45,7 @@ public class NotyListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new SpotListAdapter(mActivity, this, mChannel);
+        return new NotyListAdapter(mActivity, this, mChannel);
     }
 
     @Override
