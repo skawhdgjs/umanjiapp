@@ -155,7 +155,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        Log.d("BaseChannelCreate", "onActivityResult");
+        if(intent == null) return;
 
         File file = null;
         switch (requestCode) {

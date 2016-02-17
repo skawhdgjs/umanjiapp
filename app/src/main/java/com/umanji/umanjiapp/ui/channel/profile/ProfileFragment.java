@@ -1,7 +1,9 @@
 package com.umanji.umanjiapp.ui.channel.profile;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragme
 import com.umanji.umanjiapp.ui.channel._fragment.noties.NotyListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
+import com.umanji.umanjiapp.ui.util.image.ImageViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,7 +56,10 @@ public class ProfileFragment extends BaseChannelFragment {
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter) {
         Bundle bundle = new Bundle();
         bundle.putString("channel", mChannel.getJsonObject().toString());
-        adapter.addFragment(NotyListFragment.newInstance(bundle), "NOTIES");
+
+        if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+            adapter.addFragment(NotyListFragment.newInstance(bundle), "NOTIES");
+        }
         adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
         adapter.addFragment(SpotListFragment.newInstance(bundle), "SPOTS");
         adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
@@ -85,6 +91,8 @@ public class ProfileFragment extends BaseChannelFragment {
 
         switch (event.type) {
             case api_photo:
+                mProgress.hide();
+
                 try{
                     mResizedFile.delete();
                     mResizedFile = null;
@@ -116,10 +124,14 @@ public class ProfileFragment extends BaseChannelFragment {
 
         switch (v.getId()) {
             case R.id.userPhoto:
-                if(AuthHelper.getUserId(mActivity).equals(mChannel.getId())) {
+                if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
                     UiHelper.callGallery(this);
                 }else {
-                    //TODO: 사진 확대보기 기능추가
+                    Intent intent = new Intent(mActivity, ImageViewActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mChannel.getJsonObject().toString());
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
                 }
 
                 break;
@@ -129,9 +141,12 @@ public class ProfileFragment extends BaseChannelFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+
+        if(intent == null) return;
+
         switch (requestCode) {
             case UiHelper.CODE_GALLERY_ACTIVITY:
-
+                mProgress.show();
                 File file = FileHelper.getFileFromUri(mActivity, intent.getData());
                 mResizedFile = UiHelper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mUserPhoto, true);
                 break;

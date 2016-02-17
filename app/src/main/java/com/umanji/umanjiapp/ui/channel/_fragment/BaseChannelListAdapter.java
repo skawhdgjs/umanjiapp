@@ -30,6 +30,7 @@ import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.channel.post.PostActivity;
+import com.umanji.umanjiapp.ui.util.image.ImageViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -250,7 +251,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         }
     }
 
-    protected void setPhoto(final ViewHolder holder, ChannelData channelData) {
+    protected void setPhoto(final ViewHolder holder, final ChannelData channelData) {
         String photo = channelData.getPhoto();
         if(!TextUtils.isEmpty(photo)) {
             Glide.with(mActivity)
@@ -266,11 +267,11 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mActivity, ImageViewActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("channel", channelData.getJsonObject().toString());
-//                intent.putExtra("bundle", bundle);
-//                mFragment.startActivity(intent);
+                Intent intent = new Intent(mActivity, ImageViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("channel", channelData.getJsonObject().toString());
+                intent.putExtra("bundle", bundle);
+                mFragment.startActivity(intent);
             }
         });
     }

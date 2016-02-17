@@ -648,9 +648,7 @@ public class MainFragment extends BaseFragment {
 
             if(mCurrentChannel != null) {
                 if(Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
-                    Helper.addMarkerToMap(mMap, mCurrentChannel, idx);
-                    mMarkers.put(0, mCurrentChannel);
-                    idx++;
+                    mMarkerByPost = Helper.addMarkerToMap(mMap, mCurrentChannel, POST_MARKER_INDEX);
                 }else {
                     mCurrentChannel = null;
                 }

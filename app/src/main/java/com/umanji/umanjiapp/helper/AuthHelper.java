@@ -14,6 +14,11 @@ import org.json.JSONObject;
 
 public final class AuthHelper {
 
+    public static boolean isLoginUser(Context context, String userId) {
+        if(TextUtils.equals(userId, AuthHelper.getUserId(context))) return true;
+        return false;
+    }
+
     public static boolean isLogin(Context context) {
         String token = FileHelper.getString(context, "token");
 
