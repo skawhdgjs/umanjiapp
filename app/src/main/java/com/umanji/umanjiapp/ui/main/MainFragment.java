@@ -361,7 +361,7 @@ public class MainFragment extends BaseFragment {
                 mLatLngByPoint = point;
                 final int zoom = (int) mMap.getCameraPosition().zoom;
 
-                if (zoom >= 15 && zoom <= 18) {
+                if (zoom >= 15 && zoom <= 17) {
 
                     try {
                         JSONObject params = new JSONObject();
