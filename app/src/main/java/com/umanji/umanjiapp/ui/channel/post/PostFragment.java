@@ -66,6 +66,4 @@ public class PostFragment extends BaseChannelFragment {
         }
     }
 
-
-
 }

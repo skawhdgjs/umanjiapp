@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -24,6 +25,7 @@ import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
+import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -219,6 +221,15 @@ public abstract class BaseChannelFragment extends BaseFragment {
         switch (v.getId()) {
             case R.id.parentName:
                 Helper.startActivity(mActivity, mChannel.getParent());
+                break;
+            case R.id.fab:
+                if (mCurrentTapPosition == 0) {
+                    Intent intent = new Intent(mActivity, PostCreateActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mChannel.getJsonObject().toString());
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+                }
                 break;
         }
     }

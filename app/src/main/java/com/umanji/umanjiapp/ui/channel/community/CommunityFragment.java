@@ -71,20 +71,6 @@ public class CommunityFragment extends BaseChannelFragment {
     @Override
     public void onClick(View v) {
         super.onClick(v);
-
-        switch (v.getId()) {
-            case R.id.fab:
-                if (mCurrentTapPosition == 0) {
-                    Intent intent = new Intent(mActivity, PostCreateActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("channel", mChannel.getJsonObject().toString());
-                    intent.putExtra("bundle", bundle);
-
-                    startActivity(intent);
-                }
-
-                break;
-        }
     }
 
 
