@@ -227,6 +227,8 @@ public final class Helper implements AppConfig {
                 intent.putExtra("exitAnim", R.anim.zoom_in);
                 break;
             case TYPE_SPOT_INNER:
+                intent = new Intent(activity, SpotActivity.class);
+                break;
 
             case TYPE_USER:
                 intent = new Intent(activity, ProfileActivity.class);
