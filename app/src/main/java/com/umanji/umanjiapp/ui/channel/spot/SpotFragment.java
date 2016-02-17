@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
+import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.about.AboutFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
@@ -40,12 +40,21 @@ public class SpotFragment extends BaseChannelFragment {
     @Override
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter) {
         Bundle bundle = new Bundle();
-        bundle.putString("channel", mChannel.getJsonObject().toString());
-        adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
-        adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
-        adapter.addFragment(SpotListFragment.newInstance(bundle), "SPOTS");
-        adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
-        adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+        if(mChannel.getType().equals(TYPE_SPOT_INNER)){
+            bundle.putString("channel", mChannel.getJsonObject().toString());
+            adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
+            adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
+            adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+        } else {
+            bundle.putString("channel", mChannel.getJsonObject().toString());
+            adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
+            adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
+            adapter.addFragment(SpotListFragment.newInstance(bundle), "SPOTS");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
+            adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+        }
+
     }
 
     @Override

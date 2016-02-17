@@ -11,13 +11,11 @@ import android.widget.Button;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 
 import org.json.JSONArray;
@@ -27,7 +25,7 @@ import org.json.JSONObject;
 import de.greenrobot.event.EventBus;
 
 public class SpotListFragment extends BaseChannelListFragment {
-    private static final String TAG = "PostListFragment";
+    private static final String TAG = "SpotListFragment";
 
     private Button mAddBtn;
 
