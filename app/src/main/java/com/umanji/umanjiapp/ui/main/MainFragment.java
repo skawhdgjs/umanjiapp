@@ -162,7 +162,10 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-        loadNewNoties();
+        if(AuthHelper.isLogin(mActivity)) {
+            loadNewNoties();
+        }
+
         loadMainMarkers();
         loadMainPosts();
     }
@@ -216,18 +219,17 @@ public class MainFragment extends BaseFragment {
                 logout();
                 break;
             case api_channels_createSpot:
+            case api_channels_id_update:
                 loadData();
                 break;
             case api_profile_id_update:
                 mUser = new ChannelData(event.response);
                 updateView();
                 break;
-
             case api_noites_read:
                 mNotyCountBtn.setVisibility(View.GONE);
                 mNotyCountBtn.setText("");
                 break;
-
         }
     }
 
@@ -620,7 +622,7 @@ public class MainFragment extends BaseFragment {
     private void loadMainMarkers() {
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("zoom", (int)mMap.getCameraPosition().zoom);
+            params.put("zoom", (int) mMap.getCameraPosition().zoom);
             params.put("limit", 100);
             params.put("sort", "point DESC");
             mApi.call(api_main_findMarkers, params, new AjaxCallback<JSONObject>() {
@@ -698,7 +700,7 @@ public class MainFragment extends BaseFragment {
                         @Override
                         public void callback(String url, JSONObject object, AjaxStatus status) {
                             mChannelByPoint = new ChannelData(object);
-                            if(mMarkerByPoint != null) mMarkerByPoint.remove();
+                            if (mMarkerByPoint != null) mMarkerByPoint.remove();
                             startSpotActivity(mChannelByPoint);
 
                             EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
@@ -815,4 +817,5 @@ public class MainFragment extends BaseFragment {
             Log.e(TAG, "Error " + e.toString());
         }
     }
+
 }

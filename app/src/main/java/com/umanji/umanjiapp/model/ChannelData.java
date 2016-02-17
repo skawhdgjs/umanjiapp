@@ -167,6 +167,24 @@ public class ChannelData {
         return params;
     }
 
+    public void setAddressJSONObject(JSONObject params) {
+        try {
+            params.put("address", this.address);
+            params.put("countryCode", this.countryCode);
+            params.put("countryName", this.countryName);
+            params.put("adminArea", this.adminArea);
+            params.put("locality", this.locality);
+            params.put("thoroughfare", this.thoroughfare);
+            params.put("featureName", this.featureName);
+            params.put("thoroughfare", this.thoroughfare);
+            params.put("latitude", this.latitude);
+            params.put("longitude", this.longitude);
+
+        }catch (JSONException e) {
+            Log.e(TAG, "Error " + e.toString());
+        }
+    }
+
     public boolean isOwner(String userId) {
 
         if(userId.equals(this.ownerId)) {

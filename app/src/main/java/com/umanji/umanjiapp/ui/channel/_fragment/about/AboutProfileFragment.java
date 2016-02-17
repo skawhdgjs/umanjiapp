@@ -1,8 +1,5 @@
 package com.umanji.umanjiapp.ui.channel._fragment.about;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,15 +12,12 @@ import android.widget.TextView;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
-import com.umanji.umanjiapp.ui.channel.spot.edit.SpotEditActivity;
 import com.umanji.umanjiapp.ui.setting.home.HomeActivity;
 
 import org.json.JSONArray;

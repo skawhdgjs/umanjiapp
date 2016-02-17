@@ -17,14 +17,13 @@ import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
-import com.umanji.umanjiapp.ui.channel.spot.edit.SpotEditActivity;
+import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -188,7 +187,7 @@ public class AboutFragment extends BaseChannelListFragment {
                 break;
 
             case R.id.editChannelBtn:
-                Intent aboutIntent = new Intent(mActivity, SpotEditActivity.class);
+                Intent aboutIntent = new Intent(mActivity, SpotUpdateActivity.class);
                 Bundle aboutBundle = new Bundle();
                 aboutBundle.putString("channel", mChannel.getJsonObject().toString());
                 aboutIntent.putExtra("bundle", aboutBundle);

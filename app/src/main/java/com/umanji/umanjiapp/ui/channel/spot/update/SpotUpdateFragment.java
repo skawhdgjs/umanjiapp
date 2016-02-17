@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.channel.spot.edit;
+package com.umanji.umanjiapp.ui.channel.spot.update;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -7,22 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelUpdateFragment;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 
+public class SpotUpdateFragment extends BaseChannelUpdateFragment {
+    private static final String TAG = "SpotUpdateFragment";
 
-public class SpotEditFragment extends BaseChannelUpdateFragment {
-    private static final String TAG = "SpotEditFragment";
-
-    public static SpotEditFragment newInstance(Bundle bundle) {
-        SpotEditFragment fragment = new SpotEditFragment();
+    public static SpotUpdateFragment newInstance(Bundle bundle) {
+        SpotUpdateFragment fragment = new SpotUpdateFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -42,35 +38,27 @@ public class SpotEditFragment extends BaseChannelUpdateFragment {
         return inflater.inflate(R.layout.activity_spot_update, container, false);
     }
 
+
     @Override
     protected void request() {
-        final String fName = mName.getText().toString();
-        String floor = mFloorSpinner.getSelectedItem().toString();
-        final int fFloor = Integer.parseInt(floor.substring(0, floor.indexOf("F") - 1));
-
         try {
+            JSONObject params = new JSONObject();
+            setChannelParams(params);
 
-            JSONObject params = mChannel.getAddressJSONObject();
-            params.put("id", mChannel.getId());
-            params.put("name", fName);
-
-            JSONObject descParams = new JSONObject();
-            descParams.put("floor", fFloor);
-
-            params.put("desc", descParams);
-
-            if(mPhotoUri != null) {
-                ArrayList<String> photos = new ArrayList<>();
-                photos.add(mPhotoUri);
-                params.put("photos", new JSONArray(photos));
-                mPhotoUri = null;
-            }
-
+            setSpotDesc(params);
             mApi.call(api_channels_id_update, params);
 
         }catch(JSONException e) {
-            Log.e("BaseChannelCreate", "error " + e.toString());
+            Log.e("BaseChannelUpdate", "error " + e.toString());
         }
+    }
+
+    protected void setSpotDesc(JSONObject params) throws JSONException {
+        String floor = mFloorSpinner.getSelectedItem().toString();
+
+        JSONObject descParams = new JSONObject();
+        descParams.put("floor", Integer.parseInt(floor.substring(0, floor.indexOf("F") - 1)));
+        params.put("desc", descParams);
     }
 
     @Override
@@ -79,6 +67,7 @@ public class SpotEditFragment extends BaseChannelUpdateFragment {
 
         setName(mActivity, mChannel);
         setAddress(mActivity, mChannel);
+        setPhoto(mActivity, mChannel);
     }
 
     @Override

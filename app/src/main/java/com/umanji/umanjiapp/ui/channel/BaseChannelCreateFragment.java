@@ -54,16 +54,9 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     protected Button mSubmitBtn;
     protected ImageView mPhoto;
 
-    protected LinearLayout mMetaPanel;
-    protected ImageView mMetaPhoto;
-    protected TextView mMetaTitle;
-    protected TextView mMetaDesc;
-    protected boolean isPreview = false;
-
     /****************************************************
      *  Etc.
      ****************************************************/
-    TextCrawler textCrawler;
 
     protected String mPhotoUri;
     protected String mMetaPhotoUrl;
@@ -95,63 +88,6 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     @Override
     public void initWidgets(View view) {
         mName = (AutoCompleteTextView) view.findViewById(R.id.name);
-        mName.setOnKeyListener(new View.OnKeyListener() {
-
-            @Override
-            public boolean onKey(View arg0, int arg1, KeyEvent arg2) {
-                String name = mName.getText().toString().replace("\n", " ");
-                ArrayList<String> urls = SearchUrls.matches(name);
-
-                if (arg1 == 66 && urls.size() > 0) {
-
-                    textCrawler
-                            .makePreview(new LinkPreviewCallback() {
-                                @Override
-                                public void onPre() {
-                                    mProgress.show();
-                                }
-
-                                @Override
-                                public void onPos(SourceContent sourceContent, boolean isNull) {
-                                    if (isNull || sourceContent.getFinalUrl().equals("")) {
-                                        isPreview = false;
-                                        mMetaPanel.setVisibility(View.GONE);
-
-                                    } else {
-                                        isPreview = true;
-                                        mMetaPanel.setVisibility(View.VISIBLE);
-
-                                        if(sourceContent.getImages().size() > 0) {
-                                            mMetaPhotoUrl = sourceContent.getImages().get(0);
-                                            mMetaPhoto.setVisibility(View.VISIBLE);
-                                            Glide.with(mActivity).load(mMetaPhotoUrl).into(mMetaPhoto);
-                                        }else {
-                                            mMetaPhoto.setVisibility(View.GONE);
-                                        }
-
-                                        if(TextUtils.isEmpty(sourceContent.getTitle())) {
-                                            mMetaTitle.setVisibility(View.GONE);
-                                        }else {
-                                            mMetaTitle.setVisibility(View.VISIBLE);
-                                            mMetaTitle.setText(sourceContent.getTitle());
-                                        }
-
-                                        if(TextUtils.isEmpty(sourceContent.getDescription())) {
-                                            mMetaDesc.setVisibility(View.GONE);
-                                        }else {
-                                            mMetaDesc.setVisibility(View.VISIBLE);
-                                            mMetaDesc.setText(sourceContent.getDescription());
-                                        }
-                                    }
-
-                                    mProgress.hide();
-                                }
-                            }, urls.get(0));
-                }
-                return false;
-            }
-        });
-
         mPhoto = (ImageView) view.findViewById(R.id.photo);
 
         mSubmitBtn = (Button) view.findViewById(R.id.submitBtn);
@@ -163,12 +99,6 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
         mGallaryBtn = (Button) view.findViewById(R.id.gallaryBtn);
         mGallaryBtn.setOnClickListener(this);
 
-        mMetaPanel = (LinearLayout) view.findViewById(R.id.metaPanel);
-        mMetaPhoto = (ImageView) view.findViewById(R.id.metaPhoto);
-        mMetaTitle = (TextView) view.findViewById(R.id.metaTitle);
-        mMetaDesc = (TextView) view.findViewById(R.id.metaDesc);
-
-        textCrawler = new TextCrawler();
     }
 
     public View getView(LayoutInflater inflater, ViewGroup container) {
@@ -205,6 +135,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     public void onEvent(SuccessData event) {
         switch (event.type) {
             case api_photo:
+                mProgress.hide();
 
                 try{
                     mResizedFile.delete();
@@ -229,10 +160,12 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
         File file = null;
         switch (requestCode) {
             case UiHelper.CODE_CAMERA_ACTIVITY:
+                mProgress.show();
                 file = new File(mFilePath);
                 mResizedFile = UiHelper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
                 break;
             case UiHelper.CODE_GALLERY_ACTIVITY:
+                mProgress.show();
                 file = FileHelper.getFileFromUri(mActivity, intent.getData());
                 mResizedFile = UiHelper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
                 break;
@@ -246,60 +179,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
      ****************************************************/
 
     protected void submit() {
-
-        String name = mName.getText().toString().replace("\n", " ");
-        ArrayList<String> urls = SearchUrls.matches(name);
-
-        if (isPreview == false && urls.size() > 0) {
-            textCrawler
-                    .makePreview(new LinkPreviewCallback() {
-                        @Override
-                        public void onPre() {
-                            mProgress.show();
-                        }
-
-                        @Override
-                        public void onPos(SourceContent sourceContent, boolean isNull) {
-
-                            if (isNull || sourceContent.getFinalUrl().equals("")) {
-                                isPreview = false;
-                                mMetaPanel.setVisibility(View.GONE);
-
-                            } else {
-                                isPreview = true;
-                                mMetaPanel.setVisibility(View.VISIBLE);
-
-                                if(sourceContent.getImages().size() > 0) {
-                                    mMetaPhotoUrl = sourceContent.getImages().get(0);
-                                    mMetaPhoto.setVisibility(View.VISIBLE);
-                                    Glide.with(mActivity).load(mMetaPhotoUrl).into(mMetaPhoto);
-                                }else {
-                                    mMetaPhoto.setVisibility(View.GONE);
-                                }
-
-                                if(TextUtils.isEmpty(sourceContent.getTitle())) {
-                                    mMetaTitle.setVisibility(View.GONE);
-                                }else {
-                                    mMetaTitle.setVisibility(View.VISIBLE);
-                                    mMetaTitle.setText(sourceContent.getTitle());
-                                }
-
-                                if(TextUtils.isEmpty(sourceContent.getDescription())) {
-                                    mMetaDesc.setVisibility(View.GONE);
-                                }else {
-                                    mMetaDesc.setVisibility(View.VISIBLE);
-                                    mMetaDesc.setText(sourceContent.getDescription());
-                                }
-                            }
-
-                            mProgress.hide();
-                            request();
-                        }
-                    }, urls.get(0));
-        } else {
-            request();
-        }
-
+        request();
     }
 
     protected abstract void request();

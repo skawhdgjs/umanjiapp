@@ -78,7 +78,7 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".ui.channel.spot.create.SpotCreateActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".ui.channel.spot.edit.SpotEditActivity"
+        <activity android:name=".ui.channel.spot.update.SpotUpdateActivity"
                   android:screenOrientation="portrait"/>
         <activity android:name=".ui.channel.community.create.CommunityCreateActivity"
                   android:screenOrientation="portrait"/>

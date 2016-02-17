@@ -200,6 +200,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     ChannelData channelData = new ChannelData(event.response);
                     mChannel = channelData.getParent();
                 }
+                updateView();
                 break;
             case api_channels_id_unJoin:
             case api_channels_id_unLike:
@@ -208,9 +209,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 if(TextUtils.equals(mChannel.getId(), channelData.getId())) {
                     mChannel = channelData;
                 }
+                updateView();
                 break;
-
-
         }
     }
 
@@ -303,6 +303,5 @@ public abstract class BaseChannelFragment extends BaseFragment {
             mMemberCount.setText(memberSubLinks.size() + " 명");
         }
     }
-
 
 }
