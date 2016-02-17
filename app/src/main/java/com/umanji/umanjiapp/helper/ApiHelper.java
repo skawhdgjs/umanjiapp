@@ -1,6 +1,5 @@
 package com.umanji.umanjiapp.helper;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 
@@ -11,7 +10,6 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -114,6 +112,12 @@ public class ApiHelper implements AppConfig {
     public void call(String api) {
         JSONObject params = new JSONObject();
         call(api, params);
+
+    }
+
+    public void call(String api, AjaxCallback<JSONObject> callback) {
+        JSONObject params = new JSONObject();
+        call(api, params, callback);
 
     }
 
