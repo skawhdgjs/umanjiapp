@@ -162,9 +162,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-
-
-//        loadNewNoties();
+        loadNewNoties();
         loadMainMarkers();
         loadMainPosts();
     }
@@ -204,6 +202,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onEvent(SuccessData event) {
 
+
         switch (event.type) {
             case api_token_check:
             case api_signin:
@@ -222,6 +221,11 @@ public class MainFragment extends BaseFragment {
             case api_profile_id_update:
                 mUser = new ChannelData(event.response);
                 updateView();
+                break;
+
+            case api_noites_read:
+                mNotyCountBtn.setVisibility(View.GONE);
+                mNotyCountBtn.setText("");
                 break;
 
         }
@@ -256,6 +260,7 @@ public class MainFragment extends BaseFragment {
                 break;
 
             case R.id.mNotyCount:
+
             case R.id.mAvatarImageBtn:
 
                 Intent intent = new Intent(mActivity, ProfileActivity.class);
@@ -786,5 +791,28 @@ public class MainFragment extends BaseFragment {
 
         addOnScrollListener(rView);
         return rView;
+    }
+
+    private void loadNewNoties() {
+        try {
+            JSONObject params = new JSONObject();
+            params.put("read", false);
+            mApi.call(api_noites_new_count, params, new AjaxCallback<JSONObject>(){
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    super.callback(url, object, status);
+                    int notyCount = object.optInt("data");
+                    if(notyCount > 0) {
+                        mNotyCountBtn.setVisibility(View.VISIBLE);
+                        mNotyCountBtn.setText(String.valueOf(notyCount));
+                    }else {
+                        mNotyCountBtn.setVisibility(View.GONE);
+                        mNotyCountBtn.setText("");
+                    }
+                }
+            });
+        }catch (JSONException e) {
+            Log.e(TAG, "Error " + e.toString());
+        }
     }
 }
