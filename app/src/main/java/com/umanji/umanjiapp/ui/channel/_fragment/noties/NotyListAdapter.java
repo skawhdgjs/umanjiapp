@@ -3,8 +3,6 @@ package com.umanji.umanjiapp.ui.channel._fragment.noties;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.text.util.Linkify;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +10,7 @@ import android.view.ViewGroup;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.NotyData;
@@ -28,11 +23,7 @@ import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
 
 import de.greenrobot.event.EventBus;
 
@@ -69,7 +60,7 @@ public class NotyListAdapter extends BaseChannelListAdapter {
         final ChannelData parentData = notyData.getParent();
         final boolean isRead = notyData.isRead();
 
-        if(channelData == null && channelData.getType() == null) return;
+        if(channelData == null || channelData.getType() == null) return;
 
         if(!isRead) {
             holder.mView.setBackgroundResource(R.drawable.feed_new);
