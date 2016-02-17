@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.channel._fragment.spots;
+package com.umanji.umanjiapp.ui.channel._fragment.spots.complex;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListAdapter;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.modal.map.MapActivity;
 
@@ -26,13 +27,13 @@ import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
-public class SpotListFragment extends BaseChannelListFragment {
-    private static final String TAG = "SpotListFragment";
+public class ComplexSpotListFragment extends BaseChannelListFragment {
+    private static final String TAG = "ComplexSpotListFragment";
 
     private Button mAddBtn;
 
-    public static SpotListFragment newInstance(Bundle bundle) {
-        SpotListFragment fragment = new SpotListFragment();
+    public static ComplexSpotListFragment newInstance(Bundle bundle) {
+        ComplexSpotListFragment fragment = new ComplexSpotListFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -50,7 +51,7 @@ public class SpotListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new SpotListAdapter(mActivity, this, mChannel);
+        return new ComplexSpotListAdapter(mActivity, this, mChannel);
     }
 
     @Override
@@ -61,41 +62,11 @@ public class SpotListFragment extends BaseChannelListFragment {
 
     @Override
     public void loadData() {
-        mAdapter.resetDocs();
-        mAdapter.setCurrentPage(0);
-
-        loadMoreData();
-    }
-
-    @Override
-    public void loadMoreData() {
-        isLoading = true;
-
         try {
             JSONObject params = new JSONObject();
-            params.put("page", mAdapter.getCurrentPage()); // for paging
-            params.put("type", TYPE_SPOT_INNER);
+            params.put("id", mChannel.getId());
 
-            if(mChannel.getLevel() != LEVEL_LOCAL) {
-                params.put("sort", "point DESC");
-            }
-
-            switch (mChannel.getType()) {
-                case TYPE_USER:
-                    params.put("owner", mChannel.getId());
-                    params.put("type", TYPE_SPOTS);
-                    break;
-                case TYPE_INFO_CENTER:
-                case TYPE_COMMUNITY:
-                    setAddressParams(params, mChannel);
-                    break;
-                default:
-                    params.put("parent", mChannel.getId());
-                    break;
-
-            }
-
-            mApi.call(api_channels_spots_find, params, new AjaxCallback<JSONObject>() {
+            mApi.call(api_complex_findSpots, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     if(status.getCode() == 500) {
@@ -113,8 +84,6 @@ public class SpotListFragment extends BaseChannelListFragment {
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }
-
-                        isLoading = false;
                     }
                 }
             });
@@ -122,11 +91,15 @@ public class SpotListFragment extends BaseChannelListFragment {
         } catch(JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
+    }
 
+    @Override
+    public void loadMoreData() {
     }
 
     @Override
     public void updateView() {
+        mAddBtn.setText("스팟 연결하기");
         mAdapter.notifyDataSetChanged();
     }
 
@@ -141,9 +114,11 @@ public class SpotListFragment extends BaseChannelListFragment {
 
         switch (v.getId()) {
             case R.id.addChannelBtn:
+
                 Bundle bundle = new Bundle();
                 bundle.putString("channel", mChannel.getJsonObject().toString());
-                Intent intent = new Intent(mActivity, SpotCreateActivity.class);
+                bundle.putString("mapType", MAP_CREATE_COMPLEX);
+                Intent intent = new Intent(mActivity, MapActivity.class);
                 intent.putExtra("bundle", bundle);
                 startActivity(intent);
                 break;

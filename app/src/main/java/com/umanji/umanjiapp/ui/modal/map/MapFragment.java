@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
@@ -49,6 +50,8 @@ public class MapFragment extends BaseFragment {
     private JSONArray mMarkers;
     private String mMapType;
 
+
+    private boolean isBlock = false;
     private boolean isLoading = false;
 
     public static MapFragment newInstance(Bundle bundle) {
@@ -168,6 +171,57 @@ public class MapFragment extends BaseFragment {
     }
 
     private void initMapEvents() {
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String index = marker.getSnippet();
+                try {
+                    ChannelData channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
+
+                    JSONObject params = new JSONObject();
+                    params.put("type", TYPE_LINK);
+                    params.put("parent", mChannel.getId());
+                    params.put("owner", channelData.getOwner().getId());
+                    params.put("id", channelData.getId());
+                    params.put("name", channelData.getName());
+
+                    mApi.call(api_channels_id_link, params, new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject object, AjaxStatus status) {
+                            super.callback(url, object, status);
+                            //TODO:
+
+                            mActivity.finish();
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "error " + e.toString());
+                }
+
+                return true;
+            }
+        });
+
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                View view = mActivity.getLayoutInflater().inflate(R.layout.widget_info_window, null);
+                TextView name = (TextView) view.findViewById(R.id.wiSpotName);
+                name.setText(marker.getTitle());
+
+                return view;
+
+            }
+        });
+
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {

@@ -2,8 +2,8 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-//    String REST_SERVER_URL = "http://10.10.0.241:3000/v1"; /* 로컬 API Server */
-    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+    String REST_SERVER_URL = "http://10.10.0.241:3000/v1"; /* 로컬 API Server */
+//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -50,16 +50,19 @@ public interface AppConfig {
     String api_channels_findPosts       = "GET  /channels/posts";
 
 
-    String api_channels_posts_find      = "GET  /channels/id/posts";
-    String api_channels_keywords_find   = "GET  /channels/id/keywords";
-    String api_channels_members_find    = "GET  /channels/id/members";
-    String api_channels_likes_find      = "GET  /channels/id/likes";
-    String api_channels_communities_find= "GET  /channels/id/communities";
-    String api_channels_spots_find      = "GET  /channels/id/spots";
+    String api_channels_posts_find          = "GET  /channels/id/posts";
+    String api_channels_keywords_find       = "GET  /channels/id/keywords";
+    String api_channels_members_find        = "GET  /channels/id/members";
+    String api_channels_likes_find          = "GET  /channels/id/likes";
+    String api_channels_communities_find    = "GET  /channels/id/communities";
+    String api_channels_spots_find          = "GET  /channels/id/spots";
+
 
     String api_profile_posts_find       = "GET  /profile/id/posts";
     String api_main_findPosts           = "GET  /main/posts";
     String api_main_findMarkers         = "GET  /main/markers";
+
+    String api_complex_findSpots        = "GET  /complex/id/spots";
 
 
     String api_channels_id_update       = "PUT  /channels/id";
@@ -77,6 +80,7 @@ public interface AppConfig {
     String api_channels_id_like            = "POST /channels/id/like";
     String api_channels_id_unLike          = "DELETE /channels/id/like";
 
+    String api_channels_id_link            = "POST /channels/id/link";
 
     String TYPE_MAIN                    = "MAIN";
     String TYPE_SPOTS                   = "SPOTS";
@@ -94,11 +98,12 @@ public interface AppConfig {
     String TYPE_KEYWORD                 = "KEYWORD";
 
     String TYPE_NOTY                    = "NOTY";
-
     String TYPE_LIKE                    = "LIKE";
 
+    String TYPE_LINK                    = "LINK";
 
-    String TYPE_ERROR_AUTH              = "TYPE_ERROR_AUTH";
+
+    String TYPE_ERROR_AUTH              = "ERROR_AUTH";
 
     String MAP_CREATE_COMPLEX           = "MAP_CREATE_COMPLEX";
 

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layout_marginTop="5dp"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/userPhoto"
+        android:layout_width="@dimen/list_item_avatar_size"
+        android:layout_height="@dimen/list_item_avatar_size"
+        android:layout_marginRight="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default_0"
+        app:riv_border_color="@color/colorPrimary"
+        app:riv_border_width="1px"
+        app:riv_corner_radius="5dp"
+        app:riv_oval="false"/>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_alignParentRight="true"
+        android:text="이름"
+        android:layout_toRightOf="@+id/userPhoto"
+        />
+
+    <TextView
+        android:id="@+id/point"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="point"
+        android:textSize="10dp"
+        android:textColor="@color/text"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/name"
+        android:layout_toRightOf="@+id/userPhoto"
+        />
+
+
+</RelativeLayout>

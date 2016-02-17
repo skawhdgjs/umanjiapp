@@ -35,6 +35,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData channelData       = mChannels.get(position);
+        if(channelData == null || channelData.getOwner() == null) return;
 
         setUserName(holder, channelData.getOwner());
         setPoint(holder, channelData);
