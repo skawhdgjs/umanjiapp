@@ -41,6 +41,7 @@ public interface AppConfig {
 
     String api_channels_getByPoint      = "GET  /channels/point";
     String api_channels_createSpot      = "POST /channels/spot";
+    String api_channels_createComplex   = "POST /channels/complex";
     String api_channels_create          = "POST /channels";
 
     String api_channels_get             = "GET  /channels/id";
@@ -84,6 +85,7 @@ public interface AppConfig {
     String TYPE_POST                    = "POST";
     String TYPE_SPOT                    = "SPOT";
     String TYPE_SPOT_INNER              = "SPOT_INNER";
+    String TYPE_COMPLEX                 = "COMPLEX";
 
     String TYPE_INFO_CENTER             = "INFO_CENTER";
     String TYPE_USER                    = "USER";
@@ -97,6 +99,8 @@ public interface AppConfig {
 
 
     String TYPE_ERROR_AUTH              = "TYPE_ERROR_AUTH";
+
+    String MAP_CREATE_COMPLEX           = "MAP_CREATE_COMPLEX";
 
 
     String ZOOM_IN                      = "ZOOM-IN";

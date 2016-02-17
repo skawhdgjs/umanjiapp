@@ -68,6 +68,8 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".ui.channel.spot.SpotActivity"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.complex.ComplexActivity"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".ui.channel.post.PostActivity"
                   android:screenOrientation="portrait"/>
         <activity android:name=".ui.channel.info.InfoActivity"
@@ -80,6 +82,8 @@
                   android:screenOrientation="portrait"/>
         <activity android:name=".ui.channel.spot.update.SpotUpdateActivity"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".ui.channel.complex.create.ComplexCreateActivity"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".ui.channel.community.create.CommunityCreateActivity"
                   android:screenOrientation="portrait"/>
         <activity android:name=".ui.channel.keyword.create.KeywordCreateActivity"
@@ -88,7 +92,8 @@
         <activity android:name=".ui.setting.home.HomeActivity"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.util.image.ImageViewActivity" />
+        <activity android:name=".ui.modal.imageview.ImageViewActivity" />
+        <activity android:name=".ui.modal.map.MapActivity" />
 
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />

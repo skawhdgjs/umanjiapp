@@ -1,9 +1,7 @@
 package com.umanji.umanjiapp.ui.channel.profile;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragme
 import com.umanji.umanjiapp.ui.channel._fragment.noties.NotyListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
-import com.umanji.umanjiapp.ui.util.image.ImageViewActivity;
+import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

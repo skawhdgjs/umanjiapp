@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.util.image;
+package com.umanji.umanjiapp.ui.modal.imageview;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

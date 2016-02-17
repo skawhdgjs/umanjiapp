@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel._fragment.spots;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
+import com.umanji.umanjiapp.ui.modal.map.MapActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -125,6 +127,9 @@ public class SpotListFragment extends BaseChannelListFragment {
 
     @Override
     public void updateView() {
+        if(TextUtils.equals(mChannel.getType(), TYPE_COMPLEX)) {
+            mAddBtn.setText("스팟 연결하기");
+        }
         mAdapter.notifyDataSetChanged();
     }
 
@@ -139,15 +144,21 @@ public class SpotListFragment extends BaseChannelListFragment {
 
         switch (v.getId()) {
             case R.id.addChannelBtn:
-                Intent intent = new Intent(mActivity, SpotCreateActivity.class);
 
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                intent.putExtra("bundle", bundle);
-
-                startActivity(intent);
-
-                break;
+                if(TextUtils.equals(mChannel.getType(), TYPE_SPOT)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mChannel.getJsonObject().toString());
+                    Intent intent = new Intent(mActivity, SpotCreateActivity.class);
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+                }else if(TextUtils.equals(mChannel.getType(), TYPE_COMPLEX)){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mChannel.getJsonObject().toString());
+                    bundle.putString("mapType", MAP_CREATE_COMPLEX);
+                    Intent intent = new Intent(mActivity, MapActivity.class);
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+                }
         }
     }
 }

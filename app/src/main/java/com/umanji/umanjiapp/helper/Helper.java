@@ -19,6 +19,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.ui.auth.SignupActivity;
 import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
+import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.info.InfoActivity;
 import com.umanji.umanjiapp.ui.channel.post.PostActivity;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
@@ -133,6 +134,15 @@ public final class Helper implements AppConfig {
         }
 
         switch (channelData.getLevel()) {
+            case LEVEL_COMPLEX:
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(name)
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.complex))
+                        .draggable(isDraggable)
+                        .alpha(0.8f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+                break;
             case LEVEL_DONG:
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
@@ -142,7 +152,6 @@ public final class Helper implements AppConfig {
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
-            // ic_marker_blue
             case LEVEL_GUGUN:
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
@@ -152,7 +161,6 @@ public final class Helper implements AppConfig {
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
-            // ic_marker_yellow
             case LEVEL_DOSI:
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
@@ -162,8 +170,6 @@ public final class Helper implements AppConfig {
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
                 break;
-            // ic_marker_red  LEVEL_COUNTRY
-
             case LEVEL_COUNTRY:
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
@@ -223,6 +229,11 @@ public final class Helper implements AppConfig {
         switch (channelData.getType()) {
             case TYPE_SPOT:
                 intent = new Intent(activity, SpotActivity.class);
+                intent.putExtra("enterAnim", R.anim.zoom_out);
+                intent.putExtra("exitAnim", R.anim.zoom_in);
+                break;
+            case TYPE_COMPLEX:
+                intent = new Intent(activity, ComplexActivity.class);
                 intent.putExtra("enterAnim", R.anim.zoom_out);
                 intent.putExtra("exitAnim", R.anim.zoom_in);
                 break;
@@ -296,5 +307,4 @@ public final class Helper implements AppConfig {
         }
         return params;
     }
-
 }

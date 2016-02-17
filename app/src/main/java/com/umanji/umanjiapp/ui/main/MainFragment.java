@@ -43,6 +43,7 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
+import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 
@@ -218,6 +219,7 @@ public class MainFragment extends BaseFragment {
             case api_logout:
                 logout();
                 break;
+            case api_channels_createComplex:
             case api_channels_createSpot:
             case api_channels_id_update:
                 loadData();
@@ -357,26 +359,9 @@ public class MainFragment extends BaseFragment {
                 }
 
                 mLatLngByPoint = point;
-                int zoom = (int) mMap.getCameraPosition().zoom;
+                final int zoom = (int) mMap.getCameraPosition().zoom;
 
-                if(zoom >= 14 && zoom <= 17){
-//                    final LatLng fPoint = point;
-//
-//                    try {
-//                        JSONObject params = new JSONObject();
-//                        params.put("latitude", point.latitude);
-//                        params.put("longitude", point.longitude);
-//
-//                        mApi.call(api_channels_getByPoint, params);
-//                    } catch(JSONException e) {
-//                        Log.e(TAG, "error " + e.toString());
-//                    }
-
-                }
-
-                if (isSpotCreatable(zoom)) {
-
-                    final LatLng fPoint = point;
+                if (zoom >= 15 && zoom <= 18) {
 
                     try {
                         JSONObject params = new JSONObject();
@@ -396,14 +381,24 @@ public class MainFragment extends BaseFragment {
                                         LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
 
                                         mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
-                                        showCreateSpotDialog();
+
+                                        if(isComplexCreatable(zoom)) {
+                                            showCreateComplexDialog();
+                                        }else if(isSpotCreatable(zoom)) {
+                                            showCreateSpotDialog();
+                                        }
 
                                     } else {
                                         UiHelper.startSignupActivity(mActivity, mCurrentMyPosition);
                                     }
 
                                 }else {
-                                    startSpotActivity(mChannelByPoint);
+                                    if(isComplexCreatable(zoom)) {
+                                        startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
+                                    }else if(isSpotCreatable(zoom)) {
+                                        startSpotActivity(mChannelByPoint, TYPE_SPOT);
+                                    }
+
                                 }
                             }
                         });
@@ -447,9 +442,9 @@ public class MainFragment extends BaseFragment {
 
                 ChannelData channelData;
                 try {
-                    if(TextUtils.equals(index, String.valueOf(POST_MARKER_INDEX))) {
+                    if (TextUtils.equals(index, String.valueOf(POST_MARKER_INDEX))) {
                         channelData = mCurrentChannel.getParent();
-                    }else {
+                    } else {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
                     }
 
@@ -501,18 +496,16 @@ public class MainFragment extends BaseFragment {
 
                     zoomLevelText.setText("Zoom: " + (int) position.zoom);
 
-                    if ((int) position.zoom >= 14 && (int) position.zoom <= 17) {
+                    int zoom = (int) position.zoom;
+                    if (zoom >= 15 && zoom <= 17) {
                         createComplexText.setVisibility(View.VISIBLE);
+                        createSpotText.setVisibility(View.GONE);
+                    } else if (zoom >= 18) {
+                        createComplexText.setVisibility(View.GONE);
+                        createSpotText.setVisibility(View.VISIBLE);
                     } else {
                         createComplexText.setVisibility(View.GONE);
-                    }
-
-                    if (isSpotCreatable((int) position.zoom)) {
-                        createSpotText.setVisibility(View.VISIBLE);
-                        zoomBtn.setText(ZOOM_OUT);
-                    } else {
                         createSpotText.setVisibility(View.GONE);
-                        zoomBtn.setText(ZOOM_IN);
                     }
 
                     loadData();
@@ -609,6 +602,14 @@ public class MainFragment extends BaseFragment {
         updateView();
     }
 
+    private static boolean isComplexCreatable(int zoom ) {
+        if(zoom >= 14 && zoom <= 17) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     private static boolean isSpotCreatable(int zoom ) {
         if(zoom >= 18) {
             return true;
@@ -687,6 +688,44 @@ public class MainFragment extends BaseFragment {
     }
 
 
+    private void showCreateComplexDialog() {
+        mAlert.setPositiveButton(R.string.complex_create_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    JSONObject params = mChannelByPoint.getAddressJSONObject();
+                    params.put("type", TYPE_COMPLEX);
+                    params.put("level", LEVEL_COMPLEX);
+                    mApi.call(api_channels_createComplex, params, new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject object, AjaxStatus status) {
+                            mChannelByPoint = new ChannelData(object);
+                            if (mMarkerByPoint != null) mMarkerByPoint.remove();
+                            startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
+
+                            EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
+                        }
+                    });
+                    dialog.cancel();
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error " + e.toString());
+                }
+            }
+        });
+
+        mAlert.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mMarkerByPoint.remove();
+                dialog.cancel();
+            }
+        });
+
+        mAlert.setTitle(R.string.complex_create_confirm);
+        mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
+        mAlert.show();
+    }
+
     private void showCreateSpotDialog() {
         mAlert.setPositiveButton(R.string.spot_create_btn, new DialogInterface.OnClickListener() {
             @Override
@@ -699,7 +738,7 @@ public class MainFragment extends BaseFragment {
                         public void callback(String url, JSONObject object, AjaxStatus status) {
                             mChannelByPoint = new ChannelData(object);
                             if (mMarkerByPoint != null) mMarkerByPoint.remove();
-                            startSpotActivity(mChannelByPoint);
+                            startSpotActivity(mChannelByPoint, TYPE_SPOT);
 
                             EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
                         }
@@ -714,7 +753,7 @@ public class MainFragment extends BaseFragment {
         mAlert.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mMarkerByPost.remove();
+                mMarkerByPoint.remove();
                 dialog.cancel();
             }
         });
@@ -724,8 +763,20 @@ public class MainFragment extends BaseFragment {
         mAlert.show();
     }
 
-    private void startSpotActivity(ChannelData channel) {
-        Intent intent = new Intent(getActivity(), SpotActivity.class);
+    private void startSpotActivity(ChannelData channel, String type) {
+        Intent intent = null;
+
+        switch (type) {
+            case TYPE_SPOT:
+                intent = new Intent(getActivity(), SpotActivity.class);
+                break;
+            case TYPE_COMPLEX:
+                intent = new Intent(getActivity(), ComplexActivity.class);
+                break;
+            default:
+                intent = new Intent(getActivity(), SpotActivity.class);
+                break;
+        }
 
         Bundle bundle = new Bundle();
         bundle.putString("channel", channel.getJsonObject().toString());

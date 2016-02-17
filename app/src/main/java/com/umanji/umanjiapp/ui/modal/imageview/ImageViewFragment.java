@@ -1,32 +1,17 @@
-package com.umanji.umanjiapp.ui.util.image;
+package com.umanji.umanjiapp.ui.modal.imageview;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.UiHelper;
-import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import de.greenrobot.event.EventBus;
 
 public class ImageViewFragment extends BaseFragment {
     private static final String TAG = "SignupFragment";

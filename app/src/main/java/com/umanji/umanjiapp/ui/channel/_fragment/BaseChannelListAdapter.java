@@ -30,7 +30,7 @@ import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.channel.post.PostActivity;
-import com.umanji.umanjiapp.ui.util.image.ImageViewActivity;
+import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

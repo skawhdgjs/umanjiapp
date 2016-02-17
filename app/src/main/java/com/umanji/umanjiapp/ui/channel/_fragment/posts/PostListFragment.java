@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -98,10 +99,24 @@ public class PostListFragment extends BaseChannelListFragment {
                     }else {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
-                            for(int idx = 0; idx < jsonArray.length(); idx++) {
-                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                ChannelData doc = new ChannelData(jsonDoc);
-                                mAdapter.addBottom(doc);
+
+                            if(jsonArray.length() == 0) {
+
+                                JSONObject params = mChannel.getJsonObject();
+
+                                params.put("parent", mChannel.getId());
+                                params.put("name", "정보센터");
+                                params.put("type", TYPE_POST);
+
+                                ChannelData channelData = new ChannelData(params);
+                                mAdapter.addBottom(channelData);
+
+                            } else {
+                                for(int idx = 0; idx < jsonArray.length(); idx++) {
+                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                    ChannelData doc = new ChannelData(jsonDoc);
+                                    mAdapter.addBottom(doc);
+                                }
                             }
 
                             updateView();

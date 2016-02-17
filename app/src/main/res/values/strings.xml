@@ -39,13 +39,17 @@
     <string name="spot_add_btn">스팟추가</string>
     <string name="spot_join_btn">참여하기</string>
     <string name="spot_unjoin_btn">탈퇴하기</string>
+
     <string name="spot_create_btn">스팟 생성</string>
-
-
-
     <string name="spot_create_success">스팟 생성 성공!</string>
     <string name="spot_create_confirm">이곳에 스팟(장소)를 만드시겠습니까?</string>
     <string name="spot_create_error">네트워크 상태가 좋지 않습니다. 잠시후 다시 시도해주세요.</string>
+
+    <string name="complex_create_btn">스팟 생성</string>
+    <string name="complex_create_success">복합단지 생성 성공!</string>
+    <string name="complex_create_confirm">이곳에 복합단지 만드시겠습니까?</string>
+
+    <string name="create_error">네트워크 상태가 좋지 않습니다. 잠시후 다시 시도해주세요.</string>
 
     <!-- 빌딩 관려 -->
     <string name="multi_spot_input_name">빌딩이름</string>

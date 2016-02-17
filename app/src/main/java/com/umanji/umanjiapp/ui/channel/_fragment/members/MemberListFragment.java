@@ -133,32 +133,29 @@ public class MemberListFragment extends BaseChannelListFragment {
 
     @Override
     public void updateView() {
-        mJoinBtn.setEnabled(true);
-        mUnJoinBtn.setEnabled(true);
+        mJoinBtn.setEnabled(false);
+        mUnJoinBtn.setEnabled(false);
 
         switch (mChannel.getLevel()) {
             case LEVEL_LOCAL:
+            case LEVEL_COMPLEX:
                 if(mChannel == null) break;
                 mJoinBtn.setVisibility(View.VISIBLE);
                 String actionId = mChannel.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mActivity));
-                String channelIdByUserId = mAdapter.getIdByUserId(AuthHelper.getUserId(mActivity));
 
-                if(!TextUtils.isEmpty(channelIdByUserId)) {
-                    mJoinBtn.setVisibility(View.GONE);
-                    mUnJoinBtn.setVisibility(View.VISIBLE);
-                    mUnJoinBtn.setEnabled(false);
-                }else if(TextUtils.isEmpty(channelIdByUserId) && TextUtils.isEmpty(actionId)) {
+                if(TextUtils.isEmpty(actionId)) {
                     mJoinBtn.setVisibility(View.VISIBLE);
+                    mJoinBtn.setEnabled(true);
                     mUnJoinBtn.setVisibility(View.GONE);
-                    mUnJoinBtn.setEnabled(true);
-                }else if(TextUtils.isEmpty(channelIdByUserId) && !TextUtils.isEmpty(actionId)) {
+                }else {
                     mJoinBtn.setVisibility(View.GONE);
                     mUnJoinBtn.setVisibility(View.VISIBLE);
+                    mUnJoinBtn.setEnabled(true);
                 }
-
                 break;
             default:
                 mJoinBtn.setVisibility(View.GONE);
+                mUnJoinBtn.setVisibility(View.GONE);
                 break;
         }
 
@@ -205,7 +202,7 @@ public class MemberListFragment extends BaseChannelListFragment {
                     mUnJoinBtn.setEnabled(false);
 
                 }catch(JSONException e) {
-                    Log.e("BaseChannelCreate", "error " + e.toString());
+                    Log.e(TAG, "error " + e.toString());
                 }
 
                 break;
@@ -222,7 +219,7 @@ public class MemberListFragment extends BaseChannelListFragment {
                     mUnJoinBtn.setEnabled(false);
 
                 }catch(JSONException e) {
-                    Log.e("BaseChannelCreate", "error " + e.toString());
+                    Log.e(TAG, "error " + e.toString());
                 }
 
                 break;
