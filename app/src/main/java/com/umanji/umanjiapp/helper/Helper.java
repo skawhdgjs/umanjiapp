@@ -17,7 +17,6 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.auth.SignupActivity;
 import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
 import com.umanji.umanjiapp.ui.channel.info.InfoActivity;
@@ -225,6 +224,8 @@ public final class Helper implements AppConfig {
             case TYPE_SPOT:
             case TYPE_SPOT_INNER:
                 intent = new Intent(activity, SpotActivity.class);
+                intent.putExtra("enterAnim", R.anim.zoom_out);
+                intent.putExtra("exitAnim", R.anim.zoom_in);
                 break;
             case TYPE_USER:
                 intent = new Intent(activity, ProfileActivity.class);
