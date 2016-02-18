@@ -15,7 +15,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.UiHelper;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -238,7 +238,7 @@ public class SignupFragment extends BaseFragment {
         boolean cancel = false;
         View focusView = null;
 
-        if (!TextUtils.isEmpty(password) && !UiHelper.isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !Helper.isPasswordValid(password)) {
             passwordInput.setError(mActivity.getString(R.string.sign_error_invalid_password));
             focusView = passwordInput;
             cancel = true;
@@ -248,7 +248,7 @@ public class SignupFragment extends BaseFragment {
             emailInput.setError(mActivity.getString(R.string.error_field_required));
             focusView = emailInput;
             cancel = true;
-        } else if (!UiHelper.isEmailValid(email)) {
+        } else if (!Helper.isEmailValid(email)) {
             emailInput.setError(mActivity.getString(R.string.sign_error_invalid_email));
             focusView = emailInput;
             cancel = true;

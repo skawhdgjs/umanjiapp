@@ -57,6 +57,12 @@ public class SpotListFragment extends BaseChannelListFragment {
     public void initWidgets(View view) {
         mAddBtn = (Button)view.findViewById(R.id.addChannelBtn);
         mAddBtn.setOnClickListener(this);
+
+        switch (mChannel.getType()) {
+            case TYPE_USER:
+                mAddBtn.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override

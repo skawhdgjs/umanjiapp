@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SearchUrls;
@@ -20,8 +18,6 @@ import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.helper.UiHelper;
-import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 
@@ -30,8 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import de.greenrobot.event.EventBus;
 
 
 public class PostCreateFragment extends BaseChannelCreateFragment {

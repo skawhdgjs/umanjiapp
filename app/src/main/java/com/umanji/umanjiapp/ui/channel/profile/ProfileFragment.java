@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,8 @@ import android.view.ViewGroup;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
-import com.umanji.umanjiapp.helper.UiHelper;
+import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
@@ -34,6 +36,8 @@ public class ProfileFragment extends BaseChannelFragment {
     private File mResizedFile;
     private String mPhotoUri;
 
+    int mNewNoticeCount = 0;
+
     public static ProfileFragment newInstance(Bundle bundle) {
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(bundle);
@@ -41,8 +45,29 @@ public class ProfileFragment extends BaseChannelFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(getArguments() != null) {
+            mNewNoticeCount = getArguments().getInt("newNoticeCount");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+
+        // POST: 0, SPOT: 1, COMMUTNITY: 2, NOTICE: 3, ABOUT: 4
+        if(AuthHelper.isLoginUser(mActivity, mChannel.getId()) && mNewNoticeCount > 0) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(3);
+            tab.setText("NOTIES (" + mNewNoticeCount + ")");
+            tab.select();
+        } else {
+            TabLayout.Tab tab = mTabLayout.getTabAt(1);
+            tab.select();
+        }
+        return view;
     }
 
     @Override
@@ -55,12 +80,14 @@ public class ProfileFragment extends BaseChannelFragment {
         Bundle bundle = new Bundle();
         bundle.putString("channel", mChannel.getJsonObject().toString());
 
-        if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
-            adapter.addFragment(NotyListFragment.newInstance(bundle), "NOTIES");
-        }
+
         adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
         adapter.addFragment(SpotListFragment.newInstance(bundle), "SPOTS");
         adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
+
+        if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+            adapter.addFragment(NotyListFragment.newInstance(bundle), "NOTIES");
+        }
         adapter.addFragment(AboutProfileFragment.newInstance(bundle), "ABOUT");
     }
 
@@ -123,7 +150,7 @@ public class ProfileFragment extends BaseChannelFragment {
         switch (v.getId()) {
             case R.id.userPhoto:
                 if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
-                    UiHelper.callGallery(this);
+                    Helper.callGallery(this);
                 }else {
                     Intent intent = new Intent(mActivity, ImageViewActivity.class);
                     Bundle bundle = new Bundle();
@@ -143,10 +170,10 @@ public class ProfileFragment extends BaseChannelFragment {
         if(intent == null) return;
 
         switch (requestCode) {
-            case UiHelper.CODE_GALLERY_ACTIVITY:
+            case CODE_GALLERY_ACTIVITY:
                 mProgress.show();
                 File file = FileHelper.getFileFromUri(mActivity, intent.getData());
-                mResizedFile = UiHelper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mUserPhoto, true);
+                mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mUserPhoto, true);
                 break;
         }
     }

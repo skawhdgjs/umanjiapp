@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:textSize="18dp"
-                android:background="#55555555"
+                android:background="#a9c9b35d"
                 android:textColor="#ffffff"
                 android:shadowColor="#000"
                 android:shadowRadius="7.0"
@@ -189,22 +189,9 @@
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
-    <RelativeLayout
+    <include
         android:layout_width="match_parent"
         android:layout_height="53dp"
-        android:id="@+id/noticePanel"
-        android:padding="10dp"
-        android:background="@color/orange"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/noticeMessage"
-            android:textColor="@color/white"
-            android:textSize="14dp"
-            android:text="포인트 10 증가"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
-    </RelativeLayout>
+        layout="@layout/include_notice_panel"
+        />
 </RelativeLayout>

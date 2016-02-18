@@ -23,7 +23,6 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SubLinkData;
@@ -172,7 +171,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             Date parsedDate = dateFormat.parse(dateString);
             Timestamp timestamp = new Timestamp(parsedDate.getTime());
-            holder.createdAt.setText(UiHelper.toPrettyDate(timestamp.getTime()));
+            holder.createdAt.setText(Helper.toPrettyDate(timestamp.getTime()));
         }catch(Exception e){
             Log.e(TAG, "error " + e.toString());
         }

@@ -107,10 +107,21 @@ public interface AppConfig {
 
     String MAP_CREATE_COMPLEX           = "MAP_CREATE_COMPLEX";
 
-
     String ZOOM_IN                      = "ZOOM-IN";
     String ZOOM_OUT                     = "ZOOM-OUT";
 
 
+    int POINT_DEFAULT                   = 10;
+    int POINT_CREATE_CHANNEL            = 10;
+    int POINT_LIKE                      = 10;
+    int POINT_UNLIKE                    = 10;
+    int POINT_JOIN                      = 10;
+    int POINT_UNJOIN                    = 10;
+    int POINT_LINK                      = 10;
+
     int POST_MARKER_INDEX               = -1;
+
+
+    int CODE_GALLERY_ACTIVITY           = 30;
+    int CODE_CAMERA_ACTIVITY            = 31;
 }

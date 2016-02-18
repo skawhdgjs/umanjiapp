@@ -2,37 +2,25 @@ package com.umanji.umanjiapp.ui.channel;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SearchUrls;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.helper.UiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.util.ArrayList;
 
 
 public abstract class BaseChannelCreateFragment extends BaseFragment {
@@ -123,10 +111,10 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
                 submit();
                 break;
             case R.id.photoBtn:
-                mFilePath = UiHelper.callCamera(this);
+                mFilePath = Helper.callCamera(this);
                 break;
             case R.id.gallaryBtn:
-                UiHelper.callGallery(this);
+                Helper.callGallery(this);
                 break;
         }
     }
@@ -159,15 +147,15 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
 
         File file = null;
         switch (requestCode) {
-            case UiHelper.CODE_CAMERA_ACTIVITY:
+            case CODE_CAMERA_ACTIVITY:
                 mProgress.show();
                 file = new File(mFilePath);
-                mResizedFile = UiHelper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
+                mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
                 break;
-            case UiHelper.CODE_GALLERY_ACTIVITY:
+            case CODE_GALLERY_ACTIVITY:
                 mProgress.show();
                 file = FileHelper.getFileFromUri(mActivity, intent.getData());
-                mResizedFile = UiHelper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
+                mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
                 break;
         }
 

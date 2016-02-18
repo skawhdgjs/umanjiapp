@@ -44,6 +44,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
     /****************************************************
      *  View
      ****************************************************/
+    private View mNoticePanel;
+
     protected BaseTabAdapter mAdapter;
 
     protected FloatingActionButton mFab;
@@ -88,6 +90,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         initTabAdapter(view);
         updateView();
+
+        loadData();
         return view;
     }
 
@@ -107,6 +111,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+        mNoticePanel = view.findViewById(R.id.noticePanel);
+
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
         mFab.setOnClickListener(this);
 
@@ -130,7 +136,6 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mMemberCount = (TextView) view.findViewById(R.id.memberCount);
         mPoint = (TextView) view.findViewById(R.id.point);
         mKeywords = (TextView) view.findViewById(R.id.keywords);
-
     }
 
     protected void initTabAdapter(View view) {
@@ -185,6 +190,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                         mChannel = new ChannelData(object);
                     }
                 });
+                updateView();
             } catch(JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
@@ -203,9 +209,11 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     mChannel = channelData.getParent();
                 }
                 updateView();
+                Helper.showNoticePanel(mActivity, mNoticePanel, POINT_DEFAULT + " 포인트 증가");
                 break;
             case api_channels_id_unJoin:
             case api_channels_id_unLike:
+                Helper.showNoticePanel(mActivity, mNoticePanel, POINT_DEFAULT + " 포인트 감소");
             case api_channels_id_update:
                 ChannelData channelData = new ChannelData(event.response);
                 if(TextUtils.equals(mChannel.getId(), channelData.getId())) {

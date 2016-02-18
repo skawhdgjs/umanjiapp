@@ -263,4 +263,8 @@
         android:src="@drawable/ic_discuss"
         android:visibility="gone" />
 
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        layout="@layout/include_notice_panel" />
 </android.support.design.widget.CoordinatorLayout>
