@@ -52,15 +52,6 @@ public class PostListFragment extends BaseChannelListFragment {
     }
 
     @Override
-    public void loadData() {
-        mAdapter.resetDocs();
-        mAdapter.setCurrentPage(0);
-
-        loadMoreData();
-    }
-
-
-    @Override
     public void loadMoreData() {
         isLoading = true;
 
@@ -90,8 +81,6 @@ public class PostListFragment extends BaseChannelListFragment {
             }
 
 
-            mProgress.show();
-
             mApi.call(api_channels_posts_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
@@ -103,14 +92,14 @@ public class PostListFragment extends BaseChannelListFragment {
 
                             if(jsonArray.length() == 0) {
 
-                                JSONObject params = mChannel.getJsonObject();
-
-                                params.put("parent", mChannel.getId());
-                                params.put("name", "정보센터");
-                                params.put("type", TYPE_POST);
-
-                                ChannelData channelData = new ChannelData(params);
-                                mAdapter.addBottom(channelData);
+//                                JSONObject params = mChannel.getJsonObject();
+//
+//                                params.put("parent", mChannel.getId());
+//                                params.put("name", "정보센터");
+//                                params.put("type", TYPE_POST);
+//
+//                                ChannelData channelData = new ChannelData(params);
+//                                mAdapter.addBottom(channelData);
 
                             } else {
                                 for(int idx = 0; idx < jsonArray.length(); idx++) {
@@ -121,7 +110,6 @@ public class PostListFragment extends BaseChannelListFragment {
                             }
 
                             updateView();
-                            mProgress.hide();
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }

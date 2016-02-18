@@ -55,14 +55,6 @@ public class LikeListFragment extends BaseChannelListFragment {
     }
 
     @Override
-    public void loadData() {
-        mAdapter.resetDocs();
-        mAdapter.setCurrentPage(0);
-
-        loadMoreData();
-    }
-
-    @Override
     public void loadMoreData() {
         isLoading = true;
 

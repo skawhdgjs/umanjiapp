@@ -22,6 +22,8 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
+import com.umanji.umanjiapp.ui.channel.community.create.CommunityCreateActivity;
+import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 
@@ -77,14 +79,6 @@ public class AboutFragment extends BaseChannelListFragment {
         mAddress = (TextView) view.findViewById(R.id.address);
 
         mAlert = new AlertDialog.Builder(mActivity);
-    }
-
-    @Override
-    public void loadData() {
-        mAdapter.resetDocs();
-        mAdapter.setCurrentPage(0);
-
-        loadMoreData();
     }
 
     @Override
@@ -193,11 +187,7 @@ public class AboutFragment extends BaseChannelListFragment {
                 break;
 
             case R.id.editChannelBtn:
-                Intent aboutIntent = new Intent(mActivity, SpotUpdateActivity.class);
-                Bundle aboutBundle = new Bundle();
-                aboutBundle.putString("channel", mChannel.getJsonObject().toString());
-                aboutIntent.putExtra("bundle", aboutBundle);
-                startActivity(aboutIntent);
+                startChannelUpdateActivity(mActivity, mChannel);
                 break;
 
             case R.id.deleteBtn:
@@ -206,6 +196,29 @@ public class AboutFragment extends BaseChannelListFragment {
         }
     }
 
+    private void startChannelUpdateActivity(Activity activity, ChannelData channelData) {
+        Intent intent = null;
+
+        switch (channelData.getType()) {
+            case TYPE_SPOT_INNER:
+            case TYPE_SPOT:
+                intent = new Intent(activity, SpotUpdateActivity.class);
+                break;
+            case TYPE_COMMUNITY:
+                intent = new Intent(activity, CommunityUpdateActivity.class);
+                break;
+            case TYPE_INFO_CENTER:
+                break;
+            case TYPE_USER:
+                break;
+            case TYPE_COMPLEX:
+                break;
+        }
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channelData.getJsonObject().toString());
+        intent.putExtra("bundle", bundle);
+        activity.startActivity(intent);
+    }
     private void showCreateSpotDialog() {
         mAlert.setPositiveButton(R.string.delete_btn, new DialogInterface.OnClickListener() {
             @Override

@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel._fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.umanji.umanjiapp.R;
@@ -60,15 +63,23 @@ public abstract class BaseChannelListFragment extends BaseFragment {
 
         rView.setItemViewCacheSize(iItemViewCacheSize);
 
+        addOnScrollListener(rView);
 
-        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
-        rView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mAdapter = getListAdapter();
+        rView.setAdapter(mAdapter);
+        loadData();
+
+        return view;
+    }
+
+    protected void addOnScrollListener(RecyclerView rView) {
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(rView.getContext());
+        rView.setLayoutManager(mLayoutManager);
 
         rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-            {
-                if(dy > 0) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
                     int visibleItemCount = mLayoutManager.getChildCount();
                     int totalItemCount = mLayoutManager.getItemCount();
                     int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
@@ -81,21 +92,37 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     if (channels.size() <= mPreFocusedItem) return;
 
                     if (!isLoading) {
-                        if (mPreFocusedItem == (totalItemCount - 4)) {
+                        if (mPreFocusedItem >= (totalItemCount - 3)) {
                             loadMoreData();
                         }
                     }
                 }
             }
         });
+    }
 
-        mAdapter = getListAdapter();
-        rView.setAdapter(mAdapter);
+    @Override
+    public void loadData() {
+        mAdapter.resetDocs();
+        mAdapter.setCurrentPage(0);
 
+        loadMoreData();
 
-        loadData();
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadMoreData();
 
-        return view;
+                Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadMoreData();
+                    }
+                }, 500);
+            }
+        }, 500);
     }
 
     @Override

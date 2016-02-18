@@ -40,7 +40,7 @@ public class ComplexFragment extends BaseChannelFragment {
         bundle.putString("channel", mChannel.getJsonObject().toString());
         adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
         adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
-        adapter.addFragment(ComplexSpotListFragment.newInstance(bundle), "SPOTS");
+        //adapter.addFragment(ComplexSpotListFragment.newInstance(bundle), "SPOTS");
         adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
         adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
     }

@@ -64,14 +64,6 @@ public class SpotListFragment extends BaseChannelListFragment {
     }
 
     @Override
-    public void loadData() {
-        mAdapter.resetDocs();
-        mAdapter.setCurrentPage(0);
-
-        loadMoreData();
-    }
-
-    @Override
     public void loadMoreData() {
         isLoading = true;
 
@@ -99,8 +91,6 @@ public class SpotListFragment extends BaseChannelListFragment {
 
             }
 
-            mProgress.show();
-
             mApi.call(api_channels_spots_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
@@ -116,8 +106,6 @@ public class SpotListFragment extends BaseChannelListFragment {
                             }
 
                             updateView();
-
-                            mProgress.hide();
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }

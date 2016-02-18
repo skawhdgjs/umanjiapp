@@ -9,6 +9,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -546,7 +547,25 @@ public class MainFragment extends BaseFragment {
     private void loadMainPosts() {
         mAdapter.resetDocs();
         mAdapter.setCurrentPage(0);
+
         loadMoreMainPosts();
+
+
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                loadMoreMainPosts();
+
+                Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadMoreMainPosts();
+                    }
+                }, 500);
+            }
+        }, 500);
     }
 
     private void loadMoreMainPosts() {
@@ -844,7 +863,7 @@ public class MainFragment extends BaseFragment {
                     }
 
                     if (!isLoading) {
-                        if (mPreFocusedItem == (totalItemCount - 4)) {
+                        if (mPreFocusedItem >= (totalItemCount - 3)) {
                             loadMoreMainPosts();
                         }
                     }
