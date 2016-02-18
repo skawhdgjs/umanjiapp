@@ -110,6 +110,7 @@ public interface AppConfig {
     String ZOOM_IN                      = "ZOOM-IN";
     String ZOOM_OUT                     = "ZOOM-OUT";
 
+    String EVENT_LOOK_AROUND            = "EVENT_LOOK_AROUND";
 
     int POINT_DEFAULT                   = 10;
     int POINT_CREATE_CHANNEL            = 10;

@@ -244,6 +244,13 @@ public class MainFragment extends BaseFragment {
             case api_channels_id_unLike:
                 Helper.showNoticePanel(mActivity, mNoticePanel, POINT_DEFAULT + " 포인트 감소");
                 break;
+
+            case EVENT_LOOK_AROUND:
+                ChannelData channelData = new ChannelData(event.response);
+                LatLng latLng = new LatLng(channelData.getLatitude(), channelData.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+                break;
         }
     }
 

@@ -26,11 +26,14 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
+import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 
 public abstract class BaseChannelFragment extends BaseFragment {
@@ -221,6 +224,10 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 }
                 updateView();
                 break;
+
+            case EVENT_LOOK_AROUND:
+                mActivity.finish();
+                break;
         }
     }
 
@@ -239,6 +246,9 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     startActivity(intent);
                 }
                 break;
+            case R.id.lookAround:
+                EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                break;
         }
     }
 
@@ -250,10 +260,22 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     protected void setName(Activity activity, ChannelData channelData, String label) {
         if(!TextUtils.isEmpty(channelData.getName())) {
-            mName.setText(Helper.getShortenString(channelData.getName()) + " " + label);
+            mName.setText(Helper.getShortenString(channelData.getName()));
         } else {
             mName.setText(label);
         }
+
+        mName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent aboutIntent = new Intent(mActivity, SpotUpdateActivity.class);
+                Bundle aboutBundle = new Bundle();
+                aboutBundle.putString("channel", mChannel.getJsonObject().toString());
+                aboutIntent.putExtra("bundle", aboutBundle);
+
+                startActivity(aboutIntent);
+            }
+        });
     }
 
     protected void setUserName(Activity activity, ChannelData channelData, String label) {

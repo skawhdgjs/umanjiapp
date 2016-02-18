@@ -224,22 +224,18 @@
                     <com.makeramen.roundedimageview.RoundedImageView
                         xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/lookAround"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:src="@drawable/maps_look_around"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginRight="15dp"
-                        android:scaleType="centerCrop"
-                        android:layout_alignTop="@+id/point"
-                        android:visibility="gone"
-
+                        android:scaleType="fitXY"
                         app:riv_border_color="@color/colorPrimary"
                         app:riv_border_width="1px"
                         app:riv_corner_radius="5dp"
-                        app:riv_oval="false"/>
+                        app:riv_oval="false"
+                        android:layout_marginTop="18dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignRight="@+id/userPhoto"
+                        android:layout_alignEnd="@+id/userPhoto"/>
 
 
                     <!--

@@ -197,7 +197,6 @@ public class AboutFragment extends BaseChannelListFragment {
                 Bundle aboutBundle = new Bundle();
                 aboutBundle.putString("channel", mChannel.getJsonObject().toString());
                 aboutIntent.putExtra("bundle", aboutBundle);
-
                 startActivity(aboutIntent);
                 break;
 
