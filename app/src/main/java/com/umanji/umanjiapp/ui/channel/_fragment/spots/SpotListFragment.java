@@ -2,7 +2,6 @@ package com.umanji.umanjiapp.ui.channel._fragment.spots;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
-import com.umanji.umanjiapp.ui.modal.map.MapActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,6 +99,8 @@ public class SpotListFragment extends BaseChannelListFragment {
 
             }
 
+            mProgress.show();
+
             mApi.call(api_channels_spots_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
@@ -116,6 +116,8 @@ public class SpotListFragment extends BaseChannelListFragment {
                             }
 
                             updateView();
+
+                            mProgress.hide();
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }

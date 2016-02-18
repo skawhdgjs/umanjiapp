@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -91,6 +90,8 @@ public class PostListFragment extends BaseChannelListFragment {
             }
 
 
+            mProgress.show();
+
             mApi.call(api_channels_posts_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
@@ -120,6 +121,7 @@ public class PostListFragment extends BaseChannelListFragment {
                             }
 
                             updateView();
+                            mProgress.hide();
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }
