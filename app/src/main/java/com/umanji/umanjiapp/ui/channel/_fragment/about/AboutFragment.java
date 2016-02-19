@@ -22,7 +22,6 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel.community.create.CommunityCreateActivity;
 import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
@@ -79,6 +78,8 @@ public class AboutFragment extends BaseChannelListFragment {
         mAddress = (TextView) view.findViewById(R.id.address);
 
         mAlert = new AlertDialog.Builder(mActivity);
+
+        mAddress.setText(Helper.getFullAddress(mChannel));
     }
 
     @Override
@@ -132,7 +133,7 @@ public class AboutFragment extends BaseChannelListFragment {
 
     @Override
     public void updateView() {
-        mAddress.setText(Helper.getFullAddress(mChannel));
+        //mAddress.setText(Helper.getFullAddress(mChannel));
         mAdapter.notifyDataSetChanged();
 
         setAddBtn(mActivity, mChannel);
