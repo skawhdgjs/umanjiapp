@@ -230,10 +230,13 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                     if(options == null) return;
 
                     holder.surveyPanel.setVisibility(View.VISIBLE);
-                    holder.surveyPanel.removeAllViews();
+
+                    LinearLayout surveyContentPanel = (LinearLayout)holder.surveyPanel.findViewById(R.id.surveyContentPanel);
+                    surveyContentPanel.removeAllViews();
 
                     for(int idx = 0; idx < options.length(); idx++) {
                         View view = LayoutInflater.from(mActivity).inflate(R.layout.include_survey_card, null);
+                        LinearLayout surveyOptionPane = (LinearLayout) view.findViewById(R.id.surveyOptionPanel);
                         final TextView surverOptionName = (TextView) view.findViewById(R.id.surveyOptionName);
                         final TextView voteCount = (TextView) view.findViewById(R.id.voteCount);
 
@@ -243,10 +246,15 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                         surverOptionName.setText(voteData.getName());
 
                         ArrayList<SubLinkData> surveySubLinks = channelData.getSubLinks(TYPE_SURVEY, String.valueOf(idx));
-                        voteCount.setText(surveySubLinks.size() + "명");
+
+                        if(surveySubLinks == null) {
+                            voteCount.setText("0명");
+                        } else {
+                            voteCount.setText(surveySubLinks.size() + "명");
+                        }
 
                         final int fIdx = idx;
-                        surverOptionName.setOnClickListener(new View.OnClickListener() {
+                        surveyOptionPane.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 try {
@@ -282,7 +290,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                             }
                         });
 
-                        holder.surveyPanel.addView(view);
+                        surveyContentPanel.addView(view);
                     }
 
                 } catch (JSONException e) {
