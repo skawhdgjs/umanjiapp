@@ -37,6 +37,15 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = (BaseActivity)getActivity();
+
+        mProgress = new ProgressDialog(getActivity());
+        mProgress.setMessage("Loading, please wait");
+        mProgress.setTitle("Connecting server");
+        mProgress.setCancelable(false);
+
+        mApi = new ApiHelper(mActivity);
+
+        EventBus.getDefault().register(this);
     }
 
 
@@ -60,15 +69,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
             collapsingToolbar.setTitleEnabled(false);
         }
 
-
-        mProgress = new ProgressDialog(getActivity());
-        mProgress.setMessage("Loading, please wait");
-        mProgress.setTitle("Connecting server");
-        mProgress.setCancelable(false);
-
-        mApi = new ApiHelper(mActivity);
-
-        EventBus.getDefault().register(this);
 
         initWidgets(view);
         return view;

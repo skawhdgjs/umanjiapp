@@ -864,7 +864,7 @@ public class MainFragment extends BaseFragment {
                     }
 
                     if (!isLoading) {
-                        if (mPreFocusedItem >= (totalItemCount - 3)) {
+                        if (totalItemCount <= 20 || mPreFocusedItem >= (totalItemCount - 3)) {
                             loadMoreMainPosts();
                         }
                     }

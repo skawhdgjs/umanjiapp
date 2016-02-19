@@ -57,6 +57,7 @@ public class LikeListFragment extends BaseChannelListFragment {
     @Override
     public void loadMoreData() {
         isLoading = true;
+        mLoadCount = mLoadCount + 1;
 
         try {
             JSONObject params = new JSONObject();
@@ -76,8 +77,9 @@ public class LikeListFragment extends BaseChannelListFragment {
                                 JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                 ChannelData doc = new ChannelData(jsonDoc);
                                 mAdapter.addBottom(doc);
-                                mAdapter.notifyItemChanged(mAdapter.getItemCount() - 1);
                             }
+
+                            updateView();
 
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -227,16 +228,27 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                     String postType = survey.optString("type");
                     JSONArray options = survey.getJSONArray("options");
 
-                    if(options == null) return;
+                    if(options == null && options.length() == 0) {
+                        holder.surveyPanel.setVisibility(View.GONE);
+                        return;
+                    }
 
                     holder.surveyPanel.setVisibility(View.VISIBLE);
 
                     LinearLayout surveyContentPanel = (LinearLayout)holder.surveyPanel.findViewById(R.id.surveyContentPanel);
                     surveyContentPanel.removeAllViews();
 
+
+                    String actionName = channelData.getActionName(TYPE_SURVEY, AuthHelper.getUserId(mActivity));
+                    if(TextUtils.isEmpty(actionName)) {
+                        holder.surveyPanel.setTag(null);
+                    }else {
+                        holder.surveyPanel.setTag(actionName);
+                    }
+
                     for(int idx = 0; idx < options.length(); idx++) {
                         View view = LayoutInflater.from(mActivity).inflate(R.layout.include_survey_card, null);
-                        LinearLayout surveyOptionPane = (LinearLayout) view.findViewById(R.id.surveyOptionPanel);
+                        final LinearLayout surveyOptionPanel = (LinearLayout) view.findViewById(R.id.surveyOptionPanel);
                         final TextView surverOptionName = (TextView) view.findViewById(R.id.surveyOptionName);
                         final TextView voteCount = (TextView) view.findViewById(R.id.voteCount);
 
@@ -244,6 +256,9 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                         VoteData voteData = new VoteData(jsonDoc);
 
                         surverOptionName.setText(voteData.getName());
+                        if(TextUtils.equals(actionName, String.valueOf(idx))) {
+                            surveyOptionPanel.setBackgroundResource(R.drawable.feed_new);
+                        };
 
                         ArrayList<SubLinkData> surveySubLinks = channelData.getSubLinks(TYPE_SURVEY, String.valueOf(idx));
 
@@ -253,10 +268,17 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                             voteCount.setText(surveySubLinks.size() + "명");
                         }
 
+
                         final int fIdx = idx;
-                        surveyOptionPane.setOnClickListener(new View.OnClickListener() {
+                        surveyOptionPanel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                String actionName = (String)holder.surveyPanel.getTag();
+                                if(!TextUtils.isEmpty(actionName)) {
+                                    Toast.makeText(mActivity, "이미 투표에 참여하였습니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
                                 try {
 
                                     JSONObject params = channelData.getAddressJSONObject();
@@ -277,6 +299,10 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                                 ArrayList<SubLinkData> subLinkDatas = parentData.getSubLinks(TYPE_SURVEY, String.valueOf(fIdx));
 
                                                 voteCount.setText(subLinkDatas.size() + "명");
+
+                                                String actionName = parentData.getActionName(TYPE_SURVEY, AuthHelper.getUserId(mActivity));
+                                                holder.surveyPanel.setTag(actionName);
+                                                surveyOptionPanel.setBackgroundResource(R.drawable.feed_new);
 
                                                 EventBus.getDefault().post(new SuccessData(api_channels_id_vote, object));
                                             }

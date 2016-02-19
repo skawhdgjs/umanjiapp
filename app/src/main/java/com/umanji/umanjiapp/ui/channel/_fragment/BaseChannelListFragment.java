@@ -42,7 +42,7 @@ public abstract class BaseChannelListFragment extends BaseFragment {
      ****************************************************/
     protected boolean isLoading = false;
     protected int mPreFocusedItem = 0;
-
+    protected int mLoadCount = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,8 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                 mChannel = new ChannelData(jsonString);
             }
         }
+
+
     }
 
     @Override
@@ -67,6 +69,7 @@ public abstract class BaseChannelListFragment extends BaseFragment {
 
         mAdapter = getListAdapter();
         rView.setAdapter(mAdapter);
+
         loadData();
 
         return view;
@@ -92,7 +95,7 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     if (channels.size() <= mPreFocusedItem) return;
 
                     if (!isLoading) {
-                        if (mPreFocusedItem >= (totalItemCount - 3)) {
+                        if (totalItemCount <= 20 || mPreFocusedItem >= (totalItemCount - 3)) {
                             loadMoreData();
                         }
                     }
@@ -107,22 +110,6 @@ public abstract class BaseChannelListFragment extends BaseFragment {
         mAdapter.setCurrentPage(0);
 
         loadMoreData();
-
-        Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadMoreData();
-
-                Handler mHandler = new Handler();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadMoreData();
-                    }
-                }, 500);
-            }
-        }, 500);
     }
 
     @Override

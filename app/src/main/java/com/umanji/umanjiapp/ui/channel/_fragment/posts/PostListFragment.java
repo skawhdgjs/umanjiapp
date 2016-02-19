@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel._fragment.posts;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,13 +55,14 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void loadMoreData() {
         isLoading = true;
+        mLoadCount = mLoadCount + 1;
 
         try {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
             params.put("type", TYPE_POST);
 
-            if(mChannel.getLevel() != LEVEL_LOCAL) {
+            if(mChannel.getLevel() <= LEVEL_DONG) {
                 params.put("sort", "point DESC");
             }
 
@@ -92,22 +94,15 @@ public class PostListFragment extends BaseChannelListFragment {
 
                             if(jsonArray.length() == 0) {
 
-//                                JSONObject params = mChannel.getJsonObject();
-//
-//                                params.put("parent", mChannel.getId());
-//                                params.put("name", "정보센터");
-//                                params.put("type", TYPE_POST);
-//
-//                                ChannelData channelData = new ChannelData(params);
-//                                mAdapter.addBottom(channelData);
 
                             } else {
                                 for(int idx = 0; idx < jsonArray.length(); idx++) {
                                     JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                     ChannelData doc = new ChannelData(jsonDoc);
                                     mAdapter.addBottom(doc);
-                                    mAdapter.notifyItemChanged(mAdapter.getItemCount() - 1);
                                 }
+
+                                updateView();
                             }
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
