@@ -62,6 +62,8 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         mLogoutBtn.setOnClickListener(this);
         mAddress = (TextView) view.findViewById(R.id.address);
 
+        mAddress.setText(Helper.getFullAddress(mChannel));
+
         addHomeBtn = (Button)view.findViewById(R.id.addHomeBtn);
         addHomeBtn.setOnClickListener(this);
     }
