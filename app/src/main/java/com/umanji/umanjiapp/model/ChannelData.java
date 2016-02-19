@@ -213,6 +213,25 @@ public class ChannelData {
 
         return "";
     }
+
+    public String getActionName(String type, String userId) {
+        boolean isDone = false;
+
+        ArrayList<SubLinkData> subLinkDatas = this.getSubLinks(type);
+        if(subLinkDatas != null && subLinkDatas.size() > 0) {
+            Iterator<SubLinkData> iterator = subLinkDatas.iterator();
+
+            while(iterator.hasNext()) {
+                SubLinkData data = iterator.next();
+                if(data.getOwner().equals(userId)) {
+                    return data.getName();
+                }
+            }
+        }
+
+        return "";
+    }
+
     public JSONObject getJsonObject() {
         return jsonObject;
     }

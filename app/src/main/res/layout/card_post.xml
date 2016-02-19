@@ -104,7 +104,6 @@
             android:id="@+id/surveyPanel"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
-            android:padding="15dp"
             android:background="@drawable/meta_bordered"
             android:visibility="gone">
 
@@ -119,7 +118,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="# 클자를 클릭하여 투표에 참여하세요."
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
+                android:padding="15dp"
                 android:textSize="8dp"/>
         </LinearLayout>
 
