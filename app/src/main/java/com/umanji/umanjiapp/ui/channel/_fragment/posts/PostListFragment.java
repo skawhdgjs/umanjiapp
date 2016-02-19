@@ -60,6 +60,7 @@ public class PostListFragment extends BaseChannelListFragment {
         try {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
+            params.put("limit", 5);
             params.put("type", TYPE_POST);
 
             if(mChannel.getLevel() <= LEVEL_DONG) {

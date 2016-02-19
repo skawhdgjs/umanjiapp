@@ -137,8 +137,18 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         });
     }
 
+    protected void setMemberCount(final ViewHolder holder, ChannelData channelData) {
+        ArrayList<SubLinkData> subLinkDatas = channelData.getSubLinks(TYPE_MEMBER);
+        if(subLinkDatas != null && subLinkDatas.size() > 0) {
+            holder.memberCount.setText("멤버 " + subLinkDatas.size() + "명");
+        }else {
+            holder.memberCount.setText("멤버 0명");
+        }
+
+    }
+
     protected void setPoint(final ViewHolder holder, ChannelData channelData) {
-        holder.point.setText("" + channelData.getPoint());
+        holder.point.setText("활동포인트 " + channelData.getPoint());
     }
 
     protected void setName(final ViewHolder holder, final ChannelData channelData) {
@@ -642,6 +652,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
         public final RelativeLayout actionPanel;
         public final TextView   point;
+        public final TextView   memberCount;
         public final TextView   replyCount;
         public final Button     likeBtn;
         public final Button     replyBtn;
@@ -677,6 +688,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
             actionPanel     = (RelativeLayout) view.findViewById(R.id.actionPanel);
             point           = (TextView) view.findViewById(R.id.point);
+            memberCount     = (TextView) view.findViewById(R.id.memberCount);
             replyCount      = (TextView) view.findViewById(R.id.replyCount);
             likeBtn         = (Button) view.findViewById(R.id.likeBtn);
             replyBtn        = (Button) view.findViewById(R.id.replyBtn);

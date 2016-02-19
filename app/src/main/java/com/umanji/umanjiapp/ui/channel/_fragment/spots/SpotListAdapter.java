@@ -40,11 +40,13 @@ public class SpotListAdapter extends BaseChannelListAdapter {
 
         setPoint(holder, channelData);
         setName(holder, channelData);
-        setSpotPhoto(holder, channelData);
+        setMemberCount(holder, channelData);
+        setPhoto(holder, channelData);
         setUserPhoto(holder, channelData.getOwner());
     }
 
-    protected void setSpotPhoto(final ViewHolder holder, ChannelData channelData) {
+    @Override
+    protected void setPhoto(final ViewHolder holder, ChannelData channelData) {
         String photo = channelData.getPhoto();
         if(!TextUtils.isEmpty(photo)) {
             Glide.with(mActivity)

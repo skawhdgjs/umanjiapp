@@ -95,7 +95,7 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     if (channels.size() <= mPreFocusedItem) return;
 
                     if (!isLoading) {
-                        if (totalItemCount <= 20 || mPreFocusedItem >= (totalItemCount - 3)) {
+                        if (mPreFocusedItem >= (totalItemCount - 3)) {
                             loadMoreData();
                         }
                     }
