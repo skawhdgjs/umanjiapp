@@ -550,23 +550,6 @@ public class MainFragment extends BaseFragment {
         mAdapter.setCurrentPage(0);
 
         loadMoreMainPosts();
-
-
-        Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loadMoreMainPosts();
-
-                Handler mHandler = new Handler();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loadMoreMainPosts();
-                    }
-                }, 500);
-            }
-        }, 500);
     }
 
     private void loadMoreMainPosts() {
@@ -575,6 +558,7 @@ public class MainFragment extends BaseFragment {
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("page", mAdapter.getCurrentPage());
+            params.put("limit", 5);
             params.put("sort", "point DESC");
 
             mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
@@ -864,7 +848,7 @@ public class MainFragment extends BaseFragment {
                     }
 
                     if (!isLoading) {
-                        if (totalItemCount <= 20 || mPreFocusedItem >= (totalItemCount - 3)) {
+                        if (mPreFocusedItem >= (totalItemCount - 3)) {
                             loadMoreMainPosts();
                         }
                     }

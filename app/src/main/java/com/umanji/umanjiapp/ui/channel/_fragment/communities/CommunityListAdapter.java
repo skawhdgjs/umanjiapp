@@ -39,6 +39,23 @@ public class CommunityListAdapter extends BaseChannelListAdapter {
 
         setPoint(holder, channelData);
         setName(holder, channelData);
+        setMemberCount(holder, channelData);
+        setPhoto(holder, channelData);
         setUserPhoto(holder, channelData.getOwner());
+    }
+
+    @Override
+    protected void setPhoto(final ViewHolder holder, ChannelData channelData) {
+        String photo = channelData.getPhoto();
+        if(!TextUtils.isEmpty(photo)) {
+            Glide.with(mActivity)
+                    .load(photo)
+                    .placeholder(R.drawable.spot_dark_bg)
+                    .into(holder.photo);
+        } else {
+            Glide.with(mActivity)
+                    .load(R.drawable.community_default)
+                    .into(holder.photo);
+        }
     }
 }
