@@ -376,6 +376,22 @@ public class ChannelData {
         return null;
     }
 
+    public ArrayList<SubLinkData> getSubLinks(String type, String name) {
+
+        if(subLinks != null && subLinks.size() > 0) {
+            ArrayList<SubLinkData> newArray = new ArrayList<SubLinkData>();
+            for (int idx=0; idx< subLinks.size(); idx++) {
+                SubLinkData data = subLinks.get(idx);
+
+                if(TextUtils.equals(data.getType(), type) && TextUtils.equals(data.getName(), name)) {
+                    newArray.add(data);
+                }
+            }
+            return newArray;
+        }
+        return null;
+    }
+
     public void setSubLinks(JSONArray jsonArray) {
         try {
             if (jsonArray != null && jsonArray.length() > 0) {

@@ -238,6 +238,7 @@ public class MainFragment extends BaseFragment {
                 mNotyCountBtn.setText("0");
                 break;
 
+            case api_channels_id_vote:
             case api_channels_id_like:
                 Helper.showNoticePanel(mActivity, mNoticePanel, POINT_DEFAULT + " 포인트 증가");
                 break;

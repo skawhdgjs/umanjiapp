@@ -77,13 +77,12 @@ public class NotyListFragment extends BaseChannelListFragment {
                                     hasNewNoty = !notyData.isRead();
                                 }
                                 ((NotyListAdapter)mAdapter).addBottom(notyData);
+                                mAdapter.notifyItemChanged(mAdapter.getItemCount() - 1);
                             }
 
                             if(hasNewNoty) {
                                 mApi.call(api_noites_read);
                             }
-
-                            updateView();
 
                         } catch(JSONException e) {
                             Log.e(TAG, "error " + e.toString());

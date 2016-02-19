@@ -7,6 +7,8 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import com.leocardz.link.preview.library.TextCrawler;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.SuccessData;
+import com.umanji.umanjiapp.model.VoteData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 
 import org.json.JSONArray;
@@ -26,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class PostCreateFragment extends BaseChannelCreateFragment {
@@ -38,6 +42,15 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     protected TextView mMetaTitle;
     protected TextView mMetaDesc;
     protected boolean isPreview = false;
+
+
+    // for voting
+    protected boolean hasVote = false;
+    protected LinearLayout mVotePanel;
+    protected LinearLayout mVoteOptionPanel;
+    protected Button mVoteBtn;
+    protected Button mVoteRemoveBtn;
+    protected Button mAddVoteOptionBtn;
 
     public static PostCreateFragment newInstance(Bundle bundle) {
         PostCreateFragment fragment = new PostCreateFragment();
@@ -65,8 +78,18 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         mMetaDesc = (TextView) view.findViewById(R.id.metaDesc);
 
         mTextCrawler = new TextCrawler();
-
         setKeyListnerForSitePreview();
+
+        mVotePanel = (LinearLayout) view.findViewById(R.id.votePanel);
+        mVoteOptionPanel = (LinearLayout) view.findViewById(R.id.voteOptionPanel);
+        mVoteBtn = (Button) view.findViewById(R.id.voteBtn);
+        mVoteBtn.setOnClickListener(this);
+        mVoteRemoveBtn = (Button) view.findViewById(R.id.voteRemoveBtn);
+        mVoteRemoveBtn.setOnClickListener(this);
+        mAddVoteOptionBtn = (Button) view.findViewById(R.id.addVoteOptionBtn);
+        mAddVoteOptionBtn.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -74,57 +97,14 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         return inflater.inflate(R.layout.activity_post_create, container, false);
     }
 
+
     @Override
     protected void submit() {
-        String name = mName.getText().toString().replace("\n", " ");
-        ArrayList<String> urls = SearchUrls.matches(name);
 
+        ArrayList<String> urls = getUrlsFrom();
         if (isPreview == false && urls.size() > 0) {
-            mTextCrawler
-                    .makePreview(new LinkPreviewCallback() {
-                        @Override
-                        public void onPre() {
-                            mProgress.show();
-                        }
+            requestWithMeta(urls);
 
-                        @Override
-                        public void onPos(SourceContent sourceContent, boolean isNull) {
-
-                            if (isNull || sourceContent.getFinalUrl().equals("")) {
-                                isPreview = false;
-                                mMetaPanel.setVisibility(View.GONE);
-
-                            } else {
-                                isPreview = true;
-                                mMetaPanel.setVisibility(View.VISIBLE);
-
-                                if(sourceContent.getImages().size() > 0) {
-                                    mMetaPhotoUrl = sourceContent.getImages().get(0);
-                                    mMetaPhoto.setVisibility(View.VISIBLE);
-                                    Glide.with(mActivity).load(mMetaPhotoUrl).into(mMetaPhoto);
-                                }else {
-                                    mMetaPhoto.setVisibility(View.GONE);
-                                }
-
-                                if(TextUtils.isEmpty(sourceContent.getTitle())) {
-                                    mMetaTitle.setVisibility(View.GONE);
-                                }else {
-                                    mMetaTitle.setVisibility(View.VISIBLE);
-                                    mMetaTitle.setText(sourceContent.getTitle());
-                                }
-
-                                if(TextUtils.isEmpty(sourceContent.getDescription())) {
-                                    mMetaDesc.setVisibility(View.GONE);
-                                }else {
-                                    mMetaDesc.setVisibility(View.VISIBLE);
-                                    mMetaDesc.setText(sourceContent.getDescription());
-                                }
-                            }
-
-                            mProgress.hide();
-                            request();
-                        }
-                    }, urls.get(0));
         } else {
             request();
         }
@@ -146,14 +126,34 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                 mPhotoUri = null;
             }
 
+            JSONObject descParams = new JSONObject();
             if(isPreview) {
-                JSONObject descParams = new JSONObject();
                 descParams.put("metaTitle", mMetaTitle.getText().toString());
                 descParams.put("metaDesc", Helper.getShortenString(mMetaDesc.getText().toString(), 50));
                 descParams.put("metaPhoto", mMetaPhotoUrl);
-
-                params.put("desc", descParams);
             }
+
+            if(hasVote) {
+                JSONObject voteParams = new JSONObject();
+                JSONArray options = new JSONArray();
+                for(int idx=0; idx < mVoteOptionPanel.getChildCount(); idx++) {
+                    TextView text = (TextView)mVoteOptionPanel.getChildAt(idx);
+
+                    JSONObject voteOptionParams = new JSONObject();
+                    voteOptionParams.put("name", text.getText().toString());
+                    voteOptionParams.put("count", 0);
+                    voteOptionParams.put("voters", null);
+
+                    options.put(voteOptionParams);
+                }
+
+                voteParams.put("type", TYPE_POST_SURVEY);
+                voteParams.put("options", (Object)options);
+
+                descParams.put("vote", voteParams);
+            }
+
+            params.put("desc", descParams);
             mApi.call(api_channels_create, params);
 
         }catch(JSONException e) {
@@ -230,6 +230,85 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.voteBtn:
+                hasVote = true;
+                mVotePanel.setVisibility(View.VISIBLE);
+
+                mVoteBtn.setVisibility(View.GONE);
+                mVoteRemoveBtn.setVisibility(View.VISIBLE);
+                break;
+            case R.id.voteRemoveBtn:
+                hasVote = false;
+                mVotePanel.setVisibility(View.GONE);
+
+                mVoteBtn.setVisibility(View.VISIBLE);
+                mVoteRemoveBtn.setVisibility(View.GONE);
+                break;
+            case R.id.addVoteOptionBtn:
+                AutoCompleteTextView option = new AutoCompleteTextView(mActivity);
+                mVoteOptionPanel.addView(option);
+                break;
+        }
+    }
+
+    private ArrayList<String> getUrlsFrom() {
+        String name = mName.getText().toString().replace("\n", " ");
+        return SearchUrls.matches(name);
+    }
+
+    private void requestWithMeta(ArrayList<String> urls) {
+        mTextCrawler
+                .makePreview(new LinkPreviewCallback() {
+                    @Override
+                    public void onPre() {
+                        mProgress.show();
+                    }
+
+                    @Override
+                    public void onPos(SourceContent sourceContent, boolean isNull) {
+
+                        if (isNull || sourceContent.getFinalUrl().equals("")) {
+                            isPreview = false;
+                            mMetaPanel.setVisibility(View.GONE);
+
+                        } else {
+                            isPreview = true;
+                            mMetaPanel.setVisibility(View.VISIBLE);
+
+                            if (sourceContent.getImages().size() > 0) {
+                                mMetaPhotoUrl = sourceContent.getImages().get(0);
+                                mMetaPhoto.setVisibility(View.VISIBLE);
+                                Glide.with(mActivity).load(mMetaPhotoUrl).into(mMetaPhoto);
+                            } else {
+                                mMetaPhoto.setVisibility(View.GONE);
+                            }
+
+                            if (TextUtils.isEmpty(sourceContent.getTitle())) {
+                                mMetaTitle.setVisibility(View.GONE);
+                            } else {
+                                mMetaTitle.setVisibility(View.VISIBLE);
+                                mMetaTitle.setText(sourceContent.getTitle());
+                            }
+
+                            if (TextUtils.isEmpty(sourceContent.getDescription())) {
+                                mMetaDesc.setVisibility(View.GONE);
+                            } else {
+                                mMetaDesc.setVisibility(View.VISIBLE);
+                                mMetaDesc.setText(sourceContent.getDescription());
+                            }
+                        }
+
+                        mProgress.hide();
+                        request();
+                    }
+                }, urls.get(0));
     }
 
 }

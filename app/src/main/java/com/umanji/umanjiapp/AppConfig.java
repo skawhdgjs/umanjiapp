@@ -2,8 +2,8 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-//    String REST_SERVER_URL = "http://172.30.1.18:3000/v1"; /* 로컬 API Server */
-    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+    String REST_SERVER_URL = "http://10.10.0.28:3000/v1"; /* 로컬 API Server */
+//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -75,6 +75,8 @@ public interface AppConfig {
 
     String api_noites_read              = "PUT  /noties/read";
 
+    String api_channels_id_vote            = "POST /channels/id/vote";
+
     String api_channels_id_join            = "POST /channels/id/join";
     String api_channels_id_unJoin          = "DELETE /channels/id/join";
     String api_channels_id_like            = "POST /channels/id/like";
@@ -99,12 +101,14 @@ public interface AppConfig {
 
     String TYPE_NOTY                    = "NOTY";
     String TYPE_LIKE                    = "LIKE";
+    String TYPE_SURVEY                  = "SURVEY";
 
     String TYPE_LINK                    = "LINK";
 
 
-    String TYPE_ERROR_AUTH              = "ERROR_AUTH";
+    String TYPE_POST_SURVEY             = "POST_SURVEY";
 
+    String TYPE_ERROR_AUTH              = "ERROR_AUTH";
     String MAP_CREATE_COMPLEX           = "MAP_CREATE_COMPLEX";
 
     String ZOOM_IN                      = "ZOOM-IN";

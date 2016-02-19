@@ -2,9 +2,7 @@ package com.umanji.umanjiapp.model;
 
 import org.json.JSONObject;
 
-/**
- * Created by bruce on 16. 1. 15..
- */
+
 public class SubLinkData {
     private String owner;
     private String id;

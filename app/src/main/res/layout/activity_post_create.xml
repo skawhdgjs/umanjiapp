@@ -58,8 +58,67 @@
                     android:text="앨범"
                     android:textStyle="bold" />
 
+                <Button
+                    style="?android:textAppearanceSmall"
+                    android:id="@+id/voteBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="설문"
+                    android:textStyle="bold"/>
+
+                <Button
+                    style="?android:textAppearanceSmall"
+                    android:id="@+id/voteRemoveBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="설문 제거"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
             </LinearLayout>
 
+
+            <LinearLayout
+                android:id="@+id/votePanel"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/meta_bordered"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:textSize="16dp"
+                    android:text="설문 항목을 작성해 주세요."/>
+
+                <LinearLayout
+                    android:id="@+id/voteOptionPanel"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="visible">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="항목 추가"
+                    android:textSize="16dp"
+                    android:id="@+id/addVoteOptionBtn"/>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/submitBtn"
