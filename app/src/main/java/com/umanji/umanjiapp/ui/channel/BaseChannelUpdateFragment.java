@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -157,6 +158,7 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
                 submit();
                 break;
             case R.id.submitBtn2:
+                mSubmitBtn2.setTextColor(Color.green(127));
                 submit();
                 break;
             case R.id.photoBtn:
