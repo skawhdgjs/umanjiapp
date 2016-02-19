@@ -48,6 +48,7 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
     protected Button mGallaryBtn;
 
     protected Button mSubmitBtn;
+    protected TextView mSubmitBtn2;
     protected ImageView mPhoto;
 
     protected Spinner mFloorSpinner;
@@ -92,6 +93,9 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
 
         mSubmitBtn = (Button) view.findViewById(R.id.submitBtn);
         mSubmitBtn.setOnClickListener(this);
+
+        mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
+        mSubmitBtn2.setOnClickListener(this);
 
         mPhotoBtn = (Button) view.findViewById(R.id.photoBtn);
         mPhotoBtn.setOnClickListener(this);
@@ -150,6 +154,9 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submitBtn:
+                submit();
+                break;
+            case R.id.submitBtn2:
                 submit();
                 break;
             case R.id.photoBtn:
