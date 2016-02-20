@@ -9,7 +9,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -182,7 +181,6 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void updateView() {
-
         if(AuthHelper.isLogin(mActivity)) {
             mSignBtn.setVisibility(View.GONE);
             mAvatarImageBtn.setVisibility(View.VISIBLE);
