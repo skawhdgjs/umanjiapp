@@ -145,7 +145,7 @@
                     android:id="@+id/mZoomLevelText"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.3"
                     android:textColor="@color/white"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
@@ -161,6 +161,7 @@
                     android:gravity="center_horizontal"
                     android:paddingRight="10dp"
                     android:text="@string/main_map_create_complex"
+                    android:layout_gravity="center_vertical"
                     android:textSize="14sp" />
 
                 <TextView
@@ -172,6 +173,7 @@
                     android:gravity="center_horizontal"
                     android:paddingRight="10dp"
                     android:text="@string/main_map_create_spot"
+                    android:layout_gravity="center_vertical"
                     android:textSize="14sp" />
 
                 <TextView
