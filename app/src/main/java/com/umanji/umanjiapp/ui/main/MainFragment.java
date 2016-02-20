@@ -517,11 +517,13 @@ public class MainFragment extends BaseFragment {
                     int zoom = (int) position.zoom;
                     if (isComplexCreatable(zoom)) {
                         createComplexText.setVisibility(View.VISIBLE);
+                        createComplexText.setSelected(true);
                         createSpotText.setVisibility(View.GONE);
                         zoomBtn.setText(ZOOM_IN);
                     } else if (isSpotCreatable(zoom)) {
                         createComplexText.setVisibility(View.GONE);
                         createSpotText.setVisibility(View.VISIBLE);
+                        createSpotText.setSelected(true);
                         zoomBtn.setText(ZOOM_OUT);
                     } else {
                         createComplexText.setVisibility(View.GONE);
