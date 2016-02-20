@@ -60,7 +60,7 @@ public class PostFragment extends BaseChannelFragment {
     @Override
     protected void setName(Activity activity, ChannelData channelData, String label) {
         if(!TextUtils.isEmpty(mChannel.getName())) {
-            mName.setText(Helper.getShortenString(mChannel.getName()));
+            mName.setText(Helper.getShortenString(mChannel.getName(), 20));
         } else {
             mName.setText(label);
         }

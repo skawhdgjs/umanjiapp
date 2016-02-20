@@ -60,7 +60,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginLeft="25dp">
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -114,23 +115,29 @@
                     </LinearLayout>
 
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageView"/>
+
                     <TextView
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="내용없음..."
-                        android:layout_marginTop="-10dp"
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:shadowColor="#000"
                         android:shadowRadius="7.0"
                         android:textColor="@color/white"
                         android:textSize="18dp"
-                        android:textStyle="bold"
                         app:layout_collapseMode="parallax"
                         app:layout_collapseParallaxMultiplier="1.0"
                         android:visibility="visible"
-                        android:layout_below="@+id/titlePanel"/>
+                        android:layout_below="@+id/titlePanel"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="-10dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
