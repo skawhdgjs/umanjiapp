@@ -190,7 +190,7 @@
                     android:id="@+id/mSignBtn"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.3"
                     android:textColor="@color/white"
                     android:gravity="right"
                     android:paddingRight="10dp"
