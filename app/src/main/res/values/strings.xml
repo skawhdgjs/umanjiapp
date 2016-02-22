@@ -91,7 +91,7 @@
     <string name="keyword_create_btn">키워드 등록</string>
 
     <!-- about -->
-    <string name="background_image_btn">스팟 꾸미기</string>
+    <string name="about_channel_update">정보수정</string>
 
     <!-- 로그인/회원가입  -->
     <string name="login_input_email">이메일</string>

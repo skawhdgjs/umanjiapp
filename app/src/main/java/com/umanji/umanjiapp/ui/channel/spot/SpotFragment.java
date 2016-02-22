@@ -1,5 +1,6 @@
 package com.umanji.umanjiapp.ui.channel.spot;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
@@ -17,6 +20,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
+import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 
 public class SpotFragment extends BaseChannelFragment {
     private static final String TAG = "SpotFragment";
@@ -72,6 +76,27 @@ public class SpotFragment extends BaseChannelFragment {
         setUserPhoto(mActivity, mChannel.getOwner());
         setPoint(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
+    }
+
+    @Override
+    protected void setName(Activity activity, ChannelData channelData, String label) {
+        if(!TextUtils.isEmpty(channelData.getName())) {
+            mName.setText(Helper.getShortenString(channelData.getName()));
+        } else {
+            mName.setText(label);
+        }
+
+        mName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent aboutIntent = new Intent(mActivity, SpotUpdateActivity.class);
+                Bundle aboutBundle = new Bundle();
+                aboutBundle.putString("channel", mChannel.getJsonObject().toString());
+                aboutIntent.putExtra("bundle", aboutBundle);
+
+                startActivity(aboutIntent);
+            }
+        });
     }
 
     @Override

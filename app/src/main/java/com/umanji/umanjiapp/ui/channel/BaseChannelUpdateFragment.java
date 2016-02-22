@@ -54,9 +54,7 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
     protected TextView mSubmitBtn2;
     protected ImageView mPhoto;
 
-    protected Spinner mFloorSpinner;
     protected TextView mAddress;
-    protected Button mChangeAddressBtn;
     /****************************************************
      *  Etc.
      ****************************************************/
@@ -107,16 +105,7 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
         mGallaryBtn.setOnClickListener(this);
 
         mAddress = (TextView) view.findViewById(R.id.address);
-        mChangeAddressBtn = (Button) view.findViewById(R.id.changeAddressBtn);
-        mChangeAddressBtn.setOnClickListener(this);
 
-        mFloorSpinner = (Spinner) view.findViewById(R.id.floorSpinner);
-
-        String[] floorList = mActivity.getResources().getStringArray(R.array.floorList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,
-                R.layout.widget_spinner_item, floorList);
-
-        mFloorSpinner.setAdapter(adapter);
     }
 
 
@@ -168,14 +157,6 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
                 break;
             case R.id.gallaryBtn:
                 Helper.callGallery(this);
-                break;
-            case R.id.changeAddressBtn:
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                bundle.putString("mapType", MAP_UPDATE_ADDRESS);
-                Intent intent = new Intent(mActivity, MapUpdateAddressActivity.class);
-                intent.putExtra("bundle", bundle);
-                startActivity(intent);
                 break;
         }
     }

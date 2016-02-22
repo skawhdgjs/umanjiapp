@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -19,6 +21,8 @@ import de.greenrobot.event.EventBus;
 public class SpotUpdateFragment extends BaseChannelUpdateFragment {
     private static final String TAG = "SpotUpdateFragment";
 
+    private Spinner mFloorSpinner;
+
     public static SpotUpdateFragment newInstance(Bundle bundle) {
         SpotUpdateFragment fragment = new SpotUpdateFragment();
         fragment.setArguments(bundle);
@@ -32,9 +36,17 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
+        mFloorSpinner = (Spinner) view.findViewById(R.id.floorSpinner);
 
+        String[] floorList = mActivity.getResources().getStringArray(R.array.floorList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,
+                R.layout.widget_spinner_item, floorList);
+
+        mFloorSpinner.setAdapter(adapter);
+
+        return view;
     }
 
     @Override
@@ -48,7 +60,6 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
         try {
             JSONObject params = new JSONObject();
             setChannelParams(params);
-
             setSpotDesc(params);
             mApi.call(api_channels_id_update, params);
 

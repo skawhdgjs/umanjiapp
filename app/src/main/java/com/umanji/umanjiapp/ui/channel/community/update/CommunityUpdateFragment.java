@@ -1,14 +1,20 @@
 package com.umanji.umanjiapp.ui.channel.community.update;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelUpdateFragment;
+import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +45,7 @@ public class CommunityUpdateFragment extends BaseChannelUpdateFragment {
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_spot_update, container, false);
+        return inflater.inflate(R.layout.activity_channel_update, container, false);
     }
 
 
@@ -48,21 +54,11 @@ public class CommunityUpdateFragment extends BaseChannelUpdateFragment {
         try {
             JSONObject params = new JSONObject();
             setChannelParams(params);
-
-            setSpotDesc(params);
             mApi.call(api_channels_id_update, params);
 
         }catch(JSONException e) {
             Log.e("BaseChannelUpdate", "error " + e.toString());
         }
-    }
-
-    protected void setSpotDesc(JSONObject params) throws JSONException {
-        String floor = mFloorSpinner.getSelectedItem().toString();
-
-        JSONObject descParams = new JSONObject();
-        descParams.put("floor", Integer.parseInt(floor.substring(0, floor.indexOf("F") - 1)));
-        params.put("desc", descParams);
     }
 
     @Override

@@ -231,6 +231,8 @@ public class MainFragment extends BaseFragment {
             case api_channels_createComplex:
             case api_channels_createSpot:
             case api_channels_id_update:
+                mCurrentChannel = null;
+                mSelectedChannel = null;
                 loadData();
                 break;
             case api_profile_id_update:

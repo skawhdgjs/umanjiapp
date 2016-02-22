@@ -267,18 +267,6 @@ public abstract class BaseChannelFragment extends BaseFragment {
         } else {
             mName.setText(label);
         }
-
-        mName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent aboutIntent = new Intent(mActivity, SpotUpdateActivity.class);
-                Bundle aboutBundle = new Bundle();
-                aboutBundle.putString("channel", mChannel.getJsonObject().toString());
-                aboutIntent.putExtra("bundle", aboutBundle);
-
-                startActivity(aboutIntent);
-            }
-        });
     }
 
     protected void setUserName(Activity activity, ChannelData channelData, String label) {

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="53dp"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
-        android:layout_marginBottom="20dp">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -22,25 +22,27 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <TextView
-            android:id="@+id/myTab"
+            android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:textColor="#fff"
-            android:text=" 각종 수정 및 정보갱신"
-            android:layout_marginLeft="30dp" />
+            android:text="각종 수정 및 정보갱신"
+            android:layout_alignTop="@+id/submitBtn2"
+            android:layout_centerHorizontal="true"/>
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="16dp"
             android:textColor="#fff"
             android:text="완료"
             android:id="@+id/submitBtn2"
             android:gravity="right"
-            android:layout_marginRight="10dp" />
-
-    </LinearLayout>
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/createForm"
@@ -116,15 +118,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="앨범"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/changeAddressBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="위치변경"
                     android:textStyle="bold" />
 
             </LinearLayout>

@@ -25,6 +25,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
+import com.umanji.umanjiapp.ui.modal.map.update_address.MapUpdateAddressActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,7 @@ public class AboutFragment extends BaseChannelListFragment {
     protected Button mAddBtn;
     protected Button mEditChannelBtn;
     protected Button mDeleteBtn;
+    protected Button mAddHomeBtn;
     protected TextView mAddress;
 
     private AlertDialog.Builder mAlert;
@@ -74,6 +76,9 @@ public class AboutFragment extends BaseChannelListFragment {
 
         mDeleteBtn = (Button) view.findViewById(R.id.deleteBtn);
         mDeleteBtn.setOnClickListener(this);
+
+        mAddHomeBtn = (Button) view.findViewById(R.id.addHomeBtn);
+        mAddHomeBtn.setOnClickListener(this);
 
         mAddress = (TextView) view.findViewById(R.id.address);
 
@@ -191,6 +196,14 @@ public class AboutFragment extends BaseChannelListFragment {
             case R.id.deleteBtn:
                 showCreateSpotDialog();
                 break;
+            case R.id.addHomeBtn:
+                Bundle bundle = new Bundle();
+                bundle.putString("channel", mChannel.getJsonObject().toString());
+                bundle.putString("mapType", MAP_UPDATE_ADDRESS);
+                Intent intent = new Intent(mActivity, MapUpdateAddressActivity.class);
+                intent.putExtra("bundle", bundle);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -229,6 +242,7 @@ public class AboutFragment extends BaseChannelListFragment {
                         public void callback(String url, JSONObject object, AjaxStatus status) {
                             dialog.cancel();
                             mActivity.finish();
+                            EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
                         }
                     });
 
