@@ -62,10 +62,11 @@ public class CommunityFragment extends BaseChannelFragment {
         setUserPhoto(mActivity, mChannel.getOwner());
         setPoint(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
+        setKeywords(mActivity, mChannel);
     }
 
     @Override
-    protected void setName(Activity activity, ChannelData channelData, String label) {
+    protected void setName(Activity activity, final ChannelData channelData, String label) {
         if(!TextUtils.isEmpty(channelData.getName())) {
             mName.setText(Helper.getShortenString(channelData.getName()));
         } else {
@@ -75,12 +76,7 @@ public class CommunityFragment extends BaseChannelFragment {
         mName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent aboutIntent = new Intent(mActivity, CommunityUpdateActivity.class);
-                Bundle aboutBundle = new Bundle();
-                aboutBundle.putString("channel", mChannel.getJsonObject().toString());
-                aboutIntent.putExtra("bundle", aboutBundle);
-
-                startActivity(aboutIntent);
+                Helper.startUpdateActivity(mActivity, channelData);
             }
         });
     }

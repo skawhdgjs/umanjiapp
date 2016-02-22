@@ -49,7 +49,7 @@
                 android:layout_below="@+id/ads_image"
                 android:layout_alignLeft="@+id/mZoomBtn"
                 android:layout_alignStart="@+id/mZoomBtn"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:visibility="gone"/>
 
             <Button

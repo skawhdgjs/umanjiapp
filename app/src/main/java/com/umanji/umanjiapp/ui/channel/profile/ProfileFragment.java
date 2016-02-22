@@ -108,6 +108,7 @@ public class ProfileFragment extends BaseChannelFragment {
         setUserPhoto(mActivity, mChannel);
         setPoint(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
+        setKeywords(mActivity, mChannel);
     }
 
     protected void onTabSelected(TabLayout tabLayout) {

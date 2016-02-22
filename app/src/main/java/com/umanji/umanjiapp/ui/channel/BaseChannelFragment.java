@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
@@ -62,7 +63,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
     protected ImageView mLookAround;
     protected TextView mMemberCount;
     protected TextView mPoint;
-    protected TextView mKeywords;
+    protected LinearLayout mKeywordPanel;
 
     protected ViewPager mViewPager;
     protected TabLayout mTabLayout;
@@ -138,7 +139,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
         mMemberCount = (TextView) view.findViewById(R.id.memberCount);
         mPoint = (TextView) view.findViewById(R.id.point);
-        mKeywords = (TextView) view.findViewById(R.id.keywords);
+
+        mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
     }
 
     protected void initTabAdapter(View view) {
@@ -277,20 +279,34 @@ public abstract class BaseChannelFragment extends BaseFragment {
         }
     }
 
-    protected void setPhoto(Activity activity, ChannelData channelData, int defaultImage) {
+    protected void setPhoto(Activity activity, final ChannelData channelData, int defaultImage) {
         String photoUrl = channelData.getPhoto();
         if(photoUrl != null) {
             Glide.with(activity)
                     .load(photoUrl)
                     .into(mPhoto);
+
+            mPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startImageViewActivity(mActivity, channelData);
+                }
+            });
         }else {
             Glide.with(activity)
                     .load(defaultImage)
                     .into(mPhoto);
+
+            mPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startUpdateActivity(mActivity, channelData);
+                }
+            });
         }
     }
 
-    protected void setUserPhoto(Activity activity, ChannelData userData) {
+    protected void setUserPhoto(Activity activity, final ChannelData userData) {
         if(userData != null) {
             String userPhoto = userData.getPhoto();
             if(userPhoto != null) {
@@ -301,6 +317,14 @@ public abstract class BaseChannelFragment extends BaseFragment {
                         .override(40, 40)
                         .into(mUserPhoto);
             }
+
+            mUserPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startImageViewActivity(mActivity, userData);
+                }
+            });
+
         } else {
             Glide.with(mActivity)
                     .load(R.drawable.avatar_default_0)
@@ -330,9 +354,40 @@ public abstract class BaseChannelFragment extends BaseFragment {
     }
 
     protected void setMemberCount(Activity activity, ChannelData channelData) {
-        ArrayList<SubLinkData> memberSubLinks = channelData.getSubLinks(TYPE_MEMBER);
-        if(mMemberCount!=null && memberSubLinks != null) {
-            mMemberCount.setText(memberSubLinks.size() + " 명");
+        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_MEMBER);
+        if(mMemberCount!=null && subLinks != null) {
+            mMemberCount.setText(subLinks.size() + " 명");
+        }
+    }
+
+    protected void setKeywords(Activity activity, ChannelData channelData) {
+        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
+        if(subLinks != null && subLinks.size() > 0) {
+            if(subLinks.size() == 1) {
+                mKeywordPanel.removeAllViews();
+
+                TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
+                mKeywordPanel.addView(keywordView);
+                keywordView.setText(subLinks.get(0).getName());
+
+            }else if(subLinks.size() == 2) {
+                mKeywordPanel.removeAllViews();
+
+                TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
+                mKeywordPanel.addView(keywordView);
+                keywordView.setText("#" + subLinks.get(0).getName());
+
+                TextView keywordView2 = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
+                mKeywordPanel.addView(keywordView2);
+                keywordView2.setText("#" + subLinks.get(1).getName());
+            }
+
+        } else {
+            mKeywordPanel.removeAllViews();
+
+            TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
+            mKeywordPanel.addView(keywordView);
+            keywordView.setText("#키워드를 입력해 주세요.");
         }
     }
 

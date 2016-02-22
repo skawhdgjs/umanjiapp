@@ -57,6 +57,7 @@ public class InfoFragment extends BaseChannelFragment {
         setUserPhoto(mActivity, mChannel.getOwner());
         setPoint(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
+        setKeywords(mActivity, mChannel);
     }
 
     @Override

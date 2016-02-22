@@ -1,11 +1,16 @@
 package com.umanji.umanjiapp.ui.channel.complex;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
@@ -14,6 +19,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragme
 import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.spots.complex.ComplexSpotListFragment;
+import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
 
 public class ComplexFragment extends BaseChannelFragment {
     private static final String TAG = "ComplexFragment";
@@ -55,6 +61,23 @@ public class ComplexFragment extends BaseChannelFragment {
         setUserPhoto(mActivity, mChannel.getOwner());
         setPoint(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
+        setKeywords(mActivity, mChannel);
+    }
+
+    @Override
+    protected void setName(Activity activity, final ChannelData channelData, String label) {
+        if(!TextUtils.isEmpty(channelData.getName())) {
+            mName.setText(Helper.getShortenString(channelData.getName()));
+        } else {
+            mName.setText(label);
+        }
+
+        mName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Helper.startUpdateActivity(mActivity, channelData);
+            }
+        });
     }
 
     @Override

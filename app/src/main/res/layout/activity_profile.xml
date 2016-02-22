@@ -124,7 +124,7 @@
                         android:shadowColor="#000"
                         android:shadowRadius="7.0"
                         android:textColor="@color/white"
-                        android:layout_above="@+id/keywords"
+                        android:layout_above="@+id/keywordPanel"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_marginLeft="20dp"
@@ -144,11 +144,11 @@
                         android:shadowRadius="7.0"
                         android:textColor="@color/white" />
 
-                    <TextView
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="#키워드를 등록해 주세요"
-                        android:id="@+id/keywords"
+                        android:id="@+id/keywordPanel"
                         android:textSize="16dp"
                         android:shadowColor="#000"
                         android:shadowRadius="7.0"
@@ -156,7 +156,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_alignLeft="@+id/textView5"
                         android:layout_alignStart="@+id/textView5"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_marginBottom="10dp">
+
+                    </LinearLayout>
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         xmlns:app="http://schemas.android.com/apk/res-auto"

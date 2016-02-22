@@ -186,7 +186,7 @@ public class AboutFragment extends BaseChannelListFragment {
 
         switch (v.getId()) {
             case R.id.addKeywordBtn:
-                Helper.startCreateActivity(mActivity, mChannel, TYPE_COMMUNITY);
+                Helper.startCreateActivity(mActivity, mChannel, TYPE_KEYWORD);
                 break;
 
             case R.id.editChannelBtn:

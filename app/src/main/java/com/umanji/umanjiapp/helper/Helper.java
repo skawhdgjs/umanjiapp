@@ -42,8 +42,10 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.ui.auth.SignupActivity;
 import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
 import com.umanji.umanjiapp.ui.channel.community.create.CommunityCreateActivity;
+import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.complex.create.ComplexCreateActivity;
+import com.umanji.umanjiapp.ui.channel.complex.update.ComplexUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.info.InfoActivity;
 import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.PostActivity;
@@ -51,6 +53,7 @@ import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
+import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 import com.umanji.umanjiapp.ui.modal.map.MapActivity;
 
@@ -301,6 +304,27 @@ public final class Helper implements AppConfig {
         activity.startActivity(intent);
     }
 
+    public static void startUpdateActivity(Activity activity, ChannelData channelData) {
+        Intent intent = null;
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channelData.getJsonObject().toString());
+
+        switch (channelData.getType()) {
+            case TYPE_COMPLEX:
+                intent = new Intent(activity, ComplexUpdateActivity.class);
+                break;
+            case TYPE_COMMUNITY:
+                intent = new Intent(activity, CommunityUpdateActivity.class);
+                break;
+            case TYPE_SPOT_INNER:
+            case TYPE_SPOT:
+                intent = new Intent(activity, SpotUpdateActivity.class);
+                break;
+        }
+
+        intent.putExtra("bundle", bundle);
+        activity.startActivity(intent);
+    }
 
     public static void startActivity(Activity activity, ChannelData channelData) {
         Intent intent = null;
