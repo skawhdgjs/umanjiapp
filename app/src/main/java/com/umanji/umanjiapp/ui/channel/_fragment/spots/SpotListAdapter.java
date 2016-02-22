@@ -13,6 +13,8 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 
+import org.json.JSONObject;
+
 
 public class SpotListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "PostListAdapter";
@@ -44,6 +46,17 @@ public class SpotListAdapter extends BaseChannelListAdapter {
         setMemberCount(holder, channelData);
         setPhoto(holder, channelData);
         setUserPhoto(holder, channelData.getOwner());
+
+        JSONObject descJson = channelData.getDesc();
+        if(descJson != null) {
+            int floor = descJson.optInt("floor");
+            holder.floor.setText(floor + "F");
+            holder.floor.setVisibility(View.VISIBLE);
+            holder.floorEmpty.setVisibility(View.GONE);
+        }else {
+            holder.floor.setVisibility(View.GONE);
+            holder.floorEmpty.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
