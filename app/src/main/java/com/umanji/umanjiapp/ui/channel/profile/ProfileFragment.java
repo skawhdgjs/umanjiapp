@@ -110,6 +110,33 @@ public class ProfileFragment extends BaseChannelFragment {
         setMemberCount(mActivity, mChannel);
     }
 
+    protected void onTabSelected(TabLayout tabLayout) {
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                super.onTabSelected(tab);
+                mCurrentTapPosition = tab.getPosition();
+
+                switch (mCurrentTapPosition) {
+                    case 0:
+                        mFab.setImageResource(R.drawable.ic_discuss);
+                        if (AuthHelper.isLogin(mActivity) && AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+                            mFab.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        mFab.setVisibility(View.GONE);
+                        break;
+
+                }
+
+            }
+        });
+    }
+
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);

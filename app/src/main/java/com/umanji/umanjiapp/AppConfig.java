@@ -64,7 +64,6 @@ public interface AppConfig {
 
     String api_complex_findSpots        = "GET  /complex/id/spots";
 
-
     String api_channels_id_update       = "PUT  /channels/id";
     String api_profile_id_update        = "PUT  /channels/id/profile";
 
@@ -109,7 +108,9 @@ public interface AppConfig {
     String TYPE_POST_SURVEY             = "POST_SURVEY";
 
     String TYPE_ERROR_AUTH              = "ERROR_AUTH";
-    String MAP_CREATE_COMPLEX           = "MAP_CREATE_COMPLEX";
+
+    String MAP_CREATE_COMPLEX           = "CREATE_COMPLEX";
+    String MAP_UPDATE_ADDRESS           = "UPDATE_ADDRESS";
 
     String ZOOM_IN                      = "ZOOM-IN";
     String ZOOM_OUT                     = "ZOOM-OUT";
@@ -125,7 +126,8 @@ public interface AppConfig {
     int POINT_UNJOIN                    = 10;
     int POINT_LINK                      = 10;
 
-    int POST_MARKER_INDEX               = -1;
+    int MARKER_INDEX_CLICKED            = -1;
+    int MARKER_INDEX_BY_POST            = -2;
 
 
     int CODE_GALLERY_ACTIVITY           = 30;

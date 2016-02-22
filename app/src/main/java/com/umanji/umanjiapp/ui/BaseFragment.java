@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,6 +32,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
      *  Api
      ****************************************************/
     public ApiHelper mApi;
+
+    public AlertDialog.Builder mAlert;
 
 
     @Override
@@ -65,6 +68,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         mProgress.setMessage("Loading, please wait");
         mProgress.setTitle("Connecting server");
         mProgress.setCancelable(false);
+
+        mAlert = new AlertDialog.Builder(mActivity);
 
         mApi = new ApiHelper(mActivity);
 

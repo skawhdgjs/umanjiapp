@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -114,13 +115,7 @@ public class ComplexSpotListFragment extends BaseChannelListFragment {
 
         switch (v.getId()) {
             case R.id.addChannelBtn:
-
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                bundle.putString("mapType", MAP_CREATE_COMPLEX);
-                Intent intent = new Intent(mActivity, MapActivity.class);
-                intent.putExtra("bundle", bundle);
-                startActivity(intent);
+                Helper.startMapActivity(mActivity, mChannel, MAP_CREATE_COMPLEX);
                 break;
         }
     }
