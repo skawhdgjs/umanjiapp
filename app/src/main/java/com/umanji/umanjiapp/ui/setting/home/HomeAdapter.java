@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.ui.BaseActivity;
@@ -53,6 +54,15 @@ public class HomeAdapter extends BaseChannelListAdapter {
         setUserPhoto(holder, channelData);
 
         setHomeSelectEvent(holder, channelData);
+    }
+
+    protected void setName(final ViewHolder holder, final ChannelData channelData) {
+
+        if(TextUtils.isEmpty(channelData.getName())) {
+            holder.name.setText("이름없음");
+        } else {
+            holder.name.setText(channelData.getName());
+        }
     }
 
     protected void setHomeSelectEvent(final ViewHolder holder, final ChannelData channelData) {
