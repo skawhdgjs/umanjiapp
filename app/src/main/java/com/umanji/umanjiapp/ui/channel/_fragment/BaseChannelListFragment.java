@@ -120,24 +120,26 @@ public abstract class BaseChannelListFragment extends BaseFragment {
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);
+        ChannelData channelData = new ChannelData(event.response);
 
         switch (event.type) {
             case api_channels_create:
                 String parentId = event.response.optString("parent");
                 if(TextUtils.equals(mChannel.getId(), parentId)) {
-                    ChannelData channelData = new ChannelData(event.response);
                     mChannel = channelData.getParent();
 
                     loadData();
                 }
                 break;
             case api_channels_id_update:
-                ChannelData channelData = new ChannelData(event.response);
                 if(TextUtils.equals(mChannel.getId(), channelData.getId())) {
                     mChannel = channelData;
 
                     loadData();
                 }
+                break;
+            case EVENT_UPDATEVIEW:
+                loadData();
                 break;
         }
     }

@@ -13,6 +13,8 @@ import com.umanji.umanjiapp.ui.channel.BaseChannelUpdateFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.greenrobot.event.EventBus;
+
 
 public class CommunityUpdateFragment extends BaseChannelUpdateFragment {
     private static final String TAG = "CommunityUpdateFragment";
@@ -79,6 +81,7 @@ public class CommunityUpdateFragment extends BaseChannelUpdateFragment {
         switch (event.type) {
             case api_channels_id_update:
                 mActivity.finish();
+                EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
                 break;
         }
     }
