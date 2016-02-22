@@ -45,6 +45,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
+import com.umanji.umanjiapp.ui.search.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -103,6 +104,7 @@ public class MainFragment extends BaseFragment {
     private LatLng              mPointByPost;
 
 
+    TextView searchBtn;
 
     public static MainFragment newInstance(Bundle bundle) {
         MainFragment fragment = new MainFragment();
@@ -162,6 +164,11 @@ public class MainFragment extends BaseFragment {
         mNotyCountBtn = (Button) view.findViewById(R.id.mNotyCount);
         mNotyCountBtn.setOnClickListener(this);
         mNotyCountBtn.setText("0");
+
+        mAlert = new AlertDialog.Builder(mActivity);
+
+        searchBtn = (TextView) view.findViewById(R.id.search);
+        searchBtn.setOnClickListener(this);
     }
 
     @Override
@@ -291,6 +298,11 @@ public class MainFragment extends BaseFragment {
                 intent.putExtra("bundle", bundle);
                 startActivity(intent);
                 break;
+
+            case R.id.search:
+                Intent searchIntent = new Intent(mActivity, SearchActivity.class);
+                startActivity(searchIntent);
+
         }
     }
 
