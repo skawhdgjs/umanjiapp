@@ -23,6 +23,8 @@ import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.umanji.umanjiapp.ui.modal.map.MapActivity;
+import com.umanji.umanjiapp.ui.modal.map.update_address.MapUpdateAddressActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -166,6 +168,14 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
                 break;
             case R.id.gallaryBtn:
                 Helper.callGallery(this);
+                break;
+            case R.id.changeAddressBtn:
+                Bundle bundle = new Bundle();
+                bundle.putString("channel", mChannel.getJsonObject().toString());
+                bundle.putString("mapType", MAP_UPDATE_ADDRESS);
+                Intent intent = new Intent(mActivity, MapUpdateAddressActivity.class);
+                intent.putExtra("bundle", bundle);
+                startActivity(intent);
                 break;
         }
     }

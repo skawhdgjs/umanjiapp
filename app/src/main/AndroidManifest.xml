@@ -97,6 +97,7 @@
 
         <activity android:name=".ui.modal.imageview.ImageViewActivity" />
         <activity android:name=".ui.modal.map.MapActivity" />
+        <activity android:name=".ui.modal.map.update_address.MapUpdateAddressActivity" />
 
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />

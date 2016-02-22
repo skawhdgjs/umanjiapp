@@ -74,7 +74,7 @@ public class MainFragment extends BaseFragment {
     private TextView mSignBtn;
     private Button mZoomBtn;
 
-    private AlertDialog.Builder mAlert;
+
 
 
     /****************************************************
@@ -88,6 +88,7 @@ public class MainFragment extends BaseFragment {
     private ChannelData         mUser;
     private JSONArray           mMarkers;
     private ChannelData         mCurrentChannel;
+    private ChannelData         mSelectedChannel;
     private ArrayList<ChannelData> mPosts;
 
 
@@ -98,7 +99,7 @@ public class MainFragment extends BaseFragment {
     private LatLng              mLatLngByPoint = new LatLng(37.491361, 126.923978);
     private ChannelData         mChannelByPoint;
     private Marker              mMarkerByPoint;
-    private Marker              mMarkerByPost;
+    private Marker              mFocusedMarker;
     private LatLng              mPointByPost;
 
 
@@ -161,8 +162,6 @@ public class MainFragment extends BaseFragment {
         mNotyCountBtn = (Button) view.findViewById(R.id.mNotyCount);
         mNotyCountBtn.setOnClickListener(this);
         mNotyCountBtn.setText("0");
-
-        mAlert = new AlertDialog.Builder(mActivity);
     }
 
     @Override
@@ -369,8 +368,8 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onMapClick(LatLng point) {
 
-                if(mMarkerByPost != null) {
-                    mMarkerByPost.remove();
+                if(mFocusedMarker != null) {
+                    mFocusedMarker.remove();
                 }
                 if(mChannelByPoint != null) {
                     mChannelByPoint = null;
@@ -449,6 +448,13 @@ public class MainFragment extends BaseFragment {
                     marker.showInfoWindow();
                 }
 
+                try {
+                    String idx = marker.getSnippet();
+                    mSelectedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
+                }catch (JSONException e) {
+                    Log.e(TAG, "Error " + e.toString());
+                }
+
                 return true;
             }
         });
@@ -460,8 +466,10 @@ public class MainFragment extends BaseFragment {
 
                 ChannelData channelData;
                 try {
-                    if (TextUtils.equals(index, String.valueOf(POST_MARKER_INDEX))) {
+                    if (TextUtils.equals(index, String.valueOf(MARKER_INDEX_BY_POST))) {
                         channelData = mCurrentChannel.getParent();
+                    } else if(TextUtils.equals(index, String.valueOf(MARKER_INDEX_CLICKED))) {
+                        channelData = mSelectedChannel;
                     } else {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
                     }
@@ -674,9 +682,17 @@ public class MainFragment extends BaseFragment {
 
             if(mCurrentChannel != null) {
                 if(Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
-                    mMarkerByPost = Helper.addMarkerToMap(mMap, mCurrentChannel, POST_MARKER_INDEX);
+                    mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
                 }else {
                     mCurrentChannel = null;
+                }
+            }
+
+            if(mSelectedChannel != null) {
+                if(Helper.isInVisibleResion(mMap, new LatLng(mSelectedChannel.getLatitude(), mSelectedChannel.getLongitude()))) {
+                    mFocusedMarker = Helper.addMarkerToMap(mMap, mSelectedChannel, MARKER_INDEX_CLICKED);
+                }else {
+                    mSelectedChannel = null;
                 }
             }
 
@@ -823,12 +839,12 @@ public class MainFragment extends BaseFragment {
                         mCurrentChannel = channels.get(pastVisiblesItems);
                         mPointByPost = new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude());
 
-                        if (mMarkerByPost != null) {
-                            mMarkerByPost.remove();
+                        if (mFocusedMarker != null) {
+                            mFocusedMarker.remove();
                         }
 
                         mMap.animateCamera(CameraUpdateFactory.newLatLng(mPointByPost), 500, null);
-                        mMarkerByPost = Helper.addMarkerToMap(mMap, mCurrentChannel, POST_MARKER_INDEX);
+                        mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
                     }
 
                     if (!isLoading) {

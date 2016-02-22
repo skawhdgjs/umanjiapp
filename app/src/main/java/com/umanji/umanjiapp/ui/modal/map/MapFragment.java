@@ -37,7 +37,7 @@ import org.json.JSONObject;
 import de.greenrobot.event.EventBus;
 
 public class MapFragment extends BaseFragment {
-    private static final String TAG = "SignupFragment";
+    private static final String TAG = "MapFragment";
 
 
     /****************************************************

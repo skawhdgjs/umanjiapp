@@ -52,6 +52,7 @@ import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
+import com.umanji.umanjiapp.ui.modal.map.MapActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -243,6 +244,15 @@ public final class Helper implements AppConfig {
         Bundle bundle = new Bundle();
         bundle.putDouble("latitude", position.latitude);
         bundle.putDouble("longitude", position.longitude);
+        intent.putExtra("bundle", bundle);
+        activity.startActivity(intent);
+    }
+
+    public static void startMapActivity(Activity activity, ChannelData channelData, String mapType) {
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channelData.getJsonObject().toString());
+        bundle.putString("mapType", mapType);
+        Intent intent = new Intent(activity, MapActivity.class);
         intent.putExtra("bundle", bundle);
         activity.startActivity(intent);
     }
