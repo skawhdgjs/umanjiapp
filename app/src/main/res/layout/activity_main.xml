@@ -89,7 +89,7 @@
 
                 />
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/mCreateComplexText"
                 android:text="@string/main_map_create_complex"
                 android:layout_width="260dp"
@@ -103,9 +103,9 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
                 android:visibility="gone"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"/>-->
 
-            <TextView
+            <!--<TextView
                 android:id="@+id/mCreateSpotText"
                 android:text="@string/main_map_create_spot"
                 android:layout_width="260dp"
@@ -119,7 +119,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
                 android:visibility="gone"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"/>-->
 
         </RelativeLayout>
 
@@ -145,7 +145,7 @@
                     android:id="@+id/mZoomLevelText"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.3"
                     android:textColor="@color/white"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
@@ -153,10 +153,44 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/mSignBtn"
+                    android:id="@+id/mCreateComplexText"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal"
+                    android:paddingRight="10dp"
+                    android:text="@string/main_map_create_complex"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit ="marquee_forever"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scrollHorizontally="true"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/mCreateSpotText"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/white"
+                    android:gravity="center_horizontal"
+                    android:paddingRight="10dp"
+                    android:text="@string/main_map_create_spot"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit ="marquee_forever"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:scrollHorizontally="true"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/mSignBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0.3"
                     android:textColor="@color/white"
                     android:gravity="right"
                     android:paddingRight="10dp"

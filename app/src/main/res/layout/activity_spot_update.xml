@@ -9,11 +9,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:background="@color/colorPrimary"
-        android:text=" 각종 수정 및 정보갱신"
         android:gravity="center_vertical"
-        android:layout_marginBottom="30dp">
+        android:layout_marginBottom="20dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
