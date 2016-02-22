@@ -152,11 +152,7 @@ public class ProfileFragment extends BaseChannelFragment {
                 if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
                     Helper.callGallery(this);
                 }else {
-                    Intent intent = new Intent(mActivity, ImageViewActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("channel", mChannel.getJsonObject().toString());
-                    intent.putExtra("bundle", bundle);
-                    startActivity(intent);
+                    Helper.startImageViewActivity(mActivity, mChannel);
                 }
 
                 break;

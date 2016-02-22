@@ -51,6 +51,7 @@ import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
+import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -242,6 +243,14 @@ public final class Helper implements AppConfig {
         Bundle bundle = new Bundle();
         bundle.putDouble("latitude", position.latitude);
         bundle.putDouble("longitude", position.longitude);
+        intent.putExtra("bundle", bundle);
+        activity.startActivity(intent);
+    }
+
+    public static void startImageViewActivity(Activity activity, ChannelData channelData) {
+        Intent intent = new Intent(activity, ImageViewActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channelData.getJsonObject().toString());
         intent.putExtra("bundle", bundle);
         activity.startActivity(intent);
     }

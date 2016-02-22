@@ -390,20 +390,16 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                     .into(holder.photo);
 
             holder.photo.setVisibility(View.VISIBLE);
+
+            holder.photo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startImageViewActivity(mActivity, channelData);
+                }
+            });
         }else {
             holder.photo.setVisibility(View.GONE);
         }
-
-        holder.photo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mActivity, ImageViewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", channelData.getJsonObject().toString());
-                intent.putExtra("bundle", bundle);
-                mFragment.startActivity(intent);
-            }
-        });
     }
 
     protected void setActionPanel(final ViewHolder holder, final ChannelData channelData) {
