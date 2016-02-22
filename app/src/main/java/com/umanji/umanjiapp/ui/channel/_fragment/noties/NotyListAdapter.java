@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.NotyData;
@@ -71,14 +72,24 @@ public class NotyListAdapter extends BaseChannelListAdapter {
                 holder.desc.setText("글작성");
                 holder.name.setVisibility(View.VISIBLE);
                 holder.name.setText(channelData.getName());
+                setNotyClickEvent(holder, channelData);
                 break;
             case TYPE_MEMBER:
                 holder.desc.setText("참여");
                 holder.name.setVisibility(View.GONE);
+                setNotyClickEvent(holder, parentData);
                 break;
             case TYPE_LIKE:
                 holder.desc.setText("도움");
                 holder.name.setVisibility(View.GONE);
+                setNotyClickEvent(holder, parentData);
+                break;
+            case TYPE_SURVEY:
+                holder.desc.setText("설문참여");
+                holder.name.setVisibility(View.GONE);
+                setNotyClickEvent(holder, parentData);
+                break;
+            default:
                 break;
         }
 
@@ -86,74 +97,13 @@ public class NotyListAdapter extends BaseChannelListAdapter {
         setParentName(holder, parentData);
         setUserPhoto(holder, userData);
         setCreatedAt(holder, channelData);
-
-        setNotyClickEvent(holder, channelData);
     }
-
 
     protected void setNotyClickEvent(final ViewHolder holder, final ChannelData channelData) {
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mType = channelData.getType();
-
-                ChannelData channel = null;
-                if(mType.equals(TYPE_MEMBER)) {
-                    try {
-                        JSONObject params = new JSONObject();
-                        params.put("id", channelData.getParentId());
-                        mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject json, AjaxStatus status) {
-                                if (status.getCode() == 500) {
-                                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                                } else {
-                                    Intent intent = null;
-                                    Bundle bundle = new Bundle();
-                                    ChannelData parentData = new ChannelData(json);
-                                    bundle.putString("channel", parentData.getJsonObject().toString());
-                                    String type = parentData.getType();
-                                    if(type.equals(TYPE_SPOT)) {
-                                        intent = new Intent(mActivity, SpotActivity.class);
-                                    } else if(type.equals(TYPE_COMMUNITY)) {
-                                        intent = new Intent(mActivity, CommunityActivity.class);
-                                    } else if(type.equals(TYPE_POST)) {
-                                        intent = new Intent(mActivity, PostActivity.class);
-                                    } else {
-                                        intent = new Intent(mActivity, SpotActivity.class);
-                                    }
-
-                                    intent.putExtra("bundle", bundle);
-                                    mActivity.startActivity(intent);
-                                }
-                            }
-                        });
-
-                    }catch (JSONException e) {
-                        Log.e(TAG, "Error " + e.toString());
-                    }
-
-
-                } else {
-                    Intent intent = null;
-                    Bundle bundle = new Bundle();
-
-                    bundle.putString("channel", channelData.getJsonObject().toString());
-
-                    if(mType.equals(TYPE_SPOT)) {
-                        intent = new Intent(mActivity, SpotActivity.class);
-                    } else if(mType.equals(TYPE_COMMUNITY)) {
-                        intent = new Intent(mActivity, CommunityActivity.class);
-                    } else if(mType.equals(TYPE_POST)) {
-                        intent = new Intent(mActivity, PostActivity.class);
-                    } else {
-                        intent = new Intent(mActivity, SpotActivity.class);
-                    }
-
-                    intent.putExtra("bundle", bundle);
-                    mActivity.startActivity(intent);
-                }
-
+                Helper.startActivity(mActivity, channelData);
             }
         });
     }

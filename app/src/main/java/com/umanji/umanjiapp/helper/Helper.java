@@ -245,8 +245,11 @@ public final class Helper implements AppConfig {
     public static void startSignupActivity(Activity activity, LatLng position) {
         Intent intent = new Intent(activity, SignupActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putDouble("latitude", position.latitude);
-        bundle.putDouble("longitude", position.longitude);
+
+        if(position != null) {
+            bundle.putDouble("latitude", position.latitude);
+            bundle.putDouble("longitude", position.longitude);
+        }
         intent.putExtra("bundle", bundle);
         activity.startActivity(intent);
     }

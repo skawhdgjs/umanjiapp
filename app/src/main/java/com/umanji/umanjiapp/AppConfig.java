@@ -25,6 +25,7 @@ public interface AppConfig {
     int LEVEL_COUNTRY                   = 2;
 
 
+    int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     int DEFAULT_MIN_FLING_VELOCITY      = 10000;
 
     String dataLoaded                   = "dataLoaded";

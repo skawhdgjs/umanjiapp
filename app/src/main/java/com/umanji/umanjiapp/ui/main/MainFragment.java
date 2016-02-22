@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.main;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -34,6 +35,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.gcm.GcmRegistrationIntentService;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
@@ -103,6 +105,7 @@ public class MainFragment extends BaseFragment {
     private Marker              mFocusedMarker;
     private LatLng              mPointByPost;
 
+    private String              mChannelIdForPush;
 
     TextView searchBtn;
 
@@ -110,6 +113,15 @@ public class MainFragment extends BaseFragment {
         MainFragment fragment = new MainFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(getArguments() != null) {
+            mChannelIdForPush = getArguments().getString("id");
+        }
     }
 
     @Override
@@ -128,8 +140,42 @@ public class MainFragment extends BaseFragment {
         initMap();
 
 
+        if(!TextUtils.isEmpty(mChannelIdForPush)) {
+            startActivityForPush();
+        }
 
         return view;
+    }
+
+    protected void startActivityForPush() {
+        try {
+            JSONObject params = new JSONObject();
+            params.put("id", mChannelIdForPush);
+
+            mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    ChannelData channelData = new ChannelData(object);
+
+                    switch (channelData.getType()) {
+                        case TYPE_POST:
+                            Helper.startActivity(mActivity, channelData);
+                            break;
+                        case TYPE_MEMBER:
+                        case TYPE_LINK:
+                        case TYPE_SURVEY:
+                            Helper.startActivity(mActivity, channelData.getParent());
+                            break;
+                    }
+
+                    Helper.startActivity(mActivity, channelData);
+
+                    mChannelIdForPush = "";
+                }
+            });
+        } catch(JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
     }
 
     @Override
@@ -631,10 +677,10 @@ public class MainFragment extends BaseFragment {
     }
 
     private void login(AuthData auth) {
-//        if (checkPlayServices()) {
-//            Intent intent = new Intent(mActivity, GcmRegistrationIntentService.class);
-//            mActivity.startService(intent);
-//        }
+        if (checkPlayServices()) {
+            Intent intent = new Intent(mActivity, GcmRegistrationIntentService.class);
+            mActivity.startService(intent);
+        }
 
         mUser = auth.getUser();
         AuthHelper.login(mActivity, auth);
@@ -908,5 +954,19 @@ public class MainFragment extends BaseFragment {
 
     private int getNewNoticeCount() {
         return Integer.parseInt(mNotyCountBtn.getText().toString());
+    }
+
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, mActivity,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+            }
+            return false;
+        }
+        return true;
     }
 }

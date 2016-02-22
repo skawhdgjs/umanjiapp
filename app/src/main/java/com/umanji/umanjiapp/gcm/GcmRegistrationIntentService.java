@@ -48,7 +48,7 @@ public class GcmRegistrationIntentService extends IntentService implements AppCo
     /****************************************************
      *  Api
      ****************************************************/
-    public ApiHelper mApiHelper;
+    public ApiHelper mApi;
 
     public GcmRegistrationIntentService() {
         super(TAG);
@@ -56,7 +56,7 @@ public class GcmRegistrationIntentService extends IntentService implements AppCo
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        mApiHelper  = new ApiHelper(getApplicationContext());
+        mApi  = new ApiHelper(getApplicationContext());
         initGcm(this);
     }
 
@@ -102,7 +102,7 @@ public class GcmRegistrationIntentService extends IntentService implements AppCo
             JSONObject params = new JSONObject();
             params.put("access_token", AuthHelper.getToken(getApplicationContext()));
             params.put("token", token);
-            mApiHelper.call(api_channels_gcm, params);
+            mApi.call(api_channels_gcm, params);
             FileHelper.setString(getApplicationContext(), "gcm_token", token);
             FileHelper.setString(getApplicationContext(), "gcm_user", loginUserId);
 
