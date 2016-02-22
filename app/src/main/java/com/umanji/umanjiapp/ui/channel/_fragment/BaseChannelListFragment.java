@@ -95,7 +95,7 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                     if (channels.size() <= mPreFocusedItem) return;
 
                     if (!isLoading) {
-                        if (mPreFocusedItem >= (totalItemCount - 3)) {
+                        if (mPreFocusedItem == (totalItemCount - 3)) {
                             loadMoreData();
                         }
                     }
@@ -119,6 +119,8 @@ public abstract class BaseChannelListFragment extends BaseFragment {
 
     @Override
     public void onEvent(SuccessData event) {
+        super.onEvent(event);
+
         switch (event.type) {
             case api_channels_create:
                 String parentId = event.response.optString("parent");

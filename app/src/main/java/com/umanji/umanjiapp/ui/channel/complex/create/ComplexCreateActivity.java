@@ -16,6 +16,6 @@ public class ComplexCreateActivity extends BaseActivity {
     }
 
     protected Fragment createFragment() {
-        return SpotCreateFragment.newInstance(getIntent().getBundleExtra("bundle"));
+        return ComplexCreateFragment.newInstance(getIntent().getBundleExtra("bundle"));
     }
 }

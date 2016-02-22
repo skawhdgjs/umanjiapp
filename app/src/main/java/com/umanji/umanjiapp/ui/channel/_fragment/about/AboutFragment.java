@@ -91,6 +91,7 @@ public class AboutFragment extends BaseChannelListFragment {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
             params.put("type", TYPE_KEYWORD);
+            params.put("sort", "point DESC");
 
             switch (mChannel.getType()) {
                 case TYPE_USER:
@@ -180,13 +181,7 @@ public class AboutFragment extends BaseChannelListFragment {
 
         switch (v.getId()) {
             case R.id.addKeywordBtn:
-                Intent intent = new Intent(mActivity, KeywordCreateActivity.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                intent.putExtra("bundle", bundle);
-
-                startActivity(intent);
+                Helper.startCreateActivity(mActivity, mChannel, TYPE_COMMUNITY);
                 break;
 
             case R.id.editChannelBtn:

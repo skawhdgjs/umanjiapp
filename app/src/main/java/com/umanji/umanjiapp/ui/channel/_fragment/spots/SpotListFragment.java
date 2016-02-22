@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -139,11 +140,7 @@ public class SpotListFragment extends BaseChannelListFragment {
 
         switch (v.getId()) {
             case R.id.addChannelBtn:
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                Intent intent = new Intent(mActivity, SpotCreateActivity.class);
-                intent.putExtra("bundle", bundle);
-                startActivity(intent);
+                Helper.startCreateActivity(mActivity, mChannel, TYPE_SPOT);
                 break;
         }
     }

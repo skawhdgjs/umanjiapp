@@ -172,6 +172,8 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
 
     @Override
     public void onEvent(SuccessData event) {
+        super.onEvent(event);
+
         switch (event.type) {
             case api_photo:
                 mProgress.hide();

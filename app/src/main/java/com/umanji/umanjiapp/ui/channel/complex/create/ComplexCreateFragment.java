@@ -6,7 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 
@@ -15,6 +19,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 
 public class ComplexCreateFragment extends BaseChannelCreateFragment {
@@ -50,12 +56,12 @@ public class ComplexCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     protected void request() {
+
         try {
             JSONObject params = mChannel.getAddressJSONObject();
-            params.put("parent", mChannel.getId());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMPLEX);
-
+            params.put("level", LEVEL_COMPLEX);
 
             if(mPhotoUri != null) {
                 ArrayList<String> photos = new ArrayList<>();
@@ -63,6 +69,17 @@ public class ComplexCreateFragment extends BaseChannelCreateFragment {
                 params.put("photos", new JSONArray(photos));
                 mPhotoUri = null;
             }
+
+            mApi.call(api_channels_createComplex, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    ChannelData channelData = new ChannelData(object);
+                    Helper.startActivity(mActivity, channelData);
+
+                    EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
+                    mActivity.finish();
+                }
+            });
 
             mApi.call(api_channels_create, params);
 

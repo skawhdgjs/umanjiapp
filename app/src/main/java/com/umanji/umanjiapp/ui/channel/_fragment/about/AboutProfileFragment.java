@@ -77,10 +77,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
             params.put("type", TYPE_KEYWORD);
-
-            if(mChannel.getLevel() != LEVEL_LOCAL) {
-                params.put("sort", "point DESC");
-            }
+            params.put("sort", "point DESC");
 
             switch (mChannel.getType()) {
                 case TYPE_USER:
@@ -147,15 +144,11 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 mActivity.finish();
                 break;
             case R.id.addHomeBtn:
-
                 Intent homeIntent = new Intent(mActivity, HomeActivity.class);
-
                 Bundle homeBundle = new Bundle();
                 homeBundle.putString("channel", mChannel.getJsonObject().toString());
                 homeIntent.putExtra("bundle", homeBundle);
-
                 startActivity(homeIntent);
-
                 break;
         }
     }

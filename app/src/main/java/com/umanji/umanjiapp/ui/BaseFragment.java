@@ -92,7 +92,13 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public abstract void loadData();
     public abstract void updateView();
 
-    public abstract void onEvent(SuccessData event);
+    public void onEvent(SuccessData event) {
+        switch (event.type) {
+            case EVENT_UPDATEVIEW:
+                updateView();
+                break;
+        }
+    };
 
     @Override
     public void onClick(View v) {}

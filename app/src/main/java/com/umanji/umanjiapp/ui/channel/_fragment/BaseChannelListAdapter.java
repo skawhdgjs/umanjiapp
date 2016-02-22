@@ -457,7 +457,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                     EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
                                 } else {
                                     ChannelData parentData = new ChannelData(json);
-                                    holder.point.setText("" + parentData.getPoint());
+                                    holder.point.setText("활동포인트 " + parentData.getPoint());
                                     holder.likeBtn.setTag(null);
                                     holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
 
@@ -479,7 +479,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                 } else {
                                     ChannelData channelData = new ChannelData(json);
                                     ChannelData parentData = channelData.getParent();
-                                    holder.point.setText("" + parentData.getPoint());
+                                    holder.point.setText("활동포인트 " + parentData.getPoint());
                                     String actionId = parentData.getActionId(TYPE_LIKE, AuthHelper.getUserId(mActivity));
                                     holder.likeBtn.setTag(actionId);
                                     holder.likeBtn.setBackgroundResource(R.drawable.default2_btn_radius);

@@ -210,7 +210,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void onEvent(SuccessData event) {
-
+        super.onEvent(event);
 
         switch (event.type) {
             case api_token_check:
@@ -717,24 +717,8 @@ public class MainFragment extends BaseFragment {
         mAlert.setPositiveButton(R.string.complex_create_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                try {
-                    JSONObject params = mChannelByPoint.getAddressJSONObject();
-                    params.put("type", TYPE_COMPLEX);
-                    params.put("level", LEVEL_COMPLEX);
-                    mApi.call(api_channels_createComplex, params, new AjaxCallback<JSONObject>() {
-                        @Override
-                        public void callback(String url, JSONObject object, AjaxStatus status) {
-                            mChannelByPoint = new ChannelData(object);
-                            if (mMarkerByPoint != null) mMarkerByPoint.remove();
-                            startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
-
-                            EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
-                        }
-                    });
-                    dialog.cancel();
-                } catch (JSONException e) {
-                    Log.e(TAG, "Error " + e.toString());
-                }
+                Helper.startCreateActivity(mActivity, mChannelByPoint, TYPE_COMPLEX);
+                dialog.cancel();
             }
         });
 
@@ -848,7 +832,7 @@ public class MainFragment extends BaseFragment {
                     }
 
                     if (!isLoading) {
-                        if (mPreFocusedItem >= (totalItemCount - 3)) {
+                        if (mPreFocusedItem == (totalItemCount - 2)) {
                             loadMoreMainPosts();
                         }
                     }

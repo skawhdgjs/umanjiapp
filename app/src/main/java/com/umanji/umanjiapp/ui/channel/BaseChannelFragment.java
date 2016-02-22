@@ -202,6 +202,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     @Override
     public void onEvent(SuccessData event) {
+        super.onEvent(event);
+
         switch (event.type) {
             case api_channels_id_vote:
             case api_channels_id_join:

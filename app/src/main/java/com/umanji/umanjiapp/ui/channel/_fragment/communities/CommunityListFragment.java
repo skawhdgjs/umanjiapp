@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -75,10 +76,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
             params.put("page", mAdapter.getCurrentPage()); // for paging
             params.put("type", TYPE_COMMUNITY);
             params.put("level", mChannel.getLevel());
-
-            if(mChannel.getLevel() != LEVEL_LOCAL) {
-                params.put("sort", "point DESC");
-            }
+            params.put("sort", "point DESC");
 
             switch (mChannel.getType()) {
                 case TYPE_USER:
@@ -153,14 +151,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
 
         switch (v.getId()) {
             case R.id.addChannelBtn:
-                Intent intent = new Intent(mActivity, CommunityCreateActivity.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                intent.putExtra("bundle", bundle);
-
-                startActivity(intent);
-
+                Helper.startCreateActivity(mActivity, mChannel, TYPE_COMMUNITY);
                 break;
         }
     }

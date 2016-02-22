@@ -73,10 +73,7 @@ public class MemberListFragment extends BaseChannelListFragment {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
             params.put("type", TYPE_MEMBER);
-
-            if(mChannel.getLevel() != LEVEL_LOCAL) {
-                params.put("sort", "point DESC");
-            }
+            params.put("sort", "point DESC");
 
             switch (mChannel.getType()) {
                 case TYPE_USER:
@@ -91,8 +88,6 @@ public class MemberListFragment extends BaseChannelListFragment {
                     params.put("parent", mChannel.getId());
                     break;
             }
-
-            params.put("sort", "point DESC");
 
             mApi.call(api_channels_members_find, params, new AjaxCallback<JSONObject>() {
                 @Override
@@ -158,6 +153,8 @@ public class MemberListFragment extends BaseChannelListFragment {
 
     @Override
     public void onEvent(SuccessData event) {
+        super.onEvent(event);
+
         switch (event.type) {
             case api_channels_id_join:
                 String parentId = event.response.optString("parent");

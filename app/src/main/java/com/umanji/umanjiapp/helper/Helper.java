@@ -39,15 +39,18 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.auth.SignupActivity;
 import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
+import com.umanji.umanjiapp.ui.channel.community.create.CommunityCreateActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
+import com.umanji.umanjiapp.ui.channel.complex.create.ComplexCreateActivity;
 import com.umanji.umanjiapp.ui.channel.info.InfoActivity;
+import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.PostActivity;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
+import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -251,6 +254,34 @@ public final class Helper implements AppConfig {
         intent.putExtra("bundle", bundle);
         activity.startActivity(intent);
     }
+
+    public static void startCreateActivity(Activity activity, ChannelData channelData, String type) {
+        Intent intent = null;
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channelData.getJsonObject().toString());
+
+        switch (type) {
+            case TYPE_POST:
+                intent = new Intent(activity, PostCreateActivity.class);
+                break;
+            case TYPE_COMMUNITY:
+                intent = new Intent(activity, CommunityCreateActivity.class);
+                break;
+            case TYPE_KEYWORD:
+                intent = new Intent(activity, KeywordCreateActivity.class);
+                break;
+            case TYPE_COMPLEX:
+                intent = new Intent(activity, ComplexCreateActivity.class);
+                break;
+            case TYPE_SPOT:
+                intent = new Intent(activity, SpotCreateActivity.class);
+                break;
+        }
+
+        intent.putExtra("bundle", bundle);
+        activity.startActivity(intent);
+    }
+
 
     public static void startActivity(Activity activity, ChannelData channelData) {
         Intent intent = null;
@@ -562,15 +593,6 @@ public final class Helper implements AppConfig {
         return password.length() > 4;
     }
 
-
-    public static void startSignupActivity(BaseActivity activity, LatLng position) {
-        Intent intent = new Intent(activity, SignupActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putDouble("latitude", position.latitude);
-        bundle.putDouble("longitude", position.longitude);
-        intent.putExtra("bundle", bundle);
-        activity.startActivity(intent);
-    }
 
     public static void showNoticePanel(final Activity activity, final View notiPanel, String message) {
         TextView noticeMessage = (TextView) notiPanel.findViewById(R.id.noticeMessage);
