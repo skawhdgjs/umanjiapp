@@ -36,7 +36,7 @@ public class LikeListAdapter extends BaseChannelListAdapter {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData channelData       = mChannels.get(position);
 
-        setPoint(holder, channelData);
+        setPoint(holder, channelData.getOwner());
         setUserName(holder, channelData.getOwner());
         setUserPhoto(holder, channelData.getOwner());
     }

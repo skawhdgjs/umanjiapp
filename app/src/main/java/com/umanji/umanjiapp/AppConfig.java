@@ -16,11 +16,10 @@ public interface AppConfig {
 
     int loadingLimit                    = 10;
 
-
     int LEVEL_LOCAL                     = 18;
     int LEVEL_COMPLEX                   = 15;
-    int LEVEL_DONG                      = 13;
-    int LEVEL_GUGUN                     = 11;
+    int LEVEL_DONG                      = 14;
+    int LEVEL_GUGUN                     = 12;
     int LEVEL_DOSI                      = 8;
     int LEVEL_COUNTRY                   = 2;
 

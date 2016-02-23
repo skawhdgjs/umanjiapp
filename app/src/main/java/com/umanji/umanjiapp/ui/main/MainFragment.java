@@ -77,6 +77,8 @@ public class MainFragment extends BaseFragment {
     private TextView mSignBtn;
     private Button mZoomBtn;
 
+    private TextView mZoomLevelText;
+    private TextView mInfoTextPanel;
 
 
 
@@ -215,6 +217,11 @@ public class MainFragment extends BaseFragment {
 
         searchBtn = (TextView) view.findViewById(R.id.search);
         searchBtn.setOnClickListener(this);
+
+        mZoomLevelText = (TextView) view.findViewById(R.id.mZoomLevelText);
+
+        mInfoTextPanel = (TextView) view.findViewById(R.id.mInfoTextPanel);
+        mInfoTextPanel.setSelected(true);
     }
 
     @Override
@@ -575,28 +582,24 @@ public class MainFragment extends BaseFragment {
                 if (isBlock) {
                     isBlock = false;
                 } else {
-                    TextView zoomLevelText = (TextView) mActivity.findViewById(R.id.mZoomLevelText);
-                    TextView createSpotText = (TextView) mActivity.findViewById(R.id.mCreateSpotText);
-                    TextView createComplexText = (TextView) mActivity.findViewById(R.id.mCreateComplexText);
-                    Button zoomBtn = (Button) mActivity.findViewById(R.id.mZoomBtn);
-
-                    zoomLevelText.setText("Zoom: " + (int) position.zoom);
+                    mZoomLevelText.setText("Zoom: " + (int) position.zoom);
 
                     int zoom = (int) position.zoom;
                     if (isComplexCreatable(zoom)) {
-                        createComplexText.setVisibility(View.VISIBLE);
-                        createComplexText.setSelected(true);
-                        createSpotText.setVisibility(View.GONE);
-                        zoomBtn.setText(ZOOM_IN);
+                        mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
+                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.yellow));
+                        //mCreateSpotText.setVisibility(View.GONE);
+                        mZoomBtn.setText(ZOOM_IN);
                     } else if (isSpotCreatable(zoom)) {
-                        createComplexText.setVisibility(View.GONE);
-                        createSpotText.setVisibility(View.VISIBLE);
-                        createSpotText.setSelected(true);
-                        zoomBtn.setText(ZOOM_OUT);
+                        //mCreateComplexText.setVisibility(View.GONE);
+                        mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
+                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.white));
+                        mZoomBtn.setText(ZOOM_OUT);
                     } else {
-                        createComplexText.setVisibility(View.GONE);
-                        createSpotText.setVisibility(View.GONE);
-                        zoomBtn.setText(ZOOM_IN);
+                        //mCreateComplexText.setVisibility(View.GONE);
+                        //mCreateSpotText.setVisibility(View.GONE);
+                        mInfoTextPanel.setText("");
+                        mZoomBtn.setText(ZOOM_IN);
                     }
 
                     loadData();
@@ -696,7 +699,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private static boolean isComplexCreatable(int zoom ) {
-        if(zoom >= 14 && zoom <= 17) {
+        if(zoom >= 15 && zoom <= 17) {
             return true;
         }else {
             return false;
@@ -768,26 +771,6 @@ public class MainFragment extends BaseFragment {
         }
 
     }
-
-    private void addChannelsToList(JSONObject jsonObject) {
-//        try {
-//            JSONArray jsonArray = jsonObject.getJSONArray("data");
-//            for(int idx = 0; idx < jsonArray.length(); idx++) {
-//                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-//                ChannelData doc = new ChannelData(jsonDoc);
-//
-//                mMainListAdapter.addBottom(doc);
-//            }
-//
-//            Log.d(TAG, "notifyDataSetChanged");
-//            mMainListAdapter.notifyDataSetChanged();
-//
-//        }catch(JSONException e) {
-//            Log.e(TAG, "error " + e.toString());
-//        }
-
-    }
-
 
     private void showCreateComplexDialog() {
         mAlert.setPositiveButton(R.string.complex_create_btn, new DialogInterface.OnClickListener() {
