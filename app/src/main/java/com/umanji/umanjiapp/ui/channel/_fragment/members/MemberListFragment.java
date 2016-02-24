@@ -81,6 +81,8 @@ public class MemberListFragment extends BaseChannelListFragment {
                     break;
                 case TYPE_INFO_CENTER:
                     params.put("type", TYPE_USER);
+                    setAddressParams(params, mChannel);
+                    break;
                 default:
                     params.put("parent", mChannel.getId());
                     break;
