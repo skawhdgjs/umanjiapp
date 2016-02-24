@@ -115,8 +115,9 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
     }
 
     protected void setUserPhoto(final ViewHolder holder, final ChannelData userData) {
-        String userPhoto = userData.getPhoto();
-        if(!TextUtils.isEmpty(userPhoto)) {
+
+        if(userData !=null && !TextUtils.isEmpty(userData.getPhoto())) {
+            String userPhoto = userData.getPhoto();
             Glide.with(mActivity)
                     .load(userPhoto)
                     .override(40, 40)

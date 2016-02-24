@@ -1,14 +1,17 @@
 package com.umanji.umanjiapp.ui.channel.spot.update;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelUpdateFragment;
 
@@ -21,7 +24,9 @@ import de.greenrobot.event.EventBus;
 public class SpotUpdateFragment extends BaseChannelUpdateFragment {
     private static final String TAG = "SpotUpdateFragment";
 
-    private Spinner mFloorSpinner;
+    private AutoCompleteTextView mFloor;
+    private CheckBox mBasementCheckBox;
+    private boolean isBasement = false;
 
     public static SpotUpdateFragment newInstance(Bundle bundle) {
         SpotUpdateFragment fragment = new SpotUpdateFragment();
@@ -38,14 +43,24 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        mFloorSpinner = (Spinner) view.findViewById(R.id.floorSpinner);
+        mFloor = (AutoCompleteTextView) view.findViewById(R.id.floor);
+        mBasementCheckBox = (CheckBox) view.findViewById(R.id.basementCheckBox);
+        mBasementCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-        String[] floorList = mActivity.getResources().getStringArray(R.array.floorList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,
-                R.layout.widget_spinner_item, floorList);
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (buttonView.getId() == R.id.basementCheckBox) {
+                    if (isChecked) {
+                        isBasement = true;
+                    } else {
+                        isBasement = false;
+                    }
+                }
+            }
+        });
 
-        mFloorSpinner.setAdapter(adapter);
-
+        updateView();
         return view;
     }
 
@@ -69,10 +84,16 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
     }
 
     protected void setSpotDesc(JSONObject params) throws JSONException {
-        String floor = mFloorSpinner.getSelectedItem().toString();
+        String floor = mFloor.getText().toString();
+        int floorNum = Integer.parseInt(floor);
+
+        if(isBasement) {
+            floorNum = floorNum * -1;
+        }
+
 
         JSONObject descParams = new JSONObject();
-        descParams.put("floor", Integer.parseInt(floor.substring(0, floor.indexOf("F") - 1)));
+        descParams.put("floor", floorNum);
         params.put("desc", descParams);
     }
 
@@ -83,6 +104,25 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
         setName(mActivity, mChannel);
         setAddress(mActivity, mChannel);
         setPhoto(mActivity, mChannel);
+        setFloor(mActivity, mChannel);
+    }
+
+    protected void setFloor(Activity activity, final ChannelData channelData) {
+        JSONObject descJson = channelData.getDesc();
+        if(descJson != null) {
+            int floor = descJson.optInt("floor");
+
+            if(floor > 0) {
+                mFloor.setText(String.valueOf(floor));
+                mBasementCheckBox.setChecked(false);
+                isBasement = false;
+            }else {
+                mFloor.setText(String.valueOf(floor * -1));
+                mBasementCheckBox.setChecked(true);
+
+                isBasement = true;
+            }
+        }
     }
 
     @Override

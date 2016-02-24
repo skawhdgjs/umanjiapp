@@ -2,8 +2,8 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-//    String REST_SERVER_URL = "http://192.168.0.15:3000/v1"; /* 로컬 API Server */
-    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+    String REST_SERVER_URL = "http://192.168.0.8:3000/v1"; /* 로컬 API Server */
+//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -42,6 +42,7 @@ public interface AppConfig {
     String api_channels_getByPoint      = "GET  /channels/point";
     String api_channels_createSpot      = "POST /channels/spot";
     String api_channels_createComplex   = "POST /channels/complex";
+    String api_channels_createCommunity = "POST /channels/community";
     String api_channels_create          = "POST /channels";
 
     String api_channels_get             = "GET  /channels/id";

@@ -82,9 +82,7 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        updateView();
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override

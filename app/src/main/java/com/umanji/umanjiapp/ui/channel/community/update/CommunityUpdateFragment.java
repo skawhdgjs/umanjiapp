@@ -38,7 +38,9 @@ public class CommunityUpdateFragment extends BaseChannelUpdateFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        updateView();
+        return view;
 
 
     }

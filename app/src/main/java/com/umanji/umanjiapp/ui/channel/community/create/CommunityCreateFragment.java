@@ -33,7 +33,9 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        updateView();
+        return view;
     }
 
     @Override
@@ -53,6 +55,7 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
         try {
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
+            params.put("level", mChannel.getLevel());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMMUNITY);
 
@@ -64,7 +67,7 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
                 mPhotoUri = null;
             }
 
-            mApi.call(api_channels_create, params);
+            mApi.call(api_channels_createCommunity, params);
 
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
@@ -76,7 +79,7 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
         super.onEvent(event);
 
         switch (event.type) {
-            case api_channels_create:
+            case api_channels_createCommunity:
                 mActivity.finish();
                 break;
         }

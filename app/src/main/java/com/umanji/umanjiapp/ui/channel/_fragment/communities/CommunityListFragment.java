@@ -2,11 +2,13 @@ package com.umanji.umanjiapp.ui.channel._fragment.communities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -128,7 +130,6 @@ public class CommunityListFragment extends BaseChannelListFragment {
         if(mChannel != null) {
             switch (mChannel.getType()) {
                 case TYPE_USER:
-                case TYPE_INFO_CENTER:
                     mAddBtn.setVisibility(View.GONE);
                     break;
                 default:
@@ -143,6 +144,35 @@ public class CommunityListFragment extends BaseChannelListFragment {
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);
+        ChannelData channelData = new ChannelData(event.response);
+
+        switch (event.type) {
+            case api_channels_createCommunity:
+                String parentId = event.response.optString("parent");
+                if(TextUtils.equals(mChannel.getId(), parentId)) {
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("id", mChannel.getId());
+                        mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject object, AjaxStatus status) {
+                                mChannel = new ChannelData(object);
+                            }
+                        });
+                        updateView();
+                    } catch(JSONException e) {
+                        Log.e(TAG, "error " + e.toString());
+                    }
+
+                    if(TextUtils.isEmpty(channelData.getId())) {
+                        Toast.makeText(mActivity, "이미 존재하는 커뮤니티 입니다.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mAdapter.addTop(channelData);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+                break;
+        }
     }
 
     @Override

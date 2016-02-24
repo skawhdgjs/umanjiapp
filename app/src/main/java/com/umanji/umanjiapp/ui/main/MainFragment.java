@@ -281,6 +281,7 @@ public class MainFragment extends BaseFragment {
             case api_logout:
                 logout();
                 break;
+            case api_channels_createCommunity:
             case api_channels_createComplex:
             case api_channels_createSpot:
             case api_channels_id_update:

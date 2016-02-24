@@ -35,7 +35,7 @@
     <!-- 스팟 관려 -->
     <string name="spot_no_name">이름없는 스팟</string>
     <string name="spot_input_name">이름을 입력해 주세요.</string>
-    <string name="spot_input_floor">층정보를 입력해 주세요.</string>
+    <string name="spot_input_floor">층 입력(숫자로)</string>
     <string name="spot_add_btn">스팟추가</string>
     <string name="spot_join_btn">참여하기</string>
     <string name="spot_unjoin_btn">탈퇴하기</string>

@@ -1,12 +1,16 @@
 package com.umanji.umanjiapp.ui.channel.info;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
@@ -58,6 +62,27 @@ public class InfoFragment extends BaseChannelFragment {
         setPoint(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
         setKeywords(mActivity, mChannel);
+    }
+
+    @Override
+    protected void setPhoto(Activity activity, final ChannelData channelData, int defaultImage) {
+        String photoUrl = channelData.getPhoto();
+        if(photoUrl != null) {
+            Glide.with(activity)
+                    .load(photoUrl)
+                    .into(mPhoto);
+
+            mPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startImageViewActivity(mActivity, channelData);
+                }
+            });
+        }else {
+            Glide.with(activity)
+                    .load(defaultImage)
+                    .into(mPhoto);
+        }
     }
 
     @Override

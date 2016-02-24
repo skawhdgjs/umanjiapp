@@ -46,7 +46,11 @@ public class SpotListAdapter extends BaseChannelListAdapter {
         setMemberCount(holder, channelData);
         setPhoto(holder, channelData);
         setUserPhoto(holder, channelData.getOwner());
+        setFloor(holder, channelData);
 
+    }
+
+    protected void setFloor(final ViewHolder holder, final ChannelData channelData) {
         JSONObject descJson = channelData.getDesc();
         if(descJson != null) {
             int floor = descJson.optInt("floor");

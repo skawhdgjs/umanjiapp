@@ -5,6 +5,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
@@ -21,6 +24,10 @@ import java.util.ArrayList;
 public class SpotCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "SpotCreateFragment";
 
+    private AutoCompleteTextView mFloor;
+    private CheckBox mBasementCheckBox;
+    private boolean isBasement = false;
+
     public static SpotCreateFragment newInstance(Bundle bundle) {
         SpotCreateFragment fragment = new SpotCreateFragment();
         fragment.setArguments(bundle);
@@ -34,19 +41,38 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        updateView();
+        return view;
+    }
+
+    @Override
+    public View getView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.activity_spot_create, container, false);
     }
 
     @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
 
-        mSubmitBtn.setText("스팟 생성");
-    }
+        mFloor = (AutoCompleteTextView) view.findViewById(R.id.floor);
+        mBasementCheckBox = (CheckBox) view.findViewById(R.id.basementCheckBox);
+        mBasementCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-    @Override
-    public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_channel_create, container, false);
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (buttonView.getId() == R.id.basementCheckBox) {
+                    if (isChecked) {
+                        isBasement = true;
+                    } else {
+                        isBasement = false;
+                    }
+                }
+            }
+        });
+
+        mSubmitBtn.setText("스팟 생성");
     }
 
     @Override
@@ -57,6 +83,7 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_SPOT_INNER);
 
+            setSpotDesc(params);
 
             if(mPhotoUri != null) {
                 ArrayList<String> photos = new ArrayList<>();
@@ -70,6 +97,20 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
+    }
+
+    protected void setSpotDesc(JSONObject params) throws JSONException {
+        String floor = mFloor.getText().toString();
+        int floorNum = Integer.parseInt(floor);
+
+        if(isBasement) {
+            floorNum = floorNum * -1;
+        }
+
+
+        JSONObject descParams = new JSONObject();
+        descParams.put("floor", floorNum);
+        params.put("desc", descParams);
     }
 
     @Override

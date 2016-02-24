@@ -325,8 +325,10 @@ public final class Helper implements AppConfig {
                 break;
         }
 
-        intent.putExtra("bundle", bundle);
-        activity.startActivity(intent);
+        if(intent != null) {
+            intent.putExtra("bundle", bundle);
+            activity.startActivity(intent);
+        }
     }
 
     public static void startActivity(Activity activity, ChannelData channelData) {

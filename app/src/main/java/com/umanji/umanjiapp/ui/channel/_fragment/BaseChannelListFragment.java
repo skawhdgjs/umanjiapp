@@ -127,14 +127,13 @@ public abstract class BaseChannelListFragment extends BaseFragment {
                 String parentId = event.response.optString("parent");
                 if(TextUtils.equals(mChannel.getId(), parentId)) {
                     mChannel = channelData.getParent();
-
-                    loadData();
+                    mAdapter.addTop(channelData);
+                    mAdapter.notifyDataSetChanged();
                 }
                 break;
             case api_channels_id_update:
                 if(TextUtils.equals(mChannel.getId(), channelData.getId())) {
                     mChannel = channelData;
-
                     loadData();
                 }
                 break;
