@@ -81,9 +81,6 @@ public class MemberListFragment extends BaseChannelListFragment {
                     break;
                 case TYPE_INFO_CENTER:
                     params.put("type", TYPE_USER);
-                case TYPE_COMMUNITY:
-                    setAddressParams(params, mChannel);
-                    break;
                 default:
                     params.put("parent", mChannel.getId());
                     break;
@@ -125,10 +122,13 @@ public class MemberListFragment extends BaseChannelListFragment {
         mJoinBtn.setEnabled(false);
         mUnJoinBtn.setEnabled(false);
 
-        switch (mChannel.getLevel()) {
-            case LEVEL_LOCAL:
-            case LEVEL_COMPLEX:
-                if(mChannel == null) break;
+        switch (mChannel.getType()) {
+            case TYPE_INFO_CENTER:
+                mJoinBtn.setVisibility(View.GONE);
+                mUnJoinBtn.setVisibility(View.GONE);
+                break;
+
+            default:
                 mJoinBtn.setVisibility(View.VISIBLE);
                 String actionId = mChannel.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mActivity));
 
@@ -141,10 +141,6 @@ public class MemberListFragment extends BaseChannelListFragment {
                     mUnJoinBtn.setVisibility(View.VISIBLE);
                     mUnJoinBtn.setEnabled(true);
                 }
-                break;
-            default:
-                mJoinBtn.setVisibility(View.GONE);
-                mUnJoinBtn.setVisibility(View.GONE);
                 break;
         }
 

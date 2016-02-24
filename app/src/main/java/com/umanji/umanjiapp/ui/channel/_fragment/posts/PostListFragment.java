@@ -74,10 +74,6 @@ public class PostListFragment extends BaseChannelListFragment {
                 case TYPE_INFO_CENTER:
                     setAddressParams(params, mChannel);
                     break;
-                case TYPE_COMMUNITY:
-                    params.put("level", mChannel.getLevel());
-                    setAddressParams(params, mChannel);
-                    break;
                 default:
                     params.put("parent", mChannel.getId());
                     break;

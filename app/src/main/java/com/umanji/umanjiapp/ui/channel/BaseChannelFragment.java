@@ -56,6 +56,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     protected TextView mName;
     protected TextView mParentName;
+    protected TextView mParentCommunity;
     protected TextView mHeaderBorder;
     protected ImageView mPhoto;
 
@@ -106,6 +107,25 @@ public abstract class BaseChannelFragment extends BaseFragment {
         }else {
             mFab.setVisibility(View.GONE);
         }
+
+
+        switch (mChannel.getLevel()) {
+            case LEVEL_LOCAL:
+                mParentCommunity.setText("동 단위로 이동");
+                break;
+            case LEVEL_DONG:
+                mParentCommunity.setText("구군 단위로 이동");
+                break;
+            case LEVEL_GUGUN:
+                mParentCommunity.setText("도시 단위로 이동");
+                break;
+            case LEVEL_DOSI:
+                mParentCommunity.setText("국가 단위로 이동");
+                break;
+            default:
+                mParentCommunity.setVisibility(View.GONE);
+                break;
+        }
     }
 
     @Override
@@ -123,6 +143,9 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mName= (TextView) view.findViewById(R.id.name);
         mName.setVisibility(View.VISIBLE);
         mName.setOnClickListener(this);
+
+        mParentCommunity = (TextView) view.findViewById(R.id.parentCommunity);
+        mParentCommunity.setOnClickListener(this);
 
         mParentName= (TextView) view.findViewById(R.id.parentName);
         mParentName.setOnClickListener(this);
