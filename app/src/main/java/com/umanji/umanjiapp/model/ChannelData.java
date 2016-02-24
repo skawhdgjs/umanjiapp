@@ -57,6 +57,8 @@ public class ChannelData {
     private String updatedAt;
 
 
+    public ChannelData() {}
+
     public ChannelData(String jsonString) {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);

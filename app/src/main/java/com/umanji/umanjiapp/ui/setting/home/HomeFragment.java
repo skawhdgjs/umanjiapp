@@ -95,6 +95,7 @@ public class HomeFragment extends BaseChannelListFragment {
                     }
                 }
             });
+
             mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
         } catch(JSONException e) {
             Log.e(TAG, "error " + e.toString());

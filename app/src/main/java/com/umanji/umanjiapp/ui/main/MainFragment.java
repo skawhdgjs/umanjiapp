@@ -1,7 +1,6 @@
 package com.umanji.umanjiapp.ui.main;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -47,7 +46,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
-import com.umanji.umanjiapp.ui.search.SearchActivity;
+import com.umanji.umanjiapp.ui.main.search.SearchActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -364,7 +363,6 @@ public class MainFragment extends BaseFragment {
             case R.id.search:
                 Intent searchIntent = new Intent(mActivity, SearchActivity.class);
                 startActivity(searchIntent);
-
         }
     }
 

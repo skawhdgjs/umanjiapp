@@ -2,7 +2,7 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-//    String REST_SERVER_URL = "http://192.168.0.8:3000/v1"; /* 로컬 API Server */
+//    String REST_SERVER_URL = "http://172.30.1.26:3000/v1"; /* 로컬 API Server */
     String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
@@ -63,6 +63,8 @@ public interface AppConfig {
     String api_profile_posts_find       = "GET  /profile/id/posts";
     String api_main_findPosts           = "GET  /main/posts";
     String api_main_findMarkers         = "GET  /main/markers";
+
+    String api_main_search              = "GET  /main/search";
 
     String api_complex_findSpots        = "GET  /complex/id/spots";
 
