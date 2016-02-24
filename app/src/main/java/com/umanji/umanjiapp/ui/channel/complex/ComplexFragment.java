@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -20,6 +23,9 @@ import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.spots.complex.ComplexSpotListFragment;
 import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ComplexFragment extends BaseChannelFragment {
     private static final String TAG = "ComplexFragment";
@@ -95,6 +101,54 @@ public class ComplexFragment extends BaseChannelFragment {
     @Override
     public void onClick(View v) {
         super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.parentCommunity:
+                Log.d(TAG, "parentCommunity");
+
+                try {
+                    JSONObject params = new JSONObject();
+                    params.put("type", TYPE_INFO_CENTER);
+                    switch (mChannel.getLevel()) {
+                        case LEVEL_COMPLEX:
+                        case LEVEL_LOCAL:
+                            params.put("level", LEVEL_DONG);
+                            params.put("thoroughfare", mChannel.getThoroughfare());
+                            params.put("locality", mChannel.getLocality());
+                            params.put("adminArea", mChannel.getAdminArea());
+                            params.put("countryCode", mChannel.getCountryCode());
+                            break;
+                        case LEVEL_DONG:
+                            params.put("level", LEVEL_GUGUN);
+                            params.put("locality", mChannel.getLocality());
+                            params.put("adminArea", mChannel.getAdminArea());
+                            params.put("countryCode", mChannel.getCountryCode());
+                            break;
+                        case LEVEL_GUGUN:
+                            params.put("level", LEVEL_DOSI);
+                            params.put("adminArea", mChannel.getAdminArea());
+                            params.put("countryCode", mChannel.getCountryCode());
+                            break;
+                        case LEVEL_DOSI:
+                            params.put("level", LEVEL_COUNTRY);
+                            params.put("countryCode", mChannel.getCountryCode());
+                            break;
+                    }
+
+                    mApi.call(api_channels_findOne, params, new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject object, AjaxStatus status) {
+                            ChannelData channelData = new ChannelData(object);
+                            Helper.startActivity(mActivity, channelData);
+                        }
+                    });
+
+                } catch(JSONException e) {
+                    Log.e(TAG, "error " + e.toString());
+                }
+                break;
+
+        }
     }
 
 

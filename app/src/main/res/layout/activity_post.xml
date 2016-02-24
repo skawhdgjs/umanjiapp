@@ -40,6 +40,14 @@
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="1.0" />
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/dark_bg"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="1.0" />
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

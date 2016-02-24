@@ -111,23 +111,25 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
 
         switch (mChannel.getLevel()) {
+            case LEVEL_COMPLEX:
             case LEVEL_LOCAL:
-                mParentCommunity.setText("동 단위로 이동");
+                mParentCommunity.setText("동단위 정보센터로 이동");
                 break;
             case LEVEL_DONG:
-                mParentCommunity.setText("구군 단위로 이동");
+                mParentCommunity.setText("구군단위 정보센터로 이동");
                 break;
             case LEVEL_GUGUN:
-                mParentCommunity.setText("도시 단위로 이동");
+                mParentCommunity.setText("도시단위 정보센터로 이동");
                 break;
             case LEVEL_DOSI:
-                mParentCommunity.setText("국가 단위로 이동");
+                mParentCommunity.setText("국가단위 정보센터로 이동");
                 break;
             default:
                 mParentCommunity.setVisibility(View.GONE);
                 break;
         }
     }
+
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
