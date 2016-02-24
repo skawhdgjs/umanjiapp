@@ -18,4 +18,9 @@ public class SearchActivity extends BaseActivity {
         return SearchFragment.newInstance(getIntent().getBundleExtra("bundle"));
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
 }

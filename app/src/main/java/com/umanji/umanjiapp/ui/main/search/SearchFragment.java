@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class SearchFragment extends BaseFragment {
      ****************************************************/
     protected AutoCompleteTextView mSearchText;
     protected TextView mAddress;
+    protected Button mCloseBtn;
 
     protected ChannelData mChannelBySearch;
 
@@ -113,12 +115,20 @@ public class SearchFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
-
+        mCloseBtn = (Button) view.findViewById(R.id.closeBtn);
+        mCloseBtn.setOnClickListener(this);
         mAddress = (TextView) view.findViewById(R.id.address);
         mSearchText = (AutoCompleteTextView) view.findViewById(R.id.searchText);
         mSearchText.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_BACK)) {
+                    mActivity.finish();
+                    return true;
+
+                }
 
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -172,7 +182,6 @@ public class SearchFragment extends BaseFragment {
 
                     mSearchText.setText("");
                 }
-
                 return true;
             }
         });
@@ -239,4 +248,15 @@ public class SearchFragment extends BaseFragment {
         }
     }
 
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.closeBtn:
+                mActivity.finish();
+                break;
+        }
+    }
 }
