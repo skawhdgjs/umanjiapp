@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
@@ -33,6 +34,8 @@ public class SearchActivity extends AppCompatActivity {
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     // Perform action on key press
 
+                    TextView mName = (TextView) findViewById(R.id.name);
+
                     Geocoder geoCoder = new Geocoder(getBaseContext(), getDefault());
 
                     Barcode.GeoPoint p;
@@ -45,6 +48,12 @@ public class SearchActivity extends AppCompatActivity {
                         if (addresses.size() > 0) {
                             Double lat = (double) (addresses.get(0).getLatitude());
                             Double lon = (double) (addresses.get(0).getLongitude());
+
+                            String fullName = addresses.get(0).getAddressLine(0);
+                            String name = addresses.get(0).getFeatureName();
+
+
+                            mName.setText("Locality : "+ fullName + "\n 장소명 : " + name);
 
                             latString = lat.toString();
 
