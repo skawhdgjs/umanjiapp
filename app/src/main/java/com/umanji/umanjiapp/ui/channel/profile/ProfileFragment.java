@@ -59,14 +59,14 @@ public class ProfileFragment extends BaseChannelFragment {
 
 
         // POST: 0, SPOT: 1, COMMUTNITY: 2, NOTICE: 3, ABOUT: 4
-        if(AuthHelper.isLoginUser(mActivity, mChannel.getId()) && mNewNoticeCount > 0) {
-            TabLayout.Tab tab = mTabLayout.getTabAt(3);
-            tab.setText("NOTIES (" + mNewNoticeCount + ")");
-            tab.select();
-        } else {
-            TabLayout.Tab tab = mTabLayout.getTabAt(1);
-            tab.select();
-        }
+//        if(AuthHelper.isLoginUser(mActivity, mChannel.getId()) && mNewNoticeCount > 0) {
+//            TabLayout.Tab tab = mTabLayout.getTabAt(3);
+//            tab.setText("NOTIES (" + mNewNoticeCount + ")");
+//            tab.select();
+//        } else {
+//            TabLayout.Tab tab = mTabLayout.getTabAt(1);
+//            tab.select();
+//        }
         return view;
     }
 
@@ -89,6 +89,33 @@ public class ProfileFragment extends BaseChannelFragment {
             adapter.addFragment(NotyListFragment.newInstance(bundle), "NOTIES");
         }
         adapter.addFragment(AboutProfileFragment.newInstance(bundle), "ABOUT");
+    }
+
+    @Override
+    protected void setTabSelect() {
+        TabLayout.Tab tab;
+        switch (mTabType) {
+            case TAB_POSTS:
+                tab = mTabLayout.getTabAt(0);
+                break;
+            case TAB_SPOTS:
+                tab = mTabLayout.getTabAt(1);
+                break;
+            case TAB_COMMUNITIES:
+                tab = mTabLayout.getTabAt(2);
+                break;
+            case TAB_NOTIES:
+                tab = mTabLayout.getTabAt(3);
+                break;
+            case TAB_ABOUT:
+                tab = mTabLayout.getTabAt(4);
+                break;
+            default:
+                tab = mTabLayout.getTabAt(1);
+                break;
+        }
+
+        tab.select();
     }
 
     @Override

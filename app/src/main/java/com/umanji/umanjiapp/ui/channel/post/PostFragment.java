@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel.post;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,24 @@ public class PostFragment extends BaseChannelFragment {
         adapter.addFragment(LikeListFragment.newInstance(bundle), "LIKES");
 
 
+    }
+
+    @Override
+    protected void setTabSelect() {
+        TabLayout.Tab tab;
+        switch (mTabType) {
+            case TAB_POSTS:
+                tab = mTabLayout.getTabAt(0);
+                break;
+            case TAB_LIKES:
+                tab = mTabLayout.getTabAt(1);
+                break;
+            default:
+                tab = mTabLayout.getTabAt(0);
+                break;
+        }
+
+        tab.select();
     }
 
     @Override

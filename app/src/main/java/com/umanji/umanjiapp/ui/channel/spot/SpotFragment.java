@@ -3,10 +3,12 @@ package com.umanji.umanjiapp.ui.channel.spot;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
@@ -33,7 +35,8 @@ public class SpotFragment extends BaseChannelFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
 
     @Override
@@ -59,6 +62,33 @@ public class SpotFragment extends BaseChannelFragment {
             adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
         }
 
+    }
+
+    @Override
+    protected void setTabSelect() {
+        TabLayout.Tab tab;
+        switch (mTabType) {
+            case TAB_POSTS:
+                tab = mTabLayout.getTabAt(0);
+                break;
+            case TAB_MEMBERS:
+                tab = mTabLayout.getTabAt(1);
+                break;
+            case TAB_SPOTS:
+                tab = mTabLayout.getTabAt(2);
+                break;
+            case TAB_COMMUNITIES:
+                tab = mTabLayout.getTabAt(3);
+                break;
+            case TAB_ABOUT:
+                tab = mTabLayout.getTabAt(4);
+                break;
+            default:
+                tab = mTabLayout.getTabAt(0);
+                break;
+        }
+
+        tab.select();
     }
 
     @Override
@@ -108,6 +138,12 @@ public class SpotFragment extends BaseChannelFragment {
     @Override
     public void onClick(View v) {
         super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.parentCommunity:
+
+                break;
+        }
     }
 
 

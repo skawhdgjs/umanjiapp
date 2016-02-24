@@ -2,8 +2,8 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-    String REST_SERVER_URL = "http://192.168.0.8:3000/v1"; /* 로컬 API Server */
-//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+//    String REST_SERVER_URL = "http://192.168.0.8:3000/v1"; /* 로컬 API Server */
+    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -85,6 +85,15 @@ public interface AppConfig {
 
     String api_channels_id_link            = "POST /channels/id/link";
 
+    String TAB_NOTIES                   = "NOTIES";
+    String TAB_POSTS                    = "POSTS";
+    String TAB_LIKES                    = "LIKES";
+    String TAB_COMMUNITIES              = "COMMUNITIES";
+    String TAB_SPOTS                    = "SPOTS";
+    String TAB_MEMBERS                  = "MEMBERS";
+    String TAB_ABOUT                    = "ABOUT";
+
+
     String TYPE_MAIN                    = "MAIN";
     String TYPE_SPOTS                   = "SPOTS";
     String TYPE_MAIN_MARKER             = "MAIN_MARKER";
@@ -105,7 +114,6 @@ public interface AppConfig {
     String TYPE_SURVEY                  = "SURVEY";
 
     String TYPE_LINK                    = "LINK";
-
 
     String TYPE_POST_SURVEY             = "POST_SURVEY";
 

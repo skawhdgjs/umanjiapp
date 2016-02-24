@@ -351,6 +351,12 @@ public class MainFragment extends BaseFragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("channel", mUser.getJsonObject().toString());
                 bundle.putInt("newNoticeCount", getNewNoticeCount());
+                if(getNewNoticeCount() > 0) {
+                    bundle.putString("tabType", TAB_NOTIES);
+                } else {
+                    bundle.putString("tabType", TAB_SPOTS);
+                }
+
                 intent.putExtra("bundle", bundle);
                 startActivity(intent);
                 break;

@@ -3,6 +3,7 @@ package com.umanji.umanjiapp.ui.channel.community;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ import org.json.JSONObject;
 public class CommunityFragment extends BaseChannelFragment {
     private static final String TAG = "SpotFragment";
 
+    private ChannelData mParentChannel;
+
     public static CommunityFragment newInstance(Bundle bundle) {
         CommunityFragment fragment = new CommunityFragment();
         fragment.setArguments(bundle);
@@ -39,7 +42,11 @@ public class CommunityFragment extends BaseChannelFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        setParentChannel();
+
+        return view;
     }
 
     @Override
@@ -64,7 +71,11 @@ public class CommunityFragment extends BaseChannelFragment {
 
         setName(mActivity, mChannel, "커뮤니티");
         setPhoto(mActivity, mChannel, R.drawable.multi_spot_background);
-        setParentName(mActivity, mChannel.getParent());
+
+        if(mParentChannel != null) {
+            setParentName(mActivity, mParentChannel);
+        }
+
         setUserPhoto(mActivity, mChannel.getOwner());
         setPoint(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
@@ -150,4 +161,48 @@ public class CommunityFragment extends BaseChannelFragment {
         }
     }
 
+
+
+    private void setParentChannel() {
+        if(mChannel.getLevel() >= LEVEL_COMPLEX) {
+            mParentChannel = mChannel.getParent();
+        }else {
+            try {
+                JSONObject params = new JSONObject();
+                params.put("type", TYPE_INFO_CENTER);
+                params.put("level", mChannel.getLevel());
+                switch (mChannel.getLevel()) {
+                    case LEVEL_DONG:
+                        params.put("thoroughfare", mChannel.getThoroughfare());
+                        params.put("locality", mChannel.getLocality());
+                        params.put("adminArea", mChannel.getAdminArea());
+                        params.put("countryCode", mChannel.getCountryCode());
+                        break;
+                    case LEVEL_GUGUN:
+                        params.put("locality", mChannel.getLocality());
+                        params.put("adminArea", mChannel.getAdminArea());
+                        params.put("countryCode", mChannel.getCountryCode());
+                        break;
+                    case LEVEL_DOSI:
+                        params.put("adminArea", mChannel.getAdminArea());
+                        params.put("countryCode", mChannel.getCountryCode());
+                        break;
+                    case LEVEL_COUNTRY:
+                        params.put("countryCode", mChannel.getCountryCode());
+                        break;
+                }
+
+                mApi.call(api_channels_findOne, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject object, AjaxStatus status) {
+                        mParentChannel = new ChannelData(object);
+                        updateView();
+                    }
+                });
+
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+        }
+    }
 }

@@ -74,7 +74,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
      *  For Etc.
      ****************************************************/
     protected int mCurrentTapPosition = 0;
-
+    protected String mTabType;
 
 
 
@@ -87,6 +87,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
             if(jsonString != null) {
                 mChannel = new ChannelData(jsonString);
             }
+
+            mTabType = getArguments().getString("tabType");
         }
     }
 
@@ -95,7 +97,6 @@ public abstract class BaseChannelFragment extends BaseFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         initTabAdapter(view);
         updateView();
-
         loadData();
         return view;
     }
@@ -176,8 +177,32 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
+        setTabSelect();
 
         onTabSelected(mTabLayout);
+    }
+
+    protected void setTabSelect() {
+        TabLayout.Tab tab;
+        switch (mTabType) {
+            case TAB_POSTS:
+                tab = mTabLayout.getTabAt(0);
+                break;
+            case TAB_MEMBERS:
+                tab = mTabLayout.getTabAt(1);
+                break;
+            case TAB_COMMUNITIES:
+                tab = mTabLayout.getTabAt(2);
+                break;
+            case TAB_ABOUT:
+                tab = mTabLayout.getTabAt(3);
+                break;
+            default:
+                tab = mTabLayout.getTabAt(0);
+                break;
+        }
+
+        tab.select();
     }
 
     protected abstract void addFragmentToTabAdapter(BaseTabAdapter adapter);
@@ -262,9 +287,6 @@ public abstract class BaseChannelFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.parentName:
-                Helper.startActivity(mActivity, mChannel.getParent());
-                break;
             case R.id.fab:
                 if (mCurrentTapPosition == 0) {
                     Intent intent = new Intent(mActivity, PostCreateActivity.class);
@@ -356,7 +378,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
         }
     }
 
-    protected void setParentName(Activity activity, ChannelData parentData) {
+    protected void setParentName(Activity activity, final ChannelData parentData) {
         if(parentData == null) {
             mHeaderBorder.setVisibility(View.GONE);
             mParentName.setVisibility(View.GONE);
@@ -369,6 +391,14 @@ public abstract class BaseChannelFragment extends BaseFragment {
             } else {
                 mParentName.setText(parentData.getName());
             }
+
+
+            mParentName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startActivity(mActivity, parentData, TAB_COMMUNITIES);
+                }
+            });
         }
     }
 

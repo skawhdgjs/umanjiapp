@@ -331,10 +331,11 @@ public final class Helper implements AppConfig {
         }
     }
 
-    public static void startActivity(Activity activity, ChannelData channelData) {
+    public static void startActivity(Activity activity, ChannelData channelData, String tabType) {
         Intent intent = null;
         Bundle bundle = new Bundle();
         bundle.putString("channel", channelData.getJsonObject().toString());
+        bundle.putString("tabType", tabType);
 
         switch (channelData.getType()) {
             case TYPE_SPOT:
@@ -374,6 +375,9 @@ public final class Helper implements AppConfig {
 
         intent.putExtra("bundle", bundle);
         activity.startActivity(intent);
+    }
+    public static void startActivity(Activity activity, ChannelData channelData) {
+        startActivity(activity, channelData, TAB_POSTS);
     }
 
     public static String getShortenString(String str) {
