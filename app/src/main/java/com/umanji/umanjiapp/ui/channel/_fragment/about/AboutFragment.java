@@ -23,7 +23,7 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
-import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
+import com.umanji.umanjiapp.ui.channel.complex.update.ComplexUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 import com.umanji.umanjiapp.ui.modal.map.update_address.MapUpdateAddressActivity;
 
@@ -223,6 +223,7 @@ public class AboutFragment extends BaseChannelListFragment {
             case TYPE_USER:
                 break;
             case TYPE_COMPLEX:
+                intent = new Intent(activity, ComplexUpdateActivity.class);
                 break;
         }
         Bundle bundle = new Bundle();
