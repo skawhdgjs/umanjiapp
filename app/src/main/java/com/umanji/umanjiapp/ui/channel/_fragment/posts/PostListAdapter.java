@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel._fragment.posts;
 
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class PostListAdapter extends BaseChannelListAdapter {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData channelData       = mChannels.get(position);
-        if(channelData == null || channelData.getOwner() == null) return;
+        if(channelData == null || channelData.getOwner() == null || TextUtils.isEmpty(channelData.getOwner().getId())) return;
 
         setUserName(holder, channelData.getOwner());
         setPoint(holder, channelData);

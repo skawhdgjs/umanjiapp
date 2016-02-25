@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel._fragment.posts;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +97,10 @@ public class PostListFragment extends BaseChannelListFragment {
                                 for(int idx = 0; idx < jsonArray.length(); idx++) {
                                     JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                     ChannelData doc = new ChannelData(jsonDoc);
-                                    mAdapter.addBottom(doc);
+
+                                    if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                        mAdapter.addBottom(doc);
+                                    }
                                 }
 
                                 updateView();

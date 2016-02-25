@@ -208,11 +208,11 @@ public class SignupFragment extends BaseFragment {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     AuthData auth = new AuthData(json);
-                    if(auth.user != null) {
+                    if(auth.user != null && !TextUtils.isEmpty(auth.user.getId())) {
                         EventBus.getDefault().post(new SuccessData(api_signup, json));
                         mActivity.finish();
                     }else {
-                        Toast.makeText(mActivity, "회원가입 실패, 다시한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "이미 존재하는 이메일 주소입니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

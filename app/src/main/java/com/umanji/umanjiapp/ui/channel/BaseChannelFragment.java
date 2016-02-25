@@ -74,7 +74,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
      *  For Etc.
      ****************************************************/
     protected int mCurrentTapPosition = 0;
-    protected String mTabType;
+    protected String mTabType = "";
 
 
 

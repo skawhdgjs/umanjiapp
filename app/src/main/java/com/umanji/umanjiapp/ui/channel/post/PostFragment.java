@@ -47,6 +47,8 @@ public class PostFragment extends BaseChannelFragment {
 
     @Override
     protected void setTabSelect() {
+        if(mTabType == null) return;
+
         TabLayout.Tab tab;
         switch (mTabType) {
             case TAB_POSTS:

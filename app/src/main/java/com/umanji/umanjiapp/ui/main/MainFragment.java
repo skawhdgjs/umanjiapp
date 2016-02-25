@@ -648,7 +648,10 @@ public class MainFragment extends BaseFragment {
                             for(int idx = 0; idx < jsonArray.length(); idx++) {
                                 JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                 ChannelData doc = new ChannelData(jsonDoc);
-                                mAdapter.addBottom(doc);
+
+                                if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                    mAdapter.addBottom(doc);
+                                }
                             }
 
                             isLoading = false;
