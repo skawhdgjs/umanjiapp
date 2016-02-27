@@ -148,8 +148,8 @@ public class SpotFragment extends BaseChannelFragment {
         super.onClick(v);
 
         switch (v.getId()) {
-            case R.id.parentCommunity:
-                Log.d(TAG, "parentCommunity");
+            case R.id.parentInfoCenter:
+                Log.d(TAG, "parentInfoCenter");
 
                 try {
                     JSONObject params = new JSONObject();

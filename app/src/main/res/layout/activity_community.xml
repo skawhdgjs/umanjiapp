@@ -238,20 +238,15 @@
                             android:layout_alignRight="@+id/userPhoto"
                             android:layout_alignEnd="@+id/userPhoto"/>
 
-                        <TextView
+                        <ImageView
                             app:layout_collapseMode="parallax"
                             app:layout_collapseParallaxMultiplier="1.0"
-                            android:id="@+id/parentCommunity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:id="@+id/parentInfoCenter"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="bottom|right"
-                            android:text="상위"
-                            android:padding="15dp"
-                            android:shadowColor="#000"
-                            android:shadowRadius="7.0"
-                            android:textColor="@color/white"
-                            android:textSize="18dp"
-                            android:textStyle="bold"
+                            android:padding="10dp"
+                            android:src="@drawable/dong"
                             android:visibility="visible"
                             android:layout_below="@+id/lookAround"
                             android:layout_centerHorizontal="true"/>

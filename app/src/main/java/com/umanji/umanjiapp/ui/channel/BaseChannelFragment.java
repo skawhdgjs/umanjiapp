@@ -56,7 +56,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     protected TextView mName;
     protected TextView mParentName;
-    protected TextView mParentCommunity;
+    protected ImageView mParentInfoCenter;
     protected TextView mHeaderBorder;
     protected ImageView mPhoto;
 
@@ -113,19 +113,19 @@ public abstract class BaseChannelFragment extends BaseFragment {
         switch (mChannel.getLevel()) {
             case LEVEL_COMPLEX:
             case LEVEL_LOCAL:
-                mParentCommunity.setText("동단위 정보센터로 이동");
+                mParentInfoCenter.setImageResource(R.drawable.dong);
                 break;
             case LEVEL_DONG:
-                mParentCommunity.setText("구군단위 정보센터로 이동");
+                mParentInfoCenter.setImageResource(R.drawable.gugun);
                 break;
             case LEVEL_GUGUN:
-                mParentCommunity.setText("도시단위 정보센터로 이동");
+                mParentInfoCenter.setImageResource(R.drawable.city);
                 break;
             case LEVEL_DOSI:
-                mParentCommunity.setText("국가단위 정보센터로 이동");
+                mParentInfoCenter.setImageResource(R.drawable.kr);
                 break;
             default:
-                mParentCommunity.setVisibility(View.GONE);
+                mParentInfoCenter.setVisibility(View.GONE);
                 break;
         }
     }
@@ -147,8 +147,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mName.setVisibility(View.VISIBLE);
         mName.setOnClickListener(this);
 
-        mParentCommunity = (TextView) view.findViewById(R.id.parentCommunity);
-        mParentCommunity.setOnClickListener(this);
+        mParentInfoCenter = (ImageView) view.findViewById(R.id.parentInfoCenter);
+        mParentInfoCenter.setOnClickListener(this);
 
         mParentName= (TextView) view.findViewById(R.id.parentName);
         mParentName.setOnClickListener(this);
