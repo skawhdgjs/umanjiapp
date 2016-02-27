@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,32 @@ public class InfoFragment extends BaseChannelFragment {
         adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
         adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
         adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+    }
+
+    @Override
+    protected void setTabSelect() {
+        if(TextUtils.isEmpty(mTabType)) return;
+
+        TabLayout.Tab tab;
+        switch (mTabType) {
+            case TAB_POSTS:
+                tab = mTabLayout.getTabAt(0);
+                break;
+            case TAB_MEMBERS:
+                tab = mTabLayout.getTabAt(1);
+                break;
+            case TAB_COMMUNITIES:
+                tab = mTabLayout.getTabAt(2);
+                break;
+            case TAB_ABOUT:
+                tab = mTabLayout.getTabAt(3);
+                break;
+            default:
+                tab = mTabLayout.getTabAt(0);
+                break;
+        }
+
+        tab.select();
     }
 
     @Override

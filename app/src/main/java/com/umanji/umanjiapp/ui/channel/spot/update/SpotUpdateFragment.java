@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel.spot.update;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -84,6 +85,8 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
     }
 
     protected void setSpotDesc(JSONObject params) throws JSONException {
+        if(TextUtils.isEmpty(mFloor.getText().toString())) return;
+
         String floor = mFloor.getText().toString();
         int floorNum = Integer.parseInt(floor);
 

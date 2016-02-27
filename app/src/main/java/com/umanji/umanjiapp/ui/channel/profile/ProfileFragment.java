@@ -3,6 +3,7 @@ package com.umanji.umanjiapp.ui.channel.profile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,6 +94,8 @@ public class ProfileFragment extends BaseChannelFragment {
 
     @Override
     protected void setTabSelect() {
+        if(TextUtils.isEmpty(mTabType)) return;
+
         TabLayout.Tab tab;
         switch (mTabType) {
             case TAB_POSTS:

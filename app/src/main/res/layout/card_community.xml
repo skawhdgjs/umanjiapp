@@ -105,4 +105,13 @@
         android:layout_toEndOf="@+id/memberCount"
         android:layout_marginLeft="15dp"/>
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/star"
+        android:src="@drawable/ic_star"
+        android:layout_alignTop="@+id/name"
+        android:layout_alignRight="@+id/userPhoto"
+        android:layout_alignEnd="@+id/userPhoto"/>
+
 </RelativeLayout>

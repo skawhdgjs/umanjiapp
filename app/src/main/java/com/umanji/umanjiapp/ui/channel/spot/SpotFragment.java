@@ -72,6 +72,8 @@ public class SpotFragment extends BaseChannelFragment {
 
     @Override
     protected void setTabSelect() {
+        if(TextUtils.isEmpty(mTabType)) return;
+
         TabLayout.Tab tab;
         switch (mTabType) {
             case TAB_POSTS:

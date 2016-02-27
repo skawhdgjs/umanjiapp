@@ -27,6 +27,7 @@ public class ChannelData {
 
     private String email;
     private String type;
+    private String subType;
     private String name;
     private JSONObject desc;
     private int point;
@@ -97,7 +98,7 @@ public class ChannelData {
             this.id = data.optString("id");
             this.email = data.optString("email");
             this.type = data.optString("type");
-
+            this.subType = data.optString("subType");
 
             this.name = data.optString("name");
             this.desc = data.optJSONObject("desc");
@@ -199,8 +200,6 @@ public class ChannelData {
     }
 
     public String getActionId(String type, String userId) {
-        boolean isDone = false;
-
         ArrayList<SubLinkData> subLinkDatas = this.getSubLinks(type);
         if(subLinkDatas != null && subLinkDatas.size() > 0) {
             Iterator<SubLinkData> iterator = subLinkDatas.iterator();
@@ -217,8 +216,6 @@ public class ChannelData {
     }
 
     public String getActionName(String type, String userId) {
-        boolean isDone = false;
-
         ArrayList<SubLinkData> subLinkDatas = this.getSubLinks(type);
         if(subLinkDatas != null && subLinkDatas.size() > 0) {
             Iterator<SubLinkData> iterator = subLinkDatas.iterator();
@@ -297,6 +294,14 @@ public class ChannelData {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getSubType() {
+        return subType;
+    }
+
+    public void setSubType(String subType) {
+        this.subType = subType;
     }
 
     public String getName() {
