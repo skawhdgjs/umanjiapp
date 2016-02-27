@@ -13,16 +13,14 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
+import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.about.AboutProfileFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.noties.NotyListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
-import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -181,22 +179,23 @@ public class ProfileFragment extends BaseChannelFragment {
                     mResizedFile = null;
                     mPhotoUri = null;
 
-                    JSONObject data = event.response.getJSONObject("data");
-                    mPhotoUri = REST_S3_URL + data.optString("photo");
+                        JSONObject data = event.response.getJSONObject("data");
+                        mPhotoUri = REST_S3_URL + data.optString("photo");
 
 
-                    JSONObject params = new JSONObject();
-                    params.put("id", mChannel.getId());
+                        JSONObject params = new JSONObject();
+                        params.put("id", mChannel.getId());
 
-                    ArrayList<String> photos = new ArrayList<>();
-                    photos.add(mPhotoUri);
-                    params.put("photos", new JSONArray(photos));
+                        ArrayList<String> photos = new ArrayList<>();
+                        photos.add(mPhotoUri);
+                        params.put("photos", new JSONArray(photos));
 
-                    mApi.call(api_profile_id_update, params);
-                    mPhotoUri = null;
-                }catch(JSONException e) {
-                    Log.e("BaseChannelCreate", "error " + e.toString());
-                }
+                        mApi.call(api_profile_id_update, params);
+                        mPhotoUri = null;
+                    } catch (JSONException e) {
+                        Log.e("BaseChannelCreate", "error " + e.toString());
+                    }
+
                 break;
         }
     }
