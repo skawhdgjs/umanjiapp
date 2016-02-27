@@ -659,6 +659,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         public final TextView     floor;
         public final TextView     floorEmpty;
 
+        public final ImageView    star;
 
         // for survey
         public final LinearLayout surveyPanel;
@@ -697,6 +698,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
 
             surveyPanel     = (LinearLayout) view.findViewById(R.id.surveyPanel);
+
+            star            = (ImageView) view.findViewById(R.id.star);
 
         }
     }

@@ -112,6 +112,7 @@
         android:src="@drawable/ic_star"
         android:layout_alignTop="@+id/name"
         android:layout_alignRight="@+id/userPhoto"
-        android:layout_alignEnd="@+id/userPhoto"/>
+        android:layout_alignEnd="@+id/userPhoto"
+        android:visibility="gone"/>
 
 </RelativeLayout>

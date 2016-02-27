@@ -138,6 +138,13 @@ public interface AppConfig {
     int POINT_UNJOIN                    = 10;
     int POINT_LINK                      = 10;
 
+    int POINT_STAR_LOCAL                = 1000;
+    int POINT_STAR_COMPLEX              = 5000;
+    int POINT_STAR_DONG                 = 10000;
+    int POINT_STAR_GUGUN                = 50000;
+    int POINT_STAR_CITY                 = 100000;
+    int POINT_STAR_COUNTRY              = 500000;
+
     int MARKER_INDEX_CLICKED            = -1;
     int MARKER_INDEX_BY_POST            = -2;
 

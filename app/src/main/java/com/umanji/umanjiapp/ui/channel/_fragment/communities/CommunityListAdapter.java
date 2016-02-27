@@ -43,6 +43,41 @@ public class CommunityListAdapter extends BaseChannelListAdapter {
         setMemberCount(holder, channelData);
         setPhoto(holder, channelData);
         setUserPhoto(holder, channelData.getOwner());
+        setStar(holder, channelData);
+    }
+
+    public void setStar(final ViewHolder holder, final ChannelData channelData) {
+
+        holder.star.setVisibility(View.GONE);
+
+        switch (channelData.getLevel()) {
+            case LEVEL_LOCAL:
+                if(channelData.getPoint() >= POINT_STAR_LOCAL) {
+                    holder.star.setVisibility(View.VISIBLE);
+                }
+                break;
+            case LEVEL_COMPLEX:
+                if(channelData.getPoint() >= POINT_STAR_COMPLEX) {
+                    holder.star.setVisibility(View.VISIBLE);
+                }
+                break;
+            case LEVEL_DONG:
+                if(channelData.getPoint() >= POINT_STAR_DONG) {
+                    holder.star.setVisibility(View.VISIBLE);
+                }
+                break;
+            case LEVEL_GUGUN:
+                if(channelData.getPoint() >= POINT_STAR_GUGUN) {
+                    holder.star.setVisibility(View.VISIBLE);
+                }
+                break;
+            case LEVEL_COUNTRY:
+                if(channelData.getPoint() >= POINT_STAR_COUNTRY) {
+                    holder.star.setVisibility(View.VISIBLE);
+                }
+                break;
+
+        }
     }
 
     @Override

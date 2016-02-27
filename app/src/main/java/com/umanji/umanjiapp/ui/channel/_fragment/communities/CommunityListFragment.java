@@ -85,7 +85,6 @@ public class CommunityListFragment extends BaseChannelListFragment {
                     params.put("owner", mChannel.getId());
                     break;
                 case TYPE_INFO_CENTER:
-                case TYPE_COMMUNITY:
                     setAddressParams(params, mChannel);
                     break;
                 default:
