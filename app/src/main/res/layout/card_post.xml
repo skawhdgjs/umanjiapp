@@ -209,7 +209,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:text="도움"
+        android:text="양심적인 글"
         android:id="@+id/likeBtn"
         android:background="@drawable/default_btn_grey_radius"
         android:textColor="@color/gray_text"
