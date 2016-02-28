@@ -35,6 +35,9 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
     private Button addHomeBtn;
     private TextView userRealName;
+    private TextView userBirth;
+    private TextView userSex;
+    private TextView userInterest;
 
     public static AboutProfileFragment newInstance(Bundle bundle) {
         AboutProfileFragment fragment = new AboutProfileFragment();
@@ -71,6 +74,15 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
         userRealName = (TextView)view.findViewById(R.id.userRealName);
         userRealName.setOnClickListener(this);
+
+        userBirth = (TextView)view.findViewById(R.id.userBirth);
+        userBirth.setOnClickListener(this);
+
+        userSex = (TextView)view.findViewById(R.id.userSex);
+        userSex.setOnClickListener(this);
+
+        userInterest = (TextView)view.findViewById(R.id.userInterest);
+        userInterest.setOnClickListener(this);
     }
 
     @Override
@@ -156,9 +168,20 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 startActivity(homeIntent);
                 break;
 
-            // userRealName
             case R.id.userRealName:
                 Toast.makeText(mActivity, "이름을 입력하세요", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.userBirth:
+                Toast.makeText(mActivity, "생년월일을 입력하세요", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.userSex:
+                Toast.makeText(mActivity, "성별을 입력하세요", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.userInterest:
+                Toast.makeText(mActivity, "관심사를 입력하세요", Toast.LENGTH_LONG).show();
                 break;
 
         }
