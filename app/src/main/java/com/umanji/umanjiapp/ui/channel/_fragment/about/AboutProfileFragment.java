@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -33,6 +34,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     protected TextView mAddress;
 
     private Button addHomeBtn;
+    private TextView userRealName;
 
     public static AboutProfileFragment newInstance(Bundle bundle) {
         AboutProfileFragment fragment = new AboutProfileFragment();
@@ -66,6 +68,9 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
         addHomeBtn = (Button)view.findViewById(R.id.addHomeBtn);
         addHomeBtn.setOnClickListener(this);
+
+        userRealName = (TextView)view.findViewById(R.id.userRealName);
+        userRealName.setOnClickListener(this);
     }
 
     @Override
@@ -150,6 +155,12 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 homeIntent.putExtra("bundle", homeBundle);
                 startActivity(homeIntent);
                 break;
+
+            // userRealName
+            case R.id.userRealName:
+                Toast.makeText(mActivity, "이름을 입력하세요", Toast.LENGTH_LONG).show();
+                break;
+
         }
     }
 
