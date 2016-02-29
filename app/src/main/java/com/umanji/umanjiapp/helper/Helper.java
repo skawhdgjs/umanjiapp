@@ -51,6 +51,7 @@ import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.PostActivity;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
+import com.umanji.umanjiapp.ui.channel.profile.update.ProfileUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
@@ -313,6 +314,9 @@ public final class Helper implements AppConfig {
         bundle.putString("channel", channelData.getJsonObject().toString());
 
         switch (channelData.getType()) {
+            case TYPE_USER:
+                intent = new Intent(activity, ProfileUpdateActivity.class);
+                break;
             case TYPE_COMPLEX:
                 intent = new Intent(activity, ComplexUpdateActivity.class);
                 break;

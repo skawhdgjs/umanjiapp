@@ -68,6 +68,10 @@
             android:name=".ui.channel.profile.ProfileActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.channel.profile.update.ProfileUpdateActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.channel.spot.SpotActivity"
             android:screenOrientation="portrait" />
         <activity

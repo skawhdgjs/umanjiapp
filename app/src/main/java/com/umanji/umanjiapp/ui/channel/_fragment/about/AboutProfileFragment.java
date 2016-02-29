@@ -33,11 +33,8 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     protected Button mLogoutBtn;
     protected TextView mAddress;
 
-    private Button addHomeBtn;
-    private TextView userRealName;
-    private TextView userBirth;
-    private TextView userSex;
-    private TextView userInterest;
+    private Button mAddHomeBtn;
+    private TextView mUserName;
 
     public static AboutProfileFragment newInstance(Bundle bundle) {
         AboutProfileFragment fragment = new AboutProfileFragment();
@@ -69,20 +66,11 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
         mAddress.setText(Helper.getFullAddress(mChannel));
 
-        addHomeBtn = (Button)view.findViewById(R.id.addHomeBtn);
-        addHomeBtn.setOnClickListener(this);
+        mAddHomeBtn = (Button)view.findViewById(R.id.addHomeBtn);
+        mAddHomeBtn.setOnClickListener(this);
 
-        userRealName = (TextView)view.findViewById(R.id.userRealName);
-        userRealName.setOnClickListener(this);
-
-        userBirth = (TextView)view.findViewById(R.id.userBirth);
-        userBirth.setOnClickListener(this);
-
-        userSex = (TextView)view.findViewById(R.id.userSex);
-        userSex.setOnClickListener(this);
-
-        userInterest = (TextView)view.findViewById(R.id.userInterest);
-        userInterest.setOnClickListener(this);
+        mUserName = (TextView)view.findViewById(R.id.userName);
+        mUserName.setOnClickListener(this);
     }
 
     @Override
@@ -143,6 +131,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     @Override
     public void updateView() {
         mAddress.setText(Helper.getFullAddress(mChannel));
+        mUserName.setText(mChannel.getName());
     }
 
     @Override
@@ -168,20 +157,8 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 startActivity(homeIntent);
                 break;
 
-            case R.id.userRealName:
-                Toast.makeText(mActivity, "이름을 입력하세요", Toast.LENGTH_LONG).show();
-                break;
-
-            case R.id.userBirth:
-                Toast.makeText(mActivity, "생년월일을 입력하세요", Toast.LENGTH_LONG).show();
-                break;
-
-            case R.id.userSex:
-                Toast.makeText(mActivity, "성별을 입력하세요", Toast.LENGTH_LONG).show();
-                break;
-
-            case R.id.userInterest:
-                Toast.makeText(mActivity, "관심사를 입력하세요", Toast.LENGTH_LONG).show();
+            case R.id.userName:
+                Helper.startUpdateActivity(mActivity, mChannel);
                 break;
 
         }
