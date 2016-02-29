@@ -1,5 +1,6 @@
 package com.umanji.umanjiapp.ui.channel.profile;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,7 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
@@ -137,6 +139,22 @@ public class ProfileFragment extends BaseChannelFragment {
         setPoint(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
         setKeywords(mActivity, mChannel);
+    }
+
+    @Override
+    protected void setUserName(Activity activity, final ChannelData channelData, String label) {
+        if(!TextUtils.isEmpty(channelData.getUserName())) {
+            mName.setText(Helper.getShortenString(channelData.getUserName()) + " " + label);
+        } else {
+            mName.setText(label);
+        }
+
+        mName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Helper.startUpdateActivity(mActivity, channelData);
+            }
+        });
     }
 
     protected void onTabSelected(TabLayout tabLayout) {
