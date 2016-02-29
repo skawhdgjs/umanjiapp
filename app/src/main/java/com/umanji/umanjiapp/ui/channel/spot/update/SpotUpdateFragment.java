@@ -89,6 +89,10 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
 
         String floor = mFloor.getText().toString();
 
+        if(floor == null){
+            floor = "1";
+        }
+
         int floorNum = Integer.parseInt(floor);
 
         if(isBasement) {

@@ -11,7 +11,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 
@@ -104,6 +103,11 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
         if(TextUtils.isEmpty(mFloor.getText().toString())) return;
 
         String floor = mFloor.getText().toString();
+
+        if(floor == null){
+            floor = "1";
+        }
+
         int floorNum = Integer.parseInt(floor);
 
         if(isBasement) {
