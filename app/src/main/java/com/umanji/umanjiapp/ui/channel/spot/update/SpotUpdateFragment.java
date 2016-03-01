@@ -85,12 +85,10 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
     }
 
     protected void setSpotDesc(JSONObject params) throws JSONException {
-        if(TextUtils.isEmpty(mFloor.getText().toString())) return;
-
         String floor = mFloor.getText().toString();
-
-        if(floor == null){
+        if(TextUtils.isEmpty(mFloor.getText().toString())){
             floor = "1";
+            //return;
         }
 
         int floorNum = Integer.parseInt(floor);
