@@ -2,10 +2,13 @@ package com.umanji.umanjiapp.ui.channel._fragment.spots;
 
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
@@ -13,6 +16,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -43,11 +47,51 @@ public class SpotListAdapter extends BaseChannelListAdapter {
 
         setPoint(holder, channelData);
         setName(holder, channelData);
+        setParentName(holder, channelData.getParent());
         setMemberCount(holder, channelData);
         setPhoto(holder, channelData);
         setUserPhoto(holder, channelData.getOwner());
         setFloor(holder, channelData);
 
+    }
+
+    protected void setParentName(final ViewHolder holder, final ChannelData parentChannelData) {
+        String parentId = "";
+        if(mChannel != null ) parentId = mChannel.getId();
+        if(parentChannelData != null && !TextUtils.equals(parentChannelData.getId(), parentId)) {
+
+            if(TextUtils.isEmpty(parentChannelData.getName())) {
+                holder.parentName.setVisibility(View.GONE);
+                holder.headerBorder.setVisibility(View.GONE);
+            }else {
+                holder.parentName.setVisibility(View.VISIBLE);
+                holder.headerBorder.setVisibility(View.VISIBLE);
+                holder.parentName.setText(Helper.getShortenString(parentChannelData.getName(), 6));
+            }
+
+            holder.parentName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("id", parentChannelData.getId());
+
+                        mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject object, AjaxStatus status) {
+                                ChannelData channelData = new ChannelData(object);
+                                Helper.startActivity(mActivity, channelData);
+                            }
+                        });
+                    }catch (JSONException e) {
+                        Log.e(TAG, "Error " + e.toString());
+                    }
+                }
+            });
+
+        }else {
+            holder.parentName.setVisibility(View.GONE);
+        }
     }
 
     protected void setFloor(final ViewHolder holder, final ChannelData channelData) {

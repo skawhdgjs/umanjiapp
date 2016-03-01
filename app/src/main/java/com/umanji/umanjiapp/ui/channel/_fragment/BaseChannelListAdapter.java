@@ -157,7 +157,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         if(TextUtils.isEmpty(channelData.getName())) {
             holder.name.setText("이름없음");
         } else {
-            holder.name.setText(channelData.getName());
+            holder.name.setText(Helper.getShortenString(channelData.getName(), 8));
         }
 
 
@@ -634,6 +634,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
         public final ImageView  photo;
         public final TextView   name;
+        public final TextView   headerBorder;
         public final TextView   parentName;
 
         public final TextView   desc;
@@ -672,6 +673,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
             photo           = (ImageView) view.findViewById(R.id.photo);
             name            = (TextView) view.findViewById(R.id.name);
+            headerBorder    = (TextView) view.findViewById(R.id.headerBorder);
             parentName      = (TextView) view.findViewById(R.id.parentName);
 
             desc            = (TextView) view.findViewById(R.id.desc);

@@ -81,8 +81,6 @@ public class ComplexCreateFragment extends BaseChannelCreateFragment {
                 }
             });
 
-            mApi.call(api_channels_create, params);
-
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }

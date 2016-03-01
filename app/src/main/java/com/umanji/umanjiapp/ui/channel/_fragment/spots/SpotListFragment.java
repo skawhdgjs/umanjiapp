@@ -24,6 +24,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import de.greenrobot.event.EventBus;
 
 public class SpotListFragment extends BaseChannelListFragment {
@@ -82,7 +84,7 @@ public class SpotListFragment extends BaseChannelListFragment {
             switch (mChannel.getType()) {
                 case TYPE_USER:
                     params.put("owner", mChannel.getId());
-                    params.put("type", TYPE_SPOTS);
+                    params.put("type", TYPE_PROFILE_SPOTS);
                     break;
                 case TYPE_INFO_CENTER:
                 case TYPE_COMMUNITY:

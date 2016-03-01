@@ -61,6 +61,9 @@ public interface AppConfig {
 
 
     String api_profile_posts_find       = "GET  /profile/id/posts";
+    String api_profile_spots_find       = "GET  /profile/id/spots";
+    String api_profile_communities_find = "GET  /profile/id/communities";
+
     String api_main_findPosts           = "GET  /main/posts";
     String api_main_findMarkers         = "GET  /main/markers";
 
@@ -100,6 +103,9 @@ public interface AppConfig {
 
     String TYPE_MAIN                    = "MAIN";
     String TYPE_SPOTS                   = "SPOTS";
+    String TYPE_PROFILE_SPOTS           = "PROFILE_SPOTS";
+
+    String TYPE_PROFILE_COMMUNITIES     = "PROFILE_COMMUNITIES";
     String TYPE_MAIN_MARKER             = "MAIN_MARKER";
 
     String TYPE_POST                    = "POST";

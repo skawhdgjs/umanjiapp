@@ -223,8 +223,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="36dp"
-        android:text="댓글 달기"
-        android:id="@+id/replyBtn"
+        android:text="상업적인 글"
+        android:id="@+id/unLikeBtn"
         android:padding="5dp"
         android:background="@drawable/default_btn_grey_radius"
         android:textColor="@color/gray_text"
@@ -232,6 +232,20 @@
         android:layout_alignTop="@+id/likeBtn"
         android:layout_toRightOf="@+id/likeBtn"
         android:layout_toEndOf="@+id/likeBtn"
+        android:layout_marginLeft="10dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:text="댓글 달기"
+        android:id="@+id/replyBtn"
+        android:padding="5dp"
+        android:background="@drawable/default_btn_grey_radius"
+        android:textColor="@color/gray_text"
+        android:textSize="12dp"
+        android:layout_alignTop="@+id/unLikeBtn"
+        android:layout_toRightOf="@+id/unLikeBtn"
+        android:layout_toEndOf="@+id/unLikeBtn"
         android:layout_marginLeft="10dp"/>
 
 

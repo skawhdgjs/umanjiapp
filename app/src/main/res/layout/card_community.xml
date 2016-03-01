@@ -64,6 +64,36 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="8dp"/>
 
+    <TextView
+        android:id="@+id/headerBorder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="/"
+        android:textSize="14dp"
+        android:shadowColor="#000"
+        android:shadowRadius="7.0"
+        android:textColor="@color/gray"
+        android:layout_toRightOf="@+id/name"
+        android:layout_toEndOf="@+id/name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/parentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="부모"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        android:textColor="@color/gray_text"
+        android:layout_toRightOf="@+id/headerBorder"
+        android:layout_toEndOf="@+id/headerBorder"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/spotKeyword"
