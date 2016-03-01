@@ -2,8 +2,8 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-//    String REST_SERVER_URL = "http://172.30.1.21:3000/v1"; /* 로컬 API Server */
-    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+    String REST_SERVER_URL = "http://10.10.0.211:3000/v1"; /* 로컬 API Server */
+//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -86,6 +86,8 @@ public interface AppConfig {
     String api_channels_id_unLike          = "DELETE /channels/id/like";
 
     String api_channels_id_link            = "POST /channels/id/link";
+
+    String api_channels_id_authority       = "GET /channels/id/authority";
 
     String TAB_NOTIES                   = "NOTIES";
     String TAB_POSTS                    = "POSTS";

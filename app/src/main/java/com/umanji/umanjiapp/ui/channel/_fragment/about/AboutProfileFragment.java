@@ -131,7 +131,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     @Override
     public void updateView() {
         mAddress.setText(Helper.getFullAddress(mChannel));
-        mUserName.setText(mChannel.getName());
+        mUserName.setText(mChannel.getUserName());
     }
 
     @Override

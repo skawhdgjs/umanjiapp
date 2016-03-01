@@ -146,6 +146,7 @@ public class CommunityFragment extends BaseChannelFragment {
                     params.put("type", TYPE_COMMUNITY);
                     params.put("name", mChannel.getName());
                     switch (mChannel.getLevel()) {
+                        case LEVEL_COMPLEX:
                         case LEVEL_LOCAL:
                             params.put("level", LEVEL_DONG);
                             params.put("thoroughfare", mChannel.getThoroughfare());

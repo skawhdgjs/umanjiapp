@@ -128,6 +128,20 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);
+
+        ChannelData channelData = new ChannelData(event.response);
+
+        switch (event.type) {
+            case api_channels_create:
+                String parentId = event.response.optString("parent");
+                if(TextUtils.equals(mChannel.getId(), parentId)) {
+                    mChannel = channelData.getParent();
+                    mAdapter.addTop(channelData);
+                    mAdapter.notifyDataSetChanged();
+                }
+                break;
+
+        }
     }
 
     @Override

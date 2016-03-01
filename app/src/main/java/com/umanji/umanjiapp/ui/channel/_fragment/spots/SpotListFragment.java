@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel._fragment.spots;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,6 +133,20 @@ public class SpotListFragment extends BaseChannelListFragment {
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);
+
+        ChannelData channelData = new ChannelData(event.response);
+
+        switch (event.type) {
+            case api_channels_create:
+                String parentId = event.response.optString("parent");
+                if(TextUtils.equals(mChannel.getId(), parentId)) {
+                    mChannel = channelData.getParent();
+                    mAdapter.addTop(channelData);
+                    mAdapter.notifyDataSetChanged();
+                }
+                break;
+
+        }
     }
 
     @Override

@@ -69,6 +69,16 @@ public final class AuthHelper {
         }
     }
 
+    public static String getLevel(Context context) {
+        String token = FileHelper.getString(context, "level");
+
+        if(TextUtils.isEmpty(token)) {
+            return "";
+        } else {
+            return token;
+        }
+    }
+
     public static void login(Context context, AuthData auth) {
         String token = auth.getToken();
         ChannelData userData = auth.getUser();
@@ -77,6 +87,7 @@ public final class AuthHelper {
         FileHelper.setString(context, "name", userData.getUserName());
         FileHelper.setString(context, "photo", userData.getPhoto());
         FileHelper.setString(context, "token", token);
+        FileHelper.setString(context, "level", String.valueOf(userData.getLevel()));
     }
 
     public static void logout(Context context) {
@@ -85,5 +96,6 @@ public final class AuthHelper {
         FileHelper.setString(context, "name", null);
         FileHelper.setString(context, "photo", null);
         FileHelper.setString(context, "token", null);
+        FileHelper.setString(context, "level", null);
     }
 }

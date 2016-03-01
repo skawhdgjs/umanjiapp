@@ -14,6 +14,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -29,7 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class InfoFragment extends BaseChannelFragment {
-    private static final String TAG = "SpotFragment";
+    private static final String TAG = "InfoFragment";
 
     public static InfoFragment newInstance(Bundle bundle) {
         InfoFragment fragment = new InfoFragment();
@@ -38,9 +39,21 @@ public class InfoFragment extends BaseChannelFragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         return view;
+    }
+
+    @Override
+    public void initWidgets(View view) {
+        super.initWidgets(view);
     }
 
     @Override
@@ -56,6 +69,34 @@ public class InfoFragment extends BaseChannelFragment {
         adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
         adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
         adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+    }
+
+    @Override
+    protected void onTabSelected(TabLayout tabLayout) {
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                super.onTabSelected(tab);
+                mCurrentTapPosition = tab.getPosition();
+
+                switch (mCurrentTapPosition) {
+                    case 0:
+                        if(hasAuthority()) {
+                            mFab.setVisibility(View.VISIBLE);
+                        }else {
+                            mFab.setVisibility(View.GONE);
+                        }
+                        break;
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                        mFab.setVisibility(View.GONE);
+                        break;
+
+                }
+            }
+        });
     }
 
     @Override
@@ -88,7 +129,12 @@ public class InfoFragment extends BaseChannelFragment {
     public void updateView() {
         super.updateView();
 
-        mFab.setVisibility(View.GONE);
+        if(hasAuthority()) {
+            mFab.setVisibility(View.VISIBLE);
+        }else {
+            mFab.setVisibility(View.GONE);
+        }
+
 
         setName(mActivity, mChannel, "");
         setPhoto(mActivity, mChannel, R.drawable.multi_spot_background);
@@ -97,6 +143,17 @@ public class InfoFragment extends BaseChannelFragment {
         setPoint(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
         setKeywords(mActivity, mChannel);
+    }
+
+    private boolean hasAuthority() {
+        if(TextUtils.isEmpty(AuthHelper.getLevel(mActivity))) return false;
+
+        int loginUserLevel = Integer.parseInt(AuthHelper.getLevel(mActivity));
+        if(loginUserLevel <= mChannel.getLevel()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
