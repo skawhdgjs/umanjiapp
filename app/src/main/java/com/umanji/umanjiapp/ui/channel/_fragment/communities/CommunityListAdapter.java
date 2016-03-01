@@ -53,6 +53,7 @@ public class CommunityListAdapter extends BaseChannelListAdapter {
         setStar(holder, channelData);
     }
 
+    @Override
     protected void setParentName(final ViewHolder holder, final ChannelData parentChannelData) {
         String parentId = "";
         if(mChannel != null ) parentId = mChannel.getId();

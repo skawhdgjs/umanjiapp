@@ -200,7 +200,7 @@ public class SearchFragment extends BaseFragment {
             params.put("name", mSearchText.getText().toString());
             params.put("sort", "point DESC");
 
-            mApi.call(api_main_findMarkers, params, new AjaxCallback<JSONObject>() {
+            mApi.call(api_channels_findMarkers, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     super.callback(url, object, status);

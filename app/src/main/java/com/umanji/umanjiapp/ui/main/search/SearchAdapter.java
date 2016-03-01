@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseActivity;
@@ -48,11 +51,52 @@ public class SearchAdapter extends BaseChannelListAdapter {
 
         setPoint(holder, channelData);
         setName(holder, channelData);
+        setParentName(holder, channelData.getParent());
         setKeywords(holder, channelData);
         setPhoto(holder, channelData);
         setUserPhoto(holder, channelData);
 
         setSelectEvent(holder, channelData);
+    }
+
+    @Override
+    protected void setParentName(final ViewHolder holder, final ChannelData parentChannelData) {
+        String parentId = "";
+        if(mChannel != null ) parentId = mChannel.getId();
+        if(parentChannelData != null && !TextUtils.equals(parentChannelData.getId(), parentId)) {
+
+            if(TextUtils.isEmpty(parentChannelData.getName())) {
+                holder.parentName.setVisibility(View.GONE);
+                holder.headerBorder.setVisibility(View.GONE);
+            }else {
+                holder.parentName.setVisibility(View.VISIBLE);
+                holder.headerBorder.setVisibility(View.VISIBLE);
+                holder.parentName.setText(Helper.getShortenString(parentChannelData.getName(), 6));
+            }
+
+            holder.parentName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("id", parentChannelData.getId());
+
+                        mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject object, AjaxStatus status) {
+                                ChannelData channelData = new ChannelData(object);
+                                Helper.startActivity(mActivity, channelData);
+                            }
+                        });
+                    }catch (JSONException e) {
+                        Log.e(TAG, "Error " + e.toString());
+                    }
+                }
+            });
+
+        }else {
+            holder.parentName.setVisibility(View.GONE);
+        }
     }
 
     protected void setName(final ViewHolder holder, final ChannelData channelData) {

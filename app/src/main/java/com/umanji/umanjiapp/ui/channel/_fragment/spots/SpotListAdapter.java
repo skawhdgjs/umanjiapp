@@ -55,6 +55,7 @@ public class SpotListAdapter extends BaseChannelListAdapter {
 
     }
 
+    @Override
     protected void setParentName(final ViewHolder holder, final ChannelData parentChannelData) {
         String parentId = "";
         if(mChannel != null ) parentId = mChannel.getId();
