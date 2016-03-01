@@ -64,16 +64,9 @@ public class PostListFragment extends BaseChannelListFragment {
             params.put("limit", 5);
             params.put("type", TYPE_POST);
 
-            if(mChannel.getLevel() <= LEVEL_DONG) {
-                params.put("sort", "point DESC");
-            }
-
             switch (mChannel.getType()) {
                 case TYPE_USER:
                     params.put("owner", mChannel.getId());
-                    break;
-                case TYPE_INFO_CENTER:
-                    setAddressParams(params, mChannel);
                     break;
                 default:
                     params.put("parent", mChannel.getId());

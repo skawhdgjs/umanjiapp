@@ -1,7 +1,6 @@
 package com.umanji.umanjiapp.ui.channel.spot;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -24,8 +22,6 @@ import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragme
 import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
-import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
-import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

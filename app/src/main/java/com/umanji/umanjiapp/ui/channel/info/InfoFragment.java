@@ -81,10 +81,8 @@ public class InfoFragment extends BaseChannelFragment {
 
                 switch (mCurrentTapPosition) {
                     case 0:
-                        if(hasAuthority()) {
+                        if(AuthHelper.isLogin(mActivity)) {
                             mFab.setVisibility(View.VISIBLE);
-                        }else {
-                            mFab.setVisibility(View.GONE);
                         }
                         break;
                     case 1:
@@ -129,9 +127,9 @@ public class InfoFragment extends BaseChannelFragment {
     public void updateView() {
         super.updateView();
 
-        if(hasAuthority()) {
+        if(AuthHelper.isLogin(mActivity)) {
             mFab.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             mFab.setVisibility(View.GONE);
         }
 

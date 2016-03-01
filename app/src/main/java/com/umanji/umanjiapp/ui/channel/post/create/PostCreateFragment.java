@@ -115,6 +115,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         try {
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
+            params.put("level", mChannel.getLevel());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_POST);
 
