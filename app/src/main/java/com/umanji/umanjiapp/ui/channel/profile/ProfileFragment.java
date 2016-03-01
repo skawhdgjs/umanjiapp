@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
@@ -149,12 +150,64 @@ public class ProfileFragment extends BaseChannelFragment {
             mName.setText(label);
         }
 
-        mName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Helper.startUpdateActivity(mActivity, channelData);
+        if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+            mName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startUpdateActivity(mActivity, channelData);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void setPhoto(Activity activity, final ChannelData channelData, int defaultImage) {
+        String photoUrl = channelData.getPhoto();
+        if(photoUrl != null) {
+            Glide.with(activity)
+                    .load(photoUrl)
+                    .into(mPhoto);
+
+            mPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startImageViewActivity(mActivity, channelData);
+                }
+            });
+        }else {
+            Glide.with(activity)
+                    .load(defaultImage)
+                    .into(mPhoto);
+
+            if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+                mPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Helper.startUpdateActivity(mActivity, channelData);
+                    }
+                });
             }
-        });
+        }
+    }
+
+    protected void setUserPhoto(Activity activity, final ChannelData userData) {
+        if(userData != null) {
+            String userPhoto = userData.getPhoto();
+            if(userPhoto != null) {
+                Glide.with(mActivity)
+                        .load(userPhoto)
+                        .placeholder(R.drawable.empty)
+                        .animate(R.anim.abc_fade_in)
+                        .override(40, 40)
+                        .into(mUserPhoto);
+            }
+
+        } else {
+            Glide.with(mActivity)
+                    .load(R.drawable.avatar_default_0)
+                    .animate(R.anim.abc_fade_in)
+                    .into(mUserPhoto);
+        }
     }
 
     protected void onTabSelected(TabLayout tabLayout) {
@@ -226,8 +279,6 @@ public class ProfileFragment extends BaseChannelFragment {
             case R.id.userPhoto:
                 if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
                     Helper.callGallery(this);
-                }else {
-                    Helper.startImageViewActivity(mActivity, mChannel);
                 }
 
                 break;

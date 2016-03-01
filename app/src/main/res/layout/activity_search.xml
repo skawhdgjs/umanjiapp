@@ -34,7 +34,7 @@
                 android:singleLine="true"
                 android:padding="16dp"
                 android:textSize="18dp"
-                android:inputType="textAutoComplete"/>
+                android:inputType="text"/>
 
         </android.support.design.widget.TextInputLayout>
 
