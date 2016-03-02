@@ -98,9 +98,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:gravity="right"
-                android:text="이름값"
-                android:textColor="#0066ff" />
+                android:text="이름값" />
         </LinearLayout>
+
+        <!--android:textColor="#0066ff"-->
 
 
     </LinearLayout>
