@@ -353,6 +353,21 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
             if(!TextUtils.isEmpty(metaTitle) || !TextUtils.isEmpty(metaDesc) || !TextUtils.isEmpty(metaPhoto)) {
                 holder.metaPanel.setVisibility(View.VISIBLE);
+                holder.metaPanel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //Toast.makeText(mActivity, "Clicked", Toast.LENGTH_LONG).show();
+
+                        String myLink = channelData.getName();
+
+                        List<String> extractedUrls = extractUrls(myLink);
+
+                        for (String url : extractedUrls){
+                            Intent link=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            ((Activity)v.getContext()).startActivity(link);
+                        }
+                    }
+                });
                 if(!TextUtils.isEmpty(metaTitle)) {
                     holder.metaTitle.setVisibility(View.VISIBLE);
                     holder.metaTitle.setText(metaTitle);
@@ -369,22 +384,6 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
                 if(!TextUtils.isEmpty(metaPhoto)) {
                     holder.metaPhoto.setVisibility(View.VISIBLE);
-                    holder.metaPhoto.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //Toast.makeText(mActivity, "Clicked", Toast.LENGTH_LONG).show();
-
-                            String myLink = channelData.getName();
-
-                            List<String> extractedUrls = extractUrls(myLink);
-
-                            for (String url : extractedUrls){
-                                Intent link=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                ((Activity)v.getContext()).startActivity(link);
-                            }
-
-                        }
-                    });
                     Glide.with(mActivity)
                             .load(metaPhoto)
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
