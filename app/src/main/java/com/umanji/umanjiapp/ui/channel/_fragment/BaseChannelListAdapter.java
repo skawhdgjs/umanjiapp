@@ -32,7 +32,6 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.model.VoteData;
 import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.channel.post.PostActivity;
-import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -157,7 +156,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         if(TextUtils.isEmpty(channelData.getName())) {
             holder.name.setText("이름없음");
         } else {
-            holder.name.setText(Helper.getShortenString(channelData.getName(), 8));
+            holder.name.setText(Helper.getShortenString(channelData.getName(), 25));
         }
 
 
