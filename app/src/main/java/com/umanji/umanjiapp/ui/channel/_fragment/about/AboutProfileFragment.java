@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel._fragment.about;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,11 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
@@ -70,7 +71,12 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         mAddHomeBtn.setOnClickListener(this);
 
         mUserName = (TextView)view.findViewById(R.id.userName);
-        mUserName.setOnClickListener(this);
+        //mUserName.setOnClickListener(this);
+
+        if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+            mUserName.setOnClickListener(this);
+            mUserName.setTextColor(Color.parseColor("#0066ff"));
+        }
     }
 
     @Override
