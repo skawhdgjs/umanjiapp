@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -448,8 +449,16 @@ public class MainFragment extends BaseFragment {
                     mChannelByPoint = null;
                 }
 
-                mLatLngByPoint = point;
                 final int zoom = (int) mMap.getCameraPosition().zoom;
+
+                if(isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
+                    int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
+                    Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다("+ POINT_CREATE_COMPLEX + "이상부터)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                mLatLngByPoint = point;
+
 
                 if (zoom >= 15 && zoom <= 21) {
 

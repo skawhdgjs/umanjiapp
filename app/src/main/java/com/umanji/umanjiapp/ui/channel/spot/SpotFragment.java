@@ -109,6 +109,7 @@ public class SpotFragment extends BaseChannelFragment {
         setParentName(mActivity, mChannel.getParent());
         setUserPhoto(mActivity, mChannel.getOwner());
         setPoint(mActivity, mChannel);
+        setLevel(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
         setKeywords(mActivity, mChannel);
     }

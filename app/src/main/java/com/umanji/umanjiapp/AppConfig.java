@@ -146,6 +146,7 @@ public interface AppConfig {
     int POINT_UNJOIN                    = 10;
     int POINT_LINK                      = 10;
 
+    int POINT_CREATE_COMPLEX            = 1000;
     int POINT_STAR_LOCAL                = 1000;
     int POINT_STAR_COMPLEX              = 5000;
     int POINT_STAR_DONG                 = 10000;
