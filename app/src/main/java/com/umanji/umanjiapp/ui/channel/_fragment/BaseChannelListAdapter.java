@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel._fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -42,7 +43,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.greenrobot.event.EventBus;
 
@@ -340,11 +344,11 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         }
     }
 
-    protected void setPreview(final ViewHolder holder, ChannelData channelData) {
+    protected void setPreview(final ViewHolder holder, final ChannelData channelData) {
         JSONObject descJson = channelData.getDesc();
         if(descJson != null) {
             String metaTitle = descJson.optString("metaTitle");
-            String metaDesc = descJson.optString("metaTitle");
+            String metaDesc = descJson.optString("metaDesc");
             String metaPhoto = descJson.optString("metaPhoto");
 
             if(!TextUtils.isEmpty(metaTitle) || !TextUtils.isEmpty(metaDesc) || !TextUtils.isEmpty(metaPhoto)) {
@@ -365,6 +369,22 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
                 if(!TextUtils.isEmpty(metaPhoto)) {
                     holder.metaPhoto.setVisibility(View.VISIBLE);
+                    holder.metaPhoto.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //Toast.makeText(mActivity, "Clicked", Toast.LENGTH_LONG).show();
+
+                            String myLink = channelData.getName();
+
+                            List<String> extractedUrls = extractUrls(myLink);
+
+                            for (String url : extractedUrls){
+                                Intent link=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                ((Activity)v.getContext()).startActivity(link);
+                            }
+
+                        }
+                    });
                     Glide.with(mActivity)
                             .load(metaPhoto)
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -379,6 +399,25 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         }else {
             holder.metaPanel.setVisibility(View.GONE);
         }
+    }
+
+    /**
+     * Returns a list with all links contained in the input
+     */
+    public static List<String> extractUrls(String text)
+    {
+        List<String> containedUrls = new ArrayList<String>();
+        String urlRegex = "((https?|ftp|gopher|telnet|file):((//)|(\\\\))+[\\w\\d:#@%/;$()~_?\\+-=\\\\\\.&]*)";
+        Pattern pattern = Pattern.compile(urlRegex, Pattern.CASE_INSENSITIVE);
+        Matcher urlMatcher = pattern.matcher(text);
+
+        while (urlMatcher.find())
+        {
+            containedUrls.add(text.substring(urlMatcher.start(0),
+                    urlMatcher.end(0)));
+        }
+
+        return containedUrls;
     }
 
     protected void setPhoto(final ViewHolder holder, final ChannelData channelData) {
