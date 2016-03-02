@@ -168,11 +168,25 @@ public class AboutFragment extends BaseChannelListFragment {
     }
 
     private void setDeleteBtn(Activity activity, ChannelData channelData) {
-        if(channelData.isOwner(AuthHelper.getUserId(mActivity))) {
-            mDeleteBtn.setVisibility(View.VISIBLE);
-        }else {
-            mDeleteBtn.setVisibility(View.GONE);
+        int loginUserLevel = Integer.parseInt(AuthHelper.getLevel(mActivity));
+        switch (channelData.getType()) {
+            case TYPE_SPOT:
+                if(loginUserLevel < channelData.getLevel()) {
+                    mDeleteBtn.setVisibility(View.VISIBLE);
+                }else {
+                    mDeleteBtn.setVisibility(View.GONE);
+                }
+                break;
+            default:
+                if(loginUserLevel < channelData.getLevel() ||
+                        channelData.isOwner(AuthHelper.getUserId(mActivity))) {
+                    mDeleteBtn.setVisibility(View.VISIBLE);
+                }else {
+                    mDeleteBtn.setVisibility(View.GONE);
+                }
+                break;
         }
+
     }
 
     @Override
@@ -194,7 +208,7 @@ public class AboutFragment extends BaseChannelListFragment {
                 break;
 
             case R.id.deleteBtn:
-                showCreateSpotDialog();
+                showDeleteChannelDialog();
                 break;
             case R.id.addHomeBtn:
                 Bundle bundle = new Bundle();
@@ -231,7 +245,7 @@ public class AboutFragment extends BaseChannelListFragment {
         intent.putExtra("bundle", bundle);
         activity.startActivity(intent);
     }
-    private void showCreateSpotDialog() {
+    private void showDeleteChannelDialog() {
         mAlert.setPositiveButton(R.string.delete_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(final DialogInterface dialog, int which) {
@@ -243,7 +257,7 @@ public class AboutFragment extends BaseChannelListFragment {
                         public void callback(String url, JSONObject object, AjaxStatus status) {
                             dialog.cancel();
                             mActivity.finish();
-                            EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
+                            EventBus.getDefault().post(new SuccessData(api_channels_id_delete, object));
                         }
                     });
 

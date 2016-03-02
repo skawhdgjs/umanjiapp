@@ -162,7 +162,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="활동포인트"
+                            android:text="포인트"
                             android:id="@+id/textView5"
                             android:textSize="16dp"
                             android:layout_alignTop="@+id/memberCount"
@@ -186,6 +186,20 @@
                             android:shadowColor="#000"
                             android:shadowRadius="7.0"
                             android:textColor="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lv 1"
+                            android:id="@+id/level"
+                            android:textSize="16dp"
+                            android:shadowColor="#000"
+                            android:shadowRadius="7.0"
+                            android:textColor="@color/white"
+                            android:layout_alignTop="@+id/point"
+                            android:layout_toRightOf="@+id/point"
+                            android:layout_toEndOf="@+id/point"
+                            android:layout_marginLeft="20dp"/>
 
                         <LinearLayout
                             android:orientation="horizontal"

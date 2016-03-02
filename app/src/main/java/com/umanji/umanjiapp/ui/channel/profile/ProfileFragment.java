@@ -138,6 +138,7 @@ public class ProfileFragment extends BaseChannelFragment {
         setParentName(mActivity, mChannel.getParent());
         setUserPhoto(mActivity, mChannel);
         setPoint(mActivity, mChannel);
+        setLevel(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
         setKeywords(mActivity, mChannel);
     }

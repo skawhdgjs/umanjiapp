@@ -64,6 +64,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
     protected ImageView mLookAround;
     protected TextView mMemberCount;
     protected TextView mPoint;
+    protected TextView mLevel;
     protected LinearLayout mKeywordPanel;
 
     protected ViewPager mViewPager;
@@ -165,6 +166,9 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
         mMemberCount = (TextView) view.findViewById(R.id.memberCount);
         mPoint = (TextView) view.findViewById(R.id.point);
+
+        mLevel = (TextView) view.findViewById(R.id.level);
+
 
         mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
     }
@@ -368,7 +372,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
             mUserPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Helper.startImageViewActivity(mActivity, userData);
+                    Helper.startActivity(mActivity, userData);
                 }
             });
 
@@ -406,6 +410,10 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     protected void setPoint(Activity activity, ChannelData channelData) {
         mPoint.setText(channelData.getPoint() + " p");
+    }
+
+    protected void setLevel(Activity activity, ChannelData channelData) {
+        mLevel.setText("Lv " + channelData.getLevel());
     }
 
     protected void setMemberCount(Activity activity, ChannelData channelData) {
