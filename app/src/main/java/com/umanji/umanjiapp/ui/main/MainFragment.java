@@ -626,31 +626,7 @@ public class MainFragment extends BaseFragment {
                     loadData();
                 }
 
-//                광고로직 테스트
-                final int zoom = (int) mMap.getCameraPosition().zoom;
-                switch(zoom){
-                    case 18:
-                        mAdsImage.setImageResource(R.drawable.ad_sample18_02);
-                        break;
-                    case 12:
-                        mAdsImage.setImageResource(R.drawable.ad_sample14_01);
-                        break;
-                    case 10:
-                        mAdsImage.setImageResource(R.drawable.ad_sample10_01);
-                        break;
-
-                    default:
-                        Random rd = new Random();
-                        int randomNum = rd.nextInt(3);
-                        if(randomNum == 0){
-                            mAdsImage.setImageResource(R.drawable.ad_sample18_01);
-                        } else if(randomNum == 2){
-                            mAdsImage.setImageResource(R.drawable.ad_sample18_02);
-                        } else if(randomNum == 1){
-                            mAdsImage.setImageResource(R.drawable.ad_sample);
-                        }
-                        break;
-                }
+                loadAds();
             }
         });
 
@@ -668,6 +644,35 @@ public class MainFragment extends BaseFragment {
         mAdapter.setCurrentPage(0);
 
         loadMoreMainPosts();
+    }
+
+    //*******                광고로직 테스트
+    private void loadAds() {
+
+        final int zoom = (int) mMap.getCameraPosition().zoom;
+        switch(zoom){
+            case 18:
+                mAdsImage.setImageResource(R.drawable.ad_sample18_02);
+                break;
+            case 12:
+                mAdsImage.setImageResource(R.drawable.ad_sample14_01);
+                break;
+            case 10:
+                mAdsImage.setImageResource(R.drawable.ad_sample10_01);
+                break;
+
+            default:
+                Random rd = new Random();
+                int randomNum = rd.nextInt(3);
+                if(randomNum == 0){
+                    mAdsImage.setImageResource(R.drawable.ad_sample18_01);
+                } else if(randomNum == 2){
+                    mAdsImage.setImageResource(R.drawable.ad_sample18_02);
+                } else if(randomNum == 1){
+                    mAdsImage.setImageResource(R.drawable.ad_sample);
+                }
+                break;
+        }
     }
 
     private void loadMoreMainPosts() {
