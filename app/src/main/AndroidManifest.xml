@@ -53,7 +53,8 @@
         <activity
             android:name=".ui.modal.splash.SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="activity_splash">
+            android:label="activity_splash"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

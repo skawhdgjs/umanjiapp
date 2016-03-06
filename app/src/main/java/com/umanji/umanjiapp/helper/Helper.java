@@ -224,7 +224,7 @@ public final class Helper implements AppConfig {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_aqua))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi))
                         .draggable(isDraggable)
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
