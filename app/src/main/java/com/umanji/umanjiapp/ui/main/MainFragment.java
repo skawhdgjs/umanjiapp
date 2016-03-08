@@ -453,7 +453,7 @@ public class MainFragment extends BaseFragment {
 
                 if(isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
                     int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
-                    Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다("+ POINT_CREATE_COMPLEX + "이상부터)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다("+ POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
                     return;
                 }
 
