@@ -76,8 +76,7 @@ public class MainFragment extends BaseFragment {
     private RoundedImageView mAvatarImageBtn;
     private Button mNotyCountBtn;
 
-    private TextView mSignBtn;
-    private Button mZoomBtn;
+    private RoundedImageView mZoomBtn;
 
     private TextView mZoomLevelText;
     private TextView mInfoTextPanel;
@@ -202,11 +201,8 @@ public class MainFragment extends BaseFragment {
         mHeaderPanel.setOnClickListener(this);
 
 
-        mSignBtn = (TextView) view.findViewById(R.id.mSignBtn);
-        mSignBtn.setOnClickListener(this);
-
-
-        mZoomBtn = (Button) view.findViewById(R.id.mZoomBtn);
+        mZoomBtn = (RoundedImageView) view.findViewById(R.id.mZoomBtn);
+        mZoomBtn.setTag(ZOOM_IN);
         mZoomBtn.setOnClickListener(this);
 
         mAvatarImageBtn = (RoundedImageView) view.findViewById(R.id.mAvatarImageBtn);
@@ -248,27 +244,26 @@ public class MainFragment extends BaseFragment {
     @Override
     public void updateView() {
         if(AuthHelper.isLogin(mActivity)) {
-            mSignBtn.setVisibility(View.GONE);
-            mAvatarImageBtn.setVisibility(View.VISIBLE);
             String userPhoto = mUser.getPhoto();
             if(!TextUtils.isEmpty(userPhoto)) {
                 Glide.with(mActivity)
                         .load(userPhoto)
                         .placeholder(R.drawable.empty)
-                        .animate(R.anim.abc_fade_in)
                         .override(40, 40)
                         .into(mAvatarImageBtn);
             }else {
                 Glide.with(mActivity)
                         .load(R.drawable.avatar_default_0)
                         .placeholder(R.drawable.empty)
-                        .animate(R.anim.abc_fade_in)
                         .override(40, 40)
                         .into(mAvatarImageBtn);
             }
         }else {
-            mSignBtn.setVisibility(View.VISIBLE);
-            mAvatarImageBtn.setVisibility(View.GONE);
+            Glide.with(mActivity)
+                    .load(R.drawable.login)
+                    .animate(R.anim.abc_fade_in)
+                    .override(40, 40)
+                    .into(mAvatarImageBtn);
         }
     }
 
@@ -336,16 +331,8 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.mSignBtn:
-                if (AuthHelper.isLogin(mActivity)) {
-                    logout();
-                } else {
-                    Helper.startSignupActivity(mActivity, mCurrentMyPosition);
-                }
-                break;
-
             case R.id.mZoomBtn:
-                if(mZoomBtn.getText().equals(ZOOM_IN)) {
+                if(mZoomBtn.getTag().equals(ZOOM_IN)) {
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 1000, null);
                 }else {
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 1000, null);
@@ -354,19 +341,22 @@ public class MainFragment extends BaseFragment {
 
             case R.id.mNotyCount:
             case R.id.mAvatarImageBtn:
+                if(AuthHelper.isLogin(mActivity)) {
+                    Intent intent = new Intent(mActivity, ProfileActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mUser.getJsonObject().toString());
+                    bundle.putInt("newNoticeCount", getNewNoticeCount());
+                    if(getNewNoticeCount() > 0) {
+                        bundle.putString("tabType", TAB_NOTIES);
+                    } else {
+                        bundle.putString("tabType", TAB_SPOTS);
+                    }
 
-                Intent intent = new Intent(mActivity, ProfileActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mUser.getJsonObject().toString());
-                bundle.putInt("newNoticeCount", getNewNoticeCount());
-                if(getNewNoticeCount() > 0) {
-                    bundle.putString("tabType", TAB_NOTIES);
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
                 } else {
-                    bundle.putString("tabType", TAB_SPOTS);
+                    Helper.startSignupActivity(mActivity, mCurrentMyPosition);
                 }
-
-                intent.putExtra("bundle", bundle);
-                startActivity(intent);
                 break;
 
             case R.id.search:
@@ -610,17 +600,20 @@ public class MainFragment extends BaseFragment {
                         mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
                         mInfoTextPanel.setTextColor(getResources().getColor(R.color.yellow));
                         //mCreateSpotText.setVisibility(View.GONE);
-                        mZoomBtn.setText(ZOOM_IN);
+                        mZoomBtn.setImageResource(R.drawable.zoom_in);
+                        mZoomBtn.setTag(ZOOM_IN);
                     } else if (isSpotCreatable(zoom)) {
                         //mCreateComplexText.setVisibility(View.GONE);
                         mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
                         mInfoTextPanel.setTextColor(getResources().getColor(R.color.white));
-                        mZoomBtn.setText(ZOOM_OUT);
+                        mZoomBtn.setImageResource(R.drawable.zoom_out);
+                        mZoomBtn.setTag(ZOOM_OUT);
                     } else {
                         //mCreateComplexText.setVisibility(View.GONE);
                         //mCreateSpotText.setVisibility(View.GONE);
                         mInfoTextPanel.setText("");
-                        mZoomBtn.setText(ZOOM_IN);
+                        mZoomBtn.setImageResource(R.drawable.zoom_in);
+                        mZoomBtn.setTag(ZOOM_IN);
                     }
 
                     loadData();

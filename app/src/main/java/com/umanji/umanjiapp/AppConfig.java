@@ -2,8 +2,8 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-//    String REST_SERVER_URL = "http://192.168.0.15:3000/v1"; /* 로컬 API Server */
-    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+    String REST_SERVER_URL = "http://172.30.1.45:3000/v1"; /* 로컬 API Server */
+//    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -134,6 +134,10 @@ public interface AppConfig {
 
     String ZOOM_IN                      = "ZOOM-IN";
     String ZOOM_OUT                     = "ZOOM-OUT";
+
+    String LOGIN                        = "LOGIN";
+    String LOGOUT                       = "LOGOUT";
+
 
     String EVENT_LOOK_AROUND            = "LOOK_AROUND";
     String EVENT_UPDATEVIEW             = "UPDATE_VIEW";

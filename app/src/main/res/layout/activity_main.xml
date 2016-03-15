@@ -35,96 +35,81 @@
                 android:src="@drawable/ad_sample"
                 android:scaleType="fitXY"/>
 
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ads_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="2dp">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/mAvatarImageBtn"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/avatar_default_0"
+                    app:riv_border_color="@color/colorPrimary"
+                    app:riv_border_width="1px"
+                    app:riv_corner_radius="5dp"
+                    android:layout_marginTop="10dp"
+                    app:riv_oval="false"/>
+
+                <TextView
+                    android:id="@+id/search"
+                    android:layout_width="180dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/shadow"
+                    android:text="search"
+                    android:textSize="14dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/mAvatarImageBtn"
+                    android:layout_toEndOf="@+id/mAvatarImageBtn"/>
+
+                <Button
+                    android:id="@+id/mNotyCount"
+                    android:text="0"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/default_btn_red_radius"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp"
+                    android:shadowColor="#A8A8A8"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:visibility="gone"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="-10dp"
+                    android:layout_toLeftOf="@+id/search"
+                    android:layout_toStartOf="@+id/search"/>
+
+
+
+            </RelativeLayout>
+
+
             <com.makeramen.roundedimageview.RoundedImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/mAvatarImageBtn"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:id="@+id/mZoomBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/avatar_default_0"
-                app:riv_border_color="@color/colorPrimary"
-                app:riv_border_width="1px"
+                android:src="@drawable/zoom_in"
+                android:background="@drawable/shadow"
                 app:riv_corner_radius="5dp"
                 app:riv_oval="false"
-                android:layout_below="@+id/ads_image"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="57dp"
-                android:layout_marginStart="57dp"
-                android:visibility="gone"/>
-
-            <Button
-                android:id="@+id/mNotyCount"
-                android:text="0"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_below="@+id/ads_image"
-                android:layout_toRightOf="@+id/mAvatarImageBtn"
-                android:background="@drawable/default_btn_red_radius"
-                android:textColor="#FFFFFF"
-                android:textSize="10dp"
-                android:shadowColor="#A8A8A8"
-                android:shadowDx="0"
-                android:shadowDy="0"
-                android:shadowRadius="5"
-                android:visibility="gone"
-                />
-
-            <TextView
-                android:id="@+id/search"
-                android:layout_width="180dp"
-                android:layout_height="35dp"
-                android:background="@drawable/shadow"
-                android:text="search"
-                android:textSize="14dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/ads_image"
-                android:layout_toRightOf="@+id/mNotyCount"
-                android:layout_toEndOf="@+id/mNotyCount" />
-
-            <Button
-                android:id="@+id/mZoomBtn"
-                android:text="ZOOM-IN"
-                android:layout_width="50dp"
-                android:layout_height="35dp"
-                android:padding="5dp"
-                android:background="@drawable/default_btn_radius"
-                android:textColor="#FFFFFF"
-                android:textSize="10dp"
-                android:shadowColor="#A8A8A8"
-                android:shadowDx="0"
-                android:shadowDy="0"
-                android:shadowRadius="3"
-
-                android:layout_marginRight="58dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="100dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="58dp"/>
+                android:layout_marginRight="10dp"/>
 
-            <Button
-                android:id="@+id/mSignBtn"
-                android:layout_width="50dp"
-                android:layout_height="35dp"
-                android:text="Login"
-                android:padding="5dp"
-                android:background="@drawable/default_btn_grey_radius"
-                android:textSize="10dp"
-                android:textColor="@color/gray_text"
-                android:shadowDx="0"
-                android:shadowDy="0"
-                android:shadowRadius="3"
-                android:layout_below="@+id/ads_image"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_margin="10dp"/>
 
         </RelativeLayout>
 
