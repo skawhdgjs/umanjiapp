@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:textColor="#fff"
-            android:text="배너광고하기"
+            android:text="포스트 작성하기"
             android:layout_alignTop="@+id/submitBtn2"
             android:layout_centerHorizontal="true"/>
 
