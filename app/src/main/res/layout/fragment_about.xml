@@ -80,6 +80,17 @@
         android:visibility="gone"/>
 
     <Button
+        android:id="@+id/advertiseBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="배너광고하기"
+        android:background="@drawable/default_btn_radius"
+        android:padding="5dp"
+        android:textColor="#FFFFFF"
+        android:textSize="14dp"
+        android:layout_margin="14dp"/>
+
+    <Button
         android:id="@+id/deleteBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

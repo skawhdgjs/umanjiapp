@@ -122,6 +122,9 @@
         <activity
             android:name=".ui.main.search.SearchActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.channel.advertise.AdsCreateActivity"
+            android:screenOrientation="portrait" />
 
 
         <activity android:name=".ui.modal.imageview.ImageViewActivity" />
