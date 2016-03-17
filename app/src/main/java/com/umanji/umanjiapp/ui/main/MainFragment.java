@@ -244,11 +244,13 @@ public class MainFragment extends BaseFragment {
     @Override
     public void updateView() {
         if(AuthHelper.isLogin(mActivity)) {
+            mAvatarImageBtn.setVisibility(View.VISIBLE);
             String userPhoto = mUser.getPhoto();
             if(!TextUtils.isEmpty(userPhoto)) {
                 Glide.with(mActivity)
                         .load(userPhoto)
                         .placeholder(R.drawable.empty)
+                        .animate(R.anim.abc_fade_in)
                         .override(40, 40)
                         .into(mAvatarImageBtn);
             }else {
