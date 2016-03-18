@@ -85,14 +85,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/imageSelect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="18dp"
-                    android:textColor="#fff"
+                    android:textColor="#000"
                     android:text="배너 광고 이미지를 선택해 주세요."
                     android:layout_centerHorizontal="true"/>
 
@@ -103,7 +103,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="사진찍기"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/gallaryBtn"
@@ -121,7 +122,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="설문"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
                 <Button
                     style="?android:textAppearanceSmall"
