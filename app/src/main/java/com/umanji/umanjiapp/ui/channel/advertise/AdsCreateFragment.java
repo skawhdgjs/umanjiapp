@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -21,6 +22,8 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "AdsCreateFragment";
 
 
+    protected EditText mStartDay;
+    protected EditText mEndDay;
 
     public static AdsCreateFragment newInstance(Bundle bundle) {
         AdsCreateFragment fragment = new AdsCreateFragment();
@@ -37,18 +40,19 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-/*
     @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
 
+        mStartDay = (EditText) view.findViewById(R.id.startDay);
+        mEndDay = (EditText) view.findViewById(R.id.endDay);
 
-
-    }*/
+    }
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.activity_ads_create, container, false);
+
     }
 
 
@@ -66,6 +70,8 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
             params.put("parent", mChannel.getId());
             params.put("level", mChannel.getLevel());
             params.put("name", mName.getText().toString());
+            params.put("startDay", mStartDay.getText().toString());
+            params.put("endDay", mEndDay.getText().toString());
             params.put("type", TYPE_ADS);
 
 
