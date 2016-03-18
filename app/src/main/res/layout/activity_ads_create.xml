@@ -5,13 +5,12 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="53dp"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -24,23 +23,23 @@
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:textColor="#fff"
-            android:text="배너광고하기"
             android:layout_alignTop="@+id/submitBtn2"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:text="배너광고하기"
+            android:textColor="#fff"
+            android:textSize="18dp" />
 
         <TextView
+            android:id="@+id/submitBtn2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16dp"
-            android:textColor="#fff"
-            android:text="완료"
-            android:id="@+id/submitBtn2"
-            android:gravity="right"
-            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_marginRight="15dp"
+            android:gravity="right"
+            android:text="완료"
+            android:textColor="#fff"
+            android:textSize="16dp" />
     </RelativeLayout>
 
     <ScrollView
@@ -65,10 +64,10 @@
                     android:id="@+id/bannerUrl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:textColor="#fff"
+                    android:layout_centerHorizontal="true"
                     android:text="배너 링크사이트 주소"
-                    android:layout_centerHorizontal="true"/>
+                    android:textColor="#fff"
+                    android:textSize="18dp" />
 
                 <AutoCompleteTextView
                     android:id="@+id/name"
@@ -76,8 +75,8 @@
                     android:layout_height="wrap_content"
                     android:hint="광고 사이트를 입력해주세요."
                     android:maxLines="5"
-                    android:singleLine="false"
                     android:padding="16dp"
+                    android:singleLine="false"
                     android:textSize="18dp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -88,13 +87,47 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/imageSelect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:textColor="#000"
+                    android:layout_centerHorizontal="true"
                     android:text="배너 광고 이미지를 선택해 주세요."
-                    android:layout_centerHorizontal="true"/>
+                    android:textColor="#222"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="이미지 크기는 가로 632 X 세로 92로 만들어 올려주세요."
+                    android:textColor="#555"
+                    android:textSize="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="배너 제작 의뢰 : "
+                        android:textColor="#555"
+                        android:textSize="16dp" />
+
+                    <TextView
+                        android:id="@+id/bannerAgent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text=" www.umanji.com "
+                        android:autoLink="all"
+                        android:clickable="true"
+                        android:linksClickable="true"
+                        android:textColor="#33f"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/photoBtn"
@@ -104,7 +137,7 @@
                     android:layout_marginTop="16dp"
                     android:text="사진찍기"
                     android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/gallaryBtn"
@@ -116,102 +149,106 @@
                     android:textStyle="bold" />
 
                 <Button
-                    style="?android:textAppearanceSmall"
                     android:id="@+id/voteBtn"
+                    style="?android:textAppearanceSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="설문"
                     android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <Button
-                    style="?android:textAppearanceSmall"
                     android:id="@+id/voteRemoveBtn"
+                    style="?android:textAppearanceSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="설문 제거"
                     android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                <TextView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textSize="16dp"
-                    android:text="광고 시작일 : "/>
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="광고 시작일 : "
+                        android:textSize="16dp" />
+
                     <EditText
                         android:id="@+id/startDay"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:hint="2016/03/15"/>
-                    </LinearLayout>
+                        android:hint="2016/03/15" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                <TextView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textSize="16dp"
-                    android:text="광고 종료일 : "/>
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="광고 종료일 : "
+                        android:textSize="16dp" />
+
                     <EditText
                         android:id="@+id/endDay"
                         android:layout_width="250dp"
                         android:layout_height="wrap_content"
-                        android:hint="2016/04/15"/>
-                    </LinearLayout>
+                        android:hint="2016/04/15" />
+                </LinearLayout>
 
             </LinearLayout>
 
 
             <LinearLayout
                 android:id="@+id/votePanel"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@drawable/meta_bordered"
                 android:layout_gravity="center_horizontal"
+                android:background="@drawable/meta_bordered"
+                android:orientation="vertical"
+                android:padding="10dp"
                 android:visibility="gone">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:textSize="16dp"
-                    android:text="설문 항목을 작성해 주세요."/>
+                    android:text="설문 항목을 작성해 주세요."
+                    android:textSize="16dp" />
 
                 <LinearLayout
                     android:id="@+id/voteOptionPanel"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
                     android:layout_gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="10dp"
                     android:visibility="visible">
 
                     <AutoCompleteTextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
 
                 <Button
+                    android:id="@+id/addVoteOptionBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="항목 추가"
-                    android:textSize="16dp"
-                    android:id="@+id/addVoteOptionBtn"/>
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <Button
@@ -228,40 +265,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:visibility="visible"/>
+                android:visibility="visible" />
 
             <LinearLayout
+                android:id="@+id/metaPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/metaPanel"
-                android:orientation="vertical"
                 android:background="@drawable/default_bordered"
+                android:orientation="vertical"
                 android:padding="5dp"
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/metaTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/metaTitle"
-                    android:text="제목"
-                    android:textStyle="bold"
-                    android:textSize="20dp"
                     android:layout_marginBottom="10dp"
-                    android:visibility="gone"/>
+                    android:text="제목"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/metaDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/metaDesc"
-                    android:text="설명"
                     android:layout_marginBottom="10dp"
-                    android:visibility="gone"/>
+                    android:text="설명"
+                    android:visibility="gone" />
+
                 <ImageView
                     android:id="@+id/metaPhoto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </LinearLayout>
 
         </LinearLayout>

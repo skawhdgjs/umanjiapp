@@ -44,8 +44,8 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
     public void initWidgets(View view) {
         super.initWidgets(view);
 
-        mStartDay = (EditText) view.findViewById(R.id.startDay);
-        mEndDay = (EditText) view.findViewById(R.id.endDay);
+        mStartDay   = (EditText) view.findViewById(R.id.startDay);
+        mEndDay     = (EditText) view.findViewById(R.id.endDay);
 
     }
 
