@@ -6,27 +6,27 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import de.greenrobot.event.EventBus;
 
 
-public class ReplyFragment extends BaseChannelCreateFragment {
+public class ReplyFragment extends BaseChannelListFragment {
     private static final String TAG = "ReplyFragment";
 
-    private AutoCompleteTextView mFloor;
-    private CheckBox mBasementCheckBox;
-    private boolean isBasement = false;
 
     public static ReplyFragment newInstance(Bundle bundle) {
         ReplyFragment fragment = new ReplyFragment();
@@ -35,99 +35,111 @@ public class ReplyFragment extends BaseChannelCreateFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        updateView();
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_spot_create, container, false);
+        return inflater.inflate(R.layout.activity_reply, container, false);
+    }
+
+    @Override
+    public BaseChannelListAdapter getListAdapter() {
+        return new PostListAdapter(mActivity, this, mChannel);
     }
 
     @Override
     public void initWidgets(View view) {
-        super.initWidgets(view);
 
-        mFloor = (AutoCompleteTextView) view.findViewById(R.id.floor);
-        mBasementCheckBox = (CheckBox) view.findViewById(R.id.basementCheckBox);
-        mBasementCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                if (buttonView.getId() == R.id.basementCheckBox) {
-                    if (isChecked) {
-                        isBasement = true;
-                    } else {
-                        isBasement = false;
-                    }
-                }
-            }
-        });
-
-        mSubmitBtn.setText("스팟 생성");
     }
 
     @Override
-    protected void request() {
+    public void loadMoreData() {
+        isLoading = true;
+        mLoadCount = mLoadCount + 1;
+
         try {
-            JSONObject params = mChannel.getAddressJSONObject();
-            params.put("parent", mChannel.getId());
-            params.put("name", mName.getText().toString());
-            params.put("type", TYPE_SPOT_INNER);
+            JSONObject params = new JSONObject();
+            params.put("page", mAdapter.getCurrentPage()); // for paging
+            params.put("limit", 5);
+            params.put("type", TYPE_POST);
 
-            setSpotDesc(params);
-
-            if(mPhotoUri != null) {
-                ArrayList<String> photos = new ArrayList<>();
-                photos.add(mPhotoUri);
-                params.put("photos", new JSONArray(photos));
-                mPhotoUri = null;
+            switch (mChannel.getType()) {
+                case TYPE_USER:
+                    params.put("owner", mChannel.getId());
+                    break;
+                default:
+                    params.put("parent", mChannel.getId());
+                    break;
             }
 
-            mApi.call(api_channels_create, params);
 
-        }catch(JSONException e) {
-            Log.e("BaseChannelCreate", "error " + e.toString());
+            mApi.call(api_channels_posts_find, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    if(status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    }else {
+                        try {
+                            JSONArray jsonArray = object.getJSONArray("data");
+
+                            if(jsonArray.length() == 0) {
+
+
+                            } else {
+                                for(int idx = 0; idx < jsonArray.length(); idx++) {
+                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                    ChannelData doc = new ChannelData(jsonDoc);
+
+                                    if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                        mAdapter.addBottom(doc);
+                                    }
+                                }
+
+                                updateView();
+                            }
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+
+                        isLoading = false;
+                    }
+                }
+            });
+            mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
+        } catch(JSONException e) {
+            Log.e(TAG, "error " + e.toString());
         }
+
     }
 
-    protected void setSpotDesc(JSONObject params) throws JSONException {
-        String floor = mFloor.getText().toString();
-        if(TextUtils.isEmpty(mFloor.getText().toString())){
-            floor = "1";
-            //return;
-        }
-
-        int floorNum = Integer.parseInt(floor);
-
-        if(isBasement) {
-            floorNum = floorNum * -1;
-        }
-
-
-        JSONObject descParams = new JSONObject();
-        descParams.put("floor", floorNum);
-        params.put("desc", descParams);
+    @Override
+    public void updateView() {
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);
 
+        ChannelData channelData = new ChannelData(event.response);
+
         switch (event.type) {
             case api_channels_create:
-                mActivity.finish();
+                String parentId = event.response.optString("parent");
+                if(TextUtils.equals(mChannel.getId(), parentId)) {
+                    mChannel = channelData.getParent();
+                    mAdapter.addTop(channelData);
+                    mAdapter.notifyDataSetChanged();
+                }
                 break;
+
         }
     }
 
-
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+    }
 }
