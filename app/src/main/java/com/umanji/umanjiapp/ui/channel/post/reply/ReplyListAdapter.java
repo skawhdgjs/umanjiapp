@@ -13,7 +13,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 
 
 public class ReplyListAdapter extends BaseChannelListAdapter {
-    private static final String TAG = "PostListAdapter";
+    private static final String TAG = "ReplyListAdapter";
 
     public ReplyListAdapter(BaseActivity activity, Fragment fragment) {
         super(activity, fragment);
