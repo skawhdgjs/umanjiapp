@@ -5,8 +5,6 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-
-
     <RelativeLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -29,8 +27,8 @@
             android:textSize="18dp"
             android:textColor="#fff"
             android:text="댓글"
-            android:layout_alignTop="@+id/submitBtn2"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
 
@@ -42,7 +40,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
+        <ImageView
+            android:id="@+id/empty_states"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/empty_states"
+            android:visibility="visible"/>
 
         <android.support.v7.widget.RecyclerView
             xmlns:android="http://schemas.android.com/apk/res/android"
