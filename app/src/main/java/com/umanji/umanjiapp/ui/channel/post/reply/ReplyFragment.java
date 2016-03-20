@@ -109,8 +109,6 @@ public class ReplyFragment extends BaseChannelListFragment {
                                         mAdapter.addBottom(doc);
                                     }
                                 }
-
-
                                 updateView();
                             }
                         } catch (JSONException e) {
