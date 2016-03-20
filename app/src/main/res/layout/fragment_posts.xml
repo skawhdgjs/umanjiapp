@@ -8,10 +8,11 @@
               android:background="@color/feed_bg">
 
     <ImageView
+        android:id="@+id/empty_states"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/empty_states"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
