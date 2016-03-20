@@ -98,6 +98,7 @@ public class ReplyFragment extends BaseChannelListFragment {
                             if(jsonArray.length() == 0) {
 
                                 mEmptyStates.setVisibility(View.VISIBLE);
+                                updateView();
 
                             } else {
                                 for(int idx = 0; idx < jsonArray.length(); idx++) {
@@ -152,6 +153,7 @@ public class ReplyFragment extends BaseChannelListFragment {
                     mAdapter.addTop(channelData);
                     mAdapter.notifyDataSetChanged();
                 }
+
                 break;
         }
     }
