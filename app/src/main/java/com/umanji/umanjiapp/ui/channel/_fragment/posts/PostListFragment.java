@@ -1,12 +1,12 @@
 package com.umanji.umanjiapp.ui.channel._fragment.posts;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -51,6 +51,8 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void initWidgets(View view) {
 
+        mEmptyStates = (ImageView) view.findViewById(R.id.empty_states);
+
     }
 
     @Override
@@ -84,6 +86,8 @@ public class PostListFragment extends BaseChannelListFragment {
                             JSONArray jsonArray = object.getJSONArray("data");
 
                             if(jsonArray.length() == 0) {
+
+                                mEmptyStates.setVisibility(View.VISIBLE);
 
 
                             } else {

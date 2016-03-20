@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -18,7 +19,6 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 
 import org.json.JSONArray;
@@ -52,11 +52,13 @@ public class ReplyFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new PostListAdapter(mActivity, this, mChannel);
+        return new ReplyListAdapter(mActivity, this, mChannel);
     }
 
     @Override
     public void initWidgets(View view) {
+
+        mEmptyStates = (ImageView) view.findViewById(R.id.empty_states);
 
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
         mFab.setOnClickListener(this);
@@ -95,6 +97,7 @@ public class ReplyFragment extends BaseChannelListFragment {
 
                             if(jsonArray.length() == 0) {
 
+                                mEmptyStates.setVisibility(View.VISIBLE);
 
                             } else {
                                 for(int idx = 0; idx < jsonArray.length(); idx++) {
@@ -105,6 +108,7 @@ public class ReplyFragment extends BaseChannelListFragment {
                                         mAdapter.addBottom(doc);
                                     }
                                 }
+
 
                                 updateView();
                             }
