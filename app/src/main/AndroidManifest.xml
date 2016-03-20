@@ -126,6 +126,10 @@
             android:name=".ui.channel.advertise.AdsCreateActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".ui.channel.post.reply.ReplyActivity"
+            android:screenOrientation="portrait" />
+
 
         <activity android:name=".ui.modal.imageview.ImageViewActivity" />
         <activity android:name=".ui.modal.map.MapActivity" />
