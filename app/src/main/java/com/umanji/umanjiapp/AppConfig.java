@@ -2,7 +2,7 @@ package com.umanji.umanjiapp;
 
 public interface AppConfig {
 
-//    String REST_SERVER_URL = "http://172.30.1.45:3000/v1"; /* 로컬 API Server */
+    //   String REST_SERVER_URL = "http://172.30.1.37:3000/v1"; /* 로컬 API Server */
     String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
@@ -128,6 +128,8 @@ public interface AppConfig {
     String TYPE_POST_SURVEY             = "POST_SURVEY";
 
     String TYPE_ERROR_AUTH              = "ERROR_AUTH";
+
+    String TYPE_ADS                     = "ADVERTISE";
 
     String MAP_CREATE_COMPLEX           = "CREATE_COMPLEX";
     String MAP_UPDATE_ADDRESS           = "UPDATE_ADDRESS";

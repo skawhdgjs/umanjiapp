@@ -54,6 +54,9 @@ public class ChannelData {
     private double latitude;
     private double longitude;
 
+    private String startDay;
+    private String endDay;
+
     private String createdAt;
     private String updatedAt;
 
@@ -127,6 +130,9 @@ public class ChannelData {
 
             this.latitude = data.optDouble("latitude");
             this.longitude = data.optDouble("longitude");
+
+            this.startDay = data.optString("startDay");
+            this.endDay = data.optString("endDay");
 
             this.createdAt = data.optString("createdAt");
             this.updatedAt= data.optString("updatedAt");
@@ -510,6 +516,22 @@ public class ChannelData {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getStartDay() {
+        return startDay;
+    }
+
+    public void setStartDay(String startDay) {
+        this.startDay = startDay;
+    }
+
+    public String getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(String endDay) {
+        this.endDay = endDay;
     }
 
     public String getCreatedAt() {

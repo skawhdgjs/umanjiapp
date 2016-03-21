@@ -5,14 +5,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -24,6 +22,7 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
+import com.umanji.umanjiapp.ui.channel.advertise.AdsCreateActivity;
 import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.complex.update.ComplexUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
@@ -42,6 +41,7 @@ public class AboutFragment extends BaseChannelListFragment {
     protected Button mEditChannelBtn;
     protected Button mDeleteBtn;
     protected Button mAddHomeBtn;
+    protected Button advertiseBtn;
     protected TextView mAddress;
 
     private AlertDialog.Builder mAlert;
@@ -81,6 +81,9 @@ public class AboutFragment extends BaseChannelListFragment {
 
         mAddHomeBtn = (Button) view.findViewById(R.id.addHomeBtn);
         mAddHomeBtn.setOnClickListener(this);
+
+        advertiseBtn = (Button) view.findViewById(R.id.advertiseBtn);
+        advertiseBtn.setOnClickListener(this);
 
         mAddress = (TextView) view.findViewById(R.id.address);
 
@@ -194,36 +197,6 @@ public class AboutFragment extends BaseChannelListFragment {
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);
-
-        ChannelData channelData = new ChannelData(event.response);
-
-        switch (event.type) {
-            case api_channels_create:
-                String parentId = event.response.optString("parent");
-                if(TextUtils.equals(mChannel.getId(), parentId)) {
-                    try {
-                        JSONObject params = new JSONObject();
-                        params.put("id", mChannel.getId());
-                        mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject object, AjaxStatus status) {
-                                mChannel = new ChannelData(object);
-                            }
-                        });
-                        updateView();
-                    } catch(JSONException e) {
-                        Log.e(TAG, "error " + e.toString());
-                    }
-
-                    if(TextUtils.isEmpty(channelData.getId())) {
-                        Toast.makeText(mActivity, "이미 존재하는 키워드 입니다.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        mAdapter.addTop(channelData);
-                        mAdapter.notifyDataSetChanged();
-                    }
-                }
-                break;
-        }
     }
 
     @Override
@@ -242,6 +215,7 @@ public class AboutFragment extends BaseChannelListFragment {
             case R.id.deleteBtn:
                 showDeleteChannelDialog();
                 break;
+
             case R.id.addHomeBtn:
                 Bundle bundle = new Bundle();
                 bundle.putString("channel", mChannel.getJsonObject().toString());
@@ -249,6 +223,14 @@ public class AboutFragment extends BaseChannelListFragment {
                 Intent intent = new Intent(mActivity, MapUpdateAddressActivity.class);
                 intent.putExtra("bundle", bundle);
                 startActivity(intent);
+                break;
+
+            case R.id.advertiseBtn:
+                Bundle adsBundle = new Bundle();
+                adsBundle.putString("channel", mChannel.getJsonObject().toString());
+                Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
+                adsIntent.putExtra("bundle", adsBundle);
+                startActivity(adsIntent);
                 break;
         }
     }

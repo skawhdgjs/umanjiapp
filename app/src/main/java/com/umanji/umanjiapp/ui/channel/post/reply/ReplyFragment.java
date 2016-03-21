@@ -1,6 +1,8 @@
-package com.umanji.umanjiapp.ui.channel._fragment.posts;
+package com.umanji.umanjiapp.ui.channel.post.reply;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,11 +13,13 @@ import android.widget.ImageView;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
+import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,15 +27,18 @@ import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
-public class PostListFragment extends BaseChannelListFragment {
-    private static final String TAG = "PostListFragment";
 
-    public static PostListFragment newInstance(Bundle bundle) {
-        PostListFragment fragment = new PostListFragment();
+public class ReplyFragment extends BaseChannelListFragment {
+    private static final String TAG = "ReplyFragment";
+
+    protected FloatingActionButton mFab;
+
+
+    public static ReplyFragment newInstance(Bundle bundle) {
+        ReplyFragment fragment = new ReplyFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,18 +47,21 @@ public class PostListFragment extends BaseChannelListFragment {
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_posts, container, false);
+        return inflater.inflate(R.layout.activity_reply, container, false);
     }
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new PostListAdapter(mActivity, this, mChannel);
+        return new ReplyListAdapter(mActivity, this, mChannel);
     }
 
     @Override
     public void initWidgets(View view) {
 
         mEmptyStates = (ImageView) view.findViewById(R.id.empty_states);
+
+        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+        mFab.setOnClickListener(this);
 
     }
 
@@ -88,7 +98,7 @@ public class PostListFragment extends BaseChannelListFragment {
                             if(jsonArray.length() == 0) {
 
                                 mEmptyStates.setVisibility(View.VISIBLE);
-
+                                updateView();
 
                             } else {
                                 for(int idx = 0; idx < jsonArray.length(); idx++) {
@@ -99,7 +109,6 @@ public class PostListFragment extends BaseChannelListFragment {
                                         mAdapter.addBottom(doc);
                                     }
                                 }
-
                                 updateView();
                             }
                         } catch (JSONException e) {
@@ -120,6 +129,12 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void updateView() {
         mAdapter.notifyDataSetChanged();
+
+        if(AuthHelper.isLogin(mActivity)) {
+            mFab.setVisibility(View.VISIBLE);
+        }else {
+            mFab.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -136,13 +151,21 @@ public class PostListFragment extends BaseChannelListFragment {
                     mAdapter.addTop(channelData);
                     mAdapter.notifyDataSetChanged();
                 }
-                break;
 
+                break;
         }
     }
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.fab:
+                    Intent intent = new Intent(mActivity, PostCreateActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mChannel.getJsonObject().toString());
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+                break;
+        }
     }
 }

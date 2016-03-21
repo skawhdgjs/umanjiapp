@@ -32,7 +32,7 @@ import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.model.VoteData;
 import com.umanji.umanjiapp.ui.BaseActivity;
-import com.umanji.umanjiapp.ui.channel.post.PostActivity;
+import com.umanji.umanjiapp.ui.channel.post.reply.ReplyActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -434,7 +434,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         holder.actionPanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity, PostActivity.class);
+                Intent intent = new Intent(mActivity, ReplyActivity.class);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("channel", channelData.getJsonObject().toString());

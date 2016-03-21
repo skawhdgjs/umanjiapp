@@ -3,7 +3,6 @@ package com.umanji.umanjiapp.ui.modal.splash;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.ui.main.MainActivity;
@@ -17,17 +16,46 @@ public class SplashScreen extends Activity {
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 3000;
 
+    private Thread mSplashThread;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        final SplashScreen sPlashScreen = this;
+
+        // The thread to wait for splash screen events
+        mSplashThread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    synchronized (this) {
+                        // Wait given period of time or exit on touch
+                        wait(SPLASH_TIME_OUT);
+                    }
+                } catch (InterruptedException ex) {
+                }
+
+                finish();
+
+                // Run next activity
+                Intent intent = new Intent();
+                intent.setClass(sPlashScreen, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+
+        mSplashThread.start();
+
+/*
         new Handler().postDelayed(new Runnable() {
 
-            /*
+            *//*
              * Showing splash screen with a timer. This will be useful when you
              * want to show case your app logo / company
-             */
+             *//*
 
             @Override
             public void run() {
@@ -39,7 +67,7 @@ public class SplashScreen extends Activity {
                 // close this activity
                 finish();
             }
-        }, SPLASH_TIME_OUT);
+        }, SPLASH_TIME_OUT);*/
     }
 
 }
