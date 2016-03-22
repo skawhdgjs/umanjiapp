@@ -1,18 +1,17 @@
 package com.umanji.umanjiapp.ui.channel.advertise;
 
-import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
+import com.umanji.umanjiapp.ui.modal.calendar.AdsCalendarActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +26,7 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
     protected EditText mStartDay;
     protected EditText mEndDay;
-    protected CalendarView mCalendarView;
+
 
     public static AdsCreateFragment newInstance(Bundle bundle) {
         AdsCreateFragment fragment = new AdsCreateFragment();
@@ -50,7 +49,6 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
         mStartDay           = (EditText) view.findViewById(R.id.startDay);
         mEndDay             = (EditText) view.findViewById(R.id.endDay);
-        mCalendarView       = (CalendarView) view.findViewById(R.id.calendarView);
         mStartDay.setOnClickListener(this);
 
     }
@@ -114,37 +112,17 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
         switch (v.getId()) {
             case R.id.startDay:
-                mCalendarView.setVisibility(View.VISIBLE);
-                showCalendar();
+                Intent i = new Intent(mActivity, AdsCalendarActivity.class);
+                startActivity(i);
+
+
                 break;
 
         }
     }
 
 
-    public void showCalendar() {
 
-        Dialog dialog = new Dialog(getActivity());
-
-
-//      setContentView(R.layout.calendar_main);
-        //mCalendarView = (CalendarView) getView().findViewById(R.id.calendarView);
-
-        dialog.setContentView(R.layout.activity_ads_create);
-        mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month,
-                                            int dayOfMonth) {
-                // TODO Auto-generated method stub
-
-                Toast.makeText(getActivity(), "Selected Date is\n\n"
-                                + dayOfMonth + " : " + month + " : " + year,
-                        Toast.LENGTH_LONG).show();
-
-            }
-        });
-    }
 
 
 
