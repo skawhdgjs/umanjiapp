@@ -17,6 +17,7 @@ public class AdsCalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ads_calendar);
 
         mCalendarView       = (CalendarView) findViewById(R.id.calendarView);
+        mCalendarView.setShowWeekNumber(false);
 
         showCalendar();
 
