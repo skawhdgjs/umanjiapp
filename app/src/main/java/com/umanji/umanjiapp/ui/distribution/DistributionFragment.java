@@ -49,10 +49,10 @@ import java.util.ArrayList;
 import de.greenrobot.event.EventBus;
 
 public class DistributionFragment extends BaseFragment {
-    private static final String TAG      = "DistributionFragment";
+    private static final String TAG = "DistributionFragment";
 
     /****************************************************
-     *  View
+     * View
      ****************************************************/
 
     private GoogleMap mMap;
@@ -62,33 +62,32 @@ public class DistributionFragment extends BaseFragment {
     private TextView mInfoTextPanel;
 
 
-
     /****************************************************
-     *  Map
+     * Map
      ****************************************************/
     LatLng mCurrentMyPosition;
 
     /****************************************************
-     *  Etc
+     * Etc
      ****************************************************/
-    private ChannelData         mUser;
-    private JSONArray           mMarkers;
-    private ChannelData         mCurrentChannel;
-    private ChannelData         mSelectedChannel;
+    private ChannelData mUser;
+    private JSONArray mMarkers;
+    private ChannelData mCurrentChannel;
+    private ChannelData mSelectedChannel;
     private ArrayList<ChannelData> mPosts;
 
 
-    private boolean             isBlock = false;
-    private boolean             isLoading = false;
-    private int                 mPreFocusedItem = 0;
+    private boolean isBlock = false;
+    private boolean isLoading = false;
+    private int mPreFocusedItem = 0;
 
-    private LatLng              mLatLngByPoint = new LatLng(37.491361, 126.923978);
-    private ChannelData         mChannelByPoint;
-    private Marker              mMarkerByPoint;
-    private Marker              mFocusedMarker;
-    private LatLng              mPointByPost;
+    private LatLng mLatLngByPoint = new LatLng(37.491361, 126.923978);
+    private ChannelData mChannelByPoint;
+    private Marker mMarkerByPoint;
+    private Marker mFocusedMarker;
+    private LatLng mPointByPost;
 
-    private String              mChannelIdForPush;
+    private String mChannelIdForPush;
 
 
     public static DistributionFragment newInstance(Bundle bundle) {
@@ -101,7 +100,7 @@ public class DistributionFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             mChannelIdForPush = getArguments().getString("id");
         }
     }
@@ -111,7 +110,7 @@ public class DistributionFragment extends BaseFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
 
-        if(AuthHelper.isLogin(mActivity)) {
+        if (AuthHelper.isLogin(mActivity)) {
             loginByToken();
         } else {
             updateView();
@@ -121,7 +120,7 @@ public class DistributionFragment extends BaseFragment {
         initMap();
 
 
-        if(!TextUtils.isEmpty(mChannelIdForPush)) {
+        if (!TextUtils.isEmpty(mChannelIdForPush)) {
             startActivityForPush();
         }
 
@@ -154,7 +153,7 @@ public class DistributionFragment extends BaseFragment {
                     mChannelIdForPush = "";
                 }
             });
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
     }
@@ -171,11 +170,9 @@ public class DistributionFragment extends BaseFragment {
 
     }
 
-
-
     @Override
     public void loadData() {
-        if(AuthHelper.isLogin(mActivity)) {
+        if (AuthHelper.isLogin(mActivity)) {
         }
 
         loadMainMarkers();
@@ -225,7 +222,6 @@ public class DistributionFragment extends BaseFragment {
             case api_channels_id_vote:
             case api_channels_id_like:
 
-
             case api_channels_id_unLike:
 
             case EVENT_LOOK_AROUND:
@@ -237,7 +233,7 @@ public class DistributionFragment extends BaseFragment {
         }
     }
 
-    public void onEvent(ErrorData event){
+    public void onEvent(ErrorData event) {
 
         switch (event.type) {
             case TYPE_ERROR_AUTH:
@@ -250,7 +246,6 @@ public class DistributionFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
 
-
         }
     }
 
@@ -258,13 +253,13 @@ public class DistributionFragment extends BaseFragment {
     private void initMap() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.getBaseContext());
 
-        if(status!= ConnectionResult.SUCCESS){
+        if (status != ConnectionResult.SUCCESS) {
 
             int requestCode = 10;
             Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, mActivity, requestCode);
             dialog.show();
 
-        }else {
+        } else {
             mMap = ((MapFragment) mActivity.getFragmentManager().findFragmentById(R.id.mMapFragment))
                     .getMap();
 
@@ -283,13 +278,13 @@ public class DistributionFragment extends BaseFragment {
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, true);
 
-            double latitude     = 37.491361;
-            double longitude    = 126.923978;
+            double latitude = 37.491361;
+            double longitude = 126.923978;
 
             try {
                 Location location = locationManager.getLastKnownLocation(provider);
 
-                if(location != null) {
+                if (location != null) {
 
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
@@ -304,7 +299,7 @@ public class DistributionFragment extends BaseFragment {
                             .build();
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 }
-            }catch (SecurityException e) {
+            } catch (SecurityException e) {
                 Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
             }
 
@@ -318,7 +313,7 @@ public class DistributionFragment extends BaseFragment {
 
 
     /****************************************************
-     *  init Map Events
+     * init Map Events
      ****************************************************/
 
     protected void initMapEvents() {
@@ -327,10 +322,10 @@ public class DistributionFragment extends BaseFragment {
             @Override
             public void onMapClick(LatLng point) {
 
-                if(mFocusedMarker != null) {
+                if (mFocusedMarker != null) {
                     mFocusedMarker.remove();
                 }
-                if(mChannelByPoint != null) {
+                if (mChannelByPoint != null) {
                     mChannelByPoint = null;
                 }
 
@@ -352,8 +347,8 @@ public class DistributionFragment extends BaseFragment {
                             public void callback(String url, JSONObject object, AjaxStatus status) {
                                 mChannelByPoint = new ChannelData(object);
 
-                                if(TextUtils.isEmpty(mChannelByPoint.getId())) {
-                                    if(AuthHelper.isLogin(mActivity)) {
+                                if (TextUtils.isEmpty(mChannelByPoint.getId())) {
+                                    if (AuthHelper.isLogin(mActivity)) {
                                         isBlock = true;
 
                                         mMarkerByPoint = Helper.addNewMarkerToMap(mMap, mChannelByPoint);
@@ -361,9 +356,9 @@ public class DistributionFragment extends BaseFragment {
 
                                         mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
 
-                                        if(isComplexCreatable(zoom)) {
+                                        if (isComplexCreatable(zoom)) {
                                             showCreateComplexDialog();
-                                        }else if(isSpotCreatable(zoom)) {
+                                        } else if (isSpotCreatable(zoom)) {
                                             showCreateSpotDialog();
                                         }
 
@@ -371,17 +366,17 @@ public class DistributionFragment extends BaseFragment {
                                         Helper.startSignupActivity(mActivity, mCurrentMyPosition);
                                     }
 
-                                }else {
-                                    if(isComplexCreatable(zoom)) {
+                                } else {
+                                    if (isComplexCreatable(zoom)) {
                                         startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
-                                    }else if(isSpotCreatable(zoom)) {
+                                    } else if (isSpotCreatable(zoom)) {
                                         startSpotActivity(mChannelByPoint, TYPE_SPOT);
                                     }
 
                                 }
                             }
                         });
-                    } catch(JSONException e) {
+                    } catch (JSONException e) {
                         Log.e(TAG, "error " + e.toString());
                     }
                 }
@@ -413,7 +408,7 @@ public class DistributionFragment extends BaseFragment {
                 try {
                     String idx = marker.getSnippet();
                     mSelectedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
                 }
 
@@ -430,7 +425,7 @@ public class DistributionFragment extends BaseFragment {
                 try {
                     if (TextUtils.equals(index, String.valueOf(MARKER_INDEX_BY_POST))) {
                         channelData = mCurrentChannel.getParent();
-                    } else if(TextUtils.equals(index, String.valueOf(MARKER_INDEX_CLICKED))) {
+                    } else if (TextUtils.equals(index, String.valueOf(MARKER_INDEX_CLICKED))) {
                         channelData = mSelectedChannel;
                     } else {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
@@ -496,7 +491,6 @@ public class DistributionFragment extends BaseFragment {
     }
 
 
-
     private void loadMoreMainPosts() {
         isLoading = true;
 
@@ -509,16 +503,16 @@ public class DistributionFragment extends BaseFragment {
             mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if(status.getCode() == 500) {
+                    if (status.getCode() == 500) {
                         EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    }else {
+                    } else {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
-                            for(int idx = 0; idx < jsonArray.length(); idx++) {
+                            for (int idx = 0; idx < jsonArray.length(); idx++) {
                                 JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                 ChannelData doc = new ChannelData(jsonDoc);
 
-                                if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                if (doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
                                     mAdapter.addBottom(doc);
                                 }
                             }
@@ -531,7 +525,7 @@ public class DistributionFragment extends BaseFragment {
                     }
                 }
             });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
 
@@ -550,7 +544,7 @@ public class DistributionFragment extends BaseFragment {
                     else logout();
                 }
             });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
 
@@ -575,22 +569,21 @@ public class DistributionFragment extends BaseFragment {
         updateView();
     }
 
-    private static boolean isComplexCreatable(int zoom ) {
-        if(zoom >= 15 && zoom <= 17) {
+    private static boolean isComplexCreatable(int zoom) {
+        if (zoom >= 15 && zoom <= 17) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    private static boolean isSpotCreatable(int zoom ) {
-        if(zoom >= 18) {
+    private static boolean isSpotCreatable(int zoom) {
+        if (zoom >= 18) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
-
 
 
     private void loadMainMarkers() {
@@ -605,7 +598,7 @@ public class DistributionFragment extends BaseFragment {
                     addChannelsToMap(json);
                 }
             });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
 
@@ -620,30 +613,30 @@ public class DistributionFragment extends BaseFragment {
 
             int idx = 0;
 
-            if(mCurrentChannel != null) {
-                if(Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
+            if (mCurrentChannel != null) {
+                if (Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
                     mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
-                }else {
+                } else {
                     mCurrentChannel = null;
                 }
             }
 
-            if(mSelectedChannel != null) {
-                if(Helper.isInVisibleResion(mMap, new LatLng(mSelectedChannel.getLatitude(), mSelectedChannel.getLongitude()))) {
+            if (mSelectedChannel != null) {
+                if (Helper.isInVisibleResion(mMap, new LatLng(mSelectedChannel.getLatitude(), mSelectedChannel.getLongitude()))) {
                     mFocusedMarker = Helper.addMarkerToMap(mMap, mSelectedChannel, MARKER_INDEX_CLICKED);
-                }else {
+                } else {
                     mSelectedChannel = null;
                 }
             }
 
-            if(mMarkers != null) {
-                for(; idx < mMarkers.length() ; idx ++ ) {
+            if (mMarkers != null) {
+                for (; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
                     Helper.addMarkerToMap(mMap, channelData, idx);
                 }
             }
 
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
 
@@ -777,8 +770,6 @@ public class DistributionFragment extends BaseFragment {
         });
 
     }
-
-
 
 
     private boolean checkPlayServices() {

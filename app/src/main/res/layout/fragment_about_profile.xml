@@ -115,7 +115,7 @@
         android:background="@drawable/default_btn_radius"
         android:padding="5dp"
         android:text="APPOINTMENT"
-        android:textColor="@color/facebook2"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="14dp"
         android:visibility="gone"/>
 
