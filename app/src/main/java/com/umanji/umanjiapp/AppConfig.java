@@ -66,6 +66,7 @@ public interface AppConfig {
 
     String api_main_findPosts           = "GET  /main/posts";
     String api_main_findMarkers         = "GET  /main/markers";
+    String api_main_findDistributions   = "GET  /main/distribution";
 
     String api_main_search              = "GET  /main/search";
 

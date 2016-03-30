@@ -116,14 +116,8 @@ public class DistributionFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-        if (AuthHelper.isLogin(mActivity)) {
-        }
 
         loadMainMarkers();
-    }
-
-    public void loadMoreData() {
-
     }
 
     @Override
@@ -182,7 +176,6 @@ public class DistributionFragment extends BaseFragment {
 
         }
     }
-
 
     private void initMap() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.getBaseContext());
@@ -267,51 +260,6 @@ public class DistributionFragment extends BaseFragment {
 
                 mLatLngByPoint = point;
 
-                if (zoom >= 15 && zoom <= 21) {
-
-                    try {
-                        JSONObject params = new JSONObject();
-                        params.put("latitude", mLatLngByPoint.latitude);
-                        params.put("longitude", mLatLngByPoint.longitude);
-
-                        mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject object, AjaxStatus status) {
-                                mChannelByPoint = new ChannelData(object);
-
-                                if (TextUtils.isEmpty(mChannelByPoint.getId())) {
-                                    if (AuthHelper.isLogin(mActivity)) {
-                                        isBlock = true;
-
-                                        mMarkerByPoint = Helper.addNewMarkerToMap(mMap, mChannelByPoint);
-                                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
-
-                                        mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
-
-                                        if (isComplexCreatable(zoom)) {
-                                            showCreateComplexDialog();
-                                        } else if (isSpotCreatable(zoom)) {
-                                            showCreateSpotDialog();
-                                        }
-
-                                    } else {
-                                        Helper.startSignupActivity(mActivity, mCurrentMyPosition);
-                                    }
-
-                                } else {
-                                    if (isComplexCreatable(zoom)) {
-                                        startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
-                                    } else if (isSpotCreatable(zoom)) {
-                                        startSpotActivity(mChannelByPoint, TYPE_SPOT);
-                                    }
-
-                                }
-                            }
-                        });
-                    } catch (JSONException e) {
-                        Log.e(TAG, "error " + e.toString());
-                    }
-                }
 
             }
         });
@@ -363,6 +311,7 @@ public class DistributionFragment extends BaseFragment {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
                     }
 
+                    // To modify HERE!!!
                     Helper.startActivity(mActivity, channelData);
 
                 } catch (JSONException e) {
@@ -422,30 +371,13 @@ public class DistributionFragment extends BaseFragment {
 
     }
 
-    private static boolean isComplexCreatable(int zoom) {
-        if (zoom >= 15 && zoom <= 17) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isSpotCreatable(int zoom) {
-        if (zoom >= 18) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
     private void loadMainMarkers() {
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("zoom", (int) mMap.getCameraPosition().zoom);
             params.put("limit", 100);
             params.put("sort", "point DESC");
-            mApi.call(api_main_findMarkers, params, new AjaxCallback<JSONObject>() {
+            mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     addChannelsToMap(json);
