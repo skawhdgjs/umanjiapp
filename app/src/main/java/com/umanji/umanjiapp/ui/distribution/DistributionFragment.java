@@ -32,6 +32,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.umanji.umanjiapp.ui.channel.appointment.AppointCreateActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 
@@ -312,7 +313,9 @@ public class DistributionFragment extends BaseFragment {
                     }
 
                     // To modify HERE!!!
-                    Helper.startActivity(mActivity, channelData);
+                    //Helper.startActivity(mActivity, channelData);
+                    Intent i = new Intent(mActivity, AppointCreateActivity.class);
+                    startActivity(i);
 
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
