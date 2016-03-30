@@ -92,11 +92,12 @@ public interface AppConfig {
 
     String api_channels_id_authority       = "GET /channels/id/authority";
 
-    String TAB_NOTIES                   = "NOTIES";
+    String TAB_ROLES                    = "ROLES";
     String TAB_POSTS                    = "POSTS";
     String TAB_LIKES                    = "LIKES";
     String TAB_COMMUNITIES              = "COMMUNITIES";
     String TAB_SPOTS                    = "SPOTS";
+    String TAB_NOTIES                   = "NOTIES";
     String TAB_MEMBERS                  = "MEMBERS";
     String TAB_ABOUT                    = "ABOUT";
 

@@ -23,6 +23,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.about.AboutProfileFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.noties.NotyListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.roles.RoleListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
 
 import org.json.JSONArray;
@@ -59,6 +60,8 @@ public class ProfileFragment extends BaseChannelFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
+        mViewPager.setCurrentItem(0);
+
 
         // POST: 0, SPOT: 1, COMMUTNITY: 2, NOTICE: 3, ABOUT: 4
 //        if(AuthHelper.isLoginUser(mActivity, mChannel.getId()) && mNewNoticeCount > 0) {
@@ -82,7 +85,8 @@ public class ProfileFragment extends BaseChannelFragment {
         Bundle bundle = new Bundle();
         bundle.putString("channel", mChannel.getJsonObject().toString());
 
-
+        // new Roles Tab
+        adapter.addFragment(RoleListFragment.newInstance(bundle), "ROLES");
         adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
         adapter.addFragment(SpotListFragment.newInstance(bundle), "SPOTS");
         adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
@@ -99,23 +103,26 @@ public class ProfileFragment extends BaseChannelFragment {
 
         TabLayout.Tab tab;
         switch (mTabType) {
-            case TAB_POSTS:
+            case TAB_ROLES:
                 tab = mTabLayout.getTabAt(0);
                 break;
-            case TAB_SPOTS:
+            case TAB_POSTS:
                 tab = mTabLayout.getTabAt(1);
                 break;
-            case TAB_COMMUNITIES:
+            case TAB_SPOTS:
                 tab = mTabLayout.getTabAt(2);
                 break;
-            case TAB_NOTIES:
+            case TAB_COMMUNITIES:
                 tab = mTabLayout.getTabAt(3);
                 break;
-            case TAB_ABOUT:
+            case TAB_NOTIES:
                 tab = mTabLayout.getTabAt(4);
                 break;
+            case TAB_ABOUT:
+                tab = mTabLayout.getTabAt(5);
+                break;
             default:
-                tab = mTabLayout.getTabAt(1);
+                tab = mTabLayout.getTabAt(0);  // 1
                 break;
         }
 
@@ -220,17 +227,18 @@ public class ProfileFragment extends BaseChannelFragment {
 
                 switch (mCurrentTapPosition) {
                     case 0:
-                        mFab.setImageResource(R.drawable.ic_discuss);
+                    case 1:
+                        /*mFab.setImageResource(R.drawable.ic_discuss);
                         if (AuthHelper.isLogin(mActivity) && AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
                             mFab.setVisibility(View.VISIBLE);
                         }
-                        break;
-                    case 1:
+                        break;*/
                     case 2:
                     case 3:
                     case 4:
-                        mFab.setVisibility(View.GONE);
-                        break;
+                    case 5:
+                        /*mFab.setVisibility(View.GONE);
+                        break;*/
 
                 }
 
