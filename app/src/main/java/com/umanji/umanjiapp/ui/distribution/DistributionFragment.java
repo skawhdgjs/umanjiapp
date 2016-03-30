@@ -32,7 +32,6 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 
@@ -52,11 +51,6 @@ public class DistributionFragment extends BaseFragment {
      ****************************************************/
 
     private GoogleMap mMap;
-
-    private PostListAdapter mAdapter;
-
-    private TextView mInfoTextPanel;
-
 
     /****************************************************
      * Map
@@ -81,10 +75,6 @@ public class DistributionFragment extends BaseFragment {
     private ChannelData mChannelByPoint;
     private Marker mMarkerByPoint;
     private Marker mFocusedMarker;
-    private LatLng mPointByPost;
-
-    private String mChannelIdForPush;
-
 
     public static DistributionFragment newInstance(Bundle bundle) {
         DistributionFragment fragment = new DistributionFragment();
@@ -96,18 +86,14 @@ public class DistributionFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mChannelIdForPush = getArguments().getString("id");
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-
         if (AuthHelper.isLogin(mActivity)) {
-            
+
         } else {
             updateView();
         }
@@ -115,43 +101,7 @@ public class DistributionFragment extends BaseFragment {
         initWidgets(view);
         initMap();
 
-
-        if (!TextUtils.isEmpty(mChannelIdForPush)) {
-            startActivityForPush();
-        }
-
         return view;
-    }
-
-    protected void startActivityForPush() {
-        try {
-            JSONObject params = new JSONObject();
-            params.put("id", mChannelIdForPush);
-
-            mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    ChannelData channelData = new ChannelData(object);
-
-                    switch (channelData.getType()) {
-                        case TYPE_POST:
-                            Helper.startActivity(mActivity, channelData);
-                            break;
-                        case TYPE_MEMBER:
-                        case TYPE_LINK:
-                        case TYPE_SURVEY:
-                            Helper.startActivity(mActivity, channelData.getParent());
-                            break;
-                    }
-
-                    Helper.startActivity(mActivity, channelData);
-
-                    mChannelIdForPush = "";
-                }
-            });
-        } catch (JSONException e) {
-            Log.e(TAG, "error " + e.toString());
-        }
     }
 
     @Override
@@ -161,8 +111,6 @@ public class DistributionFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
-
-        mInfoTextPanel = (TextView) view.findViewById(R.id.mInfoTextPanel);
 
     }
 
@@ -189,11 +137,6 @@ public class DistributionFragment extends BaseFragment {
 
         switch (event.type) {
             case api_token_check:
-            case api_signin:
-            case api_signup:
-            case api_logout:
-                logout();
-                break;
             case api_channels_createCommunity:
             case api_channels_createComplex:
             case api_channels_createSpot:
@@ -322,9 +265,7 @@ public class DistributionFragment extends BaseFragment {
 
                 final int zoom = (int) mMap.getCameraPosition().zoom;
 
-
                 mLatLngByPoint = point;
-
 
                 if (zoom >= 15 && zoom <= 21) {
 
@@ -479,13 +420,6 @@ public class DistributionFragment extends BaseFragment {
             }
         });
 
-    }
-
-    private void logout() {
-        mUser = null;
-        AuthHelper.logout(mActivity);
-
-        updateView();
     }
 
     private static boolean isComplexCreatable(int zoom) {
