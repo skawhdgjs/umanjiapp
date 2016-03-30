@@ -22,6 +22,7 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
+import com.umanji.umanjiapp.ui.channel.appointment.AppointCreateActivity;
 import com.umanji.umanjiapp.ui.setting.home.HomeActivity;
 
 import org.json.JSONArray;
@@ -37,6 +38,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     protected TextView mAddress;
 
     private Button mAddHomeBtn;
+    private Button mAppointBtn;
     private TextView mUserName;
 
     public static AboutProfileFragment newInstance(Bundle bundle) {
@@ -75,9 +77,17 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         mUserName = (TextView)view.findViewById(R.id.userName);
         //mUserName.setOnClickListener(this);
 
+        mAppointBtn = (Button) view.findViewById(R.id.appointBtn);
+        mAppointBtn.setOnClickListener(this);
+
         if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
             mUserName.setOnClickListener(this);
             mUserName.setTextColor(Color.parseColor("#0066ff"));
+        }
+
+        // mAppointBtn
+        if( mChannel.getUserName().equals("황상익")) {
+            mAppointBtn.setVisibility(View.VISIBLE);
         }
     }
 
@@ -193,6 +203,14 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 homeBundle.putString("channel", mChannel.getJsonObject().toString());
                 homeIntent.putExtra("bundle", homeBundle);
                 startActivity(homeIntent);
+                break;
+
+            case R.id.appointBtn:
+                Intent roleIntent = new Intent(mActivity, AppointCreateActivity.class);
+                Bundle roleBundle = new Bundle();
+                roleBundle.putString("channel", mChannel.getJsonObject().toString());
+                roleIntent.putExtra("bundle", roleBundle);
+                startActivity(roleIntent);
                 break;
 
             case R.id.userName:
