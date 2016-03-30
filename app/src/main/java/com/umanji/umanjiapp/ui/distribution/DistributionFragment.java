@@ -319,17 +319,6 @@ public class DistributionFragment extends BaseFragment {
                     i.putExtra("bundle", bundle);
                     startActivity(i);
 
-/*
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("channel", channel.getJsonObject().toString());
-                    intent.putExtra("bundle", bundle);
-                    intent.putExtra("enterAnim", R.anim.zoom_out);
-                    intent.putExtra("exitAnim", R.anim.zoom_in);
-
-                    startActivity(intent);
-*/
-
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
                 }

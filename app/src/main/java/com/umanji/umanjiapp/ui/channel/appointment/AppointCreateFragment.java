@@ -33,14 +33,6 @@ public class AppointCreateFragment extends BaseChannelCreateFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-/*
-        if(getArguments() != null) {
-            String jsonString = getArguments().getString("channel");
-            if(jsonString != null) {
-                mChannel = new ChannelData(jsonString);
-
-            }
-        }*/
     }
 
     @Override
