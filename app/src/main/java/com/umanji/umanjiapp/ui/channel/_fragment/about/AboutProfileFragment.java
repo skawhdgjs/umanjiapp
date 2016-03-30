@@ -22,7 +22,7 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel.appointment.AppointCreateActivity;
+import com.umanji.umanjiapp.ui.distribution.DistributionActivity;
 import com.umanji.umanjiapp.ui.setting.home.HomeActivity;
 
 import org.json.JSONArray;
@@ -206,7 +206,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 break;
 
             case R.id.appointBtn:
-                Intent roleIntent = new Intent(mActivity, AppointCreateActivity.class);
+                Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
                 Bundle roleBundle = new Bundle();
                 roleBundle.putString("channel", mChannel.getJsonObject().toString());
                 roleIntent.putExtra("bundle", roleBundle);
