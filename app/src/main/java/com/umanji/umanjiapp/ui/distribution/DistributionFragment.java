@@ -8,8 +8,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,10 +26,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.gcm.GcmRegistrationIntentService;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -111,7 +107,7 @@ public class DistributionFragment extends BaseFragment {
 
 
         if (AuthHelper.isLogin(mActivity)) {
-            loginByToken();
+            
         } else {
             updateView();
         }
@@ -195,11 +191,6 @@ public class DistributionFragment extends BaseFragment {
             case api_token_check:
             case api_signin:
             case api_signup:
-                AuthData auth = new AuthData(event.response);
-                if (auth != null && auth.getToken() != null) login(auth);
-                else logout();
-                break;
-
             case api_logout:
                 logout();
                 break;
@@ -293,7 +284,7 @@ public class DistributionFragment extends BaseFragment {
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(mCurrentMyPosition)
-                            .zoom(18)
+                            .zoom(13)
                             .bearing(90)
                             .tilt(40)
                             .build();
@@ -305,7 +296,7 @@ public class DistributionFragment extends BaseFragment {
 
             LatLng latLng = new LatLng(latitude, longitude);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
         }
 
         initMapEvents();
@@ -490,78 +481,6 @@ public class DistributionFragment extends BaseFragment {
 
     }
 
-
-    private void loadMoreMainPosts() {
-        isLoading = true;
-
-        try {
-            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("page", mAdapter.getCurrentPage());
-            params.put("limit", 5);
-            params.put("sort", "point DESC");
-
-            mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if (status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    } else {
-                        try {
-                            JSONArray jsonArray = object.getJSONArray("data");
-                            for (int idx = 0; idx < jsonArray.length(); idx++) {
-                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                ChannelData doc = new ChannelData(jsonDoc);
-
-                                if (doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
-                                    mAdapter.addBottom(doc);
-                                }
-                            }
-
-                            isLoading = false;
-                            mAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error " + e.toString());
-                        }
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            Log.e(TAG, "Error " + e.toString());
-        }
-
-        mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-    }
-
-    private void loginByToken() {
-        try {
-            JSONObject params = new JSONObject();
-            params.put("access_token", AuthHelper.getToken(mActivity));
-            mApi.call(api_token_check, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    AuthData auth = new AuthData(object);
-                    if (auth != null && auth.getToken() != null) login(auth);
-                    else logout();
-                }
-            });
-        } catch (JSONException e) {
-            Log.e(TAG, "error " + e.toString());
-        }
-
-    }
-
-    private void login(AuthData auth) {
-        if (checkPlayServices()) {
-            Intent intent = new Intent(mActivity, GcmRegistrationIntentService.class);
-            mActivity.startService(intent);
-        }
-
-        mUser = auth.getUser();
-        AuthHelper.login(mActivity, auth);
-
-        updateView();
-    }
-
     private void logout() {
         mUser = null;
         AuthHelper.logout(mActivity);
@@ -725,64 +644,4 @@ public class DistributionFragment extends BaseFragment {
         startActivity(intent);
     }
 
-    protected void addOnScrollListener(RecyclerView rView) {
-        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(rView.getContext());
-        rView.setLayoutManager(mLayoutManager);
-
-        rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) {
-                    int visibleItemCount = mLayoutManager.getChildCount();
-                    int totalItemCount = mLayoutManager.getItemCount();
-                    int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
-
-                    ArrayList<ChannelData> channels = mAdapter.getDocs();
-
-                    int currentFocusedIndex = visibleItemCount + pastVisiblesItems;
-                    if (currentFocusedIndex == mPreFocusedItem) return;
-                    mPreFocusedItem = currentFocusedIndex;
-                    if (channels.size() <= mPreFocusedItem) return;
-
-                    ChannelData channelData = channels.get(pastVisiblesItems);
-
-                    if (mCurrentChannel == null || (!TextUtils.equals(channelData.getId(), mCurrentChannel.getId()))) {
-                        isBlock = true;
-
-                        mCurrentChannel = channels.get(pastVisiblesItems);
-                        mPointByPost = new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude());
-
-                        if (mFocusedMarker != null) {
-                            mFocusedMarker.remove();
-                        }
-
-                        mMap.animateCamera(CameraUpdateFactory.newLatLng(mPointByPost), 500, null);
-                        mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
-                    }
-
-                    if (!isLoading) {
-                        if (mPreFocusedItem == (totalItemCount - 2)) {
-                            loadMoreMainPosts();
-                        }
-                    }
-                }
-            }
-        });
-
-    }
-
-
-    private boolean checkPlayServices() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, mActivity,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-            }
-            return false;
-        }
-        return true;
-    }
 }
