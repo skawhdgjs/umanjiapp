@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -20,6 +21,9 @@ import java.util.ArrayList;
 public class AppointCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "AppointCreateFragment";
 
+    private TextView tv ;
+    private String c;
+
     public static AppointCreateFragment newInstance(Bundle bundle) {
         AppointCreateFragment fragment = new AppointCreateFragment();
         fragment.setArguments(bundle);
@@ -29,6 +33,14 @@ public class AppointCreateFragment extends BaseChannelCreateFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+/*
+        if(getArguments() != null) {
+            String jsonString = getArguments().getString("channel");
+            if(jsonString != null) {
+                mChannel = new ChannelData(jsonString);
+
+            }
+        }*/
     }
 
     @Override
@@ -39,6 +51,11 @@ public class AppointCreateFragment extends BaseChannelCreateFragment {
     @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
+
+        c = mChannel.getAddress().toString();
+
+        tv = (TextView) view.findViewById(R.id.bundleTest);
+        tv.setText(c);
 
         mSubmitBtn.setText("임명 제출");
     }

@@ -79,14 +79,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/photoBtn"
-                    style="?android:textAppearanceSmall"
+                <TextView
+                    android:id="@+id/bundleTest"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="사진찍기"
-                    android:textStyle="bold" />
+                    android:textSize="18dp"
+                    android:textColor="#000"
+                    android:text="get Value"
+                    android:layout_alignTop="@+id/submitBtn2"
+                    android:layout_centerHorizontal="true"/>
 
                 <Button
                     android:id="@+id/gallaryBtn"
@@ -117,4 +118,12 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/photoBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:visibility="gone"
+         />
 </LinearLayout>
