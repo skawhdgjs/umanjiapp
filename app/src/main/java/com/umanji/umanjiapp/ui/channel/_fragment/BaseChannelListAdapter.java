@@ -423,6 +423,19 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         }
     }
 
+    protected void setRole(final ViewHolder holder, final ChannelData channelData){
+
+        //String[] roles = channelData.getRoles();
+        //holder.mRole.setText(roles[0]);
+
+        String[] roles ;
+        roles = mChannel.getRoles();
+        if(roles != null) {
+            String role = roles[0];
+        }
+
+    }
+
     protected void setActionPanel(final ViewHolder holder, final ChannelData channelData) {
         ArrayList<SubLinkData> replySubLinks = channelData.getSubLinks(TYPE_POST);
         if(replySubLinks != null && replySubLinks.size() > 0) {
@@ -661,6 +674,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         public final ImageView  userPhoto;
         public final TextView   userName;
         public final TextView   createdAt;
+        public final TextView   mRole;
 
 
         public final LinearLayout metaPanel;
@@ -723,6 +737,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
             star            = (ImageView) view.findViewById(R.id.star);
 
+            mRole           = (TextView) view.findViewById(R.id.roles);
         }
     }
 }

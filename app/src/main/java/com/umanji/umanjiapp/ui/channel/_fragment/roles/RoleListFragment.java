@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -28,7 +26,6 @@ import de.greenrobot.event.EventBus;
 public class RoleListFragment extends BaseChannelListFragment {
     private static final String TAG = "RoleListFragment";
 
-    private Button mAddBtn;
 
     public static RoleListFragment newInstance(Bundle bundle) {
         RoleListFragment fragment = new RoleListFragment();
@@ -44,7 +41,7 @@ public class RoleListFragment extends BaseChannelListFragment {
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_communities, container, false);
+        return inflater.inflate(R.layout.fragment_roles, container, false);
     }
 
     @Override
@@ -54,14 +51,8 @@ public class RoleListFragment extends BaseChannelListFragment {
 
     @Override
     public void initWidgets(View view) {
-        mAddBtn = (Button)view.findViewById(R.id.addChannelBtn);
-        mAddBtn.setOnClickListener(this);
 
-        switch (mChannel.getType()) {
-            case TYPE_USER:
-                mAddBtn.setVisibility(View.GONE);
-                break;
-        }
+        mChannel.getRoles();
     }
 
     @Override
@@ -72,24 +63,28 @@ public class RoleListFragment extends BaseChannelListFragment {
         try {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
-            params.put("type", TYPE_COMMUNITY);
-            params.put("level", mChannel.getLevel());
-            params.put("sort", "point DESC");
+            params.put("type", TYPE_SPOT_INNER);
+
+            if(mChannel.getLevel() != LEVEL_LOCAL) {
+                params.put("sort", "point DESC");
+            }
 
             switch (mChannel.getType()) {
                 case TYPE_USER:
                     params.put("owner", mChannel.getId());
-                    params.put("type", TYPE_PROFILE_COMMUNITIES);
+                    params.put("type", TYPE_PROFILE_SPOTS);
                     break;
                 case TYPE_INFO_CENTER:
+                case TYPE_COMMUNITY:
                     setAddressParams(params, mChannel);
                     break;
                 default:
                     params.put("parent", mChannel.getId());
                     break;
+
             }
 
-            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
+            mApi.call(api_channels_spots_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     if(status.getCode() == 500) {
@@ -122,52 +117,25 @@ public class RoleListFragment extends BaseChannelListFragment {
 
     @Override
     public void updateView() {
-
-        if(mChannel != null) {
-            switch (mChannel.getType()) {
-                case TYPE_USER:
-                    mAddBtn.setVisibility(View.GONE);
-                    break;
-                default:
-                    mAddBtn.setVisibility(View.VISIBLE);
-                    break;
-            }
-        }
-
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);
+
         ChannelData channelData = new ChannelData(event.response);
 
         switch (event.type) {
-            case api_channels_createCommunity:
+            case api_channels_create:
                 String parentId = event.response.optString("parent");
                 if(TextUtils.equals(mChannel.getId(), parentId)) {
-                    try {
-                        JSONObject params = new JSONObject();
-                        params.put("id", mChannel.getId());
-                        mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject object, AjaxStatus status) {
-                                mChannel = new ChannelData(object);
-                            }
-                        });
-                        updateView();
-                    } catch(JSONException e) {
-                        Log.e(TAG, "error " + e.toString());
-                    }
-
-                    if(TextUtils.isEmpty(channelData.getId())) {
-                        Toast.makeText(mActivity, "이미 존재하는 커뮤니티 입니다.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        mAdapter.addTop(channelData);
-                        mAdapter.notifyDataSetChanged();
-                    }
+                    mChannel = channelData.getParent();
+                    mAdapter.addTop(channelData);
+                    mAdapter.notifyDataSetChanged();
                 }
                 break;
+
         }
     }
 
@@ -177,7 +145,7 @@ public class RoleListFragment extends BaseChannelListFragment {
 
         switch (v.getId()) {
             case R.id.addChannelBtn:
-                Helper.startCreateActivity(mActivity, mChannel, TYPE_COMMUNITY);
+                Helper.startCreateActivity(mActivity, mChannel, TYPE_SPOT);
                 break;
         }
     }

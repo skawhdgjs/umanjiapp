@@ -44,13 +44,8 @@ public class RoleListAdapter extends BaseChannelListAdapter {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData channelData       = mChannels.get(position);
 
-        setPoint(holder, channelData);
-        setName(holder, channelData);
-        setParentName(holder, channelData.getParent());
-        setMemberCount(holder, channelData);
-        setPhoto(holder, channelData);
-        setUserPhoto(holder, channelData.getOwner());
-        setStar(holder, channelData);
+        setRole(holder, channelData);
+
     }
 
     @Override
@@ -58,6 +53,7 @@ public class RoleListAdapter extends BaseChannelListAdapter {
         String parentId = "";
         if(mChannel != null ) parentId = mChannel.getId();
         if(parentChannelData != null && !TextUtils.equals(parentChannelData.getId(), parentId)) {
+
             if(TextUtils.isEmpty(parentChannelData.getName())) {
                 holder.parentName.setVisibility(View.GONE);
                 holder.headerBorder.setVisibility(View.GONE);
@@ -92,39 +88,6 @@ public class RoleListAdapter extends BaseChannelListAdapter {
         }
     }
 
-    public void setStar(final ViewHolder holder, final ChannelData channelData) {
-
-        holder.star.setVisibility(View.GONE);
-
-        switch (channelData.getLevel()) {
-            case LEVEL_LOCAL:
-                if(channelData.getPoint() >= POINT_STAR_LOCAL) {
-                    holder.star.setVisibility(View.VISIBLE);
-                }
-                break;
-            case LEVEL_COMPLEX:
-                if(channelData.getPoint() >= POINT_STAR_COMPLEX) {
-                    holder.star.setVisibility(View.VISIBLE);
-                }
-                break;
-            case LEVEL_DONG:
-                if(channelData.getPoint() >= POINT_STAR_DONG) {
-                    holder.star.setVisibility(View.VISIBLE);
-                }
-                break;
-            case LEVEL_GUGUN:
-                if(channelData.getPoint() >= POINT_STAR_GUGUN) {
-                    holder.star.setVisibility(View.VISIBLE);
-                }
-                break;
-            case LEVEL_COUNTRY:
-                if(channelData.getPoint() >= POINT_STAR_COUNTRY) {
-                    holder.star.setVisibility(View.VISIBLE);
-                }
-                break;
-
-        }
-    }
 
     @Override
     protected void setPhoto(final ViewHolder holder, final ChannelData channelData) {
@@ -141,12 +104,10 @@ public class RoleListAdapter extends BaseChannelListAdapter {
                     Helper.startImageViewActivity(mActivity, channelData);
                 }
             });
-
         } else {
             Glide.with(mActivity)
-                    .load(R.drawable.community_default)
+                    .load(R.drawable.spot_default)
                     .into(holder.photo);
         }
-
     }
 }

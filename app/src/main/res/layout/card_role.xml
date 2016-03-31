@@ -135,6 +135,20 @@
         android:layout_toEndOf="@+id/memberCount"
         android:layout_marginLeft="15dp"/>
 
+    <TextView
+        android:id="@+id/roles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="This is My Roles"
+        android:textSize="12dp"
+        android:textColor="@color/gray_text"
+        android:layout_marginLeft="22dp"
+        android:layout_alignTop="@+id/userPhoto"
+        android:layout_toRightOf="@+id/name"
+        android:layout_toEndOf="@+id/name"
+        android:layout_marginStart="22dp" />
+
     <ImageView
         android:layout_width="30dp"
         android:layout_height="30dp"
