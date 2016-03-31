@@ -33,7 +33,7 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
     private TextView tv;
     private String c;
 
-    private ArrayList<String> roles = new ArrayList<>();
+
     private String roleName;
 
     public static DutyCreateFragment newInstance(Bundle bundle) {
@@ -98,6 +98,7 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
             JSONObject params = new JSONObject();
             setUserDesc(params);
 
+            ArrayList<String> roles = new ArrayList<>();
             roles.add(roleName);
             params.put("roles", new JSONArray(roles));
 
