@@ -90,6 +90,12 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
         if(role.equals("umanji_cow")) {
             mDutyBtn.setVisibility(View.VISIBLE);
+        } else if(role.equals("ad_admin")){
+            mDutyBtn.setVisibility(View.VISIBLE);
+        } else if(role.equals("ad_locality")){
+            mDutyBtn.setVisibility(View.VISIBLE);
+        } else if(role.equals("ad_thoroughfare")){
+            mDutyBtn.setVisibility(View.VISIBLE);
         }
     }
 
