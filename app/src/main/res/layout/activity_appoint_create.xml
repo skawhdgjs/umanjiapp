@@ -70,35 +70,73 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:padding="16dp"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:visibility="gone"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/bundleTest"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:textColor="#000"
-                    android:text="get Value"
-                    android:layout_alignTop="@+id/submitBtn2"
-                    android:layout_centerHorizontal="true"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:text="지   역 :"
+                        android:layout_alignTop="@+id/submitBtn2"
+                        android:layout_centerHorizontal="true"/>
 
-                <Button
-                    android:id="@+id/gallaryBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/ad_area"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textColor="#555"
+                        android:text="광고관리지역"
+                        android:layout_alignTop="@+id/submitBtn2"
+                        android:layout_centerHorizontal="true"/>
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="앨범"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textColor="#000"
+                        android:text="관리자 :"
+                        android:layout_alignTop="@+id/submitBtn2"
+                        android:layout_centerHorizontal="true"/>
+
+                    <EditText
+                        android:id="@+id/ad_admin"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="18dp"
+                        android:textColor="#555"
+                        android:hint="advertise1234@gmail.com"
+                        android:layout_alignTop="@+id/submitBtn2"
+                        android:layout_centerHorizontal="true"/>
+                </LinearLayout>
+
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="E-mail CHECK"
+                android:layout_gravity="center_horizontal" />
 
             <Button
                 android:id="@+id/submitBtn"
@@ -109,6 +147,26 @@
                 android:text="@string/post_create_btn"
                 android:textStyle="bold" />
 
+
+            <TextView
+                android:id="@+id/bundleTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textColor="#000"
+                android:text="get Value"
+                android:layout_alignTop="@+id/submitBtn2"
+                android:layout_centerHorizontal="true"/>
+
+            <Button
+                android:id="@+id/gallaryBtn"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="앨범"
+                android:textStyle="bold"
+                android:visibility="gone"/>
             <ImageView
                 android:id="@+id/photo"
                 android:layout_width="match_parent"

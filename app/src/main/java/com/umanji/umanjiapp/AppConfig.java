@@ -47,6 +47,7 @@ public interface AppConfig {
 
     String api_channels_get             = "GET  /channels/id";
     String api_channels_findOne         = "GET  /channels/findOne";
+    String api_channels_findEmail       = "GET  /channels/findEmail";
 
     String api_channels_findMarkers     = "GET  /channels/markers";
     String api_channels_findPosts       = "GET  /channels/posts";
