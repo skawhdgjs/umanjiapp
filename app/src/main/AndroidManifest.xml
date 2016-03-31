@@ -127,7 +127,7 @@
             android:name=".ui.modal.calendar.AdsCalendarActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.channel.appointment.AppointCreateActivity"
+            android:name=".ui.channel.duty.DutyCreateActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.distribution.DistributionActivity"

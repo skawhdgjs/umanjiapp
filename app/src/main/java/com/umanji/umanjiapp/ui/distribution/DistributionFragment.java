@@ -32,7 +32,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.channel.appointment.AppointCreateActivity;
+import com.umanji.umanjiapp.ui.channel.duty.DutyCreateActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 
@@ -313,7 +313,7 @@ public class DistributionFragment extends BaseFragment {
 
                     // To modify HERE!!!
                     //Helper.startActivity(mActivity, channelData);
-                    Intent i = new Intent(mActivity, AppointCreateActivity.class);
+                    Intent i = new Intent(mActivity, DutyCreateActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", channelData.getJsonObject().toString());
                     i.putExtra("bundle", bundle);

@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.channel.appointment;
+package com.umanji.umanjiapp.ui.channel.duty;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -20,14 +20,14 @@ import java.util.ArrayList;
 import de.greenrobot.event.EventBus;
 
 
-public class AppointCreateFragment extends BaseChannelCreateFragment {
-    private static final String TAG = "AppointCreateFragment";
+public class DutyCreateFragment extends BaseChannelCreateFragment {
+    private static final String TAG = "DutyCreateFragment";
 
     private TextView tv ;
     private String c;
 
-    public static AppointCreateFragment newInstance(Bundle bundle) {
-        AppointCreateFragment fragment = new AppointCreateFragment();
+    public static DutyCreateFragment newInstance(Bundle bundle) {
+        DutyCreateFragment fragment = new DutyCreateFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -72,7 +72,7 @@ public class AppointCreateFragment extends BaseChannelCreateFragment {
             mApi.call(api_channels_id_update, params);  // 1st must changed
 
         }catch(JSONException e) {
-            Log.e("AppointCreateFragment", "error " + e.toString());
+            Log.e("DutyCreateFragment", "error " + e.toString());
         }
     }
 
