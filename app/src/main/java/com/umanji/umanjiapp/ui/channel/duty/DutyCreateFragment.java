@@ -10,10 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 
@@ -29,11 +26,11 @@ import de.greenrobot.event.EventBus;
 public class DutyCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "DutyCreateFragment";
 
-    private TextView mAd_area ;
-    private EditText mAd_admin ;
-    private Button mConfirm ;
+    private TextView mAd_area;
+    private EditText mAd_admin;
+    private Button mConfirm;
 
-    private TextView tv ;
+    private TextView tv;
     private String c;
 
     private ArrayList<String> roles = new ArrayList<>();
@@ -64,9 +61,9 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
     public void initWidgets(View view) {
         super.initWidgets(view);
 
-        mAd_area    = (TextView) view.findViewById(R.id.ad_area);
-        mAd_admin   = (EditText) view.findViewById(R.id.ad_admin);
-        mConfirm    = (Button) view.findViewById(R.id.confirm);
+        mAd_area = (TextView) view.findViewById(R.id.ad_area);
+        mAd_admin = (EditText) view.findViewById(R.id.ad_admin);
+        mConfirm = (Button) view.findViewById(R.id.confirm);
         mConfirm.setOnClickListener(this);
 
         int mAreaLevelInt = mChannel.getLevel();
@@ -75,13 +72,13 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
         String mLocalityName = mChannel.getLocality();
         String mToroughfareName = mChannel.getThoroughfare();
 
-        if(mAreaLevel.equals("8")){
+        if (mAreaLevel.equals("8")) {
             mAd_area.setText(mAreaName);
             roleName = "ad_admin";
-        } else if(mAreaLevel.equals("12")){
+        } else if (mAreaLevel.equals("12")) {
             mAd_area.setText(mLocalityName);
             roleName = "ad_locality";
-        } else if(mAreaLevel.equals("14")){
+        } else if (mAreaLevel.equals("14")) {
             mAd_area.setText(mToroughfareName);
             roleName = "ad_thoroughfare";
         }
@@ -101,19 +98,18 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
             JSONObject params = new JSONObject();
             setUserDesc(params);
 
-
             roles.add(roleName);
             params.put("roles", new JSONArray(roles));
 
-            mApi.call(api_channels_id_update, params);  // 1st must changed
+            mApi.call(api_profile_role_update, params);
 
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e("DutyCreateFragment", "error " + e.toString());
         }
     }
 
     protected void setUserDesc(JSONObject params) throws JSONException {
-        params.put("id", mChannel.getId());
+        params.put("email", mAd_admin.getText().toString());
     }
 
     @Override
@@ -122,23 +118,6 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
 
         switch (v.getId()) {
             case R.id.confirm:
-                try {
-                    JSONObject params = new JSONObject();
-                    params.put("type", TYPE_USER);
-                    params.put("email", mAd_admin.getText().toString());
-
-                    mApi.call(api_channels_findEmail, params, new AjaxCallback<JSONObject>() {
-                        @Override
-                        public void callback(String url, JSONObject object, AjaxStatus status) {
-                            ChannelData channelData = new ChannelData(object);
-                            mChannel = channelData;
-                            //Helper.startActivity(mActivity, channelData);
-                        }
-                    });
-
-                } catch(JSONException e) {
-                    Log.e(TAG, "error " + e.toString());
-                }
 
                 break;
         }
@@ -149,7 +128,7 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
         super.onEvent(event);
 
         switch (event.type) {
-            case api_channels_id_update:
+            case api_profile_role_update:
                 mActivity.finish();
                 EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
                 break;
