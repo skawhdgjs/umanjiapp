@@ -7,18 +7,7 @@
     android:orientation="vertical"
     android:background="@color/feed_bg">
 
-    <Button
-        android:id="@+id/addChannelBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp"
-        android:text="스팟추가(건물 내부스팟 추가하기)"
-        android:background="@drawable/default_btn_radius"
-        android:padding="5dp"
-        android:textColor="#FFFFFF"
-        android:textSize="14dp"
-        android:layout_margin="14dp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
