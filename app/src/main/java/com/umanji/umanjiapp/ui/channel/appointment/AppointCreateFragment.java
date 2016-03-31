@@ -17,6 +17,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import de.greenrobot.event.EventBus;
+
 
 public class AppointCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "AppointCreateFragment";
@@ -60,24 +62,24 @@ public class AppointCreateFragment extends BaseChannelCreateFragment {
     @Override
     protected void request() {
         try {
-            JSONObject params = mChannel.getAddressJSONObject();
-            params.put("parent", mChannel.getId());
-            params.put("name", mName.getText().toString());
-            params.put("type", TYPE_KEYWORD);
+            JSONObject params = new JSONObject();
+            setUserDesc(params);
 
+            ArrayList<String> roles = new ArrayList<>();
+            roles.add("umanji_cow");
+            params.put("roles", new JSONArray(roles));
 
-            if(mPhotoUri != null) {
-                ArrayList<String> photos = new ArrayList<>();
-                photos.add(mPhotoUri);
-                params.put("photos", new JSONArray(photos));
-                mPhotoUri = null;
-            }
-
-            mApi.call(api_channels_create, params);
+            mApi.call(api_channels_id_update, params);  // 1st must changed
 
         }catch(JSONException e) {
-            Log.e("BaseChannelCreate", "error " + e.toString());
+            Log.e("AppointCreateFragment", "error " + e.toString());
         }
+    }
+
+    protected void setUserDesc(JSONObject params) throws JSONException {
+
+        params.put("id", mChannel.getId());
+
     }
 
     @Override
@@ -85,8 +87,9 @@ public class AppointCreateFragment extends BaseChannelCreateFragment {
         super.onEvent(event);
 
         switch (event.type) {
-            case api_channels_create:
+            case api_channels_id_update:
                 mActivity.finish();
+                EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
                 break;
         }
     }

@@ -47,7 +47,6 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -85,8 +84,11 @@ public class AboutProfileFragment extends BaseChannelListFragment {
             mUserName.setTextColor(Color.parseColor("#0066ff"));
         }
 
-        // mAppointBtn
-        if( mChannel.getUserName().equals("황상익")) {
+        String[] roles ;
+        roles = mChannel.getRoles();
+        String role = roles[0];
+
+        if( role.equals("umanji_cow")) {
             mAppointBtn.setVisibility(View.VISIBLE);
         }
     }
