@@ -86,17 +86,20 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
         String[] roles ;
         roles = mChannel.getRoles();
-        String role = roles[0];
+        if(roles != null){
+            String role = roles[0];
 
-        if(role.equals("umanji_cow")) {
-            mDutyBtn.setVisibility(View.VISIBLE);
-        } else if(role.equals("ad_admin")){
-            mDutyBtn.setVisibility(View.VISIBLE);
-        } else if(role.equals("ad_locality")){
-            mDutyBtn.setVisibility(View.VISIBLE);
-        } else if(role.equals("ad_thoroughfare")){
-            mDutyBtn.setVisibility(View.VISIBLE);
+            if(role.equals("umanji_cow")) {
+                mDutyBtn.setVisibility(View.VISIBLE);
+            } else if(role.equals("ad_admin")){
+                mDutyBtn.setVisibility(View.VISIBLE);
+            } else if(role.equals("ad_locality")){
+                mDutyBtn.setVisibility(View.VISIBLE);
+            } else if(role.equals("ad_thoroughfare")){
+                mDutyBtn.setVisibility(View.VISIBLE);
+            }
         }
+
     }
 
     @Override
