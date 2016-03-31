@@ -47,6 +47,7 @@ public interface AppConfig {
 
     String api_channels_get             = "GET  /channels/id";
     String api_channels_findOne         = "GET  /channels/findOne";
+    String api_channels_findEmail       = "GET  /channels/findEmail";
 
     String api_channels_findMarkers     = "GET  /channels/markers";
     String api_channels_findPosts       = "GET  /channels/posts";
@@ -66,6 +67,7 @@ public interface AppConfig {
 
     String api_main_findPosts           = "GET  /main/posts";
     String api_main_findMarkers         = "GET  /main/markers";
+    String api_main_findDistributions   = "GET  /main/distribution";
 
     String api_main_search              = "GET  /main/search";
 
@@ -73,6 +75,7 @@ public interface AppConfig {
 
     String api_channels_id_update       = "PUT  /channels/id";
     String api_profile_id_update        = "PUT  /channels/id/profile";
+    String api_profile_role_update      = "PUT  /channels/email";
 
     String api_channels_id_delete       = "DELETE /channels/id";
 
@@ -92,11 +95,12 @@ public interface AppConfig {
 
     String api_channels_id_authority       = "GET /channels/id/authority";
 
-    String TAB_NOTIES                   = "NOTIES";
+    String TAB_ROLES                    = "ROLES";
     String TAB_POSTS                    = "POSTS";
     String TAB_LIKES                    = "LIKES";
     String TAB_COMMUNITIES              = "COMMUNITIES";
     String TAB_SPOTS                    = "SPOTS";
+    String TAB_NOTIES                   = "NOTIES";
     String TAB_MEMBERS                  = "MEMBERS";
     String TAB_ABOUT                    = "ABOUT";
 
