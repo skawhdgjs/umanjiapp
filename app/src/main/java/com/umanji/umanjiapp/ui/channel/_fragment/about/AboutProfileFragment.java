@@ -38,7 +38,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     protected TextView mAddress;
 
     private Button mAddHomeBtn;
-    private Button mAppointBtn;
+    private Button mDutyBtn;
     private TextView mUserName;
 
     public static AboutProfileFragment newInstance(Bundle bundle) {
@@ -76,8 +76,8 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         mUserName = (TextView)view.findViewById(R.id.userName);
         //mUserName.setOnClickListener(this);
 
-        mAppointBtn = (Button) view.findViewById(R.id.appointBtn);
-        mAppointBtn.setOnClickListener(this);
+        mDutyBtn = (Button) view.findViewById(R.id.dutyBtn);
+        mDutyBtn.setOnClickListener(this);
 
         if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
             mUserName.setOnClickListener(this);
@@ -88,8 +88,8 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         roles = mChannel.getRoles();
         String role = roles[0];
 
-        if( role.equals("umanji_cow")) {
-            mAppointBtn.setVisibility(View.VISIBLE);
+        if(role.equals("umanji_cow")) {
+            mDutyBtn.setVisibility(View.VISIBLE);
         }
     }
 
@@ -207,7 +207,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 startActivity(homeIntent);
                 break;
 
-            case R.id.appointBtn:
+            case R.id.dutyBtn:
                 Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
                 Bundle roleBundle = new Bundle();
                 roleBundle.putString("channel", mChannel.getJsonObject().toString());
