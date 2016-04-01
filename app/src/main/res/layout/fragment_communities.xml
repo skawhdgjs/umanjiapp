@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
-        android:text="스팟추가(건물 내부스팟 추가하기)"
+        android:text="커뮤니티 추가"
         android:background="@drawable/default_btn_radius"
         android:padding="5dp"
         android:textColor="#FFFFFF"

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -25,6 +26,8 @@ import de.greenrobot.event.EventBus;
 
 public class RoleListFragment extends BaseChannelListFragment {
     private static final String TAG = "RoleListFragment";
+
+    private TextView mRole ;
 
 
     public static RoleListFragment newInstance(Bundle bundle) {
@@ -52,7 +55,8 @@ public class RoleListFragment extends BaseChannelListFragment {
     @Override
     public void initWidgets(View view) {
 
-        mChannel.getRoles();
+        mRole = (TextView) view.findViewById(R.id.roles);
+
     }
 
     @Override
