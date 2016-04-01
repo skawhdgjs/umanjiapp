@@ -262,7 +262,7 @@
                             android:layout_gravity="bottom|right"
                             android:padding="10dp"
                             android:src="@drawable/dong"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:layout_below="@+id/lookAround"
                             android:layout_centerHorizontal="true"/>
 
