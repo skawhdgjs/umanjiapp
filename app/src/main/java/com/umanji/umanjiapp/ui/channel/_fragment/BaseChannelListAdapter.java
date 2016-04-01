@@ -425,9 +425,6 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
     protected void setRole(final ViewHolder holder, final ChannelData channelData){
 
-        //String[] roles = channelData.getRoles();
-        //holder.mRole.setText(roles[0]);
-
         String[] roles ;
         String role = null;
 
