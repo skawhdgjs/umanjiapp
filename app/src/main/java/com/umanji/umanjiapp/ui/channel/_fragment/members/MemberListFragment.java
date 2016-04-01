@@ -1,6 +1,5 @@
 package com.umanji.umanjiapp.ui.channel._fragment.members;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,8 +17,6 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListAdapter;
-import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +25,7 @@ import org.json.JSONObject;
 import de.greenrobot.event.EventBus;
 
 public class MemberListFragment extends BaseChannelListFragment {
-    private static final String TAG = "PostListFragment";
+    private static final String TAG = "MemberListFragment";
 
     private Button mJoinBtn;
     private Button mUnJoinBtn;

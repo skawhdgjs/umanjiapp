@@ -429,10 +429,15 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         //holder.mRole.setText(roles[0]);
 
         String[] roles ;
+        String role = null;
+
         roles = mChannel.getRoles();
         if(roles != null) {
-            String role = roles[0];
+            role = roles[0];
         }
+
+        holder.mRole.setText(role);
+
 
     }
 
@@ -521,8 +526,6 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
                     }
 
-
-
                 }catch(JSONException e) {
                     Log.e(TAG, "error " + e.toString());
                 }
@@ -541,7 +544,6 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         });
 
     }
-
 
     /****************************************************
      *  util methods
