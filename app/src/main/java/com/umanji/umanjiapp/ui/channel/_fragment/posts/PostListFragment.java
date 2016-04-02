@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -25,6 +25,7 @@ import de.greenrobot.event.EventBus;
 
 public class PostListFragment extends BaseChannelListFragment {
     private static final String TAG = "PostListFragment";
+    private LinearLayout mlayout;
 
     public static PostListFragment newInstance(Bundle bundle) {
         PostListFragment fragment = new PostListFragment();
@@ -51,7 +52,7 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void initWidgets(View view) {
 
-        mEmptyStates = (ImageView) view.findViewById(R.id.empty_states);
+        mlayout = (LinearLayout) view.findViewById(R.id.postLayout);
 
     }
 
@@ -85,12 +86,10 @@ public class PostListFragment extends BaseChannelListFragment {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
 
-                            if(jsonArray.length() == 0) {
+                            if(jsonArray.length() != 0) {
 
-                                mEmptyStates.setVisibility(View.VISIBLE);
+                                mlayout.setBackgroundResource(R.color.feed_bg);
 
-
-                            } else {
                                 for(int idx = 0; idx < jsonArray.length(); idx++) {
                                     JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                     ChannelData doc = new ChannelData(jsonDoc);
@@ -120,6 +119,8 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void updateView() {
         mAdapter.notifyDataSetChanged();
+
+        //mEmptyStates.setVisibility(View.GONE);
     }
 
     @Override
