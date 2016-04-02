@@ -50,7 +50,25 @@ public class RoleListAdapter extends BaseChannelListAdapter {
             role = roles[0];
         }
 
-        holder.mRole.setText(role);
+        String roleName ="역할명";
+
+        switch(role){
+            case "umanji_cow":
+                roleName = "우만지 일꾼";
+                break;
+            case "ad_admin":
+                roleName = "시도단위 광고 권한자";
+                break;
+            case "ad_locality":
+                roleName = "구군단위 광고 권한자";
+                break;
+            case "ad_thoroughfare":
+                roleName = "읍면동단위 광고 권한자";
+                break;
+
+        }
+
+        holder.mRole.setText(roleName);
 
         holder.mRole.setOnClickListener(new View.OnClickListener() {
             @Override
