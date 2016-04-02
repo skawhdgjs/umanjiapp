@@ -1,23 +1,17 @@
 package com.umanji.umanjiapp.ui.channel._fragment.roles;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
-import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.umanji.umanjiapp.ui.distribution.DistributionActivity;
 
 
 public class RoleListAdapter extends BaseChannelListAdapter {
@@ -57,5 +51,16 @@ public class RoleListAdapter extends BaseChannelListAdapter {
         }
 
         holder.mRole.setText(role);
+
+        holder.mRole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
+                Bundle roleBundle = new Bundle();
+                roleBundle.putString("channel", mChannel.getJsonObject().toString());
+                roleIntent.putExtra("bundle", roleBundle);
+                mActivity.startActivity(roleIntent);
+            }
+        });
     }
 }

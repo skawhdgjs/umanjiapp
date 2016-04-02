@@ -22,7 +22,6 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.distribution.DistributionActivity;
 import com.umanji.umanjiapp.ui.setting.home.HomeActivity;
 
 import org.json.JSONArray;
@@ -76,14 +75,14 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         mUserName = (TextView)view.findViewById(R.id.userName);
         //mUserName.setOnClickListener(this);
 
-        mDutyBtn = (Button) view.findViewById(R.id.dutyBtn);
-        mDutyBtn.setOnClickListener(this);
+//        mDutyBtn = (Button) view.findViewById(R.id.dutyBtn);
+//        mDutyBtn.setOnClickListener(this);
 
         if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
             mUserName.setOnClickListener(this);
             mUserName.setTextColor(Color.parseColor("#0066ff"));
         }
-
+/*
         String[] roles ;
         roles = mChannel.getRoles();
         if(roles != null){
@@ -99,6 +98,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 mDutyBtn.setVisibility(View.VISIBLE);
             }
         }
+        */
 
     }
 
@@ -215,7 +215,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 homeIntent.putExtra("bundle", homeBundle);
                 startActivity(homeIntent);
                 break;
-
+/*
             case R.id.dutyBtn:
                 Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
                 Bundle roleBundle = new Bundle();
@@ -224,6 +224,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 startActivity(roleIntent);
                 break;
 
+            */
             case R.id.userName:
                 Helper.startUpdateActivity(mActivity, mChannel);
                 break;

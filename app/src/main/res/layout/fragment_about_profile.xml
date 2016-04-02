@@ -105,6 +105,7 @@
 
 
     </LinearLayout>
+<!--
 
     <Button
         android:id="@+id/dutyBtn"
@@ -119,6 +120,7 @@
         android:textSize="14dp"
         android:visibility="gone"/>
 
+-->
 
     <Button
         android:id="@+id/logoutBtn"
