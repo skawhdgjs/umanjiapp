@@ -423,21 +423,6 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         }
     }
 
-    protected void setRole(final ViewHolder holder, final ChannelData channelData){
-
-        String[] roles ;
-        String role = null;
-
-        roles = mChannel.getRoles();
-        if(roles != null) {
-            role = roles[0];
-        }
-
-        holder.mRole.setText(role);
-
-
-    }
-
     protected void setActionPanel(final ViewHolder holder, final ChannelData channelData) {
         ArrayList<SubLinkData> replySubLinks = channelData.getSubLinks(TYPE_POST);
         if(replySubLinks != null && replySubLinks.size() > 0) {

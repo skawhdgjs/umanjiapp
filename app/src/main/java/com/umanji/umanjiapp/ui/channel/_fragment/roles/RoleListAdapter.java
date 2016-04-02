@@ -43,71 +43,19 @@ public class RoleListAdapter extends BaseChannelListAdapter {
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ChannelData channelData       = mChannels.get(position);
-
         setRole(holder, channelData);
-
     }
 
-    @Override
-    protected void setParentName(final ViewHolder holder, final ChannelData parentChannelData) {
-        String parentId = "";
-        if(mChannel != null ) parentId = mChannel.getId();
-        if(parentChannelData != null && !TextUtils.equals(parentChannelData.getId(), parentId)) {
+    protected void setRole(final ViewHolder holder, final ChannelData channelData){
 
-            if(TextUtils.isEmpty(parentChannelData.getName())) {
-                holder.parentName.setVisibility(View.GONE);
-                holder.headerBorder.setVisibility(View.GONE);
-            }else {
-                holder.parentName.setVisibility(View.VISIBLE);
-                holder.headerBorder.setVisibility(View.VISIBLE);
-                holder.parentName.setText(Helper.getShortenString(parentChannelData.getName(), 6));
-            }
+        String[] roles ;
+        String role = null;
 
-            holder.parentName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        JSONObject params = new JSONObject();
-                        params.put("id", parentChannelData.getId());
-
-                        mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject object, AjaxStatus status) {
-                                ChannelData channelData = new ChannelData(object);
-                                Helper.startActivity(mActivity, channelData);
-                            }
-                        });
-                    }catch (JSONException e) {
-                        Log.e(TAG, "Error " + e.toString());
-                    }
-                }
-            });
-
-        }else {
-            holder.parentName.setVisibility(View.GONE);
+        roles = mChannel.getRoles();
+        if(roles != null) {
+            role = roles[0];
         }
-    }
 
-
-    @Override
-    protected void setPhoto(final ViewHolder holder, final ChannelData channelData) {
-        String photo = channelData.getPhoto();
-        if(!TextUtils.isEmpty(photo)) {
-            Glide.with(mActivity)
-                    .load(photo)
-                    .placeholder(R.drawable.spot_dark_bg)
-                    .into(holder.photo);
-
-            holder.photo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Helper.startImageViewActivity(mActivity, channelData);
-                }
-            });
-        } else {
-            Glide.with(mActivity)
-                    .load(R.drawable.spot_default)
-                    .into(holder.photo);
-        }
+        holder.mRole.setText(role);
     }
 }
