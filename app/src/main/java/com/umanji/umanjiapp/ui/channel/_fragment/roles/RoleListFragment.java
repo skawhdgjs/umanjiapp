@@ -1,33 +1,22 @@
 package com.umanji.umanjiapp.ui.channel._fragment.roles;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
-import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import de.greenrobot.event.EventBus;
 
 public class RoleListFragment extends BaseChannelListFragment {
     private static final String TAG = "RoleListFragment";
 
     private TextView mRole ;
+    private LinearLayout mLayout ;
 
 
     public static RoleListFragment newInstance(Bundle bundle) {
@@ -56,6 +45,7 @@ public class RoleListFragment extends BaseChannelListFragment {
     public void initWidgets(View view) {
 
         mRole = (TextView) view.findViewById(R.id.roles);
+        mLayout = (LinearLayout) view.findViewById(R.id.emptyRole);
 
     }
 
@@ -65,6 +55,8 @@ public class RoleListFragment extends BaseChannelListFragment {
         String [] roles = mChannel.getRoles();
 
         if(roles != null) {
+            mLayout.setBackgroundResource(R.color.feed_bg);
+
             for(int idx = 0; idx < roles.length; idx++) {
                 String[] role = new String [] {roles[idx]};
                 ChannelData doc = new ChannelData();
