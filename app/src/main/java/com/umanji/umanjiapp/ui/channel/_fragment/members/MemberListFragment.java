@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -29,6 +30,7 @@ public class MemberListFragment extends BaseChannelListFragment {
 
     private Button mJoinBtn;
     private Button mUnJoinBtn;
+    private LinearLayout mlayout;
 
     public static MemberListFragment newInstance(Bundle bundle) {
         MemberListFragment fragment = new MemberListFragment();
@@ -59,6 +61,8 @@ public class MemberListFragment extends BaseChannelListFragment {
 
         mUnJoinBtn = (Button)view.findViewById(R.id.unJoinBtn);
         mUnJoinBtn.setOnClickListener(this);
+
+        mlayout = (LinearLayout) view.findViewById(R.id.memberLayout);
     }
 
     @Override
@@ -93,10 +97,16 @@ public class MemberListFragment extends BaseChannelListFragment {
                     }else {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
-                            for(int idx = 0; idx < jsonArray.length(); idx++) {
-                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                ChannelData doc = new ChannelData(jsonDoc);
-                                mAdapter.addBottom(doc);
+
+                            if(jsonArray.length() != 0) {
+
+                                mlayout.setBackgroundResource(R.color.feed_bg);
+                                
+                                for(int idx = 0; idx < jsonArray.length(); idx++) {
+                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                    ChannelData doc = new ChannelData(jsonDoc);
+                                    mAdapter.addBottom(doc);
+                                }
                             }
 
                             updateView();
@@ -120,6 +130,7 @@ public class MemberListFragment extends BaseChannelListFragment {
     public void updateView() {
         mJoinBtn.setEnabled(false);
         mUnJoinBtn.setEnabled(false);
+        //mEmptyMember.setVisibility(View.GONE);
 
         switch (mChannel.getType()) {
             case TYPE_INFO_CENTER:

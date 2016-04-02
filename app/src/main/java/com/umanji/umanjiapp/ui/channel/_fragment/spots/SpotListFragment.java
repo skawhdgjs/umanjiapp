@@ -1,6 +1,5 @@
 package com.umanji.umanjiapp.ui.channel._fragment.spots;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -8,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -18,13 +18,10 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
@@ -32,6 +29,7 @@ public class SpotListFragment extends BaseChannelListFragment {
     private static final String TAG = "SpotListFragment";
 
     private Button mAddBtn;
+    private LinearLayout mlayout;
 
     public static SpotListFragment newInstance(Bundle bundle) {
         SpotListFragment fragment = new SpotListFragment();
@@ -59,6 +57,8 @@ public class SpotListFragment extends BaseChannelListFragment {
     public void initWidgets(View view) {
         mAddBtn = (Button)view.findViewById(R.id.addChannelBtn);
         mAddBtn.setOnClickListener(this);
+
+        mlayout = (LinearLayout) view.findViewById(R.id.spotLayout);
 
         switch (mChannel.getType()) {
             case TYPE_USER:
@@ -104,10 +104,16 @@ public class SpotListFragment extends BaseChannelListFragment {
                     }else {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
-                            for(int idx = 0; idx < jsonArray.length(); idx++) {
-                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                ChannelData doc = new ChannelData(jsonDoc);
-                                mAdapter.addBottom(doc);
+
+                            if(jsonArray.length() != 0) {
+
+                                mlayout.setBackgroundResource(R.color.feed_bg);
+
+                                for(int idx = 0; idx < jsonArray.length(); idx++) {
+                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                    ChannelData doc = new ChannelData(jsonDoc);
+                                    mAdapter.addBottom(doc);
+                                }
                             }
 
                             updateView();
@@ -129,6 +135,7 @@ public class SpotListFragment extends BaseChannelListFragment {
 
     @Override
     public void updateView() {
+        //mEmptySpot.setVisibility(View.GONE);
         mAdapter.notifyDataSetChanged();
     }
 
