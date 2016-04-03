@@ -130,6 +130,12 @@ public class CommunityFragment extends BaseChannelFragment {
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);
+
+        switch (event.type) {
+            case EVENT_LOOK_AROUND:
+                //mActivity.finish();
+                break;
+        }
     }
 
     @Override
@@ -186,11 +192,11 @@ public class CommunityFragment extends BaseChannelFragment {
             case R.id.lookAround:
                 //EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
 
-                Intent roleIntent = new Intent(mActivity, CommunityDistributionActivity.class);
+                Intent communityIntent = new Intent(mActivity, CommunityDistributionActivity.class);
                 Bundle roleBundle = new Bundle();
                 roleBundle.putString("channel", mChannel.getJsonObject().toString());
-                roleIntent.putExtra("bundle", roleBundle);
-                mActivity.startActivity(roleIntent);
+                communityIntent.putExtra("bundle", roleBundle);
+                mActivity.startActivity(communityIntent);
                 break;
 
         }
