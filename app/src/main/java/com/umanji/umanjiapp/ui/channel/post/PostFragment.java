@@ -75,7 +75,7 @@ public class PostFragment extends BaseChannelFragment {
         super.updateView();
 
         setName(mActivity, mChannel, "내용없음");
-        setParentName(mActivity, mChannel.getParent());
+        //setParentName(mActivity, mChannel.getParent());
         setPhoto(mActivity, mChannel, R.drawable.reply_background);
     }
 
