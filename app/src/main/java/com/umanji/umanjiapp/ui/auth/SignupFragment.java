@@ -1,5 +1,6 @@
 package com.umanji.umanjiapp.ui.auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,6 +37,7 @@ public class SignupFragment extends BaseFragment {
     private AutoCompleteTextView mEmail;
     private EditText mPassword;
     private Button mSubmit;
+    private Button mSignIn;
 
 
     /****************************************************
@@ -81,6 +83,10 @@ public class SignupFragment extends BaseFragment {
         mSubmit = (Button)view.findViewById(R.id.submit);
         mSubmit.setOnClickListener(this);
 
+        mSignIn = (Button)view.findViewById(R.id.signIn);
+        mSignIn.setOnClickListener(this);
+
+
 
         if(mCurrentMyPosition != null) {
             loadData();
@@ -120,6 +126,12 @@ public class SignupFragment extends BaseFragment {
                 if(isValid) {
                     signin();
                 }
+                break;
+
+            case R.id.signIn:
+                Intent signIn = new Intent(mActivity, SignInActivity.class);
+                startActivity(signIn);
+
                 break;
         }
     }

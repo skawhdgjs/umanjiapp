@@ -138,6 +138,9 @@
         <activity
             android:name=".ui.channel.post.reply.ReplyActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.auth.SignInActivity"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".ui.modal.WebViewActivity"></activity>
 

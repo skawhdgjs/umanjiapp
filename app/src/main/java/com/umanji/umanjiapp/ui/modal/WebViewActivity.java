@@ -15,8 +15,17 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
 
+        String linkUrl = "http://blog.naver.com/mothcar/220673208427";
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            linkUrl = extras.getString("url");
+        }
+
+
+
         webView = (WebView) findViewById(R.id.webView1);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("http://blog.naver.com/mothcar/220673208427");
+        webView.loadUrl(linkUrl);
     }
 }
