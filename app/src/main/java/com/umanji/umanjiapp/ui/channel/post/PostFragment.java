@@ -6,9 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
+import com.umanji.umanjiapp.ui.BaseFragment;
 
-public class PostFragment extends BaseChannelCreateFragment {
+public class PostFragment extends BaseFragment {
     private static final String TAG = "PostFragment";
 
     public static PostFragment newInstance(Bundle bundle) {
@@ -33,26 +33,18 @@ public class PostFragment extends BaseChannelCreateFragment {
         return inflater.inflate(R.layout.activity_post, container, false);
     }
 
-
     @Override
     public void initWidgets(View view) {
-        super.initWidgets(view);
 
     }
 
-        @Override
+    @Override
     public void loadData() {
-        super.loadData();
+
     }
 
     @Override
     public void updateView() {
-        super.updateView();
-
-    }
-
-    @Override
-    protected void request() {
 
     }
 
