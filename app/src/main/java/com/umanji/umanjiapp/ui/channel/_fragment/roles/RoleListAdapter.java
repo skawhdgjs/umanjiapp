@@ -14,10 +14,12 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.distribution.DistributionActivity;
+import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
 
 public class RoleListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "RoleListAdapter";
+
 
     public RoleListAdapter(BaseActivity activity, Fragment fragment) {
         super(activity, fragment);
@@ -81,7 +83,10 @@ public class RoleListAdapter extends BaseChannelListAdapter {
                     roleIntent.putExtra("bundle", roleBundle);
                     mActivity.startActivity(roleIntent);
                 } else {
+
                     Toast.makeText(mActivity, "역할 설명창으로 이동합니다.", Toast.LENGTH_LONG).show();
+                    Intent webIntent = new Intent(mActivity, WebViewActivity.class);
+                    mActivity.startActivity(webIntent);
                 }
 
             }
