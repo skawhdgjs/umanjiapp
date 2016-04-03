@@ -127,7 +127,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:text="위치기반 서비스 이용약관에 동의"
-                    android:textColor="#555"
+                    android:textColor="#0066ff"
                     android:textSize="18dp" />
             </LinearLayout>
 
@@ -148,7 +148,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:text="개인정보 이용약관에 동의"
-                    android:textColor="#555"
+                    android:textColor="#0066ff"
                     android:textSize="18dp" />
             </LinearLayout>
 
