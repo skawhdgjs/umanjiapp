@@ -54,7 +54,7 @@
 
     <string name="complex_create_btn">스팟 생성</string>
     <string name="complex_create_success">복합단지 생성 성공!</string>
-    <string name="complex_create_confirm">이곳에 복합단지 만드시겠습니까?</string>
+    <string name="complex_create_confirm">공원, 대학교, 아파트단지를 만듭니다.</string>
 
     <string name="create_error">네트워크 상태가 좋지 않습니다. 잠시후 다시 시도해주세요.</string>
 
