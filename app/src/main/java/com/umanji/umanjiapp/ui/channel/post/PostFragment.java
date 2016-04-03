@@ -1,28 +1,26 @@
 package com.umanji.umanjiapp.ui.channel.post;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.Helper;
-import com.umanji.umanjiapp.model.ChannelData;
-import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
-import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.likes.LikeListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
+import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 
-public class PostFragment extends BaseChannelFragment {
-    private static final String TAG = "ProfileFragment";
+public class PostFragment extends BaseChannelCreateFragment {
+    private static final String TAG = "PostFragment";
 
     public static PostFragment newInstance(Bundle bundle) {
         PostFragment fragment = new PostFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -35,37 +33,14 @@ public class PostFragment extends BaseChannelFragment {
         return inflater.inflate(R.layout.activity_post, container, false);
     }
 
-    @Override
-    protected void addFragmentToTabAdapter(BaseTabAdapter adapter) {
-        Bundle bundle = new Bundle();
-        bundle.putString("channel", mChannel.getJsonObject().toString());
-        adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
-        adapter.addFragment(LikeListFragment.newInstance(bundle), "LIKES");
 
+    @Override
+    public void initWidgets(View view) {
+        super.initWidgets(view);
 
     }
 
-    @Override
-    protected void setTabSelect() {
-        if(TextUtils.isEmpty(mTabType)) return;
-
-        TabLayout.Tab tab;
-        switch (mTabType) {
-            case TAB_POSTS:
-                tab = mTabLayout.getTabAt(0);
-                break;
-            case TAB_LIKES:
-                tab = mTabLayout.getTabAt(1);
-                break;
-            default:
-                tab = mTabLayout.getTabAt(0);
-                break;
-        }
-
-        tab.select();
-    }
-
-    @Override
+        @Override
     public void loadData() {
         super.loadData();
     }
@@ -74,18 +49,12 @@ public class PostFragment extends BaseChannelFragment {
     public void updateView() {
         super.updateView();
 
-        setName(mActivity, mChannel, "내용없음");
-        //setParentName(mActivity, mChannel.getParent());
-        setPhoto(mActivity, mChannel, R.drawable.reply_background);
     }
 
     @Override
-    protected void setName(Activity activity, ChannelData channelData, String label) {
-        if(!TextUtils.isEmpty(mChannel.getName())) {
-            mName.setText(Helper.getShortenString(mChannel.getName(), 20));
-        } else {
-            mName.setText(label);
-        }
+    protected void request() {
+
     }
+
 
 }
