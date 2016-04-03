@@ -46,7 +46,7 @@ public class ComplexCreateFragment extends BaseChannelCreateFragment {
     public void initWidgets(View view) {
         super.initWidgets(view);
 
-        mSubmitBtn.setText("복합건물 생성");
+        mSubmitBtn.setText("복합단지 생성");
     }
 
     @Override
