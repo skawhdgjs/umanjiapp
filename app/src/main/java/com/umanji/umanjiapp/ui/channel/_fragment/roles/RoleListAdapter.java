@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
@@ -69,15 +71,19 @@ public class RoleListAdapter extends BaseChannelListAdapter {
         }
 
         holder.mRole.setText(roleName);
-
         holder.mRole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
-                Bundle roleBundle = new Bundle();
-                roleBundle.putString("channel", mChannel.getJsonObject().toString());
-                roleIntent.putExtra("bundle", roleBundle);
-                mActivity.startActivity(roleIntent);
+                if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+                    Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
+                    Bundle roleBundle = new Bundle();
+                    roleBundle.putString("channel", mChannel.getJsonObject().toString());
+                    roleIntent.putExtra("bundle", roleBundle);
+                    mActivity.startActivity(roleIntent);
+                } else {
+                    Toast.makeText(mActivity, "역할 설명창으로 이동합니다.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
     }
