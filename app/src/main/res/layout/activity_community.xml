@@ -252,6 +252,7 @@
                             android:layout_alignRight="@+id/userPhoto"
                             android:layout_alignEnd="@+id/userPhoto"/>
 
+
                         <ImageView
                             app:layout_collapseMode="parallax"
                             app:layout_collapseParallaxMultiplier="1.0"
@@ -261,9 +262,9 @@
                             android:layout_gravity="bottom|right"
                             android:padding="10dp"
                             android:src="@drawable/dong"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             android:layout_below="@+id/lookAround"
-                            android:layout_centerHorizontal="true"/>
+                            android:layout_centerHorizontal="true" />
 
 
                     </RelativeLayout>

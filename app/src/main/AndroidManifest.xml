@@ -132,6 +132,9 @@
         <activity
             android:name=".ui.distribution.DistributionActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.distribution.CommunityDistributionActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.channel.post.reply.ReplyActivity"

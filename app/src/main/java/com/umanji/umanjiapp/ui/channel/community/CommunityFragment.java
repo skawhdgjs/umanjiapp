@@ -16,15 +16,13 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
+import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.about.AboutFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
-import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
-import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
-import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
+import com.umanji.umanjiapp.ui.distribution.CommunityDistributionActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -183,6 +181,16 @@ public class CommunityFragment extends BaseChannelFragment {
                 } catch(JSONException e) {
                     Log.e(TAG, "error " + e.toString());
                 }
+                break;
+
+            case R.id.lookAround:
+                //EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+
+                Intent roleIntent = new Intent(mActivity, CommunityDistributionActivity.class);
+                Bundle roleBundle = new Bundle();
+                roleBundle.putString("channel", mChannel.getJsonObject().toString());
+                roleIntent.putExtra("bundle", roleBundle);
+                mActivity.startActivity(roleIntent);
                 break;
 
         }
