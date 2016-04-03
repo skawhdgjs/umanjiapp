@@ -49,6 +49,7 @@ import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.main.search.SearchActivity;
+import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -223,6 +224,7 @@ public class MainFragment extends BaseFragment {
         mInfoTextPanel.setSelected(true);
 
         mAdsImage = (ImageView) view.findViewById(R.id.ads_image);
+        mAdsImage.setOnClickListener(this);
     }
 
 
@@ -361,9 +363,15 @@ public class MainFragment extends BaseFragment {
                 }
                 break;
 
+            case R.id.ads_image:
+                Intent webIntent = new Intent(mActivity, WebViewActivity.class);
+                mActivity.startActivity(webIntent);
+                break;
+            
             case R.id.search:
                 Intent searchIntent = new Intent(mActivity, SearchActivity.class);
                 startActivity(searchIntent);
+
         }
     }
 
@@ -655,16 +663,22 @@ public class MainFragment extends BaseFragment {
             case 10:
                 mAdsImage.setImageResource(R.drawable.ad_sample10_01);
                 break;
+            case 8:
+                mAdsImage.setImageResource(R.drawable.ads_umanji_guide);
+
+                break;
 
             default:
                 Random rd = new Random();
-                int randomNum = rd.nextInt(3);
+                int randomNum = rd.nextInt(4);
                 if(randomNum == 0){
                     mAdsImage.setImageResource(R.drawable.ad_sample18_01);
                 } else if(randomNum == 2){
                     mAdsImage.setImageResource(R.drawable.ad_sample18_02);
                 } else if(randomNum == 1){
                     mAdsImage.setImageResource(R.drawable.ad_sample);
+                } else if(randomNum == 3){
+                    mAdsImage.setImageResource(R.drawable.ads_umanji_guide);
                 }
                 break;
         }
