@@ -63,22 +63,28 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
     @Override
     public void initWidgets(View view) {
-        mLogoutBtn = (Button) view.findViewById(R.id.logoutBtn);
-        mLogoutBtn.setOnClickListener(this);
+        if (AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+            mLogoutBtn = (Button) view.findViewById(R.id.logoutBtn);
+            mLogoutBtn.setOnClickListener(this);
+        }
+
         mAddress = (TextView) view.findViewById(R.id.address);
 
         mAddress.setText(Helper.getFullAddress(mChannel));
 
-        mAddHomeBtn = (Button)view.findViewById(R.id.addHomeBtn);
-        mAddHomeBtn.setOnClickListener(this);
+        if (AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+            mAddHomeBtn = (Button) view.findViewById(R.id.addHomeBtn);
+            mAddHomeBtn.setOnClickListener(this);
+        }
 
-        mUserName = (TextView)view.findViewById(R.id.userName);
+
+        mUserName = (TextView) view.findViewById(R.id.userName);
         //mUserName.setOnClickListener(this);
 
 //        mDutyBtn = (Button) view.findViewById(R.id.dutyBtn);
 //        mDutyBtn.setOnClickListener(this);
 
-        if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
+        if (AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
             mUserName.setOnClickListener(this);
             mUserName.setTextColor(Color.parseColor("#0066ff"));
         }
@@ -129,12 +135,12 @@ public class AboutProfileFragment extends BaseChannelListFragment {
             mApi.call(api_channels_keywords_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if(status.getCode() == 500) {
+                    if (status.getCode() == 500) {
                         EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    }else {
+                    } else {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
-                            for(int idx = 0; idx < jsonArray.length(); idx++) {
+                            for (int idx = 0; idx < jsonArray.length(); idx++) {
                                 JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                 ChannelData doc = new ChannelData(jsonDoc);
                                 mAdapter.addBottom(doc);
@@ -151,7 +157,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 }
             });
             mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
 
@@ -172,7 +178,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
         switch (event.type) {
             case api_channels_create:
                 String parentId = event.response.optString("parent");
-                if(TextUtils.equals(mChannel.getId(), parentId)) {
+                if (TextUtils.equals(mChannel.getId(), parentId)) {
                     try {
                         JSONObject params = new JSONObject();
                         params.put("id", mChannel.getId());
@@ -183,11 +189,11 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                             }
                         });
                         updateView();
-                    } catch(JSONException e) {
+                    } catch (JSONException e) {
                         Log.e(TAG, "error " + e.toString());
                     }
 
-                    if(TextUtils.isEmpty(channelData.getId())) {
+                    if (TextUtils.isEmpty(channelData.getId())) {
                         Toast.makeText(mActivity, "이미 존재하는 키워드 입니다.", Toast.LENGTH_SHORT).show();
                     } else {
                         mAdapter.addTop(channelData);
