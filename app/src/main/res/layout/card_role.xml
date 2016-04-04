@@ -17,7 +17,9 @@
     android:textAppearance="?attr/textAppearanceListItem"
     android:layout_alignParentRight="true"
     android:layout_toRightOf="@+id/photo"
-    />
+    android:gravity="center_horizontal"
+    android:textSize="20dp"
+    android:textStyle="bold" />
 
 
 </RelativeLayout>
