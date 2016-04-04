@@ -18,11 +18,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 
 import org.json.JSONObject;
 
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 import static com.umanji.umanjiapp.helper.FileHelper.extractUrls;
 
@@ -228,12 +231,25 @@ public class PostFragment extends BaseFragment {
 
     @Override
     public void updateView() {
-
-
     }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch(v.getId()){
+            case R.id.lookAround:
+                EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                break;
+        }
+    }
 
-
-
-
+    @Override
+    public void onEvent(SuccessData event) {
+        super.onEvent(event);
+        switch(event.type){
+            case EVENT_LOOK_AROUND:
+                mActivity.finish();
+                break;
+        }
+    }
 }
