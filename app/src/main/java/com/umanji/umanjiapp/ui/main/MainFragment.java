@@ -29,6 +29,9 @@ import android.widget.Toast;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,6 +43,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.analytics.ApplicationController;
 import com.umanji.umanjiapp.gcm.GcmRegistrationIntentService;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
@@ -152,6 +156,24 @@ public class MainFragment extends BaseFragment {
         if(getArguments() != null) {
             mChannelIdForPush = getArguments().getString("id");
         }
+
+
+        Tracker t = ((ApplicationController)mActivity.getApplication()).getTracker();
+        t.setScreenName("MainActivity");
+        t.send(new HitBuilders.AppViewBuilder().build());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        GoogleAnalytics.getInstance(mActivity).reportActivityStart(mActivity);
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        GoogleAnalytics.getInstance(mActivity).reportActivityStop(mActivity);
     }
 
     @Override
