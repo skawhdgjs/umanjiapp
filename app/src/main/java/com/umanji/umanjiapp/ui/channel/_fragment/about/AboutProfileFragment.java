@@ -65,6 +65,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
     public void initWidgets(View view) {
         if (AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
             mLogoutBtn = (Button) view.findViewById(R.id.logoutBtn);
+            mLogoutBtn.setVisibility(view.VISIBLE);
             mLogoutBtn.setOnClickListener(this);
         }
 
@@ -74,37 +75,17 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
         if (AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
             mAddHomeBtn = (Button) view.findViewById(R.id.addHomeBtn);
+            mAddHomeBtn.setVisibility(view.VISIBLE);
             mAddHomeBtn.setOnClickListener(this);
         }
 
 
         mUserName = (TextView) view.findViewById(R.id.userName);
-        //mUserName.setOnClickListener(this);
-
-//        mDutyBtn = (Button) view.findViewById(R.id.dutyBtn);
-//        mDutyBtn.setOnClickListener(this);
 
         if (AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
             mUserName.setOnClickListener(this);
             mUserName.setTextColor(Color.parseColor("#0066ff"));
         }
-/*
-        String[] roles ;
-        roles = mChannel.getRoles();
-        if(roles != null){
-            String role = roles[0];
-
-            if(role.equals("umanji_cow")) {
-                mDutyBtn.setVisibility(View.VISIBLE);
-            } else if(role.equals("ad_admin")){
-                mDutyBtn.setVisibility(View.VISIBLE);
-            } else if(role.equals("ad_locality")){
-                mDutyBtn.setVisibility(View.VISIBLE);
-            } else if(role.equals("ad_thoroughfare")){
-                mDutyBtn.setVisibility(View.VISIBLE);
-            }
-        }
-        */
 
     }
 

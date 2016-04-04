@@ -482,25 +482,25 @@ public class MainFragment extends BaseFragment {
             mMap.setPadding(0, paddingInPx, 0, 0);
             mMap.getUiSettings().setZoomControlsEnabled(true);
 
-//            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-//            if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
-//                if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
-//                        PackageManager.PERMISSION_GRANTED &&
-//                        ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
-//                                PackageManager.PERMISSION_GRANTED) {
-//                    mMap.setMyLocationEnabled(true);
-//                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
-//
-//                    initMyLocation();
-//                } else {
-//                    requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
-//                }
-//            } else{
-//                mMap.setMyLocationEnabled(true);
-//                mMap.getUiSettings().setMyLocationButtonEnabled(true);
-//
-//                initMyLocation();
-//            }
+            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
+                if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                                PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
+                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+                    initMyLocation();
+                } else {
+                    requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
+                }
+            } else{
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+                initMyLocation();
+            }
 
 
 

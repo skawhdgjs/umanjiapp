@@ -155,7 +155,7 @@
                     android:scaleType="fitStart"
                     android:src="@drawable/empty"
                     android:layout_below="@+id/name"
-                    android:visibility="visible"/>
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -220,18 +220,20 @@
 
         </RelativeLayout>
 
-
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="36dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
         android:src="@drawable/ic_discuss"
         android:visibility="visible"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="24dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
-        android:fillViewport="false"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp" />
 
 </RelativeLayout>
