@@ -1,7 +1,13 @@
 package com.umanji.umanjiapp.ui.modal.map;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +59,14 @@ public class MapFragment extends BaseFragment {
 
     private boolean isBlock = false;
     private boolean isLoading = false;
+
+    private static final String[] LOCATION_PERMS={
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
+    private static final int INITIAL_REQUEST = 1337;
+    private static final int LOCATION_REQUEST = INITIAL_REQUEST+3;
 
     public static MapFragment newInstance(Bundle bundle) {
         MapFragment fragment = new MapFragment();
@@ -127,6 +141,27 @@ public class MapFragment extends BaseFragment {
 
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode) {
+            case LOCATION_REQUEST:
+                if (canAccessLocation()) {
+                    mMap.setMyLocationEnabled(true);
+                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+                    initMyLocation();
+                }
+                break;
+        }
+    }
+
+    private boolean canAccessLocation() {
+        return(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
+    }
+
+    private boolean hasPermission(String perm) {
+        return(PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm));
+    }
 
     private void initMap() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.getBaseContext());
@@ -141,33 +176,53 @@ public class MapFragment extends BaseFragment {
             mMap = ((com.google.android.gms.maps.MapFragment) mActivity.getFragmentManager().findFragmentById(R.id.mMapFragment))
                     .getMap();
 
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.setMyLocationEnabled(true);
 
-            try {
 
-                mLatLng = new LatLng(mChannel.getLatitude(), mChannel.getLongitude());
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(mLatLng)
-                        .zoom(10)
-                        .bearing(90)
-                        .tilt(40)
-                        .build();
+            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
+                if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                        PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                                PackageManager.PERMISSION_GRANTED) {
+                    mMap.setMyLocationEnabled(true);
+                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    initMyLocation();
+                } else {
+                    mActivity.requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
+                }
+            } else{
+                mMap.setMyLocationEnabled(true);
+                mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-            }catch (SecurityException e) {
-                Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
+                initMyLocation();
             }
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(mLatLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
-
         }
 
 
         initMapEvents();
+    }
+
+    protected void initMyLocation() {
+        try {
+
+            mLatLng = new LatLng(mChannel.getLatitude(), mChannel.getLongitude());
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(mLatLng)
+                    .zoom(10)
+                    .bearing(90)
+                    .tilt(40)
+                    .build();
+
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        }catch (SecurityException e) {
+            Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
+        }
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mLatLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
     }
 
     private void initMapEvents() {
