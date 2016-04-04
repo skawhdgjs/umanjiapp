@@ -1,14 +1,18 @@
 package com.umanji.umanjiapp.ui.main;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -89,6 +93,27 @@ public class MainFragment extends BaseFragment {
      ****************************************************/
     LatLng mCurrentMyPosition;
 
+
+    private static final String[] LOCATION_PERMS={
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
+    private static final String[] PERMS={
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+    };
+
+
+    private static final int INITIAL_REQUEST = 10;
+    private static final int PERMS_REQUEST = INITIAL_REQUEST+2;
+    private static final int LOCATION_REQUEST = INITIAL_REQUEST+3;
+    private static final int EXTERNAL_STORAGE_REQUEST = INITIAL_REQUEST+4;
+
+
     /****************************************************
      *  Etc
      ****************************************************/
@@ -147,6 +172,20 @@ public class MainFragment extends BaseFragment {
 
         if(!TextUtils.isEmpty(mChannelIdForPush)) {
             startActivityForPush();
+        }
+
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+        if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
+            if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                            PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA) ==
+                            PackageManager.PERMISSION_GRANTED)  {
+
+            } else {
+                requestPermissions(PERMS, PERMS_REQUEST);
+            }
         }
 
         return view;
@@ -376,6 +415,28 @@ public class MainFragment extends BaseFragment {
     }
 
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode) {
+            case PERMS_REQUEST:
+                if (canAccessLocation()) {
+                    mMap.setMyLocationEnabled(true);
+                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+                    initMyLocation();
+                }
+                break;
+        }
+    }
+
+    private boolean canAccessLocation() {
+        return(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
+    }
+
+    private boolean hasPermission(String perm) {
+        return(PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm));
+    }
+
     private void initMap() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.getBaseContext());
 
@@ -394,49 +455,73 @@ public class MainFragment extends BaseFragment {
             final float scale = getResources().getDisplayMetrics().density;
             int paddingInPx = (int) (paddingInDp * scale + 0.5f);
 
+
+
             mMap.setPadding(0, paddingInPx, 0, 0);
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.setMyLocationEnabled(true);
+
+//            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+//            if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
+//                if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+//                        PackageManager.PERMISSION_GRANTED &&
+//                        ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+//                                PackageManager.PERMISSION_GRANTED) {
+//                    mMap.setMyLocationEnabled(true);
+//                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
+//
+//                    initMyLocation();
+//                } else {
+//                    requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
+//                }
+//            } else{
+//                mMap.setMyLocationEnabled(true);
+//                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+//
+//                initMyLocation();
+//            }
 
 
-            LocationManager locationManager = (LocationManager) mActivity.getSystemService(mActivity.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            String provider = locationManager.getBestProvider(criteria, true);
 
-            double latitude     = 37.491361;
-            double longitude    = 126.923978;
 
-            try {
-                Location location = locationManager.getLastKnownLocation(provider);
-
-                if(location != null) {
-
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-
-                    mCurrentMyPosition = new LatLng(latitude, longitude);
-
-                    CameraPosition cameraPosition = new CameraPosition.Builder()
-                            .target(mCurrentMyPosition)
-                            .zoom(18)
-                            .bearing(90)
-                            .tilt(40)
-                            .build();
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                }
-            }catch (SecurityException e) {
-                Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
-            }
-
-            LatLng latLng = new LatLng(latitude, longitude);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
         }
 
         initMapEvents();
     }
 
+    protected void initMyLocation() {
+        LocationManager locationManager = (LocationManager) mActivity.getSystemService(mActivity.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+
+        double latitude     = 37.491361;
+        double longitude    = 126.923978;
+
+        try {
+            Location location = locationManager.getLastKnownLocation(provider);
+
+            if(location != null) {
+
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+
+                mCurrentMyPosition = new LatLng(latitude, longitude);
+
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(mCurrentMyPosition)
+                        .zoom(18)
+                        .bearing(90)
+                        .tilt(40)
+                        .build();
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        }catch (SecurityException e) {
+            Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
+        }
+
+        LatLng latLng = new LatLng(latitude, longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+    }
 
     /****************************************************
      *  init Map Events
