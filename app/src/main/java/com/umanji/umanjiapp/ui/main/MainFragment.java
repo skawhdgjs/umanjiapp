@@ -327,7 +327,7 @@ public class MainFragment extends BaseFragment {
 
         switch (event.type) {
             case TYPE_ERROR_AUTH:
-                Helper.startSignupActivity(mActivity, mCurrentMyPosition);
+                Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 break;
         }
     }
@@ -359,7 +359,7 @@ public class MainFragment extends BaseFragment {
                     intent.putExtra("bundle", bundle);
                     startActivity(intent);
                 } else {
-                    Helper.startSignupActivity(mActivity, mCurrentMyPosition);
+                    Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 }
                 break;
 
@@ -494,7 +494,7 @@ public class MainFragment extends BaseFragment {
                                         }
 
                                     } else {
-                                        Helper.startSignupActivity(mActivity, mCurrentMyPosition);
+                                        Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                                     }
 
                                 }else {

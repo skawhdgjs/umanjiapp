@@ -67,7 +67,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.auth.SignupActivity"
+            android:name=".ui.auth.SigninActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.channel.profile.ProfileActivity"
@@ -139,7 +139,7 @@
             android:name=".ui.channel.post.reply.ReplyActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.auth.SignInActivity"
+            android:name=".ui.auth.SignupActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".ui.modal.WebViewActivity"></activity>

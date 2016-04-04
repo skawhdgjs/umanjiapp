@@ -39,7 +39,7 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.ui.auth.SignupActivity;
+import com.umanji.umanjiapp.ui.auth.SigninActivity;
 import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
 import com.umanji.umanjiapp.ui.channel.community.create.CommunityCreateActivity;
 import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
@@ -243,8 +243,8 @@ public final class Helper implements AppConfig {
         EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
     }
 
-    public static void startSignupActivity(Activity activity, LatLng position) {
-        Intent intent = new Intent(activity, SignupActivity.class);
+    public static void startSigninActivity(Activity activity, LatLng position) {
+        Intent intent = new Intent(activity, SigninActivity.class);
         Bundle bundle = new Bundle();
 
         if(position != null) {

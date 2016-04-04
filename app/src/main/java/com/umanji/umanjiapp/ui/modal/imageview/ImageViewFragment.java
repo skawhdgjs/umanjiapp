@@ -14,7 +14,7 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 
 public class ImageViewFragment extends BaseFragment {
-    private static final String TAG = "SignupFragment";
+    private static final String TAG = "SigninFragment";
 
 
     /****************************************************

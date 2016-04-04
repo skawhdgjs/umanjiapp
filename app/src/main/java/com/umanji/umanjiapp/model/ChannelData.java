@@ -26,6 +26,7 @@ public class ChannelData {
     private String id;
 
     private String email;
+    private String phone;
     private String type;
     private String subType;
     private String name;
@@ -100,6 +101,7 @@ public class ChannelData {
 
             this.id = data.optString("id");
             this.email = data.optString("email");
+            this.phone = data.optString("phone");
             this.type = data.optString("type");
             this.subType = data.optString("subType");
 
@@ -292,6 +294,14 @@ public class ChannelData {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getType() {

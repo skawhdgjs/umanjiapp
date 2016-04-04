@@ -166,7 +166,7 @@ public class CommunityDistributionFragment extends BaseFragment {
 
         switch (event.type) {
             case TYPE_ERROR_AUTH:
-                Helper.startSignupActivity(mActivity, mCurrentMyPosition);
+                Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 break;
         }
     }
