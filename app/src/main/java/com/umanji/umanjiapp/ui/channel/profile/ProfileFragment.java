@@ -60,18 +60,17 @@ public class ProfileFragment extends BaseChannelFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        mViewPager.setCurrentItem(0);
+//        mViewPager.setCurrentItem(0);
 
-
-        // POST: 0, SPOT: 1, COMMUTNITY: 2, NOTICE: 3, ABOUT: 4
-//        if(AuthHelper.isLoginUser(mActivity, mChannel.getId()) && mNewNoticeCount > 0) {
-//            TabLayout.Tab tab = mTabLayout.getTabAt(3);
-//            tab.setText("NOTIES (" + mNewNoticeCount + ")");
-//            tab.select();
-//        } else {
-//            TabLayout.Tab tab = mTabLayout.getTabAt(1);
-//            tab.select();
-//        }
+        // ROLES: 0, POST: 1, SPOT: 2, COMMUTNITY: 3, NOTICE: 4, ABOUT: 5
+        if(AuthHelper.isLoginUser(mActivity, mChannel.getId()) && mNewNoticeCount > 0) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(4);
+            tab.setText("NOTIES (" + mNewNoticeCount + ")");
+            tab.select();
+        } else {
+            TabLayout.Tab tab = mTabLayout.getTabAt(0);
+            tab.select();
+        }
         return view;
     }
 
