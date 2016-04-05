@@ -736,8 +736,6 @@ public class MainFragment extends BaseFragment {
                     loadData();
 
                 }
-
-                //loadMainAds();
             }
         });
 
@@ -762,10 +760,11 @@ public class MainFragment extends BaseFragment {
     private void loadMainAds() {
 
         try {
-            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("zoom", (int) mMap.getCameraPosition().zoom);
-            params.put("limit", 100);
-            //params.put("sort", "point DESC");
+            JSONObject params = new JSONObject();
+            params.put("latitude", mCurrentMyPosition.latitude);
+            params.put("longitude", mCurrentMyPosition.longitude);
+            params.put("level", (int) mMap.getCameraPosition().zoom);
+
             mApi.call(api_main_findAds, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -784,7 +783,6 @@ public class MainFragment extends BaseFragment {
                     } else {
                         addAdsToMap(json);
                     }
-
                 }
             });
         }catch (JSONException e) {

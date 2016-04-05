@@ -60,8 +60,6 @@ public class ProfileFragment extends BaseChannelFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-//        mViewPager.setCurrentItem(0);
-
         // ROLES: 0, POST: 1, SPOT: 2, COMMUTNITY: 3, NOTICE: 4, ABOUT: 5
         if(AuthHelper.isLoginUser(mActivity, mChannel.getId()) && mNewNoticeCount > 0) {
             TabLayout.Tab tab = mTabLayout.getTabAt(4);
