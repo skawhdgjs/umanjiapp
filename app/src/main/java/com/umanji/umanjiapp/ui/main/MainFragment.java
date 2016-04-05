@@ -760,6 +760,8 @@ public class MainFragment extends BaseFragment {
     private void loadMainAds() {
 
         try {
+            if(mCurrentMyPosition == null) return ;
+
             JSONObject params = new JSONObject();
             params.put("latitude", mCurrentMyPosition.latitude);
             params.put("longitude", mCurrentMyPosition.longitude);
