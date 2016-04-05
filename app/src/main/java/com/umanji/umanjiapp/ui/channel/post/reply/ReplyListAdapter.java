@@ -49,4 +49,13 @@ public class ReplyListAdapter extends BaseChannelListAdapter {
         setActionPanel(holder, channelData);
         setCreatedAt(holder, channelData);
     }
+
+    protected void setName(final ViewHolder holder, final ChannelData channelData) {
+
+        if(TextUtils.isEmpty(channelData.getName())) {
+            holder.name.setText("내용없음");
+        } else {
+            holder.name.setText(channelData.getName());
+        }
+    }
 }
