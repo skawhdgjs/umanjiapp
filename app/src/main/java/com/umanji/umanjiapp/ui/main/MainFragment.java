@@ -798,23 +798,27 @@ public class MainFragment extends BaseFragment {
             int idx = 0;
 
             if(mAds.length() != 0) {
-                    mAdChannel = new ChannelData(mAds.getJSONObject(idx));
-                    String photo = mAdChannel.getPhoto();
-                    if(!TextUtils.isEmpty(photo)) {
-                        Glide.with(mActivity)
-                                .load(photo)
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(mAdsImage);
 
-                        mAdsImage.setVisibility(View.VISIBLE);
-                        mAdsImage.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String activityType = mAdChannel.getParent().getType();
-                                Helper.startActivity(mActivity, mAdChannel.getParent(), activityType);
-                            }
-                        });
-                    }
+                Random rd = new Random();
+                int randomNum = rd.nextInt(mAds.length());
+
+                mAdChannel = new ChannelData(mAds.getJSONObject(randomNum));
+                String photo = mAdChannel.getPhoto();
+                if(!TextUtils.isEmpty(photo)) {
+                    Glide.with(mActivity)
+                            .load(photo)
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(mAdsImage);
+
+                    mAdsImage.setVisibility(View.VISIBLE);
+                    mAdsImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String activityType = mAdChannel.getParent().getType();
+                            Helper.startActivity(mActivity, mAdChannel.getParent(), activityType);
+                        }
+                    });
+                }
             } else {
                 mAdsImage.setOnClickListener(new View.OnClickListener() {
                     @Override
