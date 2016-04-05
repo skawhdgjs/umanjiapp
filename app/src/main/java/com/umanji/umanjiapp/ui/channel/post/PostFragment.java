@@ -13,19 +13,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.ErrorData;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
+import com.umanji.umanjiapp.model.VoteData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -50,6 +60,8 @@ public class PostFragment extends BaseFragment {
     protected ImageView metaPhoto;
     protected TextView metaTitle;
     protected TextView metaDesc;
+
+    protected LinearLayout mSurveyPanel;
 
     protected FloatingActionButton mFab;
 
@@ -107,11 +119,126 @@ public class PostFragment extends BaseFragment {
         metaTitle       = (TextView) view.findViewById(R.id.metaTitle);
         metaDesc        = (TextView) view.findViewById(R.id.metaDesc);
 
+        mSurveyPanel    = (LinearLayout) view.findViewById(R.id.surveyPanel);
+
         setName(mActivity, mChannel, "내용없음");
         setUserPhoto(mActivity, mChannel.getOwner());
         setMetaPanel(mActivity, mChannel);
+        setSurvey(mActivity, mChannel);
         setUserName(mActivity, mChannel.getOwner());
         setCreatedAt(mChannel);
+    }
+
+    protected void setSurvey(Activity activity, final ChannelData channelData) {
+        JSONObject descJson = channelData.getDesc();
+        if(descJson != null) {
+            JSONObject survey = descJson.optJSONObject("vote");
+
+            if(survey != null) {
+                try {
+                    String postType = survey.optString("type");
+                    JSONArray options = survey.getJSONArray("options");
+
+                    if(options == null && options.length() == 0) {
+                        mSurveyPanel.setVisibility(View.GONE);
+                        return;
+                    }
+
+                    mSurveyPanel.setVisibility(View.VISIBLE);
+
+                    LinearLayout surveyContentPanel = (LinearLayout)mSurveyPanel.findViewById(R.id.surveyContentPanel);
+                    surveyContentPanel.removeAllViews();
+
+
+                    String actionName = channelData.getActionName(TYPE_SURVEY, AuthHelper.getUserId(mActivity));
+                    if(TextUtils.isEmpty(actionName)) {
+                        mSurveyPanel.setTag(null);
+                    }else {
+                        mSurveyPanel.setTag(actionName);
+                    }
+
+                    for(int idx = 0; idx < options.length(); idx++) {
+                        View view = LayoutInflater.from(mActivity).inflate(R.layout.include_survey_card, null);
+                        final LinearLayout surveyOptionPanel = (LinearLayout) view.findViewById(R.id.surveyOptionPanel);
+                        final TextView surverOptionName = (TextView) view.findViewById(R.id.surveyOptionName);
+                        final TextView voteCount = (TextView) view.findViewById(R.id.voteCount);
+
+                        JSONObject jsonDoc = options.getJSONObject(idx);
+                        VoteData voteData = new VoteData(jsonDoc);
+
+                        surverOptionName.setText(voteData.getName());
+                        if(TextUtils.equals(actionName, String.valueOf(idx))) {
+                            surveyOptionPanel.setBackgroundResource(R.drawable.feed_new);
+                        };
+
+                        ArrayList<SubLinkData> surveySubLinks = channelData.getSubLinks(TYPE_SURVEY, String.valueOf(idx));
+
+                        if(surveySubLinks == null) {
+                            voteCount.setText("0명");
+                        } else {
+                            voteCount.setText(surveySubLinks.size() + "명");
+                        }
+
+
+                        final int fIdx = idx;
+                        surveyOptionPanel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String actionName = (String)mSurveyPanel.getTag();
+                                if(!TextUtils.isEmpty(actionName)) {
+                                    Toast.makeText(mActivity, "이미 투표에 참여하였습니다.", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                try {
+
+                                    JSONObject params = channelData.getAddressJSONObject();
+                                    params.put("parent", channelData.getId());
+                                    params.put("type", TYPE_SURVEY);
+                                    params.put("name", String.valueOf(fIdx));
+
+                                    mApi.call(api_channels_id_vote, params, new AjaxCallback<JSONObject>() {
+                                        @Override
+                                        public void callback(String url, JSONObject object, AjaxStatus status) {
+                                            super.callback(url, object, status);
+
+                                            if (status.getCode() == 500) {
+                                                EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                                            } else {
+                                                ChannelData channelData = new ChannelData(object);
+                                                ChannelData parentData = channelData.getParent();
+                                                ArrayList<SubLinkData> subLinkDatas = parentData.getSubLinks(TYPE_SURVEY, String.valueOf(fIdx));
+
+                                                voteCount.setText(subLinkDatas.size() + "명");
+
+                                                String actionName = parentData.getActionName(TYPE_SURVEY, AuthHelper.getUserId(mActivity));
+                                                mSurveyPanel.setTag(actionName);
+                                                surveyOptionPanel.setBackgroundResource(R.drawable.feed_new);
+
+                                                EventBus.getDefault().post(new SuccessData(api_channels_id_vote, object));
+                                            }
+
+                                        }
+                                    });
+
+                                }catch (JSONException e) {
+                                    Log.e(TAG, "Error " + e.toString());
+                                }
+                            }
+                        });
+
+                        surveyContentPanel.addView(view);
+                    }
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error " + e.toString());
+                }
+
+
+            }else {
+                mSurveyPanel.setVisibility(View.GONE);
+            }
+        }
     }
 
     protected void setUserName(Activity activity, ChannelData channelData) {
