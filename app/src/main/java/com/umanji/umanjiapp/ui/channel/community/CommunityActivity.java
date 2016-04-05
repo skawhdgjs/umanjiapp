@@ -3,7 +3,6 @@ package com.umanji.umanjiapp.ui.channel.community;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.ui.BaseActivity;
 
 public class CommunityActivity extends BaseActivity {
@@ -12,7 +11,7 @@ public class CommunityActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.overridePendingTransition(R.anim.slide_in_right, R.anim.move_back);
+        //this.overridePendingTransition(R.anim.slide_in_right, R.anim.move_back);
     }
 
     protected Fragment createFragment() {
@@ -22,6 +21,6 @@ public class CommunityActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
-        this.overridePendingTransition(R.anim.move_base, R.anim.slide_out_right);
+        //this.overridePendingTransition(R.anim.move_base, R.anim.slide_out_right);
     }
 }
