@@ -196,7 +196,7 @@ public class CommunityFragment extends BaseChannelFragment {
                 Bundle roleBundle = new Bundle();
                 roleBundle.putString("channel", mChannel.getJsonObject().toString());
                 communityIntent.putExtra("bundle", roleBundle);
-                mActivity.startActivity(communityIntent);
+                startActivity(communityIntent);
                 break;
 
         }
