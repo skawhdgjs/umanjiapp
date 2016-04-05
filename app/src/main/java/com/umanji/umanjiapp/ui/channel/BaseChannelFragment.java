@@ -25,9 +25,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
-import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -285,7 +283,10 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 break;
 
             case EVENT_LOOK_AROUND:
-                mActivity.finish();
+                if(mChannel.getType()!=TYPE_COMMUNITY){
+                    mActivity.finish();
+                }
+
                 break;
         }
     }
