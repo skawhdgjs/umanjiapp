@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,11 @@ import com.umanji.umanjiapp.ui.BaseFragment;
 
 import org.json.JSONObject;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import de.greenrobot.event.EventBus;
 
@@ -37,6 +42,8 @@ public class PostFragment extends BaseFragment {
     protected ImageView mUserPhoto;
     protected ImageView mLookAround;
     protected TextView mName;
+    protected TextView mUserName;
+    protected TextView mCreatedAt;
     protected ImageView mPhoto;
 
     protected LinearLayout metaPanel;
@@ -81,6 +88,9 @@ public class PostFragment extends BaseFragment {
         mLookAround = (ImageView) view.findViewById(R.id.lookAround);
         mLookAround.setOnClickListener(this);
 
+        mUserName = (TextView) view.findViewById(R.id.userName);
+        mCreatedAt = (TextView) view.findViewById(R.id.createdAt);
+
         if(mChannel.getPhoto() != null){
             mPhoto = (ImageView) view.findViewById(R.id.photo);
             mPhoto.setVisibility(View.VISIBLE);
@@ -97,12 +107,32 @@ public class PostFragment extends BaseFragment {
         metaTitle       = (TextView) view.findViewById(R.id.metaTitle);
         metaDesc        = (TextView) view.findViewById(R.id.metaDesc);
 
-        setName(mActivity, mChannel, "없어용~");
+        setName(mActivity, mChannel, "내용없음");
         setUserPhoto(mActivity, mChannel.getOwner());
         setMetaPanel(mActivity, mChannel);
+        setUserName(mActivity, mChannel.getOwner());
+        setCreatedAt(mChannel);
+    }
 
+    protected void setUserName(Activity activity, ChannelData channelData) {
+        if(!TextUtils.isEmpty(channelData.getUserName())) {
+            mUserName.setText(channelData.getUserName());
+        } else {
+            mUserName.setText("아무개");
+        }
+    }
 
-
+    protected void setCreatedAt( ChannelData channelData) {
+        String dateString = channelData.getCreatedAt();
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            Date parsedDate = dateFormat.parse(dateString);
+            Timestamp timestamp = new Timestamp(parsedDate.getTime());
+            mCreatedAt.setText(Helper.toPrettyDate(timestamp.getTime()));
+        }catch(Exception e){
+            Log.e(TAG, "error " + e.toString());
+        }
     }
 
     protected void setUserPhoto(Activity activity, final ChannelData userData) {
