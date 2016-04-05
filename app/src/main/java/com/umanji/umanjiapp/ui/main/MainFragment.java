@@ -11,7 +11,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +28,7 @@ import android.widget.Toast;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -123,8 +123,11 @@ public class MainFragment extends BaseFragment {
      ****************************************************/
     private ChannelData         mUser;
     private JSONArray           mMarkers;
+    private JSONArray           mAds;
     private ChannelData         mCurrentChannel;
     private ChannelData         mSelectedChannel;
+    private ChannelData         mAdChannel;
+
     private ArrayList<ChannelData> mPosts;
 
 
@@ -298,6 +301,7 @@ public class MainFragment extends BaseFragment {
 
         loadMainMarkers();
         loadMainPosts();
+        loadMainAds();
     }
 
     public void loadMoreData() {
@@ -501,10 +505,6 @@ public class MainFragment extends BaseFragment {
 
                 initMyLocation();
             }
-
-
-
-
         }
 
         initMapEvents();
@@ -734,9 +734,10 @@ public class MainFragment extends BaseFragment {
                     }
 
                     loadData();
+
                 }
 
-                loadAds();
+                //loadMainAds();
             }
         });
 
@@ -757,25 +758,73 @@ public class MainFragment extends BaseFragment {
     }
 
     //*******                광고로직 테스트
-    private void loadAds() {
 
-        final int zoom = (int) mMap.getCameraPosition().zoom;
-        switch(zoom){
-            case 18:
-                mAdsImage.setImageResource(R.drawable.ad_sample18_02);
-                break;
-            case 12:
-                mAdsImage.setImageResource(R.drawable.ad_sample14_01);
-                break;
-            case 10:
-                mAdsImage.setImageResource(R.drawable.ad_sample10_01);
-                break;
-            case 8:
-                mAdsImage.setImageResource(R.drawable.ads_umanji_guide);
+    private void loadMainAds() {
 
-                break;
+        try {
+            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+            params.put("zoom", (int) mMap.getCameraPosition().zoom);
+            params.put("limit", 100);
+            //params.put("sort", "point DESC");
+            mApi.call(api_main_findAds, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    if(json == null){
+                        Random rd = new Random();
+                        int randomNum = rd.nextInt(4);
+                        if(randomNum == 0){
+                            mAdsImage.setImageResource(R.drawable.ad_sample18_01);
+                        } else if(randomNum == 2){
+                            mAdsImage.setImageResource(R.drawable.ad_sample18_02);
+                        } else if(randomNum == 1){
+                            mAdsImage.setImageResource(R.drawable.ad_sample);
+                        } else if(randomNum == 3){
+                            mAdsImage.setImageResource(R.drawable.ads_umanji_guide);
+                        }
+                    } else {
+                        addAdsToMap(json);
+                    }
 
-            default:
+                }
+            });
+        }catch (JSONException e) {
+            Log.e(TAG, "Error " + e.toString());
+        }
+    }
+
+
+    private void addAdsToMap(JSONObject jsonObject) {
+        try {
+            mAds = jsonObject.getJSONArray("data");
+
+            int idx = 0;
+
+            if(mAds.length() != 0) {
+                    mAdChannel = new ChannelData(mAds.getJSONObject(idx));
+                    String photo = mAdChannel.getPhoto();
+                    if(!TextUtils.isEmpty(photo)) {
+                        Glide.with(mActivity)
+                                .load(photo)
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                                .into(mAdsImage);
+
+                        mAdsImage.setVisibility(View.VISIBLE);
+                        mAdsImage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String activityType = mAdChannel.getParent().getType();
+                                Helper.startActivity(mActivity, mAdChannel.getParent(), activityType);
+                            }
+                        });
+                    }
+            } else {
+                mAdsImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent webIntent = new Intent(mActivity, WebViewActivity.class);
+                        mActivity.startActivity(webIntent);
+                    }
+                });
                 Random rd = new Random();
                 int randomNum = rd.nextInt(4);
                 if(randomNum == 0){
@@ -787,8 +836,12 @@ public class MainFragment extends BaseFragment {
                 } else if(randomNum == 3){
                     mAdsImage.setImageResource(R.drawable.ads_umanji_guide);
                 }
-                break;
+            }
+
+        }catch(JSONException e) {
+            Log.e(TAG, "error " + e.toString());
         }
+
     }
 
     private void loadMoreMainPosts() {
