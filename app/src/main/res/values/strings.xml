@@ -86,6 +86,7 @@
     <string name="community_create_btn">커뮤니티 생성</string>
     <string name="community_create_success">커뮤니티 생성 성공!</string>
     <string name="community_create_error">네트워크 상태가 좋지 않습니다. 잠시후 다시 시도해주세요.</string>
+    <string name="keyword_explain">주제어 키워드는 한 단어만 등록 가능합니다. 예를들어 축구를 좋아하는 단체의 키워드는 축구로 키워드를 설정하시면 됩니다.</string>
 
     <!-- 키워드 -->
     <string name="keyword_create_btn">키워드 등록</string>

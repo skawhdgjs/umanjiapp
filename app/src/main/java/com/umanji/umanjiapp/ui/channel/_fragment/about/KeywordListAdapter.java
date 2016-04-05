@@ -12,7 +12,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 
 
 public class KeywordListAdapter extends BaseChannelListAdapter {
-    private static final String TAG = "CommunityListAdapter";
+    private static final String TAG = "KeywordListAdapter";
 
     public KeywordListAdapter(BaseActivity activity, Fragment fragment) {
         super(activity, fragment);

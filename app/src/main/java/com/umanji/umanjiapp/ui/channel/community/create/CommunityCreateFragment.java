@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -41,6 +42,9 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
     @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
+
+        mHeaderTitle = (TextView) view.findViewById(R.id.headerTitle);
+        mHeaderTitle.setText("커뮤니티 생성");
 
         mSubmitBtn.setText("커뮤니티 생성");
     }

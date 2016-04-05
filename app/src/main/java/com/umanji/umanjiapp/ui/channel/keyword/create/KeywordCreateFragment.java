@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -39,6 +40,9 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
     @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
+
+        mHeaderTitle = (TextView) view.findViewById(R.id.headerTitle);
+        mHeaderTitle.setText("키워드 설정");
 
         mSubmitBtn.setText("키워드 생성");
     }

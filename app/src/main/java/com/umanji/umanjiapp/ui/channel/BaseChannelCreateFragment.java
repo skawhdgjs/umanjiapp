@@ -41,6 +41,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     protected Button mGallaryBtn;
 
     protected Button mSubmitBtn;
+    protected TextView mHeaderTitle;
     protected TextView mSubmitBtn2;
     protected ImageView mPhoto;
 
