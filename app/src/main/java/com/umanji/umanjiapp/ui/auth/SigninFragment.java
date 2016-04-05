@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
@@ -37,7 +38,7 @@ public class SigninFragment extends BaseFragment {
     private AutoCompleteTextView mEmail;
     private EditText mPassword;
     private Button mSubmit;
-    private Button mSignIn;
+    private TextView mSignIn;
 
 
     /****************************************************
@@ -83,7 +84,7 @@ public class SigninFragment extends BaseFragment {
         mSubmit = (Button)view.findViewById(R.id.submit);
         mSubmit.setOnClickListener(this);
 
-        mSignIn = (Button)view.findViewById(R.id.signup);
+        mSignIn = (TextView)view.findViewById(R.id.signup);
         mSignIn.setOnClickListener(this);
 
 
