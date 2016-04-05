@@ -798,24 +798,6 @@ public class MainFragment extends BaseFragment {
             mAds = jsonObject.getJSONArray("data");
 
             int idx = 0;
-/*
-
-            if(mCurrentChannel != null) {
-                if(Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
-                }else {
-                    mCurrentChannel = null;
-                }
-            }
-
-            if(mSelectedChannel != null) {
-                if(Helper.isInVisibleResion(mMap, new LatLng(mSelectedChannel.getLatitude(), mSelectedChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mSelectedChannel, MARKER_INDEX_CLICKED);
-                }else {
-                    mSelectedChannel = null;
-                }
-            }
-*/
 
             if(mAds.length() != 0) {
                     mAdChannel = new ChannelData(mAds.getJSONObject(idx));
