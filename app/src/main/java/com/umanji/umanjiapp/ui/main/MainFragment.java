@@ -760,11 +760,7 @@ public class MainFragment extends BaseFragment {
     private void loadMainAds() {
 
         try {
-            if(mCurrentMyPosition == null) return ;
-
-            JSONObject params = new JSONObject();
-            params.put("latitude", mCurrentMyPosition.latitude);
-            params.put("longitude", mCurrentMyPosition.longitude);
+            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("level", (int) mMap.getCameraPosition().zoom);
 
             mApi.call(api_main_findAds, params, new AjaxCallback<JSONObject>() {
