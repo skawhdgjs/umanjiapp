@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -26,6 +27,8 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
     protected EditText mStartDay;
     protected EditText mEndDay;
+    protected RadioGroup mRadio;
+    protected int mAdLevel = 18;
 
 
     public static AdsCreateFragment newInstance(Bundle bundle) {
@@ -43,14 +46,36 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
     @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
 
-        mStartDay           = (EditText) view.findViewById(R.id.startDay);
-        mEndDay             = (EditText) view.findViewById(R.id.endDay);
+        mStartDay = (EditText) view.findViewById(R.id.startDay);
+        mEndDay = (EditText) view.findViewById(R.id.endDay);
         mStartDay.setOnClickListener(this);
 
+        mRadio = (RadioGroup) view.findViewById(R.id.radioGroup);
+        mRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // checkedId is the RadioButton selected
+
+                switch (checkedId) {
+                    case R.id.radioButton1:
+                        mAdLevel = 18;
+                        break;
+                    case R.id.radioButton2:
+                        mAdLevel = 15;
+                        break;
+                    case R.id.radioButton3:
+                        mAdLevel = 12;
+                        break;
+                    case R.id.radioButton4:
+                        mAdLevel = 8;
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -59,12 +84,9 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
     }
 
-
     @Override
     protected void submit() {
-
         request();
-
     }
 
     @Override
@@ -72,14 +94,15 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
         try {
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
-            params.put("level", mChannel.getLevel());
+            // params.put("level", mChannel.getLevel());
+            params.put("level", mAdLevel);
             params.put("name", mName.getText().toString());
             params.put("startDay", mStartDay.getText().toString());
             params.put("endDay", mEndDay.getText().toString());
             params.put("type", TYPE_ADS);
 
 
-            if(mPhotoUri != null) {
+            if (mPhotoUri != null) {
                 ArrayList<String> photos = new ArrayList<>();
                 photos.add(mPhotoUri);
                 params.put("photos", new JSONArray(photos));
@@ -88,7 +111,7 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
             mApi.call(api_channels_create, params);
 
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
     }
@@ -105,7 +128,6 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
     }
 
 
-
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -120,11 +142,6 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
         }
     }
-
-
-
-
-
 
 
 }
