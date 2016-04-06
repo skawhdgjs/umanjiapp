@@ -33,6 +33,7 @@ import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
@@ -64,6 +65,9 @@ public class CommunityDistributionFragment extends BaseFragment {
     /****************************************************
      * Etc
      ****************************************************/
+
+    private ChannelData         mChannel;
+
     private ChannelData mUser;
     private JSONArray mMarkers;
     private ChannelData mCurrentChannel;
@@ -99,6 +103,12 @@ public class CommunityDistributionFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if(getArguments() != null) {
+            String jsonString = getArguments().getString("channel");
+            if(jsonString != null) {
+                mChannel = new ChannelData(jsonString);
+            }
+        }
     }
 
     @Override
@@ -130,7 +140,7 @@ public class CommunityDistributionFragment extends BaseFragment {
     @Override
     public void loadData() {
 
-        loadMainMarkers();
+        loadMarkers();
     }
 
     @Override
@@ -428,12 +438,13 @@ public class CommunityDistributionFragment extends BaseFragment {
 
     }
 
-    private void loadMainMarkers() {
+    private void loadMarkers() {
         try {
-            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("zoom", (int) mMap.getCameraPosition().zoom);
-            params.put("limit", 100);
-            params.put("sort", "point DESC");
+            JSONObject params = new JSONObject();
+            ArrayList<SubLinkData> subLinks = mChannel.getSubLinks(TYPE_KEYWORD);
+
+            if(subLinks != null && subLinks.size() < 1) return;
+            params.put("name", subLinks.get(0).getName());
             mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -453,28 +464,10 @@ public class CommunityDistributionFragment extends BaseFragment {
 
             mMarkers = jsonObject.getJSONArray("data");
 
-            int idx = 0;
-
-            if (mCurrentChannel != null) {
-                if (Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
-                } else {
-                    mCurrentChannel = null;
-                }
-            }
-
-            if (mSelectedChannel != null) {
-                if (Helper.isInVisibleResion(mMap, new LatLng(mSelectedChannel.getLatitude(), mSelectedChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mSelectedChannel, MARKER_INDEX_CLICKED);
-                } else {
-                    mSelectedChannel = null;
-                }
-            }
-
             if (mMarkers != null) {
-                for (; idx < mMarkers.length(); idx++) {
+                for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMap(mMap, channelData, idx);
+                    Helper.addMarkerToMap(mMap, channelData.getParent(), idx);
                 }
             }
 

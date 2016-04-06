@@ -140,8 +140,6 @@ public class CommunityFragment extends BaseChannelFragment {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
-
         switch (v.getId()) {
             case R.id.parentInfoCenter:
                 Log.d(TAG, "parentInfoCenter");
@@ -192,11 +190,11 @@ public class CommunityFragment extends BaseChannelFragment {
             case R.id.lookAround:
                 //EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
 
-                Intent communityIntent = new Intent(mActivity, CommunityDistributionActivity.class);
-                Bundle roleBundle = new Bundle();
-                roleBundle.putString("channel", mChannel.getJsonObject().toString());
-                communityIntent.putExtra("bundle", roleBundle);
-                startActivity(communityIntent);
+                Intent intent = new Intent(mActivity, CommunityDistributionActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("channel", mChannel.getJsonObject().toString());
+                intent.putExtra("bundle", bundle);
+                startActivity(intent);
                 break;
 
         }
