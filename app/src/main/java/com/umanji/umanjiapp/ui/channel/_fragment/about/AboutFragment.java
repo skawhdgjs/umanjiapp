@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -154,21 +155,13 @@ public class AboutFragment extends BaseChannelListFragment {
     }
 
     private void setAddBtn(Activity activity, ChannelData channelData) {
-        switch (channelData.getLevel()) {
-            case LEVEL_LOCAL:
-                mAddBtn.setVisibility(View.VISIBLE);
-                mEditChannelBtn.setVisibility(View.VISIBLE);
-                break;
 
-            case LEVEL_COMPLEX:
-                mAddBtn.setVisibility(View.VISIBLE);
-                mEditChannelBtn.setVisibility(View.VISIBLE);
-                break;
-
-            default:
-                mAddBtn.setVisibility(View.GONE);
-                mEditChannelBtn.setVisibility(View.GONE);
-                break;
+        if(TextUtils.equals(channelData.getType(), TYPE_INFO_CENTER)) {
+            mAddBtn.setVisibility(View.GONE);
+            mEditChannelBtn.setVisibility(View.GONE);
+        } else {
+            mAddBtn.setVisibility(View.VISIBLE);
+            mEditChannelBtn.setVisibility(View.VISIBLE);
         }
     }
 
