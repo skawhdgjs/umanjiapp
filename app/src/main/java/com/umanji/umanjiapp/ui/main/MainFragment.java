@@ -802,6 +802,8 @@ public class MainFragment extends BaseFragment {
             if(mAds.length() != 0) {
 
                 Random rd = new Random();
+
+                // bigger than 1
                 int randomNum = rd.nextInt(mAds.length());
 
                 mAdChannel = new ChannelData(mAds.getJSONObject(randomNum));
@@ -812,7 +814,6 @@ public class MainFragment extends BaseFragment {
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                             .into(mAdsImage);
 
-                    mAdsImage.setVisibility(View.VISIBLE);
                     mAdsImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
