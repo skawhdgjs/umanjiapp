@@ -1,13 +1,16 @@
 package com.umanji.umanjiapp.ui.channel.keyword.create;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 
@@ -55,6 +58,16 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
     @Override
     protected void request() {
         try {
+            ArrayList<SubLinkData> subLinks = mChannel.getSubLinks(TYPE_KEYWORD);
+            if(subLinks != null) {
+                for(int idx=0; idx < subLinks.size(); idx++) {
+                    if(TextUtils.equals(mName.getText().toString(), subLinks.get(idx).getName())) {
+                        Toast.makeText(mActivity, "이미 존재하는 키워드 입니다.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+            }
+
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
             params.put("name", mName.getText().toString());
