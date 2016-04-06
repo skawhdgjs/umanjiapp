@@ -443,7 +443,7 @@ public class CommunityDistributionFragment extends BaseFragment {
             JSONObject params = new JSONObject();
             ArrayList<SubLinkData> subLinks = mChannel.getSubLinks(TYPE_KEYWORD);
 
-            if(subLinks != null && subLinks.size() < 1) return;
+            if(subLinks == null || subLinks.size() < 1) return;
             params.put("name", subLinks.get(0).getName());
             mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
                 @Override
