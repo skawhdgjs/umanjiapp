@@ -27,6 +27,8 @@ import com.umanji.umanjiapp.ui.distribution.CommunityDistributionActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.greenrobot.event.EventBus;
+
 public class CommunityFragment extends BaseChannelFragment {
     private static final String TAG = "SpotFragment";
 
@@ -93,7 +95,10 @@ public class CommunityFragment extends BaseChannelFragment {
         super.updateView();
 
         setName(mActivity, mChannel, "커뮤니티");
-        setPhoto(mActivity, mChannel, R.drawable.multi_spot_background);
+        setPhoto(mActivity, mChannel, R.drawable.community_background);
+
+        mLookLink.setVisibility(View.VISIBLE);
+        mLookLink.setOnClickListener(this);
 
         if(mParentChannel != null) {
             setParentName(mActivity, mParentChannel);
@@ -188,15 +193,16 @@ public class CommunityFragment extends BaseChannelFragment {
                 break;
 
             case R.id.lookAround:
-                //EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                break;
 
+            case R.id.lookLink:
                 Intent intent = new Intent(mActivity, CommunityDistributionActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("channel", mChannel.getJsonObject().toString());
                 intent.putExtra("bundle", bundle);
                 startActivity(intent);
                 break;
-
         }
     }
 

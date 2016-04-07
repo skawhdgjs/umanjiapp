@@ -51,6 +51,7 @@ public class CommunityListAdapter extends BaseChannelListAdapter {
         setPhoto(holder, channelData);
         setUserPhoto(holder, channelData.getOwner());
         setStar(holder, channelData);
+        setKeywords(holder, channelData);
     }
 
     @Override

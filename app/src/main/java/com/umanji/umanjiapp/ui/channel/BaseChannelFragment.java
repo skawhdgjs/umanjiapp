@@ -60,6 +60,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     protected ImageView mUserPhoto;
     protected ImageView mLookAround;
+    protected ImageView mLookLink;
     protected TextView mMemberCount;
     protected TextView mPoint;
     protected TextView mLevel;
@@ -161,6 +162,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
         mLookAround = (ImageView) view.findViewById(R.id.lookAround);
         mLookAround.setOnClickListener(this);
+
+        mLookLink = (ImageView) view.findViewById(R.id.lookLink);
 
         mMemberCount = (TextView) view.findViewById(R.id.memberCount);
         mPoint = (TextView) view.findViewById(R.id.point);
@@ -286,7 +289,6 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 if(mChannel.getType()!=TYPE_COMMUNITY){
                     mActivity.finish();
                 }
-
                 break;
         }
     }
@@ -303,9 +305,11 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     startActivity(intent);
                 }
                 break;
+
             case R.id.lookAround:
                 EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
                 break;
+
         }
     }
 

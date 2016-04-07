@@ -241,8 +241,8 @@
                         <com.makeramen.roundedimageview.RoundedImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/lookAround"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:src="@drawable/maps_look_around"
                             android:scaleType="fitXY"
                             app:riv_border_color="@color/colorPrimary"
@@ -253,6 +253,22 @@
                             android:layout_alignParentTop="true"
                             android:layout_alignRight="@+id/userPhoto"
                             android:layout_alignEnd="@+id/userPhoto"/>
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/lookLink"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/maps_look_link"
+                            android:scaleType="fitXY"
+                            android:visibility="gone"
+                            app:riv_border_color="@color/colorPrimary"
+                            app:riv_border_width="1px"
+                            app:riv_corner_radius="5dp"
+                            app:riv_oval="false"
+                            android:layout_centerVertical="true"
+                            android:layout_alignLeft="@+id/lookAround"
+                            android:layout_alignStart="@+id/lookAround" />
 
                         <ImageView
                             app:layout_collapseMode="parallax"
