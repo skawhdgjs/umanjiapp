@@ -100,6 +100,7 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
             params.put("startDay", mStartDay.getText().toString());
             params.put("endDay", mEndDay.getText().toString());
             params.put("type", TYPE_ADS);
+            params.put("userName", mChannel.getUserName());
 
 
             if (mPhotoUri != null) {

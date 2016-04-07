@@ -28,6 +28,7 @@ import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.model.VoteData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.umanji.umanjiapp.ui.channel.advertise.AdsCreateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,6 +61,7 @@ public class PostFragment extends BaseFragment {
     protected ImageView metaPhoto;
     protected TextView metaTitle;
     protected TextView metaDesc;
+    protected TextView mPostAd;
 
     protected LinearLayout mSurveyPanel;
 
@@ -127,6 +129,9 @@ public class PostFragment extends BaseFragment {
         setSurvey(mActivity, mChannel);
         setUserName(mActivity, mChannel.getOwner());
         setCreatedAt(mChannel);
+
+        mPostAd = (TextView) view.findViewById(R.id.postAd);
+        mPostAd.setOnClickListener(this);
     }
 
     protected void setSurvey(Activity activity, final ChannelData channelData) {
@@ -396,6 +401,17 @@ public class PostFragment extends BaseFragment {
         switch(v.getId()){
             case R.id.lookAround:
                 EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                break;
+
+            // postAd
+            case R.id.postAd:
+                Bundle adsBundle = new Bundle();
+                adsBundle.putString("channel", mChannel.getJsonObject().toString());
+                adsBundle.putString("userName", mChannel.getUserName());
+                adsBundle.putString("name", mChannel.getName());
+                Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
+                adsIntent.putExtra("bundle", adsBundle);
+                startActivity(adsIntent);
                 break;
         }
     }
