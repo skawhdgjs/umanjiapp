@@ -798,13 +798,10 @@ public class MainFragment extends BaseFragment {
         try {
             mAds = jsonObject.getJSONArray("data");
 
-            int idx = 0;
-
             if(mAds.length() != 0) {
 
                 Random rd = new Random();
 
-                // bigger than 1
                 int randomNum = rd.nextInt(mAds.length());
 
                 mAdChannel = new ChannelData(mAds.getJSONObject(randomNum));
