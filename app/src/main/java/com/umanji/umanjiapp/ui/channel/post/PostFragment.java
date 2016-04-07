@@ -125,6 +125,7 @@ public class PostFragment extends BaseFragment {
 
         setName(mActivity, mChannel, "내용없음");
         setUserPhoto(mActivity, mChannel.getOwner());
+        setPhoto(mActivity, mChannel);
         setMetaPanel(mActivity, mChannel);
         setSurvey(mActivity, mChannel);
         setUserName(mActivity, mChannel.getOwner());
@@ -132,6 +133,54 @@ public class PostFragment extends BaseFragment {
 
         mPostAd = (TextView) view.findViewById(R.id.postAd);
         mPostAd.setOnClickListener(this);
+    }
+
+    protected void setPhoto(Activity activity, final ChannelData channelData) {
+        String photo = channelData.getPhoto();
+        if(!TextUtils.isEmpty(photo)) {
+            Glide.with(mActivity)
+                    .load(photo)
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(mPhoto);
+
+            mPhoto.setVisibility(View.VISIBLE);
+
+            mPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startImageViewActivity(mActivity, channelData);
+                }
+            });
+        }else {
+            mPhoto.setVisibility(View.GONE);
+        }
+    }
+
+    protected void setUserPhoto(Activity activity, final ChannelData userData) {
+        if(userData != null) {
+            String userPhoto = userData.getPhoto();
+            if(userPhoto != null) {
+                Glide.with(mActivity)
+                        .load(userPhoto)
+                        .placeholder(R.drawable.empty)
+                        .animate(R.anim.abc_fade_in)
+                        .override(40, 40)
+                        .into(mUserPhoto);
+            }
+
+            mUserPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startActivity(mActivity, userData);
+                }
+            });
+
+        } else {
+            Glide.with(mActivity)
+                    .load(R.drawable.avatar_default_0)
+                    .animate(R.anim.abc_fade_in)
+                    .into(mUserPhoto);
+        }
     }
 
     protected void setSurvey(Activity activity, final ChannelData channelData) {
@@ -273,33 +322,6 @@ public class PostFragment extends BaseFragment {
             mCreatedAt.setText(Helper.toPrettyDate(timestamp.getTime()));
         }catch(Exception e){
             Log.e(TAG, "error " + e.toString());
-        }
-    }
-
-    protected void setUserPhoto(Activity activity, final ChannelData userData) {
-        if(userData != null) {
-            String userPhoto = userData.getPhoto();
-            if(userPhoto != null) {
-                Glide.with(mActivity)
-                        .load(userPhoto)
-                        .placeholder(R.drawable.empty)
-                        .animate(R.anim.abc_fade_in)
-                        .override(40, 40)
-                        .into(mUserPhoto);
-            }
-
-            mUserPhoto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Helper.startActivity(mActivity, userData);
-                }
-            });
-
-        } else {
-            Glide.with(mActivity)
-                    .load(R.drawable.avatar_default_0)
-                    .animate(R.anim.abc_fade_in)
-                    .into(mUserPhoto);
         }
     }
 

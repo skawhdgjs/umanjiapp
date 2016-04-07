@@ -813,8 +813,19 @@ public class MainFragment extends BaseFragment {
                     mAdsImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String activityType = mAdChannel.getParent().getType();
-                            Helper.startActivity(mActivity, mAdChannel.getParent(), activityType);
+                            try {
+                                JSONObject params = new JSONObject();
+                                params.put("id", mAdChannel.getParent().getId());
+                                mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                                    @Override
+                                    public void callback(String url, JSONObject object, AjaxStatus status) {
+                                        ChannelData channel = new ChannelData(object);
+                                        Helper.startActivity(mActivity, channel, channel.getType());
+                                    }
+                                });
+                            } catch(JSONException e) {
+                                Log.e(TAG, "error " + e.toString());
+                            }
                         }
                     });
                 }

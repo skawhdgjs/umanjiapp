@@ -107,6 +107,10 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
                 photos.add(mPhotoUri);
                 params.put("photos", new JSONArray(photos));
                 mPhotoUri = null;
+            } else if( mChannel.getPhoto() != null) {
+                ArrayList<String> photos = new ArrayList<>();
+                photos.add(mChannel.getPhoto());
+                params.put("photos", new JSONArray(photos));
             }
 
             mApi.call(api_channels_create, params);
