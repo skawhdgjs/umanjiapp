@@ -145,7 +145,7 @@ public class CommunityListAdapter extends BaseChannelListAdapter {
 
         } else {
             Glide.with(mActivity)
-                    .load(R.drawable.community_default)
+                    .load(R.drawable.community_background)
                     .into(holder.photo);
         }
 

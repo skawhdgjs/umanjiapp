@@ -22,6 +22,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.about.AboutFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
+import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.distribution.CommunityDistributionActivity;
 
 import org.json.JSONException;
@@ -99,6 +100,8 @@ public class CommunityFragment extends BaseChannelFragment {
 
         mLookLink.setVisibility(View.VISIBLE);
         mLookLink.setOnClickListener(this);
+
+        //mFab.setVisibility(View.VISIBLE);
 
         if(mParentChannel != null) {
             setParentName(mActivity, mParentChannel);
@@ -192,6 +195,16 @@ public class CommunityFragment extends BaseChannelFragment {
                 }
                 break;
 
+            case R.id.fab:
+                if (mCurrentTapPosition == 0) {
+                    Intent intent = new Intent(mActivity, PostCreateActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mChannel.getJsonObject().toString());
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+                }
+                break;
+
             case R.id.lookAround:
                 EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
                 break;
@@ -249,5 +262,12 @@ public class CommunityFragment extends BaseChannelFragment {
                 Log.e(TAG, "error " + e.toString());
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mFab.setVisibility(View.GONE);
     }
 }
