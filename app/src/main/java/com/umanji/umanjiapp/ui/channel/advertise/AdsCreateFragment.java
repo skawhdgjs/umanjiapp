@@ -8,8 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 import com.umanji.umanjiapp.ui.modal.calendar.AdsCalendarActivity;
@@ -26,9 +32,17 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
 
     protected EditText mStartDay;
+    protected TextView mCurrentPoint;
     protected EditText mEndDay;
     protected RadioGroup mRadio;
+
+//    protected Button mSubmitBtn;
+//    protected Button mSubmitBtn2;
+
     protected int mAdLevel = 18;
+
+    int intPoint;
+    String mPoint;
 
 
     public static AdsCreateFragment newInstance(Bundle bundle) {
@@ -48,10 +62,41 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
     }
 
     @Override
+    public View getView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.activity_ads_create, container, false);
+
+    }
+
+
+    @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
 
+        //intPoint = 2800; // 3000보다 작게 해 놓음.
+        try {
+            JSONObject params = new JSONObject();
+            params.put("id", AuthHelper.getUserId(mActivity));
+            mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    mChannel = new ChannelData(object);
+                    intPoint = mChannel.getPoint();
+                    mPoint = Integer.toString(intPoint);
+
+                    mCurrentPoint.setText(mPoint + " p");
+                }
+            });
+            updateView();
+        } catch(JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+
+
+
         mStartDay = (EditText) view.findViewById(R.id.startDay);
+        mCurrentPoint = (TextView) view.findViewById(R.id.currentPoint);
+        mCurrentPoint.setText(mPoint + " p");
+
         mEndDay = (EditText) view.findViewById(R.id.endDay);
         mStartDay.setOnClickListener(this);
 
@@ -76,17 +121,23 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
                 }
             }
         });
+//
+//        mSubmitBtn = (Button) view.findViewById(R.id.submitBtn);
+//        mSubmitBtn.setOnClickListener(this);
+//        mSubmitBtn2 = (Button) view.findViewById(R.id.submitBtn2);
+//        mSubmitBtn2.setOnClickListener(this);
+//
     }
 
-    @Override
-    public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_ads_create, container, false);
 
-    }
 
     @Override
     protected void submit() {
-        request();
+        if( intPoint > 3000){
+            request();
+        } else {
+            Toast.makeText(mActivity, "포인트가 부족합니다.", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -140,12 +191,9 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
             case R.id.startDay:
                 Intent i = new Intent(mActivity, AdsCalendarActivity.class);
                 startActivity(i);
-
-
                 break;
 
         }
     }
-
 
 }
