@@ -248,7 +248,11 @@ public class PostFragment extends BaseFragment {
 
     protected void setUserName(Activity activity, ChannelData channelData) {
         if(!TextUtils.isEmpty(channelData.getUserName())) {
-            mUserName.setText(channelData.getUserName());
+            if(channelData.getName()==null){
+                mUserName.setText(channelData.getName());
+            } else {
+                mUserName.setText(channelData.getUserName());
+            }
         } else {
             mUserName.setText("아무개");
         }
@@ -407,8 +411,6 @@ public class PostFragment extends BaseFragment {
             case R.id.postAd:
                 Bundle adsBundle = new Bundle();
                 adsBundle.putString("channel", mChannel.getJsonObject().toString());
-                adsBundle.putString("userName", mChannel.getUserName());
-                adsBundle.putString("name", mChannel.getName());
                 Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
                 adsIntent.putExtra("bundle", adsBundle);
                 startActivity(adsIntent);
