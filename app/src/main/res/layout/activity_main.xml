@@ -32,7 +32,7 @@
                 android:layout_width="400dp"
                 android:layout_height="53dp"
                 android:id="@+id/ads_image"
-                android:src="@drawable/ad_sample"
+                android:src="@drawable/ads_umanji_guide"
                 android:scaleType="fitXY"/>
 
             <RelativeLayout
