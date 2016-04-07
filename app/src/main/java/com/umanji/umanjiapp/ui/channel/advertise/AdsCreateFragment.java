@@ -36,9 +36,6 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
     protected EditText mEndDay;
     protected RadioGroup mRadio;
 
-//    protected Button mSubmitBtn;
-//    protected Button mSubmitBtn2;
-
     protected int mAdLevel = 18;
 
     int intPoint;
@@ -72,15 +69,14 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
     public void initWidgets(View view) {
         super.initWidgets(view);
 
-        //intPoint = 2800; // 3000보다 작게 해 놓음.
         try {
             JSONObject params = new JSONObject();
             params.put("id", AuthHelper.getUserId(mActivity));
             mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
-                    mChannel = new ChannelData(object);
-                    intPoint = mChannel.getPoint();
+                    ChannelData mLogUserData = new ChannelData(object);
+                    intPoint = mLogUserData.getPoint();
                     mPoint = Integer.toString(intPoint);
 
                     mCurrentPoint.setText(mPoint + " p");
@@ -121,12 +117,7 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
                 }
             }
         });
-//
-//        mSubmitBtn = (Button) view.findViewById(R.id.submitBtn);
-//        mSubmitBtn.setOnClickListener(this);
-//        mSubmitBtn2 = (Button) view.findViewById(R.id.submitBtn2);
-//        mSubmitBtn2.setOnClickListener(this);
-//
+
     }
 
 
