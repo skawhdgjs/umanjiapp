@@ -768,7 +768,7 @@ public class MainFragment extends BaseFragment {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     if(json == null){
                         Random rd = new Random();
-                        int randomNum = rd.nextInt(4);
+                        int randomNum = rd.nextInt(6);
                         if(randomNum == 0){
                             mAdsImage.setImageResource(R.drawable.ad_sample18_01);
                         } else if(randomNum == 2){
@@ -777,7 +777,12 @@ public class MainFragment extends BaseFragment {
                             mAdsImage.setImageResource(R.drawable.ad_sample);
                         } else if(randomNum == 3){
                             mAdsImage.setImageResource(R.drawable.ads_umanji_guide);
+                        } else if(randomNum == 4){
+                            mAdsImage.setImageResource(R.drawable.ad_sample01);
+                        } else if(randomNum == 5){
+                            mAdsImage.setImageResource(R.drawable.ad_sample02);
                         }
+
                     } else {
                         addAdsToMap(json);
                     }
@@ -827,7 +832,7 @@ public class MainFragment extends BaseFragment {
                     }
                 });
                 Random rd = new Random();
-                int randomNum = rd.nextInt(4);
+                int randomNum = rd.nextInt(6);
                 if(randomNum == 0){
                     mAdsImage.setImageResource(R.drawable.ad_sample18_01);
                 } else if(randomNum == 2){
@@ -836,6 +841,10 @@ public class MainFragment extends BaseFragment {
                     mAdsImage.setImageResource(R.drawable.ad_sample);
                 } else if(randomNum == 3){
                     mAdsImage.setImageResource(R.drawable.ads_umanji_guide);
+                } else if(randomNum == 4){
+                    mAdsImage.setImageResource(R.drawable.ad_sample01);
+                } else if(randomNum == 5){
+                    mAdsImage.setImageResource(R.drawable.ad_sample02);
                 }
             }
 
