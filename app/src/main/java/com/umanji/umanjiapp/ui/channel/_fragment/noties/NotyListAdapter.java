@@ -68,6 +68,27 @@ public class NotyListAdapter extends BaseChannelListAdapter {
         }
 
         switch (channelData.getType()) {
+            case TYPE_ADS:
+                holder.desc.setText("광고");
+                holder.name.setVisibility(View.VISIBLE);
+                holder.name.setText("광고를 등록하였습니다.");
+
+                try {
+                    JSONObject params = new JSONObject();
+                    params.put("id", parentData.getId());
+                    mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject object, AjaxStatus status) {
+                            ChannelData channel = new ChannelData(object);
+                            setNotyClickEvent(holder, channel);
+                        }
+                    });
+
+                } catch(JSONException e) {
+                    Log.e(TAG, "error " + e.toString());
+                }
+
+                break;
             case TYPE_POST:
                 holder.desc.setText("글작성");
                 holder.name.setVisibility(View.VISIBLE);
