@@ -105,8 +105,8 @@ public class PostFragment extends BaseFragment {
         mUserName = (TextView) view.findViewById(R.id.userName);
         mCreatedAt = (TextView) view.findViewById(R.id.createdAt);
 
+        mPhoto = (ImageView) view.findViewById(R.id.photo);
         if(mChannel.getPhoto() != null){
-            mPhoto = (ImageView) view.findViewById(R.id.photo);
             mPhoto.setVisibility(View.VISIBLE);
         }
 
