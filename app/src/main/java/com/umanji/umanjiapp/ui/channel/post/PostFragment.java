@@ -247,15 +247,20 @@ public class PostFragment extends BaseFragment {
     }
 
     protected void setUserName(Activity activity, ChannelData channelData) {
-        if(!TextUtils.isEmpty(channelData.getUserName())) {
-            if(channelData.getName()==null){
-                mUserName.setText(channelData.getName());
+        if(channelData == null){
+            if(!TextUtils.isEmpty(mChannel.getUserName())) {
+                mUserName.setText(mChannel.getUserName());
             } else {
-                mUserName.setText(channelData.getUserName());
+                mUserName.setText("아무개");
             }
         } else {
-            mUserName.setText("아무개");
+            if(!TextUtils.isEmpty(channelData.getUserName())) {
+                mUserName.setText(channelData.getUserName());
+            } else {
+                mUserName.setText("아무개");
+            }
         }
+
     }
 
     protected void setCreatedAt( ChannelData channelData) {
