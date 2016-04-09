@@ -3,6 +3,7 @@ package com.umanji.umanjiapp.ui.modal;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.umanji.umanjiapp.R;
 
@@ -22,10 +23,17 @@ public class WebViewActivity extends AppCompatActivity {
             linkUrl = extras.getString("url");
         }
 
-
-
         webView = (WebView) findViewById(R.id.webView1);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(linkUrl);
+        webView.setWebViewClient(new WebViewClientClass());
+    }
+
+    private class WebViewClientClass extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
     }
 }

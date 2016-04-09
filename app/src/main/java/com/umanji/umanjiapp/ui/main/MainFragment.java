@@ -108,7 +108,8 @@ public class MainFragment extends BaseFragment {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
+            Manifest.permission.CAMERA,
+            Manifest.permission.INTERNET,
     };
 
 
@@ -200,6 +201,8 @@ public class MainFragment extends BaseFragment {
                     ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE) ==
                             PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA) ==
+                            PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(mActivity, Manifest.permission.INTERNET) ==
                             PackageManager.PERMISSION_GRANTED)  {
                 initMap();
             } else {
