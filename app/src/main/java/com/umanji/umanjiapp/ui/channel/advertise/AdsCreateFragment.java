@@ -1,12 +1,12 @@
 package com.umanji.umanjiapp.ui.channel.advertise;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,17 +24,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class AdsCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "AdsCreateFragment";
 
 
-    protected EditText mStartDay;
+    protected TextView mStartDay;
     protected TextView mCurrentPoint;
-    protected EditText mEndDay;
+    protected TextView mEndDay;
     protected RadioGroup mRadio;
+    protected String startDay   = "2016 04 09";
+    protected String endDay     = "2016 04 10";
+
 
     protected int mAdLevel = 18;
 
@@ -83,18 +88,19 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
                 }
             });
             updateView();
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
 
 
+        mStartDay = (TextView) view.findViewById(R.id.startDay);
+        mStartDay.setOnClickListener(this);
 
-        mStartDay = (EditText) view.findViewById(R.id.startDay);
         mCurrentPoint = (TextView) view.findViewById(R.id.currentPoint);
         mCurrentPoint.setText(mPoint + " p");
 
-        mEndDay = (EditText) view.findViewById(R.id.endDay);
-        mStartDay.setOnClickListener(this);
+        mEndDay = (TextView) view.findViewById(R.id.endDay);
+        mEndDay.setOnClickListener(this);
 
         mRadio = (RadioGroup) view.findViewById(R.id.radioGroup);
         mRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -118,13 +124,32 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
             }
         });
 
+
+
+        mStartDay.setText(startDay);
+        mEndDay.setText(endDay);
+
     }
 
+    protected void calculateDate(){
+        // calculate Date
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy MM dd");
+
+        try {
+            Date date1 = myFormat.parse(startDay);
+            Date date2 = myFormat.parse(endDay);
+            long diff = date2.getTime() - date1.getTime();
+            // System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Override
     protected void submit() {
-        if( intPoint > 3000){
+        if (intPoint > 3000) {
             request();
         } else {
             Toast.makeText(mActivity, "포인트가 부족합니다.", Toast.LENGTH_LONG).show();
@@ -149,7 +174,7 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
                 photos.add(mPhotoUri);
                 params.put("photos", new JSONArray(photos));
                 mPhotoUri = null;
-            } else if( mChannel.getPhoto() != null) {
+            } else if (mChannel.getPhoto() != null) {
                 ArrayList<String> photos = new ArrayList<>();
                 photos.add(mChannel.getPhoto());
                 params.put("photos", new JSONArray(photos));
@@ -181,10 +206,36 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
         switch (v.getId()) {
             case R.id.startDay:
                 Intent i = new Intent(mActivity, AdsCalendarActivity.class);
-                startActivity(i);
+                startActivityForResult(i, 0);
+                break;
+            case R.id.endDay:
+                Intent iEnd = new Intent(mActivity, AdsCalendarActivity.class);
+                startActivityForResult(iEnd, 1);
                 break;
 
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result=data.getStringExtra("result");
+                mStartDay.setText(result);
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // Handle cancel
+            }
+        }
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result=data.getStringExtra("result");
+                mEndDay.setText(result);
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // Handle cancel
+            }
+        }
+    }
+
 }
+
+
