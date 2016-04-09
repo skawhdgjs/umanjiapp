@@ -94,7 +94,7 @@ public class ReplyFragment extends BaseChannelListFragment {
     @Override
     public void initWidgets(View view) {
 
-        mEmptyStates = (ImageView) view.findViewById(R.id.empty_states);
+//        mEmptyStates = (ImageView) view.findViewById(R.id.empty_states);
 
 
         mUserPhoto = (ImageView) view.findViewById(R.id.userPhoto);
@@ -490,7 +490,7 @@ public class ReplyFragment extends BaseChannelListFragment {
 
                             if(jsonArray.length() == 0) {
 
-                                mEmptyStates.setVisibility(View.VISIBLE);
+//                                mEmptyStates.setVisibility(View.VISIBLE);
                                 updateView();
 
                             } else {
