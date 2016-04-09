@@ -192,12 +192,6 @@ public class MainFragment extends BaseFragment {
         }
 
         initWidgets(view);
-        initMap();
-
-
-        if(!TextUtils.isEmpty(mChannelIdForPush)) {
-            startActivityForPush();
-        }
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
@@ -207,10 +201,16 @@ public class MainFragment extends BaseFragment {
                             PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA) ==
                             PackageManager.PERMISSION_GRANTED)  {
-
+                initMap();
             } else {
                 requestPermissions(PERMS, PERMS_REQUEST);
             }
+        } else {
+            initMap();
+        }
+
+        if(!TextUtils.isEmpty(mChannelIdForPush)) {
+            startActivityForPush();
         }
 
         return view;
@@ -446,10 +446,7 @@ public class MainFragment extends BaseFragment {
         switch(requestCode) {
             case PERMS_REQUEST:
                 if (canAccessLocation()) {
-                    mMap.setMyLocationEnabled(true);
-                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                    initMyLocation();
+                    initMap();
                 }
                 break;
         }
@@ -481,30 +478,12 @@ public class MainFragment extends BaseFragment {
             final float scale = getResources().getDisplayMetrics().density;
             int paddingInPx = (int) (paddingInDp * scale + 0.5f);
 
-
-
             mMap.setPadding(0, paddingInPx, 0, 0);
             mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-            if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
-                if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
-                        PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
-                                PackageManager.PERMISSION_GRANTED) {
-                    mMap.setMyLocationEnabled(true);
-                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                    initMyLocation();
-                } else {
-                    requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
-                }
-            } else{
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                initMyLocation();
-            }
+            initMyLocation();
         }
 
         initMapEvents();

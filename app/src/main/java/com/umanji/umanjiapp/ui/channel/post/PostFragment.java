@@ -54,6 +54,8 @@ public class PostFragment extends BaseFragment {
     protected ImageView mLookAround;
     protected TextView mName;
     protected TextView mUserName;
+    protected TextView mParentName;
+
     protected TextView mCreatedAt;
     protected ImageView mPhoto;
 
@@ -103,6 +105,8 @@ public class PostFragment extends BaseFragment {
         mLookAround.setOnClickListener(this);
 
         mUserName = (TextView) view.findViewById(R.id.userName);
+        mParentName = (TextView) view.findViewById(R.id.parentName);
+
         mCreatedAt = (TextView) view.findViewById(R.id.createdAt);
 
         mPhoto = (ImageView) view.findViewById(R.id.photo);
@@ -129,10 +133,49 @@ public class PostFragment extends BaseFragment {
         setMetaPanel(mActivity, mChannel);
         setSurvey(mActivity, mChannel);
         setUserName(mActivity, mChannel.getOwner());
+        setParentName(mActivity, mChannel.getParent());
         setCreatedAt(mChannel);
 
         mPostAd = (TextView) view.findViewById(R.id.postAd);
         mPostAd.setOnClickListener(this);
+    }
+
+    protected void setParentName(Activity activity, final ChannelData parentChannelData) {
+        String parentId = "";
+        if(mChannel != null ) parentId = mChannel.getId();
+        if(parentChannelData != null && !TextUtils.equals(parentChannelData.getId(), parentId)) {
+            mParentName.setVisibility(View.VISIBLE);
+
+            if(TextUtils.isEmpty(parentChannelData.getName())) {
+                mParentName.setText("이름없음");
+            }else {
+                mParentName.setText(Helper.getShortenString(parentChannelData.getName()));
+            }
+
+            mParentName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("id", parentChannelData.getId());
+
+                        mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject object, AjaxStatus status) {
+                                ChannelData channelData = new ChannelData(object);
+                                Helper.startActivity(mActivity, channelData);
+                            }
+                        });
+                    }catch (JSONException e) {
+                        Log.e(TAG, "Error " + e.toString());
+                    }
+                }
+            });
+
+        }else {
+            mParentName.setVisibility(View.GONE);
+        }
+
     }
 
     protected void setPhoto(Activity activity, final ChannelData channelData) {

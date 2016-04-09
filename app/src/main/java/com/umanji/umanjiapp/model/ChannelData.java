@@ -252,7 +252,12 @@ public class ChannelData {
     }
 
     public void setOwner(ChannelData owner) {
-        this.owner = owner;
+        try {
+            jsonObject.put("owner", owner.getJsonObject());
+            this.owner = owner;
+        } catch (JSONException e) {
+            Log.e("Error", e.toString());
+        }
     }
 
     public String getOwnerId() {
@@ -268,7 +273,12 @@ public class ChannelData {
     }
 
     public void setParent(ChannelData parent) {
-        this.parent = parent;
+        try {
+            jsonObject.put("parent", parent.getJsonObject());
+            this.parent = parent;
+        } catch (JSONException e) {
+            Log.e("Error", e.toString());
+        }
     }
 
     public String getParentId() {

@@ -73,10 +73,12 @@ public class NotyListFragment extends BaseChannelListFragment {
                                 JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                 NotyData notyData = new NotyData(jsonDoc);
 
-                                if(!hasNewNoty) {
-                                    hasNewNoty = !notyData.isRead();
+                                if(notyData.getChannel().getId() != null && notyData.getParent().getId() != null) {
+                                    if(!hasNewNoty) {
+                                        hasNewNoty = !notyData.isRead();
+                                    }
+                                    ((NotyListAdapter)mAdapter).addBottom(notyData);
                                 }
-                                ((NotyListAdapter)mAdapter).addBottom(notyData);
                             }
 
                             updateView();

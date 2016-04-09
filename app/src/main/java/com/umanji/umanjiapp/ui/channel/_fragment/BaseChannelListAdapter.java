@@ -683,6 +683,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         // for survey
         public final LinearLayout surveyPanel;
 
+        public final TextView     surveyName;
+
 
 
         public ViewHolder(View view) {
@@ -722,6 +724,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             star            = (ImageView) view.findViewById(R.id.star);
 
             mRole           = (TextView) view.findViewById(R.id.roles);
+            surveyName      = (TextView) view.findViewById(R.id.surveyName);
+
         }
     }
 }
