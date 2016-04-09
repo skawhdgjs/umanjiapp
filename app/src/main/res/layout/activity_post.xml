@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:gravity="center_horizontal">
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -43,196 +42,202 @@
         android:layout_alignParentBottom="true">
 
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:layout_marginTop="5dp"
-                        android:padding="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            >
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/userPhoto"
-                android:layout_width="@dimen/list_item_avatar_size"
-                android:layout_height="@dimen/list_item_avatar_size"
-                android:layout_marginRight="16dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/avatar_default_0"
-                app:riv_border_color="@color/colorPrimary"
-                app:riv_border_width="1px"
-                app:riv_corner_radius="5dp"
-                app:riv_oval="false"/>
-
-            <TextView
-                android:id="@+id/userName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:text="bruce"
-                android:textSize="16dp"
-                android:layout_alignBottom="@+id/lookAround"
-                android:layout_alignLeft="@+id/createdAt"
-                android:layout_alignStart="@+id/createdAt" />
-
-            <TextView
-                android:id="@+id/parentName"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12dp"
-                android:textColor="@color/text"
-                android:textStyle="bold"
-                android:text="이름없음"
-                android:layout_marginTop="0dp"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentRight="false"
-                android:layout_toRightOf="@+id/userName"
-                android:padding="5dp"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/createdAt"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:textAppearance="?attr/textAppearanceListItem"
-                android:text="2015:11:05"
-                android:textSize="10dp"
-                android:textColor="@color/text"
-                android:layout_below="@+id/userName"
-                android:layout_toRightOf="@+id/userPhoto"
-                />
+                android:background="@color/white"
+                android:padding="5dp">
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/lookAround"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/maps_look_around"
-                android:scaleType="fitXY"
-                app:riv_border_color="@color/colorPrimary"
-                app:riv_border_width="1px"
-                app:riv_corner_radius="5dp"
-                app:riv_oval="false"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/createdAt"
-                android:layout_alignEnd="@+id/createdAt"
-                android:layout_marginRight="10dp"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/linearLayout"
-                android:layout_below="@+id/userPhoto">
+                <com.makeramen.roundedimageview.RoundedImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/userPhoto"
+                    android:layout_width="@dimen/list_item_avatar_size"
+                    android:layout_height="@dimen/list_item_avatar_size"
+                    android:layout_marginRight="16dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/avatar_default_0"
+                    app:riv_border_color="@color/colorPrimary"
+                    app:riv_border_width="1px"
+                    app:riv_corner_radius="5dp"
+                    app:riv_oval="false"/>
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/userName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?attr/textAppearanceListItem"
-                    android:text="내용입니다."
-                    android:layout_marginTop="17dp"
-                    android:textColor="@color/text"
-                    android:layout_below="@+id/userPhoto"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginBottom="5dp"
-                    android:autoLink="all"/>
+                    android:text="bruce"
+                    android:textSize="16dp"
+                    android:layout_alignBottom="@+id/lookAround"
+                    android:layout_alignLeft="@+id/createdAt"
+                    android:layout_alignStart="@+id/createdAt" />
 
-
-                <ImageView
-                    android:id="@+id/photo"
+                <TextView
+                    android:id="@+id/parentName"
+                    android:textAppearance="?attr/textAppearanceListItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:scaleType="fitStart"
-                    android:src="@drawable/empty"
-                    android:layout_below="@+id/name"
+                    android:textSize="12dp"
+                    android:textColor="@color/text"
+                    android:textStyle="bold"
+                    android:text="이름없음"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentRight="false"
+                    android:layout_toRightOf="@+id/userName"
+                    android:padding="5dp"
                     android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/createdAt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:textAppearance="?attr/textAppearanceListItem"
+                    android:text="2015:11:05"
+                    android:textSize="10dp"
+                    android:textColor="@color/text"
+                    android:layout_below="@+id/userName"
+                    android:layout_toRightOf="@+id/userPhoto"
+                    />
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/lookAround"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/maps_look_around"
+                    android:scaleType="fitXY"
+                    app:riv_border_color="@color/colorPrimary"
+                    app:riv_border_width="1px"
+                    app:riv_corner_radius="5dp"
+                    app:riv_oval="false"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/createdAt"
+                    android:layout_alignEnd="@+id/createdAt"
+                    android:layout_marginRight="10dp"/>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/surveyPanel"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/meta_bordered"
-                    android:visibility="gone">
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:id="@+id/linearLayout"
+                    android:layout_below="@+id/userPhoto">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:text="내용입니다."
+                        android:layout_marginTop="17dp"
+                        android:textColor="@color/text"
+                        android:layout_below="@+id/userPhoto"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginBottom="5dp"
+                        android:autoLink="all"/>
+
+                    <ImageView
+                        android:id="@+id/photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:scaleType="fitStart"
+                        android:src="@drawable/empty"
+                        android:layout_below="@+id/name"
+                        android:visibility="gone"/>
 
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/surveyContentPanel">
+                        android:id="@+id/surveyPanel"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/meta_bordered"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/surveyContentPanel">
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="# 클자를 클릭하여 투표에 참여하세요."
+                            android:layout_marginTop="10dp"
+                            android:padding="15dp"
+                            android:textSize="8dp"/>
                     </LinearLayout>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="# 클자를 클릭하여 투표에 참여하세요."
-                        android:layout_marginTop="10dp"
-                        android:padding="15dp"
-                        android:textSize="8dp"/>
-                </LinearLayout>
+                        android:id="@+id/metaPanel"
+                        android:orientation="vertical"
+                        android:background="@drawable/meta_bordered"
+                        android:padding="5dp"
+                        android:visibility="gone"
+                        android:layout_marginTop="15dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/metaPanel"
-                    android:orientation="vertical"
-                    android:background="@drawable/meta_bordered"
-                    android:padding="5dp"
-                    android:visibility="gone"
-                    android:layout_marginTop="15dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/metaTitle"
+                            android:text="제목"
+                            android:textStyle="bold"
+                            android:textSize="20dp"
+                            android:layout_marginBottom="10dp"
+                            android:visibility="gone"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/metaTitle"
-                        android:text="제목"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:layout_marginBottom="10dp"
-                        android:visibility="gone"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/metaDesc"
+                            android:text="설명"
+                            android:layout_marginBottom="10dp"
+                            android:visibility="gone"/>
+                        <ImageView
+                            android:id="@+id/metaPhoto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitStart"
+                            android:visibility="gone"/>
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/metaDesc"
-                        android:text="설명"
-                        android:layout_marginBottom="10dp"
-                        android:visibility="gone"/>
-                    <ImageView
-                        android:id="@+id/metaPhoto"
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scaleType="fitStart"
-                        android:visibility="gone"/>
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="이 글 홍보하기"
+                            android:id="@+id/postAd"
+                            android:textStyle="bold"
+                            android:textSize="20dp" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:padding="20dp">
+            </RelativeLayout>
+        </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="이 글 홍보하기"
-                        android:id="@+id/postAd"
-                        android:textStyle="bold"
-                        android:textSize="20dp" />
-                </LinearLayout>
-            </LinearLayout>
-
-        </RelativeLayout>
 
     </ScrollView>
 

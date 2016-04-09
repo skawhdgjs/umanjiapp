@@ -50,6 +50,7 @@ import com.umanji.umanjiapp.ui.channel.info.InfoActivity;
 import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.PostActivity;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
+import com.umanji.umanjiapp.ui.channel.post.reply.ReplyActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.profile.update.ProfileUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
@@ -373,7 +374,7 @@ public final class Helper implements AppConfig {
             case TYPE_LIKE:
                 intent = new Intent(activity, ProfileActivity.class);
             case TYPE_POST:
-                intent = new Intent(activity, PostActivity.class);
+                intent = new Intent(activity, ReplyActivity.class);
                 break;
         }
 

@@ -103,7 +103,7 @@ public class NotyListAdapter extends BaseChannelListAdapter {
                     holder.desc.setText("댓글작성");
                     holder.name.setVisibility(View.VISIBLE);
                     holder.name.setText(channelData.getName());
-                    setNotyClickEvent(holder, channelData);
+                    setNotyClickEvent(holder, parentData);
                 } else {
                     holder.desc.setText("글작성");
                     holder.name.setVisibility(View.VISIBLE);
