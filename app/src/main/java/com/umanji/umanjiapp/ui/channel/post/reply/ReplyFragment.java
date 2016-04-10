@@ -29,6 +29,7 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.model.VoteData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
+import com.umanji.umanjiapp.ui.channel.advertise.AdsCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 
 import org.json.JSONArray;
@@ -126,6 +127,9 @@ public class ReplyFragment extends BaseChannelListFragment {
 
         mFab = (FloatingActionButton) view.findViewById(R.id.fab);
         mFab.setOnClickListener(this);
+
+        mPostAd = (TextView) view.findViewById(R.id.postAd);
+        mPostAd.setOnClickListener(this);
 
 
         setName(mActivity, mChannel, "내용없음");
@@ -558,6 +562,18 @@ public class ReplyFragment extends BaseChannelListFragment {
                     bundle.putString("channel", mChannel.getJsonObject().toString());
                     intent.putExtra("bundle", bundle);
                     startActivity(intent);
+                break;
+
+            case R.id.lookAround:
+                EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                break;
+
+            case R.id.postAd:
+                Bundle adsBundle = new Bundle();
+                adsBundle.putString("channel", mChannel.getJsonObject().toString());
+                Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
+                adsIntent.putExtra("bundle", adsBundle);
+                startActivity(adsIntent);
                 break;
         }
     }
