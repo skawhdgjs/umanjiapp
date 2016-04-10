@@ -106,7 +106,11 @@ public class SpotFragment extends BaseChannelFragment {
         }
 
         setPhoto(mActivity, mChannel, R.drawable.multi_spot_background);
+        if(mChannel.getType().equals(TYPE_SPOT_INNER)){
+            setPhoto(mActivity, mChannel, R.drawable.spot_background);
+        }
         setParentName(mActivity, mChannel.getParent());
+
         setUserPhoto(mActivity, mChannel.getOwner());
         setPoint(mActivity, mChannel);
         setLevel(mActivity, mChannel);

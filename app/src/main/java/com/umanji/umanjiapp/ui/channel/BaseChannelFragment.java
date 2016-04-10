@@ -392,13 +392,13 @@ public abstract class BaseChannelFragment extends BaseFragment {
     protected void setParentName(Activity activity, final ChannelData parentData) {
         if(parentData == null) {
             mHeaderBorder.setVisibility(View.GONE);
-            mParentName.setVisibility(View.GONE);
+            mParentName.setVisibility(View.GONE);           // deletable
         } else {
-            mHeaderBorder.setVisibility(View.VISIBLE);
-            mParentName.setVisibility(View.VISIBLE);
+            mHeaderBorder.setVisibility(View.GONE);
+            mParentName.setVisibility(View.GONE);           // deletable
 
             if(TextUtils.isEmpty(parentData.getName())) {
-                mParentName.setText("이름없음");
+                mParentName.setText("");                    // deletable
             } else {
                 mParentName.setText(parentData.getName());
             }
