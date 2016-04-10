@@ -100,9 +100,9 @@ public class SpotFragment extends BaseChannelFragment {
         super.updateView();
 
         if(TextUtils.equals(mChannel.getType(), TYPE_SPOT)) {
-            setName(mActivity, mChannel, "건물");
-        } else {
             setName(mActivity, mChannel, "스팟");
+        } else {
+            setName(mActivity, mChannel, "내부스팟");
         }
 
         setPhoto(mActivity, mChannel, R.drawable.multi_spot_background);
