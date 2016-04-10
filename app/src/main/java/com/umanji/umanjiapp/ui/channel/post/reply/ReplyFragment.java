@@ -548,7 +548,10 @@ public class ReplyFragment extends BaseChannelListFragment {
                     mAdapter.addTop(channelData);
                     mAdapter.notifyDataSetChanged();
                 }
+                break;
 
+            case EVENT_LOOK_AROUND:
+                mActivity.finish();
                 break;
         }
     }
