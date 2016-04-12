@@ -48,7 +48,6 @@ import com.umanji.umanjiapp.ui.channel.complex.create.ComplexCreateActivity;
 import com.umanji.umanjiapp.ui.channel.complex.update.ComplexUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.info.InfoActivity;
 import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
-import com.umanji.umanjiapp.ui.channel.post.PostActivity;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.reply.ReplyActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
