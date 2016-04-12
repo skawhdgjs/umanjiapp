@@ -190,4 +190,12 @@
         android:layout_height="53dp"
         layout="@layout/include_notice_panel"
         />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/guide_01"
+        android:scaleType="fitXY"
+        android:id="@+id/mGuideImageView01"
+        android:visibility="gone"/>
 </RelativeLayout>
