@@ -1,7 +1,6 @@
 package com.umanji.umanjiapp.ui;
 
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -67,7 +66,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         mProgress = new ProgressDialog(getActivity());
         mProgress.setMessage("Loading, please wait");
         mProgress.setTitle("Connecting server");
-        mProgress.setCancelable(false);
+        mProgress.setCancelable(true);
 
         mAlert = new AlertDialog.Builder(mActivity);
 

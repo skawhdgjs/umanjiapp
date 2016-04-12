@@ -21,7 +21,6 @@ import com.leocardz.link.preview.library.TextCrawler;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.model.VoteData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 
 import org.json.JSONArray;
@@ -29,7 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class PostCreateFragment extends BaseChannelCreateFragment {
@@ -168,6 +166,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
         switch (event.type) {
             case api_channels_create:
+                mProgress.hide();
                 mActivity.finish();
                 break;
         }

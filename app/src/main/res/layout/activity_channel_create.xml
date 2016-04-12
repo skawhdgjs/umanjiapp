@@ -113,14 +113,14 @@
 
             </LinearLayout>
 
-            <Button
+            <!--<Button
                 android:id="@+id/submitBtn"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/post_create_btn"
-                android:textStyle="bold" />
+                android:textStyle="bold" />-->
 
             <ImageView
                 android:id="@+id/photo"
