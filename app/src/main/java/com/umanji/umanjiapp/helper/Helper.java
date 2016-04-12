@@ -39,6 +39,7 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.ui.auth.SigninActivity;
 import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
 import com.umanji.umanjiapp.ui.channel.community.create.CommunityCreateActivity;
@@ -66,6 +67,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -174,54 +176,33 @@ public final class Helper implements AppConfig {
             name = "이름없음";
         }
 
-        switch (channelData.getLevel()) {
-            case LEVEL_COMPLEX:
+        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
+        if(subLinks != null && subLinks.size() > 0) {
+            if(TextUtils.equals(subLinks.get(0).getName(), "커피샵")) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.complex))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.coffee_spot))
                         .draggable(isDraggable)
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-                break;
-            case LEVEL_DONG:
+            } else if(TextUtils.equals(subLinks.get(0).getName(), "술집")) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.dong))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.drink_spot))
                         .draggable(isDraggable)
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-                break;
-            case LEVEL_GUGUN:
+            } else if(TextUtils.equals(subLinks.get(0).getName(), "음식점")) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.gugun))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.food_spot))
                         .draggable(isDraggable)
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-                break;
-            case LEVEL_DOSI:
-                marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(name)
-                        .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.city))
-                        .draggable(isDraggable)
-                        .alpha(0.8f)  // default 1.0
-                        .anchor(0.45f, 1.0f));
-                break;
-            case LEVEL_COUNTRY:
-                marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(name)
-                        .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
-                        .draggable(isDraggable)
-                        .alpha(0.8f)  // default 1.0
-                        .anchor(0.45f, 1.0f));
-                break;
-
-            default:
+            } else {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
@@ -229,8 +210,67 @@ public final class Helper implements AppConfig {
                         .draggable(isDraggable)
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-                break;
+            }
 
+        } else {
+            switch (channelData.getLevel()) {
+                case LEVEL_COMPLEX:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.complex))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+                case LEVEL_DONG:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.dong))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+                case LEVEL_GUGUN:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.gugun))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+                case LEVEL_DOSI:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.city))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+                case LEVEL_COUNTRY:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+
+                default:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+
+            }
         }
 
         return marker;
