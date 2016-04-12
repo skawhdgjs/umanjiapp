@@ -1,7 +1,10 @@
 package com.umanji.umanjiapp.ui.channel.post.create;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -50,6 +53,8 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     protected Button mVoteRemoveBtn;
     protected Button mAddVoteOptionBtn;
 
+    protected boolean isReady = false;
+
     public static PostCreateFragment newInstance(Bundle bundle) {
         PostCreateFragment fragment = new PostCreateFragment();
         fragment.setArguments(bundle);
@@ -87,7 +92,35 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         mAddVoteOptionBtn = (Button) view.findViewById(R.id.addVoteOptionBtn);
         mAddVoteOptionBtn.setOnClickListener(this);
 
+        mSubmitBtn2.setEnabled(isReady);
+        mSubmitBtn2.setTextColor(Color.parseColor("#5c5cd6"));
 
+        mName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                isReady = true;
+                if(mName.getText().toString().length()==0){
+                    mSubmitBtn2.setTextColor(Color.parseColor("#5c5cd6"));
+                } else{
+                    mSubmitBtn2.setTextColor(Color.parseColor("#ffffff"));
+                }
+                enableSubmitIfReady();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+    }
+
+    public void enableSubmitIfReady() {
+
+        boolean isReady =mName.getText().toString().length()>1;
+        mSubmitBtn2.setEnabled(isReady);
     }
 
     @Override
