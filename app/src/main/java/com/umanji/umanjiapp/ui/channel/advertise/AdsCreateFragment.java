@@ -15,6 +15,8 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.FileHelper;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
@@ -24,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -218,22 +221,39 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0) {
-            if (resultCode == Activity.RESULT_OK) {
-                String result=data.getStringExtra("result");
-                mStartDay.setText(result);
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // Handle cancel
-            }
+
+        File file = null;
+        switch (requestCode) {
+            case CODE_CAMERA_ACTIVITY:
+                mProgress.show();
+                file = new File(mFilePath);
+                mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
+                break;
+            case CODE_GALLERY_ACTIVITY:
+                mProgress.show();
+                file = FileHelper.getFileFromUri(mActivity, data.getData());
+                mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
+                break;
+
+            case 0:
+                if (resultCode == Activity.RESULT_OK) {
+                    String result=data.getStringExtra("result");
+                    mStartDay.setText(result);
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    // Handle cancel
+                }
+                break;
+
+            case 1:
+                if (resultCode == Activity.RESULT_OK) {
+                    String result=data.getStringExtra("result");
+                    mEndDay.setText(result);
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    // Handle cancel
+                }
+                break;
         }
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                String result=data.getStringExtra("result");
-                mEndDay.setText(result);
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // Handle cancel
-            }
-        }
+
     }
 
 }
