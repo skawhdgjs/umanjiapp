@@ -80,7 +80,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
         mPhoto = (ImageView) view.findViewById(R.id.photo);
 
         mSubmitBtn = (Button) view.findViewById(R.id.submitBtn);
-        //mSubmitBtn.setOnClickListener(this);
+        mSubmitBtn.setOnClickListener(this);
 
         mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
         mSubmitBtn2.setOnClickListener(this);
@@ -111,10 +111,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-           /* case R.id.submitBtn:
-                mProgress.onStart();
-                submit();
-                break;*/
+            case R.id.submitBtn:
             case R.id.submitBtn2:
                 mProgress.onStart();
                 submit();

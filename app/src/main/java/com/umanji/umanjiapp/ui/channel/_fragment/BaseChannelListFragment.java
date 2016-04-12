@@ -123,12 +123,13 @@ public abstract class BaseChannelListFragment extends BaseFragment {
         ChannelData channelData = new ChannelData(event.response);
 
         switch (event.type) {
-            case api_channels_id_update:
-                if(TextUtils.equals(mChannel.getId(), channelData.getId())) {
-                    mChannel = channelData;
-                    loadData();
-                }
-                break;
+//            case api_channels_id_update:
+//                if(TextUtils.equals(mChannel.getId(), channelData.getId())) {
+//                    mChannel = channelData;
+//                    mAdapter.resetDocs();
+//                    loadData();
+//                }
+//                break;
             case EVENT_UPDATEVIEW:
                 loadData();
                 break;

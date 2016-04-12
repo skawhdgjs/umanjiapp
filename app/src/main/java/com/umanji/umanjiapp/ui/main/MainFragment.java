@@ -46,6 +46,7 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.analytics.ApplicationController;
 import com.umanji.umanjiapp.gcm.GcmRegistrationIntentService;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -90,6 +91,10 @@ public class MainFragment extends BaseFragment {
     private TextView mZoomLevelText;
     private TextView mInfoTextPanel;
 
+
+
+
+    private ImageView mGuideImageView01;
 
 
     /****************************************************
@@ -292,8 +297,26 @@ public class MainFragment extends BaseFragment {
 
         mAdsImage = (ImageView) view.findViewById(R.id.ads_image);
         mAdsImage.setOnClickListener(this);
+
+
+        checkGuide01(view);
+
     }
 
+    private void checkGuide01(View view) {
+        String guide01 = FileHelper.getString(mActivity, "guide01");
+        if(TextUtils.isEmpty(guide01)) {
+            mGuideImageView01 = (ImageView) view.findViewById(R.id.mGuideImageView01);
+            mGuideImageView01.setVisibility(View.VISIBLE);
+            mGuideImageView01.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mGuideImageView01.setVisibility(View.GONE);
+                    FileHelper.setString(mActivity, "guide01", "checked");
+                }
+            });
+        }
+    }
 
 
     @Override
