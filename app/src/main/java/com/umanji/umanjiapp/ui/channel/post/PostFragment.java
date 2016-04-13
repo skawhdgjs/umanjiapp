@@ -488,6 +488,8 @@ public class PostFragment extends BaseFragment {
         }
     }
 
+    //test
+
     @Override
     public void onEvent(SuccessData event) {
         super.onEvent(event);
