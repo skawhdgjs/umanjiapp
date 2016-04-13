@@ -172,7 +172,7 @@ public final class Helper implements AppConfig {
         Marker marker;
         String name = channelData.getName();
         if(TextUtils.isEmpty(name)) {
-            name = "이름없음";
+            name = "어떤곳";
         }
 
         ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
