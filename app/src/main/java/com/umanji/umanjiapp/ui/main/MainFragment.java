@@ -11,14 +11,18 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -314,6 +318,48 @@ public class MainFragment extends BaseFragment {
                 public void onClick(View v) {
                     mGuideImageView01.setVisibility(View.GONE);
                     FileHelper.setString(mActivity, "guide01", "checked");
+
+                    Toast toast = Toast.makeText(mActivity, "우만지 베타 참여를 환영합니다.", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
+                    toast.show();
+
+                    Handler mHandler = new Handler();
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(mActivity, "처음이시라 무엇을 해야 할지 막막하시죠 ^^?", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
+                            toast.show();
+                        }
+                    }, 2000);
+
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(mActivity, "일단, 화면의 버튼들을 눌러보세요.", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
+                            toast.show();
+                        }
+                    }, 4000);
+
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(mActivity, "맵을 확대하여 Zoom 18로 이동해 보세요.", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
+                            toast.show();
+                        }
+                    }, 18000);
+
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(mActivity, "Zoom 18에서 맵을 클릭하여 나만의 스팟을 생성해 보세요.", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
+                            toast.show();
+                        }
+                    }, 25000);
+
                 }
             });
         }
