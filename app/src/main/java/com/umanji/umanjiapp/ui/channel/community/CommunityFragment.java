@@ -113,22 +113,32 @@ public class CommunityFragment extends BaseChannelFragment {
         if(getArguments().getString("fromDist") == null) {
             mLookLink.setVisibility(View.VISIBLE);
             mLookLink.setOnClickListener(this);
+
             setKeywords(mActivity, mChannel);
             setPhoto(mActivity, mChannel, R.drawable.community_background);
+            if(mParentChannel != null) {
+                setParentName(mActivity, mParentChannel);
+            }
+
+            setUserPhoto(mActivity, mChannel.getOwner());
+            setPoint(mActivity, mChannel);
+            setLevel(mActivity, mChannel);
+            setMemberCount(mActivity, mChannel);
         } else {
             setKeywords(mActivity, mChannel.getParent());
             setPhoto(mActivity, mChannel.getParent(), R.drawable.community_background);
+            if(mParentChannel != null) {
+                setParentName(mActivity, mParentChannel);
+            }
+
+            setUserPhoto(mActivity, mChannel.getOwner());
+            setPoint(mActivity, mChannel.getParent());
+            setLevel(mActivity, mChannel.getParent());
+            setMemberCount(mActivity, mChannel.getParent());
         }
         //mFab.setVisibility(View.VISIBLE);
 
-        if(mParentChannel != null) {
-            setParentName(mActivity, mParentChannel);
-        }
 
-        setUserPhoto(mActivity, mChannel.getOwner());
-        setPoint(mActivity, mChannel);
-        setLevel(mActivity, mChannel);
-        setMemberCount(mActivity, mChannel);
 
     }
 
@@ -215,11 +225,20 @@ public class CommunityFragment extends BaseChannelFragment {
 
             case R.id.fab:
                 if (mCurrentTapPosition == 0) {
-                    Intent intent = new Intent(mActivity, PostCreateActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("channel", mChannel.getJsonObject().toString());
-                    intent.putExtra("bundle", bundle);
-                    startActivity(intent);
+                    if(getArguments().getString("fromDist") == null) {
+                        Intent intent = new Intent(mActivity, PostCreateActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("channel", mChannel.getJsonObject().toString());
+                        intent.putExtra("bundle", bundle);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(mActivity, PostCreateActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("channel", mChannel.getParent().getJsonObject().toString());
+                        intent.putExtra("bundle", bundle);
+                        startActivity(intent);
+                    }
+
                 }
                 break;
 
