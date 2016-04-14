@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -70,6 +71,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import de.greenrobot.event.EventBus;
 
@@ -476,6 +478,11 @@ public final class Helper implements AppConfig {
     public static String callCamera(Fragment fragment) {
         String folderName = "umanji";
         String fileName = "umanji-photo";
+
+        Random rd = new Random();
+        int randomNum = rd.nextInt(10000);
+        fileName = fileName + "-" + randomNum;
+
         String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 
         // 폴더명 및 파일명
@@ -660,7 +667,11 @@ public final class Helper implements AppConfig {
                 height = (int)(scaledHeight * rate);
             }
 
-            Glide.with(activity).load(resizedFile).into(photoView);
+            Glide.with(activity)
+                    .load(resizedFile)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(photoView);
+
             if(!isFixedHeight) {
                 photoView.getLayoutParams().height = height;
             }

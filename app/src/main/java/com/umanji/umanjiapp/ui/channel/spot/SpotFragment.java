@@ -38,6 +38,12 @@ public class SpotFragment extends BaseChannelFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        if(TextUtils.isEmpty(mChannel.getName())) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(2);
+            tab.select();
+        }
+
         return view;
     }
 
