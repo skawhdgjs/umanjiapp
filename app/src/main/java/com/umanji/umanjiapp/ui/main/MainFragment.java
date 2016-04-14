@@ -820,7 +820,7 @@ public class MainFragment extends BaseFragment {
 
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("level", (int) mMap.getCameraPosition().zoom);
+            params.put("zoom", (int) mMap.getCameraPosition().zoom);  // level -> zoom
 
             // origin api :: api_main_findAds
             mApi.call(api_main_findAds2, params, new AjaxCallback<JSONObject>() {
