@@ -34,6 +34,8 @@ public class CommunityFragment extends BaseChannelFragment {
     private static final String TAG = "SpotFragment";
 
     private ChannelData mParentChannel;
+    private String mFromWhere;
+
 
     public static CommunityFragment newInstance(Bundle bundle) {
         CommunityFragment fragment = new CommunityFragment();
@@ -98,8 +100,10 @@ public class CommunityFragment extends BaseChannelFragment {
         setName(mActivity, mChannel, "커뮤니티");
         setPhoto(mActivity, mChannel, R.drawable.community_background);
 
-        mLookLink.setVisibility(View.VISIBLE);
-        mLookLink.setOnClickListener(this);
+        if(getArguments().getString("fromWhere") == null) {
+            mLookLink.setVisibility(View.VISIBLE);
+            mLookLink.setOnClickListener(this);
+        }
 
         //mFab.setVisibility(View.VISIBLE);
 
