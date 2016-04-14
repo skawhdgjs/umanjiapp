@@ -59,12 +59,23 @@ public class CommunityFragment extends BaseChannelFragment {
 
     @Override
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter) {
-        Bundle bundle = new Bundle();
-        bundle.putString("channel", mChannel.getJsonObject().toString());
-        adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
-        adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
-        adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
-        adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+
+        if(getArguments().getString("fromDist") == null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("channel", mChannel.getJsonObject().toString());
+            adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
+            adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
+            adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putString("channel", mChannel.getParent().getJsonObject().toString());
+            adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
+            adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
+            adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+        }
+
     }
 
     @Override
@@ -100,7 +111,7 @@ public class CommunityFragment extends BaseChannelFragment {
         setName(mActivity, mChannel, "커뮤니티");
         setPhoto(mActivity, mChannel, R.drawable.community_background);
 
-        if(getArguments().getString("fromWhere") == null) {
+        if(getArguments().getString("fromDist") == null) {
             mLookLink.setVisibility(View.VISIBLE);
             mLookLink.setOnClickListener(this);
         }

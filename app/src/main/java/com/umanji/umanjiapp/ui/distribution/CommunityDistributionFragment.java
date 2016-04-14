@@ -370,7 +370,7 @@ public class CommunityDistributionFragment extends BaseFragment {
                     } else if (TextUtils.equals(index, String.valueOf(MARKER_INDEX_CLICKED))) {
                         channelData = mSelectedChannel;
                     } else {
-                        channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
+                        channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));  // get here from communityDistribution
                     }
 
                     // To modify HERE!!!
@@ -378,7 +378,7 @@ public class CommunityDistributionFragment extends BaseFragment {
                     Intent i = new Intent(mActivity, CommunityActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", channelData.getJsonObject().toString());
-                    bundle.putString("fromWhere", "communityDistribution");
+                    bundle.putString("fromDist", "communityDistribution");
                     i.putExtra("bundle", bundle);
                     startActivity(i);
 
