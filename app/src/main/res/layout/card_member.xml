@@ -2,15 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:layout_marginTop="5dp"
+    android:background="@color/white"
+    android:paddingBottom="14dp"
     android:paddingLeft="14dp"
     android:paddingRight="14dp"
-    android:paddingTop="14dp"
-    android:paddingBottom="14dp">
+    android:paddingTop="14dp">
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/userPhoto"
         android:layout_width="@dimen/list_item_avatar_size"
         android:layout_height="@dimen/list_item_avatar_size"
@@ -20,31 +19,99 @@
         app:riv_border_color="@color/colorPrimary"
         app:riv_border_width="1px"
         app:riv_corner_radius="5dp"
-        app:riv_oval="false"/>
+        app:riv_oval="false" />
 
     <TextView
         android:id="@+id/userName"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItem"
         android:layout_alignParentRight="true"
-        android:text="이름"
         android:layout_toRightOf="@+id/userPhoto"
-        />
+        android:text="이름"
+        android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/point"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:text="point"
-        android:textSize="10dp"
-        android:textColor="@color/text"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/userName"
+        android:layout_marginTop="2dp"
         android:layout_toRightOf="@+id/userPhoto"
-        />
+        android:text="point"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/text"
+        android:textSize="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/rewardPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/userName"
+        android:layout_alignRight="@+id/userName"
+        android:layout_alignBottom="@+id/userPhoto"
+        android:visibility="gone">
+
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="보상지수 : "
+                android:layout_alignParentTop="true"
+                android:layout_alignLeft="@+id/textView11"
+                android:layout_alignStart="@+id/textView11"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/textView2"
+                android:layout_toStartOf="@+id/textView2" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="  %"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="관리 포인트 :    "
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/textView10"
+                android:layout_toStartOf="@+id/textView10" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/textView9"
+                android:layout_toStartOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="  p"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_alignStart="@+id/textView2" />
+
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

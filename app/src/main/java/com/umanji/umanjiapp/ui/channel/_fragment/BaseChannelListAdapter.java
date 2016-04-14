@@ -344,6 +344,12 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         }
     }
 
+    protected void setRewardPanel(final ViewHolder holder, final ChannelData channelData) {
+        if(channelData.getName() != null){
+            holder.mRewardPanel.setVisibility(View.VISIBLE);
+        }
+    }
+
     protected void setPreview(final ViewHolder holder, final ChannelData channelData) {
         JSONObject descJson = channelData.getDesc();
         if(descJson != null) {
@@ -684,6 +690,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         public final LinearLayout surveyPanel;
 
         public final TextView     surveyName;
+        public final RelativeLayout     mRewardPanel;
+
 
 
 
@@ -725,6 +733,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
             mRole           = (TextView) view.findViewById(R.id.roles);
             surveyName      = (TextView) view.findViewById(R.id.surveyName);
+
+            mRewardPanel    = (RelativeLayout) view.findViewById(R.id.rewardPanel);
 
         }
     }
