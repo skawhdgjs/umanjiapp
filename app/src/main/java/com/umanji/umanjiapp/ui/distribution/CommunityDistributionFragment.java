@@ -378,6 +378,7 @@ public class CommunityDistributionFragment extends BaseFragment {
                     Intent i = new Intent(mActivity, CommunityActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", channelData.getJsonObject().toString());
+                    bundle.putString("fromWhere", "communityDistribution");
                     i.putExtra("bundle", bundle);
                     startActivity(i);
 
