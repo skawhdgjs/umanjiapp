@@ -109,13 +109,16 @@ public class CommunityFragment extends BaseChannelFragment {
         super.updateView();
 
         setName(mActivity, mChannel, "커뮤니티");
-        setPhoto(mActivity, mChannel, R.drawable.community_background);
 
         if(getArguments().getString("fromDist") == null) {
             mLookLink.setVisibility(View.VISIBLE);
             mLookLink.setOnClickListener(this);
+            setKeywords(mActivity, mChannel);
+            setPhoto(mActivity, mChannel, R.drawable.community_background);
+        } else {
+            setKeywords(mActivity, mChannel.getParent());
+            setPhoto(mActivity, mChannel.getParent(), R.drawable.community_background);
         }
-
         //mFab.setVisibility(View.VISIBLE);
 
         if(mParentChannel != null) {
@@ -126,7 +129,7 @@ public class CommunityFragment extends BaseChannelFragment {
         setPoint(mActivity, mChannel);
         setLevel(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
-        setKeywords(mActivity, mChannel);
+
     }
 
     @Override
