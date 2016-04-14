@@ -88,7 +88,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="관리 포인트 :    "
-                android:layout_alignParentBottom="true"
+                android:layout_alignBaseline="@+id/textView10"
+                android:layout_alignBottom="@+id/textView10"
                 android:layout_toLeftOf="@+id/textView10"
                 android:layout_toStartOf="@+id/textView10" />
 
@@ -97,7 +98,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"
-                android:layout_alignParentBottom="true"
+                android:layout_alignBaseline="@+id/textView9"
+                android:layout_alignBottom="@+id/textView9"
                 android:layout_toLeftOf="@+id/textView9"
                 android:layout_toStartOf="@+id/textView9" />
 
@@ -106,9 +108,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="  p"
-            android:layout_alignParentBottom="true"
-            android:layout_alignLeft="@+id/textView2"
-            android:layout_alignStart="@+id/textView2" />
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp" />
 
 
     </RelativeLayout>
