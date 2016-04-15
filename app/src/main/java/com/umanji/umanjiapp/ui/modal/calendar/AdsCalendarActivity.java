@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.CalendarView;
-import android.widget.Toast;
 
 import com.umanji.umanjiapp.R;
 
@@ -20,13 +19,7 @@ public class AdsCalendarActivity extends AppCompatActivity {
         mCalendarView       = (CalendarView) findViewById(R.id.calendarView);
         mCalendarView.setShowWeekNumber(false);
 
-
-
-
-
-
         showCalendar();
-
     }
 
     public void showCalendar() {
@@ -34,15 +27,13 @@ public class AdsCalendarActivity extends AppCompatActivity {
         mCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month,
-                                            int dayOfMonth) {
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
 
-                Toast.makeText(getBaseContext(), "Selected Date is\n\n"
-                                + year + " : " + month + " : " +  dayOfMonth,
-                        Toast.LENGTH_LONG).show();
+                // Toast.makeText(getBaseContext(), "Selected Date is\n\n" + year + " : " + month + " : " +  dayOfMonth, Toast.LENGTH_LONG).show();
 
+                int returnMonth = month +1 ;
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("result", year + " " + month +" "+  dayOfMonth );
+                returnIntent.putExtra("result", year + " " + returnMonth +" "+  dayOfMonth );
                 setResult(RESULT_OK,returnIntent);
                 finish();
             }

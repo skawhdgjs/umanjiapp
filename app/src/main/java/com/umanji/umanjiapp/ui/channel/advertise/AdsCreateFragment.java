@@ -30,11 +30,11 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 public class AdsCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "AdsCreateFragment";
-
 
     protected TextView mStartDay;
     protected TextView mCurrentPoint;
@@ -42,13 +42,14 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
     protected RadioGroup mRadio;
     protected String startDay   = "2016 04 09";
     protected String endDay     = "2016 04 10";
-
+    protected String getStartDay;
+    protected String getEndDay;
+    protected long diff;
 
     protected int mAdLevel = 18;
 
     int intPoint;
     String mPoint;
-
 
     public static AdsCreateFragment newInstance(Bundle bundle) {
         AdsCreateFragment fragment = new AdsCreateFragment();
@@ -72,7 +73,6 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
     }
 
-
     @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
@@ -94,7 +94,6 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
         } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
-
 
         mStartDay = (TextView) view.findViewById(R.id.startDay);
         mStartDay.setOnClickListener(this);
@@ -127,8 +126,6 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
             }
         });
 
-
-
         mStartDay.setText(startDay);
         mEndDay.setText(endDay);
 
@@ -139,20 +136,20 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
         SimpleDateFormat myFormat = new SimpleDateFormat("yyyy MM dd");
 
         try {
-            Date date1 = myFormat.parse(startDay);
-            Date date2 = myFormat.parse(endDay);
-            long diff = date2.getTime() - date1.getTime();
-            // System.out.println("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+            Date date1 = myFormat.parse(getStartDay);
+            Date date2 = myFormat.parse(getEndDay);
+
+            long longDiff = date2.getTime() - date1.getTime();
+            diff = TimeUnit.DAYS.convert(longDiff, TimeUnit.MILLISECONDS);
 
         } catch (java.text.ParseException e) {
             e.printStackTrace();
         }
     }
 
-
     @Override
     protected void submit() {
-        if (intPoint > 3000) {
+        if (intPoint > 5000) {
             request();
         } else {
             Toast.makeText(mActivity, "포인트가 부족합니다.", Toast.LENGTH_LONG).show();
@@ -170,7 +167,6 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
             params.put("startDay", mStartDay.getText().toString());
             params.put("endDay", mEndDay.getText().toString());
             params.put("type", TYPE_ADS);
-
 
             if (mPhotoUri != null) {
                 ArrayList<String> photos = new ArrayList<>();
@@ -248,6 +244,11 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
                 if (resultCode == Activity.RESULT_OK) {
                     String result=data.getStringExtra("result");
                     mEndDay.setText(result);
+                    getStartDay = mStartDay.getText().toString();
+                    getEndDay = mEndDay.getText().toString();
+                    calculateDate();
+                    String strLong = Long.toString(diff);
+                    Toast.makeText(mActivity, strLong, Toast.LENGTH_LONG).show();
                 } else if (resultCode == Activity.RESULT_CANCELED) {
                     // Handle cancel
                 }
