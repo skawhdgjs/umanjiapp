@@ -248,9 +248,10 @@ public class MainFragment extends BaseFragment {
                         case TYPE_SURVEY:
                             Helper.startActivity(mActivity, channelData.getParent());
                             break;
+                        default:
+                            Helper.startActivity(mActivity, channelData);
+                            break;
                     }
-
-                    Helper.startActivity(mActivity, channelData);
 
                     mChannelIdForPush = "";
                 }
