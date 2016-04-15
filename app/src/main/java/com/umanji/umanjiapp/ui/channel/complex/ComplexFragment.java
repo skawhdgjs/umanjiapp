@@ -41,6 +41,16 @@ public class ComplexFragment extends BaseChannelFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
+        if(mChannel.getSubLinks(TYPE_MEMBER) != null) {
+            TabLayout.Tab tabMember = mTabLayout.getTabAt(1);
+            tabMember.setText("MEMBERS (" + mChannel.getSubLinks(TYPE_MEMBER).size() + ")");
+        }
+
+        if(mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
+            TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
+            tabSpot.setText("COMMUNITY (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
+        }
+
         return view;
     }
 

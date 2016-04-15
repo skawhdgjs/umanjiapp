@@ -49,6 +49,16 @@ public class CommunityFragment extends BaseChannelFragment {
 
         setParentChannel();
 
+        if(mChannel.getSubLinks(TYPE_MEMBER) != null) {
+            TabLayout.Tab tabMember = mTabLayout.getTabAt(1);
+            tabMember.setText("MEMBERS (" + mChannel.getSubLinks(TYPE_MEMBER).size() + ")");
+        }
+
+        if(mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
+            TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
+            tabSpot.setText("COMMUNITIES (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
+        }
+
         return view;
     }
 

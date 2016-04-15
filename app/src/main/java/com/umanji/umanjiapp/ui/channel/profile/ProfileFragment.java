@@ -69,6 +69,8 @@ public class ProfileFragment extends BaseChannelFragment {
             TabLayout.Tab tab = mTabLayout.getTabAt(0);
             tab.select();
         }
+
+
         return view;
     }
 

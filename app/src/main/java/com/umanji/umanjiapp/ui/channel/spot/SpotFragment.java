@@ -44,6 +44,34 @@ public class SpotFragment extends BaseChannelFragment {
             tab.select();
         }
 
+
+        if(TextUtils.equals(mChannel.getType(), TYPE_SPOT_INNER)) {
+            if(mChannel.getSubLinks(TYPE_MEMBER) != null) {
+                TabLayout.Tab tabMember = mTabLayout.getTabAt(1);
+                tabMember.setText("MEMBERS (" + mChannel.getSubLinks(TYPE_MEMBER).size() + ")");
+            }
+
+            if(mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
+                TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
+                tabSpot.setText("COMMUNITIES (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
+            }
+
+        } else {
+            if(mChannel.getSubLinks(TYPE_MEMBER) != null) {
+                TabLayout.Tab tabMember = mTabLayout.getTabAt(1);
+                tabMember.setText("MEMBERS (" + mChannel.getSubLinks(TYPE_MEMBER).size() + ")");
+            }
+
+            if(mChannel.getSubLinks(TYPE_SPOT_INNER) != null) {
+                TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
+                tabSpot.setText("SPOTS (" + mChannel.getSubLinks(TYPE_SPOT_INNER).size() + ")");
+            }
+
+            if(mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
+                TabLayout.Tab tabCommunity = mTabLayout.getTabAt(3);
+                tabCommunity.setText("COMMUNITIES (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
+            }
+        }
         return view;
     }
 
