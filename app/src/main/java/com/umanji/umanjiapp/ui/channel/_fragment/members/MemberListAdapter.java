@@ -47,11 +47,9 @@ public class MemberListAdapter extends BaseChannelListAdapter {
         setUserName(holder, userData);
         setPoint(holder, userData);
         setUserPhoto(holder, userData);
-        if (userData.getName().equals(mChannel.getOwner().getName())) {
+        if (mChannel.getOwner() != null && TextUtils.equals(userData.getName(), mChannel.getOwner().getName())) {
             // do something!!
             setRewardPanel(holder, userData);
         }
-
-
     }
 }
