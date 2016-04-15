@@ -262,6 +262,14 @@ public final class Helper implements AppConfig {
                     break;
 
                 default:
+
+                    if(TextUtils.isEmpty(channelData.getName())) {
+                        ArrayList<SubLinkData> inSpots = channelData.getSubLinks(TYPE_SPOT_INNER);
+                        if(inSpots != null && inSpots.size() > 0) {
+                            name = inSpots.get(0).getName();
+                        }
+                    }
+
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
