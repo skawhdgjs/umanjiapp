@@ -22,6 +22,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -183,6 +184,7 @@ public class SignupFragment extends BaseFragment {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     AuthData auth = new AuthData(json);
                     if(auth.user != null && !TextUtils.isEmpty(auth.user.getId())) {
+                        FileHelper.setString(mActivity, "pre_email", fEmail);
                         EventBus.getDefault().post(new SuccessData(api_signup, json));
                         mActivity.finish();
                     }else {

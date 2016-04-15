@@ -17,6 +17,7 @@ import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -88,6 +89,10 @@ public class SigninFragment extends BaseFragment {
         mSignIn.setOnClickListener(this);
 
 
+        String email = FileHelper.getString(mActivity, "pre_email");
+        if(!TextUtils.isEmpty(email)) {
+            mEmail.setText(email);
+        }
 
         if(mCurrentMyPosition != null) {
             loadData();
@@ -197,6 +202,7 @@ public class SigninFragment extends BaseFragment {
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     AuthData auth = new AuthData(json);
                     if(auth.user != null) {
+                        FileHelper.setString(mActivity, "pre_email", fEmail);
                         EventBus.getDefault().post(new SuccessData(api_signin, json));
                         mActivity.finish();
                     }else {
@@ -229,6 +235,7 @@ public class SigninFragment extends BaseFragment {
             mApi.call(api_signup, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
+                    FileHelper.setString(mActivity, "pre_email", fEmail);
                     AuthData auth = new AuthData(json);
                     if(auth.user != null && !TextUtils.isEmpty(auth.user.getId())) {
                         EventBus.getDefault().post(new SuccessData(api_signup, json));
