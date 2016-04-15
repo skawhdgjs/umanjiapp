@@ -59,6 +59,7 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
         try {
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
+            params.put("parentType", mChannel.getType());
             params.put("level", mChannel.getLevel());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMMUNITY);
