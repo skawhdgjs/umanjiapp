@@ -111,16 +111,16 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
                 switch (checkedId) {
                     case R.id.radioButton1:
-                        mAdLevel = 18;
+                        mAdLevel = 16;
                         break;
                     case R.id.radioButton2:
-                        mAdLevel = 15;
+                        mAdLevel = 14;
                         break;
                     case R.id.radioButton3:
-                        mAdLevel = 12;
+                        mAdLevel = 10;
                         break;
                     case R.id.radioButton4:
-                        mAdLevel = 8;
+                        mAdLevel = 6;
                         break;
                 }
             }
