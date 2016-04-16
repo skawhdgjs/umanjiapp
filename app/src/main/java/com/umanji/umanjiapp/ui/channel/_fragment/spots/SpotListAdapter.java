@@ -52,6 +52,7 @@ public class SpotListAdapter extends BaseChannelListAdapter {
         setPhoto(holder, channelData);
         setUserPhoto(holder, channelData.getOwner());
         setFloor(holder, channelData);
+        setKeywords(holder, channelData);
 
     }
 
