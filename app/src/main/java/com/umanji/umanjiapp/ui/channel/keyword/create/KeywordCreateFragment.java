@@ -72,6 +72,7 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
             params.put("parent", mChannel.getId());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_KEYWORD);
+            params.put("createdFrom", mChannel.getType());
 
 
             if(mPhotoUri != null) {
