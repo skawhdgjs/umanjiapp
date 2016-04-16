@@ -111,10 +111,10 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
 
                 switch (checkedId) {
                     case R.id.radioButton1:
-                        mAdLevel = 16;
+                        mAdLevel = 14;
                         break;
                     case R.id.radioButton2:
-                        mAdLevel = 14;
+                        mAdLevel = 12;
                         break;
                     case R.id.radioButton3:
                         mAdLevel = 10;
@@ -221,12 +221,12 @@ public class AdsCreateFragment extends BaseChannelCreateFragment {
         File file = null;
         switch (requestCode) {
             case CODE_CAMERA_ACTIVITY:
-                mProgress.show();
+                //mProgress.show();
                 file = new File(mFilePath);
                 mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
                 break;
             case CODE_GALLERY_ACTIVITY:
-                mProgress.show();
+                //mProgress.show();
                 file = FileHelper.getFileFromUri(mActivity, data.getData());
                 mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
                 break;
