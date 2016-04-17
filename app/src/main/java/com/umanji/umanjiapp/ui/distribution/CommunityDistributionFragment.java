@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.distribution;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
+import com.umanji.umanjiapp.ui.channel.info.InfoActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 
 import org.json.JSONArray;
@@ -83,6 +85,8 @@ public class CommunityDistributionFragment extends BaseFragment {
     private ChannelData mChannelByPoint;
     private Marker mMarkerByPoint;
     private Marker mFocusedMarker;
+
+    private TextView mHeaderTitle;
 
 
     private static final String[] LOCATION_PERMS={
@@ -134,6 +138,13 @@ public class CommunityDistributionFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+
+        mHeaderTitle = (TextView) view.findViewById(R.id.headerTitle);
+        if(mChannel.getSubLinks().get(0).getName() != null){
+            mHeaderTitle.setText("키워드 \'" + mChannel.getSubLinks().get(0).getName() + "\' 분포도");
+        } else {
+            mHeaderTitle.setText("키워드 분포도");
+        }
 
     }
 
@@ -272,8 +283,9 @@ public class CommunityDistributionFragment extends BaseFragment {
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
 
-        double latitude = 37.491361;
-        double longitude = 126.923978;
+        // korea center  :: 36.358162, 127.686428  when level 6
+        double latitude = 36.358162;
+        double longitude = 127.686428;
 
         try {
             Location location = locationManager.getLastKnownLocation(provider);
@@ -287,7 +299,7 @@ public class CommunityDistributionFragment extends BaseFragment {
 
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                         .target(mCurrentMyPosition)
-                        .zoom(13)
+                        .zoom(7)
                         .bearing(90)
                         .tilt(40)
                         .build();
@@ -299,7 +311,7 @@ public class CommunityDistributionFragment extends BaseFragment {
 
         LatLng latLng = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(7), 2000, null);
     }
 
     /****************************************************
@@ -375,12 +387,8 @@ public class CommunityDistributionFragment extends BaseFragment {
 
                     // To modify HERE!!!
                     //Helper.startActivity(mActivity, channelData);
-                    Intent i = new Intent(mActivity, CommunityActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("channel", channelData.getJsonObject().toString());
-                    bundle.putString("fromDist", "communityDistribution");
-                    i.putExtra("bundle", bundle);
-                    startActivity(i);
+                    String keywordType = channelData.getParent().getType();
+                    startActivityByKeyword(keywordType, channelData.getParent());
 
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
@@ -439,6 +447,38 @@ public class CommunityDistributionFragment extends BaseFragment {
 
     }
 
+    private void startActivityByKeyword(String keywordType, ChannelData channelData){
+        Intent i = null;
+
+        switch(keywordType){
+            case TYPE_SPOT:
+                i = new Intent(mActivity, SpotActivity.class);
+                break;
+            case TYPE_SPOT_INNER:
+                i = new Intent(mActivity, SpotActivity.class);
+                break;
+            case TYPE_COMPLEX:
+                i = new Intent(mActivity, ComplexActivity.class);
+                break;
+            case TYPE_INFO_CENTER:
+                i = new Intent(mActivity, InfoActivity.class);
+                break;
+            case TYPE_COMMUNITY:
+                i = new Intent(mActivity, CommunityActivity.class);
+                break;
+            default:
+                i = new Intent(mActivity, SpotActivity.class);
+                break;
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channelData.getJsonObject().toString());
+        bundle.putString("fromDist", "communityDistribution");
+        i.putExtra("bundle", bundle);
+        startActivity(i);
+
+    }
+
     private void loadMarkers() {
         try {
             JSONObject params = new JSONObject();
@@ -478,27 +518,6 @@ public class CommunityDistributionFragment extends BaseFragment {
 
     }
 
-    private void showCreateComplexDialog() {
-        mAlert.setPositiveButton(R.string.complex_create_btn, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Helper.startCreateActivity(mActivity, mChannelByPoint, TYPE_COMPLEX);
-                dialog.cancel();
-            }
-        });
-
-        mAlert.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mMarkerByPoint.remove();
-                dialog.cancel();
-            }
-        });
-
-        mAlert.setTitle(R.string.complex_create_confirm);
-        mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
-        mAlert.show();
-    }
 
     private void showCreateSpotDialog() {
         mAlert.setPositiveButton(R.string.spot_create_btn, new DialogInterface.OnClickListener() {

@@ -79,7 +79,12 @@ public class CommunityFragment extends BaseChannelFragment {
             adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
         } else {
             Bundle bundle = new Bundle();
-            bundle.putString("channel", mChannel.getParent().getJsonObject().toString());
+            if(mChannel.getUserName() == mChannel.getName()){
+                bundle.putString("channel", mChannel.getJsonObject().toString());
+            } else {
+                bundle.putString("channel", mChannel.getParent().getJsonObject().toString());
+            }
+
             adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
             adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
             adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
