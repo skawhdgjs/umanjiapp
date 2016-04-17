@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -68,7 +69,7 @@ public class CommunityDistributionFragment extends BaseFragment {
      * Etc
      ****************************************************/
 
-    private ChannelData         mChannel;
+    private ChannelData mChannel;
 
     private ChannelData mUser;
     private JSONArray mMarkers;
@@ -89,13 +90,13 @@ public class CommunityDistributionFragment extends BaseFragment {
     private TextView mHeaderTitle;
 
 
-    private static final String[] LOCATION_PERMS={
+    private static final String[] LOCATION_PERMS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
     private static final int INITIAL_REQUEST = 1337;
-    private static final int LOCATION_REQUEST = INITIAL_REQUEST+3;
+    private static final int LOCATION_REQUEST = INITIAL_REQUEST + 3;
 
     public static CommunityDistributionFragment newInstance(Bundle bundle) {
         CommunityDistributionFragment fragment = new CommunityDistributionFragment();
@@ -107,9 +108,9 @@ public class CommunityDistributionFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             String jsonString = getArguments().getString("channel");
-            if(jsonString != null) {
+            if (jsonString != null) {
                 mChannel = new ChannelData(jsonString);
             }
         }
@@ -139,12 +140,13 @@ public class CommunityDistributionFragment extends BaseFragment {
     @Override
     public void initWidgets(View view) {
 
-        mHeaderTitle = (TextView) view.findViewById(R.id.headerTitle);
-        if(mChannel.getSubLinks().get(0).getName() != null){
+        try {
+            mHeaderTitle = (TextView) view.findViewById(R.id.headerTitle);
             mHeaderTitle.setText("키워드 \'" + mChannel.getSubLinks().get(0).getName() + "\' 분포도");
-        } else {
-            mHeaderTitle.setText("키워드 분포도");
+        } catch (Exception e) {
+            Toast.makeText(mActivity, "함수없음", Toast.LENGTH_SHORT).show();
         }
+        mHeaderTitle.setText("키워드 분포도");
 
     }
 
@@ -213,7 +215,7 @@ public class CommunityDistributionFragment extends BaseFragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch(requestCode) {
+        switch (requestCode) {
             case LOCATION_REQUEST:
                 if (canAccessLocation()) {
                     mMap.setMyLocationEnabled(true);
@@ -226,11 +228,11 @@ public class CommunityDistributionFragment extends BaseFragment {
     }
 
     private boolean canAccessLocation() {
-        return(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
+        return (hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
     }
 
     private boolean hasPermission(String perm) {
-        return(PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm));
+        return (PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm));
     }
 
     private void initMap() {
@@ -255,7 +257,7 @@ public class CommunityDistributionFragment extends BaseFragment {
             mMap.getUiSettings().setZoomControlsEnabled(true);
 
             int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-            if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
+            if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
                 if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
                         PackageManager.PERMISSION_GRANTED &&
                         ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
@@ -267,7 +269,7 @@ public class CommunityDistributionFragment extends BaseFragment {
                 } else {
                     mActivity.requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
                 }
-            } else{
+            } else {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
@@ -447,10 +449,10 @@ public class CommunityDistributionFragment extends BaseFragment {
 
     }
 
-    private void startActivityByKeyword(String keywordType, ChannelData channelData){
+    private void startActivityByKeyword(String keywordType, ChannelData channelData) {
         Intent i = null;
 
-        switch(keywordType){
+        switch (keywordType) {
             case TYPE_SPOT:
                 i = new Intent(mActivity, SpotActivity.class);
                 break;
@@ -484,7 +486,7 @@ public class CommunityDistributionFragment extends BaseFragment {
             JSONObject params = new JSONObject();
             ArrayList<SubLinkData> subLinks = mChannel.getSubLinks(TYPE_KEYWORD);
 
-            if(subLinks == null || subLinks.size() < 1) return;
+            if (subLinks == null || subLinks.size() < 1) return;
             params.put("name", subLinks.get(0).getName());
             mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
                 @Override
