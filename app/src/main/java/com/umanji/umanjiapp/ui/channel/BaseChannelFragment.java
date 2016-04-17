@@ -129,6 +129,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 mParentInfoCenter.setVisibility(View.GONE);
                 break;
         }
+        mProgress.hide();
     }
 
 
@@ -256,6 +257,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 Log.e(TAG, "error " + e.toString());
             }
         }
+        mProgress.hide();
     }
 
     @Override

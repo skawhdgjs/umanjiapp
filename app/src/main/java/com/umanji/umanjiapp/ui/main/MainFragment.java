@@ -372,10 +372,12 @@ public class MainFragment extends BaseFragment {
         if(AuthHelper.isLogin(mActivity)) {
             loadNewNoties();
         }
+        mProgress.show();
 
         loadMainMarkers();
         loadMainPosts();
         loadMainAds();
+
     }
 
     public void loadMoreData() {
@@ -846,6 +848,7 @@ public class MainFragment extends BaseFragment {
         }catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
+        mProgress.hide();
     }
 
 
@@ -913,6 +916,7 @@ public class MainFragment extends BaseFragment {
 
     private void loadMoreMainPosts() {
         isLoading = true;
+        mProgress.show();
 
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
@@ -950,6 +954,7 @@ public class MainFragment extends BaseFragment {
         }
 
         mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
+        mProgress.hide();
     }
 
     private void loginByToken() {
@@ -1008,6 +1013,7 @@ public class MainFragment extends BaseFragment {
 
 
     private void loadMainMarkers() {
+        mProgress.show();
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("zoom", (int) mMap.getCameraPosition().zoom);
@@ -1022,6 +1028,7 @@ public class MainFragment extends BaseFragment {
         }catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
+        mProgress.hide();
 
     }
 

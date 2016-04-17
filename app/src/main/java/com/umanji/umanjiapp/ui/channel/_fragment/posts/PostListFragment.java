@@ -116,6 +116,8 @@ public class PostListFragment extends BaseChannelListFragment {
             Log.e(TAG, "error " + e.toString());
         }
 
+        mProgress.hide();
+
     }
 
     @Override
