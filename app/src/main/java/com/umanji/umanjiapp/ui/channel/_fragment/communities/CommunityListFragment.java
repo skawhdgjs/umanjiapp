@@ -1,6 +1,5 @@
 package com.umanji.umanjiapp.ui.channel._fragment.communities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,9 +18,6 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListAdapter;
-import com.umanji.umanjiapp.ui.channel.community.create.CommunityCreateActivity;
-import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,6 +68,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
     public void loadMoreData() {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
+        mProgress.show();
 
         try {
             JSONObject params = new JSONObject();
@@ -139,6 +136,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
         }
 
         mAdapter.notifyDataSetChanged();
+        mProgress.hide();
     }
 
     @Override

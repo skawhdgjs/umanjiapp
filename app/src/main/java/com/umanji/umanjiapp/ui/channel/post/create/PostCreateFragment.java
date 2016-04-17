@@ -143,6 +143,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     protected void request() {
+        mProgress.show();
         try {
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());

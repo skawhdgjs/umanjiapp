@@ -69,6 +69,7 @@ public class MemberListFragment extends BaseChannelListFragment {
     public void loadMoreData() {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
+        mProgress.show();
 
         try {
             JSONObject params = new JSONObject();
@@ -155,6 +156,7 @@ public class MemberListFragment extends BaseChannelListFragment {
         }
 
         mAdapter.notifyDataSetChanged();
+        mProgress.hide();
     }
 
     @Override

@@ -55,6 +55,7 @@ public class NotyListFragment extends BaseChannelListFragment {
     @Override
     public void loadMoreData() {
         isLoading = true;
+        mProgress.show();
 
         try {
             JSONObject params = new JSONObject();
@@ -105,6 +106,7 @@ public class NotyListFragment extends BaseChannelListFragment {
     @Override
     public void updateView() {
         mAdapter.notifyDataSetChanged();
+        mProgress.hide();
     }
 
     @Override

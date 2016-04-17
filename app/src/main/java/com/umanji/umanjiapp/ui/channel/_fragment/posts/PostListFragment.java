@@ -61,6 +61,8 @@ public class PostListFragment extends BaseChannelListFragment {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
 
+        mProgress.show();
+
         try {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
@@ -119,6 +121,7 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void updateView() {
         mAdapter.notifyDataSetChanged();
+        mProgress.hide();
 
         //mEmptyStates.setVisibility(View.GONE);
     }
