@@ -49,12 +49,12 @@ public class CommunityFragment extends BaseChannelFragment {
 
         setParentChannel();
 
-        if(mChannel.getSubLinks(TYPE_MEMBER) != null) {
+        if (mChannel.getSubLinks(TYPE_MEMBER) != null) {
             TabLayout.Tab tabMember = mTabLayout.getTabAt(1);
             tabMember.setText("MEMBERS (" + mChannel.getSubLinks(TYPE_MEMBER).size() + ")");
         }
 
-        if(mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
+        if (mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
             TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
             tabSpot.setText("COMMUNITIES (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
         }
@@ -70,7 +70,7 @@ public class CommunityFragment extends BaseChannelFragment {
     @Override
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter) {
 
-        if(getArguments().getString("fromDist") == null) {
+        if (getArguments().getString("fromDist") == null) {
             Bundle bundle = new Bundle();
             bundle.putString("channel", mChannel.getJsonObject().toString());
             adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
@@ -90,7 +90,7 @@ public class CommunityFragment extends BaseChannelFragment {
 
     @Override
     protected void setTabSelect() {
-        if(TextUtils.isEmpty(mTabType)) return;
+        if (TextUtils.isEmpty(mTabType)) return;
 
         TabLayout.Tab tab;
         switch (mTabType) {
@@ -120,13 +120,13 @@ public class CommunityFragment extends BaseChannelFragment {
 
         setName(mActivity, mChannel, "커뮤니티");
 
-        if(getArguments().getString("fromDist") == null) {
+        if (getArguments().getString("fromDist") == null) {
             mLookLink.setVisibility(View.VISIBLE);
             mLookLink.setOnClickListener(this);
 
             setKeywords(mActivity, mChannel);
             setPhoto(mActivity, mChannel, R.drawable.community_background);
-            if(mParentChannel != null) {
+            if (mParentChannel != null) {
                 setParentName(mActivity, mParentChannel);
             }
 
@@ -137,7 +137,7 @@ public class CommunityFragment extends BaseChannelFragment {
         } else {
             setKeywords(mActivity, mChannel.getParent());
             setPhoto(mActivity, mChannel.getParent(), R.drawable.community_background);
-            if(mParentChannel != null) {
+            if (mParentChannel != null) {
                 setParentName(mActivity, mParentChannel);
             }
 
@@ -148,13 +148,11 @@ public class CommunityFragment extends BaseChannelFragment {
         }
         //mFab.setVisibility(View.VISIBLE);
 
-
-
     }
 
     @Override
     protected void setName(Activity activity, final ChannelData channelData, String label) {
-        if(!TextUtils.isEmpty(channelData.getName())) {
+        if (!TextUtils.isEmpty(channelData.getName())) {
             mName.setText(Helper.getShortenString(channelData.getName()));
         } else {
             mName.setText(label);
@@ -228,14 +226,14 @@ public class CommunityFragment extends BaseChannelFragment {
                         }
                     });
 
-                } catch(JSONException e) {
+                } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
                 }
                 break;
 
             case R.id.fab:
                 if (mCurrentTapPosition == 0) {
-                    if(getArguments().getString("fromDist") == null) {
+                    if (getArguments().getString("fromDist") == null) {
                         Intent intent = new Intent(mActivity, PostCreateActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putString("channel", mChannel.getJsonObject().toString());
@@ -267,11 +265,10 @@ public class CommunityFragment extends BaseChannelFragment {
     }
 
 
-
     private void setParentChannel() {
-        if(mChannel.getLevel() >= LEVEL_COMPLEX) {
+        if (mChannel.getLevel() >= LEVEL_COMPLEX) {
             mParentChannel = mChannel.getParent();
-        }else {
+        } else {
             try {
                 JSONObject params = new JSONObject();
                 params.put("type", TYPE_INFO_CENTER);
@@ -305,7 +302,7 @@ public class CommunityFragment extends BaseChannelFragment {
                     }
                 });
 
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
         }

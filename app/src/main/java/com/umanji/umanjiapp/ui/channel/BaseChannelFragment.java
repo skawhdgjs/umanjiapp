@@ -70,6 +70,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
     protected TabLayout mTabLayout;
 
 
+
     /****************************************************
      *  For Etc.
      ****************************************************/
@@ -113,16 +114,16 @@ public abstract class BaseChannelFragment extends BaseFragment {
         switch (mChannel.getLevel()) {
             case LEVEL_COMPLEX:
             case LEVEL_LOCAL:
-                mParentInfoCenter.setImageResource(R.drawable.dong);
+                mParentInfoCenter.setImageResource(R.drawable.elevator_up);
                 break;
             case LEVEL_DONG:
-                mParentInfoCenter.setImageResource(R.drawable.gugun);
+                mParentInfoCenter.setImageResource(R.drawable.elevator_up);
                 break;
             case LEVEL_GUGUN:
-                mParentInfoCenter.setImageResource(R.drawable.city);
+                mParentInfoCenter.setImageResource(R.drawable.elevator_up);
                 break;
             case LEVEL_DOSI:
-                mParentInfoCenter.setImageResource(R.drawable.kr);
+                mParentInfoCenter.setImageResource(R.drawable.elevator_up);
                 break;
             default:
                 mParentInfoCenter.setVisibility(View.GONE);
@@ -170,8 +171,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
         mLevel = (TextView) view.findViewById(R.id.level);
 
-
         mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
+
     }
 
     protected void initTabAdapter(View view) {
@@ -392,13 +393,13 @@ public abstract class BaseChannelFragment extends BaseFragment {
     protected void setParentName(Activity activity, final ChannelData parentData) {
         if(parentData == null) {
             mHeaderBorder.setVisibility(View.GONE);
-            mParentName.setVisibility(View.GONE);           // deletable
+            mParentName.setVisibility(View.GONE);
         } else {
-            mHeaderBorder.setVisibility(View.GONE);
-            mParentName.setVisibility(View.GONE);           // deletable
+            mHeaderBorder.setVisibility(View.VISIBLE);
+            mParentName.setVisibility(View.VISIBLE);
 
             if(TextUtils.isEmpty(parentData.getName())) {
-                mParentName.setText("");                    // deletable
+                mParentName.setText("상위키워드");
             } else {
                 mParentName.setText(parentData.getName());
             }
