@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -647,7 +648,7 @@ public final class Helper implements AppConfig {
             Bitmap photo = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(),
                     bmp.getHeight(), matrix, true);
 
-            resizedFile = new File(activity.getCacheDir() + file.getName());
+            resizedFile = new File(activity.getCacheDir() + "/" + file.getName());
             boolean result = resizedFile.createNewFile();
             FileOutputStream output = null;
             if(result == true) {
@@ -656,8 +657,6 @@ public final class Helper implements AppConfig {
                 output.close();
             }
             ////
-
-
 
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("photo", resizedFile);

@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.FileHelper;
@@ -118,6 +120,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
                 break;
             case R.id.photoBtn:
                 mFilePath = Helper.callCamera(this);
+                FileHelper.setString(mActivity, "tmpFilePath", mFilePath);
                 break;
             case R.id.gallaryBtn:
                 Helper.callGallery(this);
@@ -157,8 +160,15 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
         switch (requestCode) {
             case CODE_CAMERA_ACTIVITY:
                 mProgress.show();
-                file = new File(mFilePath);
-                mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
+
+                mFilePath = FileHelper.getString(mActivity, "tmpFilePath");
+                if(!TextUtils.isEmpty(mFilePath)) {
+                    file = new File(mFilePath);
+                    mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
+                    FileHelper.setString(mActivity, "tmpFilePath", null);
+                } else {
+                    Toast.makeText(mActivity, "사진정보를 가져오지 못했습니다. 다시한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case CODE_GALLERY_ACTIVITY:
                 mProgress.show();

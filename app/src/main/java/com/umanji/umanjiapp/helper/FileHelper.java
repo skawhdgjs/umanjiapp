@@ -62,12 +62,25 @@ public final class FileHelper {
     public static File getFileFromUri(Context context, Uri uri) {
         String realPath;
 
-        if (Build.VERSION.SDK_INT <= 19)
+        if (isGooglePhotoUri(uri))
+            realPath = uri.getLastPathSegment();
+        else if(isPathSDCardType(uri))
+            realPath = FileHelper.getRealPathFromURI_API11to18(context, uri);
+        else if (Build.VERSION.SDK_INT <= 19)
             realPath = FileHelper.getRealPathFromURI_API11to18(context, uri);
         else
             realPath = FileHelper.getRealPathFromURI_API19(context, uri);
 
         return new File(realPath);
+    }
+
+    public static boolean isPathSDCardType(Uri uri) {
+        return "external".equals(uri.getPathSegments().get(0));
+    }
+
+    public static boolean isGooglePhotoUri(Uri uri) {
+
+        return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
 
     public static String bitmapToBase64(Bitmap bitmap) {
