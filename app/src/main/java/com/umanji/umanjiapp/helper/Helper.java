@@ -478,8 +478,7 @@ public final class Helper implements AppConfig {
     }
 
     public static void callGallery(Fragment fragment) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
         fragment.startActivityForResult(intent, CODE_GALLERY_ACTIVITY);
     }
@@ -512,6 +511,39 @@ public final class Helper implements AppConfig {
         fragment.startActivityForResult(cameraIntent, CODE_CAMERA_ACTIVITY);
 
         return filePath;
+    }
+
+    public static File getFileFromBitmap(Bitmap bitmap) {
+        String folderName = "umanji";
+        String fileName = "umanji-photo";
+
+        Random rd = new Random();
+        int randomNum = rd.nextInt(10000);
+        fileName = fileName + "-" + randomNum;
+
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+        // 폴더명 및 파일명
+        String folderPath = path + File.separator + folderName;
+        String filePath = path + File.separator + folderName + File.separator +  fileName + ".jpg";
+
+        // 저장 폴더 지정 및 폴더 생성
+        File fileFolderPath = new File(folderPath);
+        fileFolderPath.mkdir();
+
+        // 파일 이름 지정
+        File file = new File(filePath);
+
+        try {
+            FileOutputStream fOut = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+            fOut.flush();
+            fOut.close();
+        }catch (IOException e) {
+            Log.e(TAG, "Error " + e.toString());
+        }
+
+        return file;
     }
 
     public static void showCustomToast(AppCompatActivity context, String message) {
