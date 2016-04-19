@@ -155,6 +155,10 @@ public class SpotListFragment extends BaseChannelListFragment {
                 mlayout.setBackgroundResource(R.color.feed_bg);
                 break;
 
+            case api_channels_id_delete:
+                updateView();
+                break;
+
         }
     }
 
