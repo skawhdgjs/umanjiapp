@@ -294,6 +294,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                 }
 
                                 try {
+                                    holder.surveyPanel.setTag("checked");
 
                                     JSONObject params = channelData.getAddressJSONObject();
                                     params.put("parent", channelData.getId());
@@ -304,6 +305,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                         @Override
                                         public void callback(String url, JSONObject object, AjaxStatus status) {
                                             super.callback(url, object, status);
+                                            holder.surveyPanel.setTag(null);
 
                                             if (status.getCode() == 500) {
                                                 EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
