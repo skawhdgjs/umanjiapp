@@ -118,7 +118,7 @@
             android:id="@+id/mainListContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/feed_bg"
+            android:background="@drawable/empty_main_post"
             android:clickable="true"
             android:focusable="false"
             android:orientation="vertical">

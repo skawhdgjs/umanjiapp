@@ -129,7 +129,6 @@ public class MemberListFragment extends BaseChannelListFragment {
     public void updateView() {
         mJoinBtn.setEnabled(false);
         mUnJoinBtn.setEnabled(false);
-        //mEmptyMember.setVisibility(View.GONE);
 
         switch (mChannel.getType()) {
             case TYPE_INFO_CENTER:
@@ -167,6 +166,7 @@ public class MemberListFragment extends BaseChannelListFragment {
                     ChannelData channelData = new ChannelData(event.response);
                     mChannel = channelData.getParent();
                 }
+                mlayout.setBackgroundResource(R.color.feed_bg);
 
                 loadData();
                 break;

@@ -135,7 +135,6 @@ public class SpotListFragment extends BaseChannelListFragment {
 
     @Override
     public void updateView() {
-        //mEmptySpot.setVisibility(View.GONE);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -153,6 +152,7 @@ public class SpotListFragment extends BaseChannelListFragment {
                     mAdapter.addTop(channelData);
                     mAdapter.notifyDataSetChanged();
                 }
+                mlayout.setBackgroundResource(R.color.feed_bg);
                 break;
 
         }
