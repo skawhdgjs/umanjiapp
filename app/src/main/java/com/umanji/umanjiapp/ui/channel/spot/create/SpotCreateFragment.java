@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -77,6 +78,10 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     protected void request() {
+        if(mClicked == true){
+            Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
@@ -93,6 +98,7 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
             }
 
             mApi.call(api_channels_create, params);
+            mClicked = true;
 
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
@@ -125,6 +131,7 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
         switch (event.type) {
             case api_channels_create:
                 mActivity.finish();
+                mClicked = false;
                 break;
         }
     }

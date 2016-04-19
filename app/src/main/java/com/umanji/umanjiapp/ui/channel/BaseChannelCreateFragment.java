@@ -1,13 +1,7 @@
 package com.umanji.umanjiapp.ui.channel;
 
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,8 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 
 public abstract class BaseChannelCreateFragment extends BaseFragment {
@@ -66,6 +58,8 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
 
     // 카메라 찍은 후 저장될 파일 경로
     protected String mFilePath;
+
+    protected boolean mClicked = false;
 
 
     @Override
