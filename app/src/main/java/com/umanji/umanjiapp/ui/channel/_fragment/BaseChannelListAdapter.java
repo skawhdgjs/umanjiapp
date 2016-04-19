@@ -340,9 +340,11 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                 }
 
 
-            }else {
+            } else {
                 holder.surveyPanel.setVisibility(View.GONE);
             }
+        } else {
+            holder.surveyPanel.setVisibility(View.GONE);
         }
     }
 
