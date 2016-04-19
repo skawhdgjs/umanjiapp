@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
@@ -137,12 +138,23 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
                 mProgress.hide();
 
                 try{
-                    mResizedFile.delete();
-                    mResizedFile = null;
-                    mPhotoUri = null;
+                    if(mResizedFile != null) {
+                        mResizedFile.delete();
+                        mResizedFile = null;
+                    }
+                    if(!TextUtils.isEmpty(mPhotoUri)) {
+                        mPhotoUri = null;
+                    }
 
                     JSONObject data = event.response.getJSONObject("data");
                     mPhotoUri = REST_S3_URL + data.optString("photo");
+
+                    // Galaxy S4 에서만 나타나는 현상 임시처리.
+                    if(mPhoto.getTag() == null) {
+                        Glide.with(mActivity)
+                                .load(mPhotoUri)
+                                .into(mPhoto);
+                    }
                 }catch(JSONException e) {
                     Log.e("BaseChannelCreate", "error " + e.toString());
                 }

@@ -68,8 +68,6 @@ public class CommunityListFragment extends BaseChannelListFragment {
     public void loadMoreData() {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
-        mProgress.show();
-
         try {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
@@ -136,7 +134,6 @@ public class CommunityListFragment extends BaseChannelListFragment {
         }
 
         mAdapter.notifyDataSetChanged();
-        mProgress.hide();
     }
 
     @Override

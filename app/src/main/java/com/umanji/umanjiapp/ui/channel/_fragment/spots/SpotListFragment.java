@@ -72,8 +72,6 @@ public class SpotListFragment extends BaseChannelListFragment {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
 
-        mProgress.show();
-
         try {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
@@ -139,7 +137,6 @@ public class SpotListFragment extends BaseChannelListFragment {
     public void updateView() {
         //mEmptySpot.setVisibility(View.GONE);
         mAdapter.notifyDataSetChanged();
-        mProgress.hide();
     }
 
     @Override

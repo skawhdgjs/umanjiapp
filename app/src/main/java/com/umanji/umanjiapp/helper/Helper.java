@@ -676,8 +676,8 @@ public final class Helper implements AppConfig {
 
             Glide.with(activity)
                     .load(resizedFile)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(photoView);
+            photoView.setTag("done");
 
             if(!isFixedHeight) {
                 photoView.getLayoutParams().height = height;
