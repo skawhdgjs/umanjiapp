@@ -8,22 +8,12 @@ public class SubLinkData {
     private String id;
     private String type;
     private String name;
-    private String createdFrom;
 
     public SubLinkData(JSONObject jsonObject) {
         this.owner  = jsonObject.optString("owner");
         this.id     = jsonObject.optString("id");
         this.type   = jsonObject.optString("type");
         this.name   = jsonObject.optString("name");
-        this.createdFrom   = jsonObject.optString("createdFrom");
-    }
-
-    public String getCreatedFrom() {
-        return createdFrom;
-    }
-
-    public void setCreatedFrom(String createdFrom) {
-        this.createdFrom = createdFrom;
     }
 
     public String getOwner() {
