@@ -138,11 +138,11 @@
                             android:shadowColor="#000"
                             android:shadowRadius="7.0"
                             android:textColor="@color/white"
-                            android:layout_above="@+id/keywordPanel"
+                            android:layout_alignParentBottom="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_marginLeft="20dp"
-                            android:layout_marginBottom="5dp"/>
+                            android:layout_marginBottom="20dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -201,10 +201,13 @@
                             app:riv_border_width="1px"
                             app:riv_corner_radius="5dp"
                             app:riv_oval="false"
-                            android:layout_alignBottom="@+id/keywordPanel"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:baselineAlignBottom="false"
+                            android:layout_alignParentBottom="true"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginRight="20dp" />
+                            android:layout_marginBottom="20dp" />
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
