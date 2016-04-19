@@ -387,10 +387,7 @@ public class CommunityDistributionFragment extends BaseFragment {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));  // get here from communityDistribution
                     }
 
-                    // To modify HERE!!!
-                    //Helper.startActivity(mActivity, channelData);
-                    String keywordType = channelData.getParent().getType();
-                    startActivityByKeyword(keywordType, channelData.getParent());
+                    Helper.startActivity(mActivity, channelData.getParent());
 
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
@@ -446,38 +443,6 @@ public class CommunityDistributionFragment extends BaseFragment {
                 mCurrentMyPosition = new LatLng(location.getLatitude(), location.getLongitude());
             }
         });
-
-    }
-
-    private void startActivityByKeyword(String keywordType, ChannelData channelData) {
-        Intent i = null;
-
-        switch (keywordType) {
-            case TYPE_SPOT:
-                i = new Intent(mActivity, SpotActivity.class);
-                break;
-            case TYPE_SPOT_INNER:
-                i = new Intent(mActivity, SpotActivity.class);
-                break;
-            case TYPE_COMPLEX:
-                i = new Intent(mActivity, ComplexActivity.class);
-                break;
-            case TYPE_INFO_CENTER:
-                i = new Intent(mActivity, InfoActivity.class);
-                break;
-            case TYPE_COMMUNITY:
-                i = new Intent(mActivity, CommunityActivity.class);
-                break;
-            default:
-                i = new Intent(mActivity, SpotActivity.class);
-                break;
-        }
-
-        Bundle bundle = new Bundle();
-        bundle.putString("channel", channelData.getJsonObject().toString());
-        bundle.putString("fromDist", "communityDistribution");
-        i.putExtra("bundle", bundle);
-        startActivity(i);
 
     }
 
