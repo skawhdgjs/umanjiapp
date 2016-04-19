@@ -170,7 +170,8 @@
                             android:layout_alignTop="@+id/point"
                             android:layout_toRightOf="@+id/point"
                             android:layout_toEndOf="@+id/point"
-                            android:layout_marginLeft="20dp"/>
+                            android:layout_marginLeft="20dp"
+                            android:visibility="gone"/>
 
                         <LinearLayout
                             android:orientation="horizontal"
@@ -195,15 +196,15 @@
                             android:layout_height="40dp"
                             android:src="@drawable/avatar_default_0"
                             android:scaleType="centerCrop"
-                            android:layout_alignTop="@+id/point"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginRight="15dp"
 
                             app:riv_border_color="@color/colorPrimary"
                             app:riv_border_width="1px"
                             app:riv_corner_radius="5dp"
-                            app:riv_oval="false"/>
+                            app:riv_oval="false"
+                            android:layout_alignBottom="@+id/keywordPanel"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="20dp" />
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
