@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +54,10 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     protected Button mVoteBtn;
     protected Button mVoteRemoveBtn;
     protected Button mAddVoteOptionBtn;
+
+    protected CheckBox mPush;
+    protected boolean isPushChecked = false;
+
 
     protected boolean isReady = false;
 
@@ -99,9 +105,9 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             @Override
             public void afterTextChanged(Editable arg0) {
                 isReady = true;
-                if(mName.getText().toString().length()==0){
+                if (mName.getText().toString().length() == 0) {
                     mSubmitBtn2.setTextColor(Color.parseColor("#5c5cd6"));
-                } else{
+                } else {
                     mSubmitBtn2.setTextColor(Color.parseColor("#ffffff"));
                 }
                 enableSubmitIfReady();
@@ -113,6 +119,23 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+
+        mPush = (CheckBox) view.findViewById(R.id.push);
+        mPush.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if (buttonView.getId() == R.id.push) {
+                    if (isChecked) {
+                        isPushChecked = true;
+                    } else {
+                        isPushChecked = false;
+                    }
+                }
             }
         });
     }
@@ -151,6 +174,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_POST);
 
+            params.put("push", isPushChecked);
 
             if(mPhotoUri != null) {
                 ArrayList<String> photos = new ArrayList<>();

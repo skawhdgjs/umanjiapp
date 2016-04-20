@@ -487,7 +487,7 @@ public class MainFragment extends BaseFragment {
 
             case R.id.mNotyCount:
             case R.id.mAvatarImageBtn:
-                if(AuthHelper.isLogin(mActivity)) {
+                if(AuthHelper.isLogin(mActivity) && mUser != null) {
                     Intent intent = new Intent(mActivity, ProfileActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", mUser.getJsonObject().toString());
