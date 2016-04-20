@@ -40,7 +40,7 @@
     <application
         android:name=".analytics.ApplicationController"
         android:allowBackup="true"
-        android:icon="@drawable/ic_umanji_launcher"
+        android:icon="@mipmap/ic_umanji_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:supportsRtl="true"
