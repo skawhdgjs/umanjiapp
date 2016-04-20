@@ -1,8 +1,8 @@
 package com.umanji.umanjiapp;
 
 public interface AppConfig {
-    String REST_SERVER_URL = "http://172.17.109.133:3000/v1"; /* 로컬 API Server */
-//   String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+//    String REST_SERVER_URL = "http://172.17.109.133:3000/v1"; /* 로컬 API Server */
+   String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -149,6 +149,10 @@ public interface AppConfig {
 
     String EVENT_LOOK_AROUND            = "LOOK_AROUND";
     String EVENT_UPDATEVIEW             = "UPDATE_VIEW";
+
+    String SLIDING_COLLAPSED            = "COLLAPSED";
+    String SLIDING_ANCHORED             = "ANCHORED";
+    String SLIDING_EXPANDED             = "EXPANDED";
 
     int POINT_DEFAULT                   = 10;
     int POINT_CREATE_CHANNEL            = 10;
