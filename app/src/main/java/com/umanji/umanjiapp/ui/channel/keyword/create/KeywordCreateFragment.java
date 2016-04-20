@@ -57,6 +57,12 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     protected void request() {
+
+        if(mClicked == true){
+            Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         try {
             ArrayList<SubLinkData> subLinks = mChannel.getSubLinks(TYPE_KEYWORD);
             if(subLinks != null) {
@@ -81,6 +87,7 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
             }
 
             mApi.call(api_channels_create, params);
+            mClicked = true;
 
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
@@ -93,6 +100,7 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
 
         switch (event.type) {
             case api_channels_create:
+                mClicked = false;
                 mActivity.finish();
                 break;
         }

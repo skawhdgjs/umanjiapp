@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
@@ -167,6 +168,10 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     @Override
     protected void request() {
         mProgress.show();
+        if(mClicked == true){
+            Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
@@ -212,6 +217,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
             params.put("desc", descParams);
             mApi.call(api_channels_create, params);
+            mClicked = true;
 
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
@@ -226,6 +232,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             case api_channels_create:
                 mProgress.hide();
                 mActivity.finish();
+                mClicked = false;
                 break;
         }
     }

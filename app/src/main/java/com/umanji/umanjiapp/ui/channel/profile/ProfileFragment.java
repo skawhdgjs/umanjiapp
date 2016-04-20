@@ -57,6 +57,13 @@ public class ProfileFragment extends BaseChannelFragment {
     }
 
     @Override
+    public void initWidgets(View view) {
+        super.initWidgets(view);
+
+        mKeywordPanel.setVisibility(View.GONE);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 

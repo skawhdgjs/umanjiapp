@@ -74,10 +74,10 @@ import java.util.Random;
 import de.greenrobot.event.EventBus;
 
 public class MainFragment extends BaseFragment {
-    private static final String TAG      = "MainFragment";
+    private static final String TAG = "MainFragment";
 
     /****************************************************
-     *  View
+     * View
      ****************************************************/
     private View mNoticePanel;
 
@@ -96,23 +96,21 @@ public class MainFragment extends BaseFragment {
     private TextView mInfoTextPanel;
 
 
-
-
     private ImageView mGuideImageView01;
 
 
     /****************************************************
-     *  Map
+     * Map
      ****************************************************/
     LatLng mCurrentMyPosition;
 
 
-    private static final String[] LOCATION_PERMS={
+    private static final String[] LOCATION_PERMS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
-    private static final String[] PERMS={
+    private static final String[] PERMS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -123,37 +121,38 @@ public class MainFragment extends BaseFragment {
 
 
     private static final int INITIAL_REQUEST = 10;
-    private static final int PERMS_REQUEST = INITIAL_REQUEST+2;
-    private static final int LOCATION_REQUEST = INITIAL_REQUEST+3;
-    private static final int EXTERNAL_STORAGE_REQUEST = INITIAL_REQUEST+4;
+    private static final int PERMS_REQUEST = INITIAL_REQUEST + 2;
+    private static final int LOCATION_REQUEST = INITIAL_REQUEST + 3;
+    private static final int EXTERNAL_STORAGE_REQUEST = INITIAL_REQUEST + 4;
 
 
     /****************************************************
-     *  Etc
+     * Etc
      ****************************************************/
-    private ChannelData         mUser;
-    private JSONArray           mMarkers;
-    private JSONArray           mAds;
-    private ChannelData         mCurrentChannel;
-    private ChannelData         mSelectedChannel;
-    private ChannelData         mClickedChannel;
-    private ChannelData         mAdChannel;
+    private ChannelData mUser;
+    private JSONArray mMarkers;
+    private JSONArray mAds;
+    private ChannelData mCurrentChannel;
+    private ChannelData mSelectedChannel;
+    private ChannelData mClickedChannel;
+    private ChannelData mAdChannel;
 
     private ArrayList<ChannelData> mPosts;
 
 
-    private boolean             isBlock = false;
-    private boolean             isLoading = false;
-    private int                 mPreFocusedItem = 0;
+    private boolean isBlock = false;
+    private boolean isLoading = false;
+    private int mPreFocusedItem = 0;
 
-    private LatLng              mLatLngByPoint = new LatLng(37.491361, 126.923978);
-    private ChannelData         mChannelByPoint;
-    private Marker              mMarkerByPoint;
-    private Marker              mFocusedMarker;
-    private LatLng              mPointByPost;
+    private LatLng mLatLngByPoint = new LatLng(37.491361, 126.923978);
+    private ChannelData mChannelByPoint;
+    private Marker mMarkerByPoint;
+    private Marker mFocusedMarker;
+    private LatLng mPointByPost;
 
-    private String              mChannelIdForPush;
-    private ImageView           mAdsImage;
+    private String mChannelIdForPush;
+    private ImageView mAdsImage;
+    private LinearLayout mlayout;
 
     TextView searchBtn;
 
@@ -167,12 +166,12 @@ public class MainFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             mChannelIdForPush = getArguments().getString("id");
         }
 
 
-        Tracker t = ((ApplicationController)mActivity.getApplication()).getTracker();
+        Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
         t.setScreenName("MainActivity");
         t.send(new HitBuilders.AppViewBuilder().build());
     }
@@ -185,7 +184,7 @@ public class MainFragment extends BaseFragment {
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         GoogleAnalytics.getInstance(mActivity).reportActivityStop(mActivity);
     }
@@ -196,7 +195,7 @@ public class MainFragment extends BaseFragment {
 
         initMainListView(view);
 
-        if(AuthHelper.isLogin(mActivity)) {
+        if (AuthHelper.isLogin(mActivity)) {
             loginByToken();
         } else {
             updateView();
@@ -205,7 +204,7 @@ public class MainFragment extends BaseFragment {
         initWidgets(view);
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
+        if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE) ==
@@ -213,7 +212,7 @@ public class MainFragment extends BaseFragment {
                     ContextCompat.checkSelfPermission(mActivity, Manifest.permission.CAMERA) ==
                             PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(mActivity, Manifest.permission.INTERNET) ==
-                            PackageManager.PERMISSION_GRANTED)  {
+                            PackageManager.PERMISSION_GRANTED) {
                 initMap();
             } else {
                 requestPermissions(PERMS, PERMS_REQUEST);
@@ -222,7 +221,7 @@ public class MainFragment extends BaseFragment {
             initMap();
         }
 
-        if(!TextUtils.isEmpty(mChannelIdForPush)) {
+        if (!TextUtils.isEmpty(mChannelIdForPush)) {
             startActivityForPush();
         }
 
@@ -256,7 +255,7 @@ public class MainFragment extends BaseFragment {
                     mChannelIdForPush = "";
                 }
             });
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
     }
@@ -276,7 +275,7 @@ public class MainFragment extends BaseFragment {
         mSlidingUpPanelLayout.setMinFlingVelocity(DEFAULT_MIN_FLING_VELOCITY);
 
 
-        mHeaderPanel= (LinearLayout) view.findViewById(R.id.headerPanel);
+        mHeaderPanel = (LinearLayout) view.findViewById(R.id.headerPanel);
         mHeaderPanel.setOnClickListener(this);
 
 
@@ -304,6 +303,8 @@ public class MainFragment extends BaseFragment {
         mAdsImage = (ImageView) view.findViewById(R.id.ads_image);
         mAdsImage.setOnClickListener(this);
 
+        mlayout = (LinearLayout) view.findViewById(R.id.mainListContainer);
+
 
         checkGuide01(view);
 
@@ -311,7 +312,7 @@ public class MainFragment extends BaseFragment {
 
     private void checkGuide01(View view) {
         String guide01 = FileHelper.getString(mActivity, "guide01");
-        if(TextUtils.isEmpty(guide01)) {
+        if (TextUtils.isEmpty(guide01)) {
             mGuideImageView01 = (ImageView) view.findViewById(R.id.mGuideImageView01);
             mGuideImageView01.setVisibility(View.VISIBLE);
             mGuideImageView01.setOnClickListener(new View.OnClickListener() {
@@ -369,7 +370,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-        if(AuthHelper.isLogin(mActivity)) {
+        if (AuthHelper.isLogin(mActivity)) {
             loadNewNoties();
         }
         mProgress.show();
@@ -386,24 +387,24 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void updateView() {
-        if(AuthHelper.isLogin(mActivity)) {
+        if (AuthHelper.isLogin(mActivity)) {
             mAvatarImageBtn.setVisibility(View.VISIBLE);
             String userPhoto = mUser.getPhoto();
-            if(!TextUtils.isEmpty(userPhoto)) {
+            if (!TextUtils.isEmpty(userPhoto)) {
                 Glide.with(mActivity)
                         .load(userPhoto)
                         .placeholder(R.drawable.empty)
                         .animate(R.anim.abc_fade_in)
                         .override(40, 40)
                         .into(mAvatarImageBtn);
-            }else {
+            } else {
                 Glide.with(mActivity)
                         .load(R.drawable.avatar_default_0)
                         .placeholder(R.drawable.empty)
                         .override(40, 40)
                         .into(mAvatarImageBtn);
             }
-        }else {
+        } else {
             Glide.with(mActivity)
                     .load(R.drawable.login)
                     .animate(R.anim.abc_fade_in)
@@ -465,7 +466,7 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    public void onEvent(ErrorData event){
+    public void onEvent(ErrorData event) {
 
         switch (event.type) {
             case TYPE_ERROR_AUTH:
@@ -478,9 +479,9 @@ public class MainFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mZoomBtn:
-                if(mZoomBtn.getTag().equals(ZOOM_IN)) {
+                if (mZoomBtn.getTag().equals(ZOOM_IN)) {
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 1000, null);
-                }else {
+                } else {
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 1000, null);
                 }
                 break;
@@ -492,7 +493,7 @@ public class MainFragment extends BaseFragment {
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", mUser.getJsonObject().toString());
                     bundle.putInt("newNoticeCount", getNewNoticeCount());
-                    if(getNewNoticeCount() > 0) {
+                    if (getNewNoticeCount() > 0) {
                         bundle.putString("tabType", TAB_NOTIES);
                     } else {
                         bundle.putString("tabType", TAB_SPOTS);
@@ -509,7 +510,7 @@ public class MainFragment extends BaseFragment {
                 Intent webIntent = new Intent(mActivity, WebViewActivity.class);
                 mActivity.startActivity(webIntent);
                 break;
-            
+
             case R.id.search:
                 Intent searchIntent = new Intent(mActivity, SearchActivity.class);
                 startActivity(searchIntent);
@@ -520,7 +521,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch(requestCode) {
+        switch (requestCode) {
             case PERMS_REQUEST:
                 if (canAccessLocation()) {
                     initMap();
@@ -530,23 +531,23 @@ public class MainFragment extends BaseFragment {
     }
 
     private boolean canAccessLocation() {
-        return(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
+        return (hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
     }
 
     private boolean hasPermission(String perm) {
-        return(PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm));
+        return (PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm));
     }
 
     private void initMap() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.getBaseContext());
 
-        if(status!= ConnectionResult.SUCCESS){
+        if (status != ConnectionResult.SUCCESS) {
 
             int requestCode = 10;
             Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, mActivity, requestCode);
             dialog.show();
 
-        }else {
+        } else {
             mMap = ((MapFragment) mActivity.getFragmentManager().findFragmentById(R.id.mMapFragment))
                     .getMap();
 
@@ -571,13 +572,13 @@ public class MainFragment extends BaseFragment {
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
 
-        double latitude     = 37.491361;
-        double longitude    = 126.923978;
+        double latitude = 37.491361;
+        double longitude = 126.923978;
 
         try {
             Location location = locationManager.getLastKnownLocation(provider);
 
-            if(location != null) {
+            if (location != null) {
 
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
@@ -592,7 +593,7 @@ public class MainFragment extends BaseFragment {
                         .build();
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
-        }catch (SecurityException e) {
+        } catch (SecurityException e) {
             Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
         }
 
@@ -602,7 +603,7 @@ public class MainFragment extends BaseFragment {
     }
 
     /****************************************************
-     *  init Map Events
+     * init Map Events
      ****************************************************/
 
     protected void initMapEvents() {
@@ -611,18 +612,18 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onMapClick(LatLng point) {
 
-                if(mFocusedMarker != null) {
+                if (mFocusedMarker != null) {
                     mFocusedMarker.remove();
                 }
-                if(mChannelByPoint != null) {
+                if (mChannelByPoint != null) {
                     mChannelByPoint = null;
                 }
 
                 final int zoom = (int) mMap.getCameraPosition().zoom;
 
-                if(isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
+                if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
                     int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
-                    Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다("+ POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다(" + POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -641,8 +642,8 @@ public class MainFragment extends BaseFragment {
                             public void callback(String url, JSONObject object, AjaxStatus status) {
                                 mChannelByPoint = new ChannelData(object);
 
-                                if(TextUtils.isEmpty(mChannelByPoint.getId())) {
-                                    if(AuthHelper.isLogin(mActivity)) {
+                                if (TextUtils.isEmpty(mChannelByPoint.getId())) {
+                                    if (AuthHelper.isLogin(mActivity)) {
                                         isBlock = true;
 
                                         mMarkerByPoint = Helper.addNewMarkerToMap(mMap, mChannelByPoint);
@@ -650,9 +651,9 @@ public class MainFragment extends BaseFragment {
 
                                         mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
 
-                                        if(isComplexCreatable(zoom)) {
+                                        if (isComplexCreatable(zoom)) {
                                             showCreateComplexDialog();
-                                        }else if(isSpotCreatable(zoom)) {
+                                        } else if (isSpotCreatable(zoom)) {
                                             showCreateSpotDialog();
                                         }
 
@@ -660,17 +661,17 @@ public class MainFragment extends BaseFragment {
                                         Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                                     }
 
-                                }else {
-                                    if(isComplexCreatable(zoom)) {
+                                } else {
+                                    if (isComplexCreatable(zoom)) {
                                         startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
-                                    }else if(isSpotCreatable(zoom)) {
+                                    } else if (isSpotCreatable(zoom)) {
                                         startSpotActivity(mChannelByPoint, TYPE_SPOT);
                                     }
 
                                 }
                             }
                         });
-                    } catch(JSONException e) {
+                    } catch (JSONException e) {
                         Log.e(TAG, "error " + e.toString());
                     }
                 }
@@ -702,13 +703,13 @@ public class MainFragment extends BaseFragment {
                 try {
                     String idx = marker.getSnippet();
 
-                    if(TextUtils.equals(idx, String.valueOf(MARKER_INDEX_CLICKED))) {
+                    if (TextUtils.equals(idx, String.valueOf(MARKER_INDEX_CLICKED))) {
                         mClickedChannel = mSelectedChannel;
                     } else {
                         mClickedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
                     }
 
-                }catch (JSONException e) {
+                } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
                 }
 
@@ -725,7 +726,7 @@ public class MainFragment extends BaseFragment {
                 try {
                     if (TextUtils.equals(index, String.valueOf(MARKER_INDEX_BY_POST))) {
                         channelData = mCurrentChannel.getParent();
-                    } else if(TextUtils.equals(index, String.valueOf(MARKER_INDEX_CLICKED))) {
+                    } else if (TextUtils.equals(index, String.valueOf(MARKER_INDEX_CLICKED))) {
                         channelData = mSelectedChannel;
                     } else {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
@@ -829,14 +830,14 @@ public class MainFragment extends BaseFragment {
             mApi.call(api_main_findAds2, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
-                    if(json == null){
+                    if (json == null) {
                         Random rd = new Random();
                         int randomNum = rd.nextInt(3);
-                        if(randomNum == 0){
+                        if (randomNum == 0) {
                             mAdsImage.setImageResource(R.drawable.ads_umanji_guide);
-                        } else if(randomNum == 2){
+                        } else if (randomNum == 2) {
                             mAdsImage.setImageResource(R.drawable.ad_sample01);
-                        } else if(randomNum == 1){
+                        } else if (randomNum == 1) {
                             mAdsImage.setImageResource(R.drawable.ad_sample);
                         }
 
@@ -845,7 +846,7 @@ public class MainFragment extends BaseFragment {
                     }
                 }
             });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
         mProgress.hide();
@@ -856,7 +857,7 @@ public class MainFragment extends BaseFragment {
         try {
             mAds = jsonObject.getJSONArray("data");
 
-            if(mAds.length() != 0) {
+            if (mAds.length() != 0) {
 
                 Random rd = new Random();
 
@@ -864,7 +865,7 @@ public class MainFragment extends BaseFragment {
 
                 mAdChannel = new ChannelData(mAds.getJSONObject(randomNum));
                 String photo = mAdChannel.getPhoto();
-                if(!TextUtils.isEmpty(photo)) {
+                if (!TextUtils.isEmpty(photo)) {
                     Glide.with(mActivity)
                             .load(photo)
                             .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -883,7 +884,7 @@ public class MainFragment extends BaseFragment {
                                         Helper.startActivity(mActivity, channel, channel.getType());
                                     }
                                 });
-                            } catch(JSONException e) {
+                            } catch (JSONException e) {
                                 Log.e(TAG, "error " + e.toString());
                             }
                         }
@@ -899,16 +900,16 @@ public class MainFragment extends BaseFragment {
                 });
                 Random rd = new Random();
                 int randomNum = rd.nextInt(3);
-                if(randomNum == 0){
+                if (randomNum == 0) {
                     mAdsImage.setImageResource(R.drawable.ads_umanji_guide);
-                } else if(randomNum == 2){
+                } else if (randomNum == 2) {
                     mAdsImage.setImageResource(R.drawable.ad_sample01);
-                } else if(randomNum == 1){
+                } else if (randomNum == 1) {
                     mAdsImage.setImageResource(R.drawable.ad_sample);
                 }
             }
 
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
 
@@ -927,18 +928,26 @@ public class MainFragment extends BaseFragment {
             mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if(status.getCode() == 500) {
+                    if (status.getCode() == 500) {
                         EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    }else {
+                    } else {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
-                            for(int idx = 0; idx < jsonArray.length(); idx++) {
-                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                ChannelData doc = new ChannelData(jsonDoc);
 
-                                if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
-                                    mAdapter.addBottom(doc);
+                            if (jsonArray.length() != 0) {
+                                mlayout.setBackgroundResource(R.color.feed_bg);
+
+                                for (int idx = 0; idx < jsonArray.length(); idx++) {
+                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                    ChannelData doc = new ChannelData(jsonDoc);
+
+                                    if (doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                        mAdapter.addBottom(doc);
+                                    }
                                 }
+
+                            } else {
+                                mlayout.setBackgroundResource(R.drawable.empty_main_post);
                             }
 
                             isLoading = false;
@@ -949,7 +958,7 @@ public class MainFragment extends BaseFragment {
                     }
                 }
             });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
 
@@ -969,7 +978,7 @@ public class MainFragment extends BaseFragment {
                     else logout();
                 }
             });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
 
@@ -994,22 +1003,21 @@ public class MainFragment extends BaseFragment {
         updateView();
     }
 
-    private static boolean isComplexCreatable(int zoom ) {
-        if(zoom >= 15 && zoom <= 17) {
+    private static boolean isComplexCreatable(int zoom) {
+        if (zoom >= 15 && zoom <= 17) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    private static boolean isSpotCreatable(int zoom ) {
-        if(zoom >= 18) {
+    private static boolean isSpotCreatable(int zoom) {
+        if (zoom >= 18) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
-
 
 
     private void loadMainMarkers() {
@@ -1025,7 +1033,7 @@ public class MainFragment extends BaseFragment {
                     addChannelsToMap(json);
                 }
             });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
         mProgress.hide();
@@ -1041,31 +1049,31 @@ public class MainFragment extends BaseFragment {
 
             int idx = 0;
 
-            if(mCurrentChannel != null) {
-                if(Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
+            if (mCurrentChannel != null) {
+                if (Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
                     mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
-                }else {
+                } else {
                     mCurrentChannel = null;
                 }
             }
 
-            if(mClickedChannel != null) {
-                if(Helper.isInVisibleResion(mMap, new LatLng(mClickedChannel.getLatitude(), mClickedChannel.getLongitude()))) {
+            if (mClickedChannel != null) {
+                if (Helper.isInVisibleResion(mMap, new LatLng(mClickedChannel.getLatitude(), mClickedChannel.getLongitude()))) {
                     mFocusedMarker = Helper.addMarkerToMap(mMap, mClickedChannel, MARKER_INDEX_CLICKED);
                     mSelectedChannel = mClickedChannel;
-                }else {
+                } else {
                     mSelectedChannel = null;
                     mClickedChannel = null;
                 }
             }
 
-            if(mMarkers != null) {
-                for(; idx < mMarkers.length() ; idx ++ ) {
+            if (mMarkers != null) {
+                for (; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
 
-                    if(mCurrentChannel != null && !TextUtils.equals(mCurrentChannel.getId(), channelData.getId())) {
+                    if (mCurrentChannel != null && !TextUtils.equals(mCurrentChannel.getId(), channelData.getId())) {
                         Helper.addMarkerToMap(mMap, channelData, idx);
-                    } else if(mSelectedChannel != null && !TextUtils.equals(mSelectedChannel.getId(), channelData.getId())) {
+                    } else if (mSelectedChannel != null && !TextUtils.equals(mSelectedChannel.getId(), channelData.getId())) {
                         Helper.addMarkerToMap(mMap, channelData, idx);
                     } else {
                         Helper.addMarkerToMap(mMap, channelData, idx);
@@ -1073,7 +1081,7 @@ public class MainFragment extends BaseFragment {
                 }
             }
 
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
 
@@ -1223,21 +1231,21 @@ public class MainFragment extends BaseFragment {
         try {
             JSONObject params = new JSONObject();
             params.put("read", false);
-            mApi.call(api_noites_new_count, params, new AjaxCallback<JSONObject>(){
+            mApi.call(api_noites_new_count, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     super.callback(url, object, status);
                     int notyCount = object.optInt("data");
-                    if(notyCount > 0) {
+                    if (notyCount > 0) {
                         mNotyCountBtn.setVisibility(View.VISIBLE);
                         mNotyCountBtn.setText(String.valueOf(notyCount));
-                    }else {
+                    } else {
                         mNotyCountBtn.setVisibility(View.GONE);
                         mNotyCountBtn.setText("0");
                     }
                 }
             });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
     }

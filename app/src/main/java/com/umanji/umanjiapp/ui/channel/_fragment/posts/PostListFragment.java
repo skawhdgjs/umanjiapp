@@ -119,8 +119,6 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void updateView() {
         mAdapter.notifyDataSetChanged();
-
-        //mEmptyStates.setVisibility(View.GONE);
     }
 
     @Override
@@ -137,6 +135,7 @@ public class PostListFragment extends BaseChannelListFragment {
                     mAdapter.addTop(channelData);
                     mAdapter.notifyDataSetChanged();
                 }
+                mlayout.setBackgroundResource(R.color.feed_bg);
                 break;
 
         }
