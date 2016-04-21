@@ -591,7 +591,7 @@ public class MainFragment extends BaseFragment {
 
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                         .target(mCurrentMyPosition)
-                        .zoom(18)
+                        .zoom(14)
                         .bearing(90)
                         .tilt(40)
                         .build();
@@ -603,7 +603,7 @@ public class MainFragment extends BaseFragment {
 
         LatLng latLng = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
     }
 
     /****************************************************
