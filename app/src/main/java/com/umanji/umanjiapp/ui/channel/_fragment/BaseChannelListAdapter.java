@@ -64,11 +64,13 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
     protected String mType;
 
     protected ChannelData mChannel;
+
     /****************************************************
      *  ArrayList
      ****************************************************/
     protected ArrayList<ChannelData> mChannels;
     protected int mCurrentPage = 0;
+
 
     public BaseChannelListAdapter(BaseActivity activity, Fragment fragment) {
         this.mActivity = activity;
@@ -428,6 +430,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                     Helper.startImageViewActivity(mActivity, channelData);
                 }
             });
+
         }else {
             holder.photo.setVisibility(View.GONE);
         }

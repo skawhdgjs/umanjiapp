@@ -146,7 +146,7 @@ public class MainFragment extends BaseFragment {
 
     private String mSlidingState = SLIDING_COLLAPSED;
 
-    private LatLng mLatLngByPoint = new LatLng(37.491361, 126.923978);
+    private LatLng mLatLngByPoint = new LatLng(37.642443934398, 126.977429352700);
     private ChannelData mChannelByPoint;
     private Marker mMarkerByPoint;
     private Marker mFocusedMarker;
@@ -576,34 +576,41 @@ public class MainFragment extends BaseFragment {
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
 
-        double latitude = 37.491361;
-        double longitude = 126.923978;
+        double latitude = 37.642443934398;
+        double longitude = 126.977429352700;
 
         try {
-            Location location = locationManager.getLastKnownLocation(provider);
+
+            String isFirst = FileHelper.getString(mActivity, "isFirst");
+            Location location = null;
+            if(TextUtils.isEmpty(isFirst)) {
+                FileHelper.setString(mActivity, "isFirst", "checked");
+            } else {
+                location = locationManager.getLastKnownLocation(provider);
+            }
 
             if (location != null) {
-
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
-
-                mCurrentMyPosition = new LatLng(latitude, longitude);
-
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(mCurrentMyPosition)
-                        .zoom(14)
-                        .bearing(90)
-                        .tilt(40)
-                        .build();
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
+
+            mCurrentMyPosition = new LatLng(latitude, longitude);
+
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(mCurrentMyPosition)
+                    .zoom(14)
+                    .bearing(90)
+                    .tilt(40)
+                    .build();
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
         } catch (SecurityException e) {
             Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
         }
 
         LatLng latLng = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(11), 2000, null);
     }
 
     /****************************************************

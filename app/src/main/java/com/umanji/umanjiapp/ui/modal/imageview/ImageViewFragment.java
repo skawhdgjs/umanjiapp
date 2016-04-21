@@ -13,6 +13,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 
+
 public class ImageViewFragment extends BaseFragment {
     private static final String TAG = "SigninFragment";
 
@@ -21,7 +22,6 @@ public class ImageViewFragment extends BaseFragment {
      *  View
      ****************************************************/
     ImageView mPhoto;
-
     ChannelData mChannel;
 
     public static ImageViewFragment newInstance(Bundle bundle) {
@@ -48,6 +48,10 @@ public class ImageViewFragment extends BaseFragment {
 
         updateView();
 
+//        PhotoViewAttacher mAttacher;
+//        mAttacher = new PhotoViewAttacher(mPhoto);
+//        mAttacher.update();
+
         return view;
     }
 
@@ -59,6 +63,7 @@ public class ImageViewFragment extends BaseFragment {
     @Override
     public void initWidgets(View view) {
         mPhoto = (ImageView) view.findViewById(R.id.photo);
+
     }
 
     @Override
