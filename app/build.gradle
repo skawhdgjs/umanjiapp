@@ -19,8 +19,8 @@ android {
         applicationId "com.umanji.umanjiapp"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 55
-        versionName "2.055"
+        versionCode 56
+        versionName "2.056"
     }
     buildTypes {
         release {

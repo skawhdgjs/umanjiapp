@@ -374,6 +374,9 @@ public final class Helper implements AppConfig {
             case TYPE_COMMUNITY:
                 intent = new Intent(activity, CommunityUpdateActivity.class);
                 break;
+            case TYPE_INFO_CENTER:
+                intent = new Intent(activity, CommunityUpdateActivity.class);
+                break;
             case TYPE_SPOT_INNER:
             case TYPE_SPOT:
                 intent = new Intent(activity, SpotUpdateActivity.class);

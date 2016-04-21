@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -81,7 +82,7 @@ public class InfoFragment extends BaseChannelFragment {
 
                 switch (mCurrentTapPosition) {
                     case 0:
-                        if(AuthHelper.isLogin(mActivity)) {
+                        if (AuthHelper.isLogin(mActivity)) {
                             mFab.setVisibility(View.VISIBLE);
                         }
                         break;
@@ -133,7 +134,6 @@ public class InfoFragment extends BaseChannelFragment {
             mFab.setVisibility(View.GONE);
         }
 
-
         setName(mActivity, mChannel, "");
         setPhoto(mActivity, mChannel, R.drawable.multi_spot_background);
         setParentName(mActivity, mChannel.getParent());
@@ -142,6 +142,41 @@ public class InfoFragment extends BaseChannelFragment {
         setLevel(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
         setKeywords(mActivity, mChannel);
+    }
+
+    @Override
+    protected void setName(Activity activity, final ChannelData channelData, String label) {
+        if(!TextUtils.isEmpty(channelData.getName())) {
+            mName.setText(Helper.getShortenString(channelData.getName()));
+        } else {
+            mName.setText(label);
+        }
+
+        try {
+            String userId = AuthHelper.getUserId(mActivity);
+
+            JSONObject params = new JSONObject();
+            params.put("id", userId);
+            mApi.call(api_channels_get, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    final ChannelData userData = new ChannelData(object);
+
+                    mName.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(userData.getPoint() >= 10000) {
+                                Helper.startUpdateActivity(mActivity, channelData);
+                            } else {
+                                Toast.makeText(mActivity, "활동 포인트 10000 이상에서 수정가능합니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            });
+        } catch(JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
     }
 
     private boolean hasAuthority() {
