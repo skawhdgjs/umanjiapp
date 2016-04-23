@@ -21,7 +21,6 @@ android {
         targetSdkVersion 23
         versionCode 59
         versionName "2.059"
-//        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -55,7 +54,5 @@ dependencies {
 
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.leocardz:link-preview:1.2.1@aar'
-
-//    compile 'com.github.chrisbanes:PhotoView:1.2.6'
 
 }

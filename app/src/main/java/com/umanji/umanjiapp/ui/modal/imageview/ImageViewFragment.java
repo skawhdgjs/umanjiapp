@@ -48,10 +48,6 @@ public class ImageViewFragment extends BaseFragment {
 
         updateView();
 
-//        PhotoViewAttacher mAttacher;
-//        mAttacher = new PhotoViewAttacher(mPhoto);
-//        mAttacher.update();
-
         return view;
     }
 
