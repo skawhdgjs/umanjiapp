@@ -366,7 +366,7 @@ public class MainFragment extends BaseFragment {
         if (AuthHelper.isLogin(mActivity)) {
             loadNewNoties();
         }
-        mProgress.show();
+        //mProgress.show();
 
         loadMainMarkers();
         loadMainPosts();
@@ -1032,7 +1032,7 @@ public class MainFragment extends BaseFragment {
 
 
     private void loadMainMarkers() {
-        mProgress.show();
+        //mProgress.show();
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("zoom", (int) mMap.getCameraPosition().zoom);
