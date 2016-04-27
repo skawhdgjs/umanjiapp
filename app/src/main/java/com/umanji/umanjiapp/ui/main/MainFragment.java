@@ -934,7 +934,7 @@ public class MainFragment extends BaseFragment {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("page", mAdapter.getCurrentPage());
             params.put("limit", 5);
-            params.put("sort", "point DESC");
+            //params.put("sort", "point DESC");
 
             mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
                 @Override
