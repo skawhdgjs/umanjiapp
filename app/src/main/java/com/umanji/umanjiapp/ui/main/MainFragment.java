@@ -787,6 +787,8 @@ public class MainFragment extends BaseFragment {
                     mZoomLevelText.setText("Zoom: " + (int) position.zoom);
 
                     int zoom = (int) position.zoom;
+                    // isPoliticTouchable
+
                     if (isComplexCreatable(zoom)) {
                         mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
                         mInfoTextPanel.setTextColor(getResources().getColor(R.color.yellow));
@@ -796,6 +798,12 @@ public class MainFragment extends BaseFragment {
                     } else if (isSpotCreatable(zoom)) {
                         //mCreateComplexText.setVisibility(View.GONE);
                         mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
+                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.white));
+                        mZoomBtn.setImageResource(R.drawable.zoom_out);
+                        mZoomBtn.setTag(ZOOM_OUT);
+                    } else if (isPoliticTouchable(zoom)) {
+                        //mCreateComplexText.setVisibility(View.GONE);
+                        mInfoTextPanel.setText("[Zoom 6~7] 지도을 터치하면 정치 커뮤니티로 이동합니다");
                         mInfoTextPanel.setTextColor(getResources().getColor(R.color.white));
                         mZoomBtn.setImageResource(R.drawable.zoom_out);
                         mZoomBtn.setTag(ZOOM_OUT);
@@ -1012,6 +1020,14 @@ public class MainFragment extends BaseFragment {
         AuthHelper.logout(mActivity);
 
         updateView();
+    }
+
+    private static boolean isPoliticTouchable(int zoom) {
+        if (zoom >= 6 && zoom <= 7) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private static boolean isComplexCreatable(int zoom) {
