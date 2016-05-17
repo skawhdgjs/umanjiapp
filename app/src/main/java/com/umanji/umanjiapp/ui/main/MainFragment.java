@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -97,6 +98,8 @@ public class MainFragment extends BaseFragment {
 
 
     private ImageView mGuideImageView01;
+
+    private ImageView mInfoButton;
 
 
     /****************************************************
@@ -307,6 +310,9 @@ public class MainFragment extends BaseFragment {
 
         mlayout = (LinearLayout) view.findViewById(R.id.mainListContainer);
 
+        mInfoButton = (ImageView) view.findViewById(R.id.infoButton);
+        mInfoButton.setOnClickListener(this);
+
 
         checkGuide01(view);
 
@@ -515,9 +521,16 @@ public class MainFragment extends BaseFragment {
                 mActivity.startActivity(webIntent);
                 break;
 
+            case R.id.infoButton:
+                Intent webInt = new Intent(mActivity, WebViewActivity.class);
+                mActivity.startActivity(webInt);
+                break;
+
+
             case R.id.search:
                 Intent searchIntent = new Intent(mActivity, SearchActivity.class);
                 startActivity(searchIntent);
+
 
         }
     }

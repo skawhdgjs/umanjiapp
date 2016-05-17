@@ -110,6 +110,18 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="10dp"/>
 
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/infoButton"
+                android:src="@drawable/info"
+                android:background="@drawable/shadow"
+                android:padding="8dp"
+                android:layout_above="@+id/mZoomBtn"
+                android:layout_alignLeft="@+id/mZoomBtn"
+                android:layout_alignStart="@+id/mZoomBtn"
+                android:layout_marginBottom="10dp" />
+
 
         </RelativeLayout>
 
