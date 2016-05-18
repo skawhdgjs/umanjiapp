@@ -118,7 +118,7 @@
                 android:padding="6dp"
                 android:src="@drawable/info" />
 
-            <!-- Keyword Community level 2 통일-->
+            <!-- Keyword Community level 2 환경 / 에너지 -->
 
             <LinearLayout
                 android:id="@+id/keyword_launcher_level2"
@@ -131,6 +131,7 @@
                 android:visibility="gone">
 
                 <ImageView
+                    android:id="@+id/environment"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
@@ -139,6 +140,7 @@
                     android:src="@drawable/keyword_environment"/>
 
                 <ImageView
+                    android:id="@+id/energy"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
@@ -149,7 +151,7 @@
 
             </LinearLayout>
 
-            <!-- Keyword Community level 3 통일-->
+            <!-- Keyword Community level 3 영성-->
 
             <LinearLayout
                 android:id="@+id/keyword_launcher_level3"
@@ -162,6 +164,7 @@
                 android:visibility="gone">
 
                 <ImageView
+                    android:id="@+id/spiritual"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
@@ -171,7 +174,7 @@
 
             </LinearLayout>
 
-            <!-- Keyword Community level 4 통일-->
+            <!-- Keyword Community level 4 역사-->
 
             <LinearLayout
                 android:id="@+id/keyword_launcher_level4"
@@ -184,6 +187,7 @@
                 android:visibility="gone">
 
                 <ImageView
+                    android:id="@+id/history"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
@@ -206,6 +210,7 @@
                 android:visibility="gone">
 
                 <ImageView
+                    android:id="@+id/unity"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
@@ -228,6 +233,7 @@
                 android:visibility="gone">
 
                 <ImageView
+                    android:id="@+id/health"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
@@ -236,6 +242,7 @@
                     android:src="@drawable/keyword_health" />
 
                 <ImageView
+                    android:id="@+id/politics"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
@@ -261,6 +268,7 @@
                 android:visibility="gone">
 
                 <ImageView
+                    android:id="@+id/climb"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
@@ -269,6 +277,7 @@
                     android:src="@drawable/keyword_climb" />
 
                 <ImageView
+                    android:id="@+id/golf"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
@@ -278,6 +287,7 @@
                     android:src="@drawable/keyword_golf" />
 
                 <ImageView
+                    android:id="@+id/icons"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"

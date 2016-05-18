@@ -108,6 +108,42 @@ public class MainFragment extends BaseFragment {
     private LinearLayout mLauncherLevel7;
 
 
+    // Level 2
+    private ChannelData mEnvironmentChannel;
+    private ChannelData mEnergyChannel;
+
+    private ImageView   mEnvironmentImageView;
+    private ImageView   mEnergyImageView;
+    // Level 3
+    private ChannelData mSpiritualChannel;
+
+    private ImageView   mSpiritualImageView;
+
+
+    // Level 4
+    private ChannelData mHistoryChannel;
+
+    private ImageView   mHistoryImageView;
+
+    // Level 5
+    private ChannelData mUnityChannel;
+
+    private ImageView   mUnityImageView;
+
+    // Level 6
+    private ChannelData mHealthChannel;
+    private ChannelData mPoliticsChannel;
+
+    private ImageView   mHealthImageView;
+    private ImageView   mPoliticsImageView;
+    // Level 7
+    private ChannelData mClimbChannel;
+    private ChannelData mGolfChannel;
+
+    private ImageView   mClimbImageView;
+    private ImageView   mGolfImageView;
+
+
     /****************************************************
      * Map
      ****************************************************/
@@ -328,6 +364,42 @@ public class MainFragment extends BaseFragment {
         mLauncherLevel7 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level7);
 
 
+
+        // Level 2
+        mEnvironmentImageView   = (ImageView) view.findViewById(R.id.environment);
+        mEnergyImageView        = (ImageView) view.findViewById(R.id.energy);
+        mEnvironmentImageView.setOnClickListener(this);
+        mEnergyImageView.setOnClickListener(this);
+
+
+
+
+        // Level 3
+        mSpiritualImageView     = (ImageView) view.findViewById(R.id.spiritual);
+        mSpiritualImageView.setOnClickListener(this);
+
+        // Level 4
+        mHistoryImageView       = (ImageView) view.findViewById(R.id.history);
+        mHistoryImageView.setOnClickListener(this);
+
+        // Level 5
+        mUnityImageView         = (ImageView) view.findViewById(R.id.unity);
+        mUnityImageView.setOnClickListener(this);
+
+        // Level 6
+        mHealthImageView        = (ImageView) view.findViewById(R.id.health);
+        mPoliticsImageView      = (ImageView) view.findViewById(R.id.politics);
+
+        mHealthImageView.setOnClickListener(this);
+        mPoliticsImageView.setOnClickListener(this);
+
+        // Level 7
+        mClimbImageView         = (ImageView) view.findViewById(R.id.climb);
+        mGolfImageView          = (ImageView) view.findViewById(R.id.golf);
+
+        mClimbImageView.setOnClickListener(this);
+        mGolfImageView.setOnClickListener(this);
+
         checkGuide01(view);
 
     }
@@ -492,6 +564,34 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.environment:
+                Helper.startActivity(mActivity, mEnvironmentChannel, TAB_COMMUNITIES);
+                break;
+            case R.id.energy:
+                Helper.startActivity(mActivity, mEnergyChannel, TAB_COMMUNITIES);
+                break;
+            case R.id.spiritual:
+                Helper.startActivity(mActivity, mSpiritualChannel, TAB_COMMUNITIES);
+                break;
+            case R.id.history:
+                Helper.startActivity(mActivity, mHistoryChannel, TAB_COMMUNITIES);
+                break;
+            case R.id.unity:
+                Helper.startActivity(mActivity, mUnityChannel, TAB_COMMUNITIES);
+                break;
+            case R.id.health:
+                Helper.startActivity(mActivity, mHealthChannel, TAB_COMMUNITIES);
+                break;
+            case R.id.politics:
+                Helper.startActivity(mActivity, mPoliticsChannel, TAB_COMMUNITIES);
+                break;
+            case R.id.climb:
+                Helper.startActivity(mActivity, mClimbChannel, TAB_COMMUNITIES);
+                break;
+            case R.id.golf:
+                Helper.startActivity(mActivity, mGolfChannel, TAB_COMMUNITIES);
+                break;
+
             case R.id.headerPanel:
                 if (TextUtils.equals(mSlidingState, SLIDING_COLLAPSED)) {
                     mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
@@ -812,6 +912,7 @@ public class MainFragment extends BaseFragment {
                 if (isBlock) {
                     isBlock = false;
                 } else {
+
                     mZoomLevelText.setText("Zoom: " + (int) position.zoom);
 
                     int zoom = (int) position.zoom;
@@ -850,6 +951,37 @@ public class MainFragment extends BaseFragment {
                         mLauncherLevel5.setVisibility(View.GONE);
                         mLauncherLevel6.setVisibility(View.GONE);
                         mLauncherLevel7.setVisibility(View.GONE);
+
+
+                        try {
+                            JSONObject params1 = new JSONObject();
+                            params1.put("name", "환경");
+
+                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    mEnvironmentChannel = new ChannelData(json);
+                                }
+                            });
+
+
+                            JSONObject params2 = new JSONObject();
+                            params2.put("name", "에너지");
+
+                            mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    mEnergyChannel = new ChannelData(json);
+                                }
+                            });
+
+                        } catch(JSONException e) {
+                            Log.e(TAG, "error " + e.toString());
+                        }
+
+
+
+
                     } else if (zoom == 3) {
                         mLauncherLevel3.setVisibility(View.VISIBLE);
                         mLauncherLevel2.setVisibility(View.GONE);
@@ -857,6 +989,23 @@ public class MainFragment extends BaseFragment {
                         mLauncherLevel5.setVisibility(View.GONE);
                         mLauncherLevel6.setVisibility(View.GONE);
                         mLauncherLevel7.setVisibility(View.GONE);
+
+
+                        try {
+                            JSONObject params1 = new JSONObject();
+                            params1.put("name", "철학");
+
+                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    mSpiritualChannel = new ChannelData(json);
+                                }
+                            });
+
+                        } catch(JSONException e) {
+                            Log.e(TAG, "error " + e.toString());
+                        }
+
                     } else if (zoom == 4) {
                         mLauncherLevel4.setVisibility(View.VISIBLE);
                         mLauncherLevel2.setVisibility(View.GONE);
@@ -864,6 +1013,24 @@ public class MainFragment extends BaseFragment {
                         mLauncherLevel5.setVisibility(View.GONE);
                         mLauncherLevel6.setVisibility(View.GONE);
                         mLauncherLevel7.setVisibility(View.GONE);
+
+
+                        try {
+                            JSONObject params1 = new JSONObject();
+                            params1.put("name", "역사");
+
+                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    mHistoryChannel = new ChannelData(json);
+                                }
+                            });
+
+                        } catch(JSONException e) {
+                            Log.e(TAG, "error " + e.toString());
+                        }
+
+
                     } else if (zoom == 5) {
                         mLauncherLevel5.setVisibility(View.VISIBLE);
                         mLauncherLevel2.setVisibility(View.GONE);
@@ -871,6 +1038,21 @@ public class MainFragment extends BaseFragment {
                         mLauncherLevel4.setVisibility(View.GONE);
                         mLauncherLevel6.setVisibility(View.GONE);
                         mLauncherLevel7.setVisibility(View.GONE);
+
+                        try {
+                            JSONObject params1 = new JSONObject();
+                            params1.put("name", "통일");
+
+                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    mUnityChannel = new ChannelData(json);
+                                }
+                            });
+
+                        } catch(JSONException e) {
+                            Log.e(TAG, "error " + e.toString());
+                        }
                     } else if (zoom == 6) {
                         mLauncherLevel6.setVisibility(View.VISIBLE);
                         mLauncherLevel2.setVisibility(View.GONE);
@@ -878,6 +1060,32 @@ public class MainFragment extends BaseFragment {
                         mLauncherLevel4.setVisibility(View.GONE);
                         mLauncherLevel5.setVisibility(View.GONE);
                         mLauncherLevel7.setVisibility(View.GONE);
+
+                        try {
+                            JSONObject params1 = new JSONObject();
+                            params1.put("name", "건강");
+
+                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    mHealthChannel = new ChannelData(json);
+                                }
+                            });
+
+
+                            JSONObject params2 = new JSONObject();
+                            params2.put("name", "정치");
+
+                            mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    mPoliticsChannel = new ChannelData(json);
+                                }
+                            });
+
+                        } catch(JSONException e) {
+                            Log.e(TAG, "error " + e.toString());
+                        }
                     } else if (zoom == 7) {
                         mLauncherLevel7.setVisibility(View.VISIBLE);
                         mLauncherLevel2.setVisibility(View.GONE);
@@ -885,6 +1093,32 @@ public class MainFragment extends BaseFragment {
                         mLauncherLevel4.setVisibility(View.GONE);
                         mLauncherLevel5.setVisibility(View.GONE);
                         mLauncherLevel6.setVisibility(View.GONE);
+
+                        try {
+                            JSONObject params1 = new JSONObject();
+                            params1.put("name", "산악");
+
+                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    mClimbChannel = new ChannelData(json);
+                                }
+                            });
+
+
+                            JSONObject params2 = new JSONObject();
+                            params2.put("name", "골프");
+
+                            mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject json, AjaxStatus status) {
+                                    mGolfChannel = new ChannelData(json);
+                                }
+                            });
+
+                        } catch(JSONException e) {
+                            Log.e(TAG, "error " + e.toString());
+                        }
                     } else {
                         mLauncherLevel2.setVisibility(View.GONE);
                         mLauncherLevel3.setVisibility(View.GONE);
