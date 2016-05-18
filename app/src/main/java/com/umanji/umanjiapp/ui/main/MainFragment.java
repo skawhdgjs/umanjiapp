@@ -100,6 +100,9 @@ public class MainFragment extends BaseFragment {
     private ImageView mGuideImageView01;
 
     private ImageView mInfoButton;
+    private LinearLayout mLauncherLevel2;
+    private LinearLayout mLauncherLevel3;
+    private LinearLayout mLauncherLevel4;
     private LinearLayout mLauncherLevel5;
     private LinearLayout mLauncherLevel6;
     private LinearLayout mLauncherLevel7;
@@ -317,6 +320,9 @@ public class MainFragment extends BaseFragment {
         mInfoButton.setOnClickListener(this);
 
 
+        mLauncherLevel2 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level2);
+        mLauncherLevel3 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level3);
+        mLauncherLevel4 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level4);
         mLauncherLevel5 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level5);
         mLauncherLevel6 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level6);
         mLauncherLevel7 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level7);
@@ -837,19 +843,52 @@ public class MainFragment extends BaseFragment {
                         mZoomBtn.setTag(ZOOM_IN);
                     }
 
-                    if (zoom == 5) {
+                    if (zoom == 2) {
+                        mLauncherLevel2.setVisibility(View.VISIBLE);
+                        mLauncherLevel3.setVisibility(View.GONE);
+                        mLauncherLevel4.setVisibility(View.GONE);
+                        mLauncherLevel5.setVisibility(View.GONE);
+                        mLauncherLevel6.setVisibility(View.GONE);
+                        mLauncherLevel7.setVisibility(View.GONE);
+                    } else if (zoom == 3) {
+                        mLauncherLevel3.setVisibility(View.VISIBLE);
+                        mLauncherLevel2.setVisibility(View.GONE);
+                        mLauncherLevel4.setVisibility(View.GONE);
+                        mLauncherLevel5.setVisibility(View.GONE);
+                        mLauncherLevel6.setVisibility(View.GONE);
+                        mLauncherLevel7.setVisibility(View.GONE);
+                    } else if (zoom == 4) {
+                        mLauncherLevel4.setVisibility(View.VISIBLE);
+                        mLauncherLevel2.setVisibility(View.GONE);
+                        mLauncherLevel3.setVisibility(View.GONE);
+                        mLauncherLevel5.setVisibility(View.GONE);
+                        mLauncherLevel6.setVisibility(View.GONE);
+                        mLauncherLevel7.setVisibility(View.GONE);
+                    } else if (zoom == 5) {
                         mLauncherLevel5.setVisibility(View.VISIBLE);
+                        mLauncherLevel2.setVisibility(View.GONE);
+                        mLauncherLevel3.setVisibility(View.GONE);
+                        mLauncherLevel4.setVisibility(View.GONE);
                         mLauncherLevel6.setVisibility(View.GONE);
                         mLauncherLevel7.setVisibility(View.GONE);
                     } else if (zoom == 6) {
                         mLauncherLevel6.setVisibility(View.VISIBLE);
+                        mLauncherLevel2.setVisibility(View.GONE);
+                        mLauncherLevel3.setVisibility(View.GONE);
+                        mLauncherLevel4.setVisibility(View.GONE);
                         mLauncherLevel5.setVisibility(View.GONE);
                         mLauncherLevel7.setVisibility(View.GONE);
                     } else if (zoom == 7) {
                         mLauncherLevel7.setVisibility(View.VISIBLE);
+                        mLauncherLevel2.setVisibility(View.GONE);
+                        mLauncherLevel3.setVisibility(View.GONE);
+                        mLauncherLevel4.setVisibility(View.GONE);
                         mLauncherLevel5.setVisibility(View.GONE);
                         mLauncherLevel6.setVisibility(View.GONE);
                     } else {
+                        mLauncherLevel2.setVisibility(View.GONE);
+                        mLauncherLevel3.setVisibility(View.GONE);
+                        mLauncherLevel4.setVisibility(View.GONE);
                         mLauncherLevel5.setVisibility(View.GONE);
                         mLauncherLevel6.setVisibility(View.GONE);
                         mLauncherLevel7.setVisibility(View.GONE);
