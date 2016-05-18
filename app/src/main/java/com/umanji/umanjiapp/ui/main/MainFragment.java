@@ -565,31 +565,31 @@ public class MainFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.environment:
-                Helper.startActivity(mActivity, mEnvironmentChannel, TAB_COMMUNITIES);
+                Helper.startActivity(mActivity, mEnvironmentChannel);
                 break;
             case R.id.energy:
-                Helper.startActivity(mActivity, mEnergyChannel, TAB_COMMUNITIES);
+                Helper.startActivity(mActivity, mEnergyChannel);
                 break;
             case R.id.spiritual:
-                Helper.startActivity(mActivity, mSpiritualChannel, TAB_COMMUNITIES);
+                Helper.startActivity(mActivity, mSpiritualChannel);
                 break;
             case R.id.history:
-                Helper.startActivity(mActivity, mHistoryChannel, TAB_COMMUNITIES);
+                Helper.startActivity(mActivity, mHistoryChannel);
                 break;
             case R.id.unity:
-                Helper.startActivity(mActivity, mUnityChannel, TAB_COMMUNITIES);
+                Helper.startActivity(mActivity, mUnityChannel);
                 break;
             case R.id.health:
-                Helper.startActivity(mActivity, mHealthChannel, TAB_COMMUNITIES);
+                Helper.startActivity(mActivity, mHealthChannel);
                 break;
             case R.id.politics:
-                Helper.startActivity(mActivity, mPoliticsChannel, TAB_COMMUNITIES);
+                Helper.startActivity(mActivity, mPoliticsChannel);
                 break;
             case R.id.climb:
-                Helper.startActivity(mActivity, mClimbChannel, TAB_COMMUNITIES);
+                Helper.startActivity(mActivity, mClimbChannel);
                 break;
             case R.id.golf:
-                Helper.startActivity(mActivity, mGolfChannel, TAB_COMMUNITIES);
+                Helper.startActivity(mActivity, mGolfChannel);
                 break;
 
             case R.id.headerPanel:
