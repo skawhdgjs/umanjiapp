@@ -100,6 +100,9 @@ public class MainFragment extends BaseFragment {
     private ImageView mGuideImageView01;
 
     private ImageView mInfoButton;
+    private LinearLayout mLauncherLevel5;
+    private LinearLayout mLauncherLevel6;
+    private LinearLayout mLauncherLevel7;
 
 
     /****************************************************
@@ -314,9 +317,15 @@ public class MainFragment extends BaseFragment {
         mInfoButton.setOnClickListener(this);
 
 
+        mLauncherLevel5 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level5);
+        mLauncherLevel6 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level6);
+        mLauncherLevel7 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level7);
+
+
         checkGuide01(view);
 
     }
+
 
     private void checkGuide01(View view) {
         String guide01 = FileHelper.getString(mActivity, "guide01");
@@ -478,11 +487,11 @@ public class MainFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.headerPanel:
-                if(TextUtils.equals(mSlidingState, SLIDING_COLLAPSED)) {
+                if (TextUtils.equals(mSlidingState, SLIDING_COLLAPSED)) {
                     mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
                     mSlidingState = SLIDING_ANCHORED;
 
-                } else if(TextUtils.equals(mSlidingState, SLIDING_ANCHORED)) {
+                } else if (TextUtils.equals(mSlidingState, SLIDING_ANCHORED)) {
                     mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                     mSlidingState = SLIDING_COLLAPSED;
                 }
@@ -498,7 +507,7 @@ public class MainFragment extends BaseFragment {
 
             case R.id.mNotyCount:
             case R.id.mAvatarImageBtn:
-                if(AuthHelper.isLogin(mActivity) && mUser != null) {
+                if (AuthHelper.isLogin(mActivity) && mUser != null) {
                     Intent intent = new Intent(mActivity, ProfileActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", mUser.getJsonObject().toString());
@@ -596,7 +605,7 @@ public class MainFragment extends BaseFragment {
 
             String isFirst = FileHelper.getString(mActivity, "isFirst");
             Location location = null;
-            if(TextUtils.isEmpty(isFirst)) {
+            if (TextUtils.isEmpty(isFirst)) {
                 FileHelper.setString(mActivity, "isFirst", "checked");
             } else {
                 location = locationManager.getLastKnownLocation(provider);
@@ -611,7 +620,7 @@ public class MainFragment extends BaseFragment {
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(mCurrentMyPosition)
-                    .zoom(14)
+                    .zoom(7)
                     .bearing(90)
                     .tilt(40)
                     .build();
@@ -623,7 +632,7 @@ public class MainFragment extends BaseFragment {
 
         LatLng latLng = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(11), 2000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(7), 2000, null);
     }
 
     /****************************************************
@@ -826,6 +835,24 @@ public class MainFragment extends BaseFragment {
                         mInfoTextPanel.setText("");
                         mZoomBtn.setImageResource(R.drawable.zoom_in);
                         mZoomBtn.setTag(ZOOM_IN);
+                    }
+
+                    if (zoom == 5) {
+                        mLauncherLevel5.setVisibility(View.VISIBLE);
+                        mLauncherLevel6.setVisibility(View.GONE);
+                        mLauncherLevel7.setVisibility(View.GONE);
+                    } else if (zoom == 6) {
+                        mLauncherLevel6.setVisibility(View.VISIBLE);
+                        mLauncherLevel5.setVisibility(View.GONE);
+                        mLauncherLevel7.setVisibility(View.GONE);
+                    } else if (zoom == 7) {
+                        mLauncherLevel7.setVisibility(View.VISIBLE);
+                        mLauncherLevel5.setVisibility(View.GONE);
+                        mLauncherLevel6.setVisibility(View.GONE);
+                    } else {
+                        mLauncherLevel5.setVisibility(View.GONE);
+                        mLauncherLevel6.setVisibility(View.GONE);
+                        mLauncherLevel7.setVisibility(View.GONE);
                     }
 
                     loadData();

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout
-        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
         android:id="@+id/slidingUpPanelLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,11 +28,11 @@
                 tools:layout="@layout/activity_main" />
 
             <ImageView
+                android:id="@+id/ads_image"
                 android:layout_width="400dp"
                 android:layout_height="53dp"
-                android:id="@+id/ads_image"
-                android:src="@drawable/ads_umanji_guide"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/ads_umanji_guide" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -42,85 +41,178 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp">
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/mAvatarImageBtn"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/avatar_default_0"
                     app:riv_border_color="@color/colorPrimary"
                     app:riv_border_width="1px"
                     app:riv_corner_radius="5dp"
-                    android:layout_marginTop="10dp"
-                    app:riv_oval="false"/>
+                    app:riv_oval="false" />
 
                 <TextView
                     android:id="@+id/search"
                     android:layout_width="180dp"
                     android:layout_height="35dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/mAvatarImageBtn"
+                    android:layout_toRightOf="@+id/mAvatarImageBtn"
                     android:background="@drawable/shadow"
-                    android:text="search"
-                    android:textSize="14dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@+id/mAvatarImageBtn"
-                    android:layout_toEndOf="@+id/mAvatarImageBtn"/>
+                    android:text="search"
+                    android:textSize="14dp" />
 
                 <Button
                     android:id="@+id/mNotyCount"
-                    android:text="0"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="-10dp"
+                    android:layout_toLeftOf="@+id/search"
+                    android:layout_toStartOf="@+id/search"
                     android:background="@drawable/default_btn_red_radius"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10dp"
                     android:shadowColor="#A8A8A8"
                     android:shadowDx="0"
                     android:shadowDy="0"
                     android:shadowRadius="5"
-                    android:visibility="gone"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="-10dp"
-                    android:layout_toLeftOf="@+id/search"
-                    android:layout_toStartOf="@+id/search"/>
-
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp"
+                    android:visibility="gone" />
 
 
             </RelativeLayout>
 
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/mZoomBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="100dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shadow"
                 android:padding="8dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/zoom_in"
-                android:background="@drawable/shadow"
                 app:riv_corner_radius="5dp"
-                app:riv_oval="false"
-                android:layout_marginBottom="100dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="10dp"/>
+                app:riv_oval="false" />
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
                 android:id="@+id/infoButton"
-                android:src="@drawable/info"
-                android:background="@drawable/shadow"
-                android:padding="8dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:layout_above="@+id/mZoomBtn"
                 android:layout_alignLeft="@+id/mZoomBtn"
                 android:layout_alignStart="@+id/mZoomBtn"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/shadow"
+                android:padding="6dp"
+                android:src="@drawable/info" />
+
+            <!-- Keyword Community level 5 통일-->
+
+            <LinearLayout
+                android:id="@+id/keyword_launcher_level5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/keyword_unity"/>
+
+            </LinearLayout>
+
+            <!-- Keyword Community level 6 :: 건강 / 정치-->
+
+            <LinearLayout
+                android:id="@+id/keyword_launcher_level6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/keyword_health" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/keyword_politics" />
+
+
+            </LinearLayout>
+
+
+            <!-- Keyword Community level 7 :: 여행 / 산악 / 골프 / 낚시-->
+
+            <LinearLayout
+                android:id="@+id/keyword_launcher_level7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:src="@drawable/keyword_climb" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/keyword_golf" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/keyword_icons" />
+
+
+            </LinearLayout>
 
 
         </RelativeLayout>
@@ -148,10 +240,10 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="0.3"
-                    android:textColor="@color/white"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
                     android:text="Zoom:"
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <TextView
@@ -159,52 +251,48 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:textColor="@color/white"
-                    android:gravity="center_horizontal"
-                    android:paddingRight="10dp"
-                    android:singleLine="true"
                     android:ellipsize="marquee"
-                    android:marqueeRepeatLimit ="marquee_forever"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:freezesText="true"
+                    android:gravity="center_horizontal"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:paddingRight="10dp"
                     android:scrollHorizontally="true"
-                    android:textSize="14sp"/>
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_slide"/>
-
+                    android:src="@drawable/ic_slide" />
 
 
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clickable="false"
-                />
+                android:clickable="false" />
         </LinearLayout>
 
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
     <include
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
         layout="@layout/include_notice_panel"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="53dp" />
 
     <ImageView
+        android:id="@+id/mGuideImageView01"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/guide_01"
         android:scaleType="fitXY"
-        android:id="@+id/mGuideImageView01"
-        android:visibility="gone"/>
+        android:src="@drawable/guide_01"
+        android:visibility="gone" />
 </RelativeLayout>
