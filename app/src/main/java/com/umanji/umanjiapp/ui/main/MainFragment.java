@@ -944,189 +944,7 @@ public class MainFragment extends BaseFragment {
                         mZoomBtn.setTag(ZOOM_IN);
                     }
 
-                    if (zoom == 2) {
-                        mLauncherLevel2.setVisibility(View.VISIBLE);
-                        mLauncherLevel3.setVisibility(View.GONE);
-                        mLauncherLevel4.setVisibility(View.GONE);
-                        mLauncherLevel5.setVisibility(View.GONE);
-                        mLauncherLevel6.setVisibility(View.GONE);
-                        mLauncherLevel7.setVisibility(View.GONE);
-
-
-                        try {
-                            JSONObject params1 = new JSONObject();
-                            params1.put("name", "환경");
-
-                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, JSONObject json, AjaxStatus status) {
-                                    mEnvironmentChannel = new ChannelData(json);
-                                }
-                            });
-
-
-                            JSONObject params2 = new JSONObject();
-                            params2.put("name", "에너지");
-
-                            mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, JSONObject json, AjaxStatus status) {
-                                    mEnergyChannel = new ChannelData(json);
-                                }
-                            });
-
-                        } catch(JSONException e) {
-                            Log.e(TAG, "error " + e.toString());
-                        }
-
-
-
-
-                    } else if (zoom == 3) {
-                        mLauncherLevel3.setVisibility(View.VISIBLE);
-                        mLauncherLevel2.setVisibility(View.GONE);
-                        mLauncherLevel4.setVisibility(View.GONE);
-                        mLauncherLevel5.setVisibility(View.GONE);
-                        mLauncherLevel6.setVisibility(View.GONE);
-                        mLauncherLevel7.setVisibility(View.GONE);
-
-
-                        try {
-                            JSONObject params1 = new JSONObject();
-                            params1.put("name", "철학");
-
-                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, JSONObject json, AjaxStatus status) {
-                                    mSpiritualChannel = new ChannelData(json);
-                                }
-                            });
-
-                        } catch(JSONException e) {
-                            Log.e(TAG, "error " + e.toString());
-                        }
-
-                    } else if (zoom == 4) {
-                        mLauncherLevel4.setVisibility(View.VISIBLE);
-                        mLauncherLevel2.setVisibility(View.GONE);
-                        mLauncherLevel3.setVisibility(View.GONE);
-                        mLauncherLevel5.setVisibility(View.GONE);
-                        mLauncherLevel6.setVisibility(View.GONE);
-                        mLauncherLevel7.setVisibility(View.GONE);
-
-
-                        try {
-                            JSONObject params1 = new JSONObject();
-                            params1.put("name", "역사");
-
-                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, JSONObject json, AjaxStatus status) {
-                                    mHistoryChannel = new ChannelData(json);
-                                }
-                            });
-
-                        } catch(JSONException e) {
-                            Log.e(TAG, "error " + e.toString());
-                        }
-
-
-                    } else if (zoom == 5) {
-                        mLauncherLevel5.setVisibility(View.VISIBLE);
-                        mLauncherLevel2.setVisibility(View.GONE);
-                        mLauncherLevel3.setVisibility(View.GONE);
-                        mLauncherLevel4.setVisibility(View.GONE);
-                        mLauncherLevel6.setVisibility(View.GONE);
-                        mLauncherLevel7.setVisibility(View.GONE);
-
-                        try {
-                            JSONObject params1 = new JSONObject();
-                            params1.put("name", "통일");
-
-                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, JSONObject json, AjaxStatus status) {
-                                    mUnityChannel = new ChannelData(json);
-                                }
-                            });
-
-                        } catch(JSONException e) {
-                            Log.e(TAG, "error " + e.toString());
-                        }
-                    } else if (zoom == 6) {
-                        mLauncherLevel6.setVisibility(View.VISIBLE);
-                        mLauncherLevel2.setVisibility(View.GONE);
-                        mLauncherLevel3.setVisibility(View.GONE);
-                        mLauncherLevel4.setVisibility(View.GONE);
-                        mLauncherLevel5.setVisibility(View.GONE);
-                        mLauncherLevel7.setVisibility(View.GONE);
-
-                        try {
-                            JSONObject params1 = new JSONObject();
-                            params1.put("name", "건강");
-
-                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, JSONObject json, AjaxStatus status) {
-                                    mHealthChannel = new ChannelData(json);
-                                }
-                            });
-
-
-                            JSONObject params2 = new JSONObject();
-                            params2.put("name", "정치");
-
-                            mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, JSONObject json, AjaxStatus status) {
-                                    mPoliticsChannel = new ChannelData(json);
-                                }
-                            });
-
-                        } catch(JSONException e) {
-                            Log.e(TAG, "error " + e.toString());
-                        }
-                    } else if (zoom == 7) {
-                        mLauncherLevel7.setVisibility(View.VISIBLE);
-                        mLauncherLevel2.setVisibility(View.GONE);
-                        mLauncherLevel3.setVisibility(View.GONE);
-                        mLauncherLevel4.setVisibility(View.GONE);
-                        mLauncherLevel5.setVisibility(View.GONE);
-                        mLauncherLevel6.setVisibility(View.GONE);
-
-                        try {
-                            JSONObject params1 = new JSONObject();
-                            params1.put("name", "산악");
-
-                            mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, JSONObject json, AjaxStatus status) {
-                                    mClimbChannel = new ChannelData(json);
-                                }
-                            });
-
-
-                            JSONObject params2 = new JSONObject();
-                            params2.put("name", "골프");
-
-                            mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
-                                @Override
-                                public void callback(String url, JSONObject json, AjaxStatus status) {
-                                    mGolfChannel = new ChannelData(json);
-                                }
-                            });
-
-                        } catch(JSONException e) {
-                            Log.e(TAG, "error " + e.toString());
-                        }
-                    } else {
-                        mLauncherLevel2.setVisibility(View.GONE);
-                        mLauncherLevel3.setVisibility(View.GONE);
-                        mLauncherLevel4.setVisibility(View.GONE);
-                        mLauncherLevel5.setVisibility(View.GONE);
-                        mLauncherLevel6.setVisibility(View.GONE);
-                        mLauncherLevel7.setVisibility(View.GONE);
-                    }
+                    getKeywordCommunity(zoom);
 
                     loadData();
 
@@ -1141,6 +959,192 @@ public class MainFragment extends BaseFragment {
             }
         });
 
+    }
+
+    private void getKeywordCommunity(int zoom) {
+        if (zoom == 2) {
+            mLauncherLevel2.setVisibility(View.VISIBLE);
+            mLauncherLevel3.setVisibility(View.GONE);
+            mLauncherLevel4.setVisibility(View.GONE);
+            mLauncherLevel5.setVisibility(View.GONE);
+            mLauncherLevel6.setVisibility(View.GONE);
+            mLauncherLevel7.setVisibility(View.GONE);
+
+
+            try {
+                JSONObject params1 = new JSONObject();
+                params1.put("name", "환경");
+
+                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mEnvironmentChannel = new ChannelData(json);
+                    }
+                });
+
+
+                JSONObject params2 = new JSONObject();
+                params2.put("name", "에너지");
+
+                mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mEnergyChannel = new ChannelData(json);
+                    }
+                });
+
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
+
+
+
+        } else if (zoom == 3) {
+            mLauncherLevel3.setVisibility(View.VISIBLE);
+            mLauncherLevel2.setVisibility(View.GONE);
+            mLauncherLevel4.setVisibility(View.GONE);
+            mLauncherLevel5.setVisibility(View.GONE);
+            mLauncherLevel6.setVisibility(View.GONE);
+            mLauncherLevel7.setVisibility(View.GONE);
+
+
+            try {
+                JSONObject params1 = new JSONObject();
+                params1.put("name", "철학");
+
+                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mSpiritualChannel = new ChannelData(json);
+                    }
+                });
+
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
+        } else if (zoom == 4) {
+            mLauncherLevel4.setVisibility(View.VISIBLE);
+            mLauncherLevel2.setVisibility(View.GONE);
+            mLauncherLevel3.setVisibility(View.GONE);
+            mLauncherLevel5.setVisibility(View.GONE);
+            mLauncherLevel6.setVisibility(View.GONE);
+            mLauncherLevel7.setVisibility(View.GONE);
+
+
+            try {
+                JSONObject params1 = new JSONObject();
+                params1.put("name", "역사");
+
+                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mHistoryChannel = new ChannelData(json);
+                    }
+                });
+
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
+
+        } else if (zoom == 5) {
+            mLauncherLevel5.setVisibility(View.VISIBLE);
+            mLauncherLevel2.setVisibility(View.GONE);
+            mLauncherLevel3.setVisibility(View.GONE);
+            mLauncherLevel4.setVisibility(View.GONE);
+            mLauncherLevel6.setVisibility(View.GONE);
+            mLauncherLevel7.setVisibility(View.GONE);
+
+            try {
+                JSONObject params1 = new JSONObject();
+                params1.put("name", "통일");
+
+                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mUnityChannel = new ChannelData(json);
+                    }
+                });
+
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+        } else if (zoom == 6) {
+            mLauncherLevel6.setVisibility(View.VISIBLE);
+            mLauncherLevel2.setVisibility(View.GONE);
+            mLauncherLevel3.setVisibility(View.GONE);
+            mLauncherLevel4.setVisibility(View.GONE);
+            mLauncherLevel5.setVisibility(View.GONE);
+            mLauncherLevel7.setVisibility(View.GONE);
+
+            try {
+                JSONObject params1 = new JSONObject();
+                params1.put("name", "건강");
+
+                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mHealthChannel = new ChannelData(json);
+                    }
+                });
+
+
+                JSONObject params2 = new JSONObject();
+                params2.put("name", "정치");
+
+                mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mPoliticsChannel = new ChannelData(json);
+                    }
+                });
+
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+        } else if (zoom == 7) {
+            mLauncherLevel7.setVisibility(View.VISIBLE);
+            mLauncherLevel2.setVisibility(View.GONE);
+            mLauncherLevel3.setVisibility(View.GONE);
+            mLauncherLevel4.setVisibility(View.GONE);
+            mLauncherLevel5.setVisibility(View.GONE);
+            mLauncherLevel6.setVisibility(View.GONE);
+
+            try {
+                JSONObject params1 = new JSONObject();
+                params1.put("name", "산악");
+
+                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mClimbChannel = new ChannelData(json);
+                    }
+                });
+
+
+                JSONObject params2 = new JSONObject();
+                params2.put("name", "골프");
+
+                mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mGolfChannel = new ChannelData(json);
+                    }
+                });
+
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+        } else {
+            mLauncherLevel2.setVisibility(View.GONE);
+            mLauncherLevel3.setVisibility(View.GONE);
+            mLauncherLevel4.setVisibility(View.GONE);
+            mLauncherLevel5.setVisibility(View.GONE);
+            mLauncherLevel6.setVisibility(View.GONE);
+            mLauncherLevel7.setVisibility(View.GONE);
+        }
     }
 
     private void loadMainPosts() {
