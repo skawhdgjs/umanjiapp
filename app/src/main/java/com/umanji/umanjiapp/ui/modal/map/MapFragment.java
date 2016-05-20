@@ -60,14 +60,6 @@ public class MapFragment extends BaseFragment {
     private boolean isBlock = false;
     private boolean isLoading = false;
 
-    private static final String[] LOCATION_PERMS={
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    };
-
-    private static final int INITIAL_REQUEST = 1337;
-    private static final int LOCATION_REQUEST = INITIAL_REQUEST+3;
-
     public static MapFragment newInstance(Bundle bundle) {
         MapFragment fragment = new MapFragment();
         fragment.setArguments(bundle);
@@ -141,28 +133,6 @@ public class MapFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch(requestCode) {
-            case LOCATION_REQUEST:
-                if (canAccessLocation()) {
-                    mMap.setMyLocationEnabled(true);
-                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                    initMyLocation();
-                }
-                break;
-        }
-    }
-
-    private boolean canAccessLocation() {
-        return(hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
-    }
-
-    private boolean hasPermission(String perm) {
-        return(PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm));
-    }
-
     private void initMap() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.getBaseContext());
 
@@ -178,26 +148,10 @@ public class MapFragment extends BaseFragment {
 
             mMap.getUiSettings().setZoomControlsEnabled(true);
 
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-            if (currentapiVersion >= android.os.Build.VERSION_CODES.M){
-                if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
-                        PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
-                                PackageManager.PERMISSION_GRANTED) {
-                    mMap.setMyLocationEnabled(true);
-                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                    initMyLocation();
-                } else {
-                    mActivity.requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
-                }
-            } else{
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                initMyLocation();
-            }
+            initMyLocation();
         }
 
 

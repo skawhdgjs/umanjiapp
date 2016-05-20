@@ -1,17 +1,13 @@
 package com.umanji.umanjiapp.ui.distribution;
 
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,9 +34,7 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
-import com.umanji.umanjiapp.ui.channel.info.InfoActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 
 import org.json.JSONArray;
@@ -89,14 +83,6 @@ public class CommunityDistributionFragment extends BaseFragment {
 
     private TextView mHeaderTitle;
 
-
-    private static final String[] LOCATION_PERMS = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    };
-
-    private static final int INITIAL_REQUEST = 1337;
-    private static final int LOCATION_REQUEST = INITIAL_REQUEST + 3;
 
     public static CommunityDistributionFragment newInstance(Bundle bundle) {
         CommunityDistributionFragment fragment = new CommunityDistributionFragment();
@@ -213,28 +199,6 @@ public class CommunityDistributionFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case LOCATION_REQUEST:
-                if (canAccessLocation()) {
-                    mMap.setMyLocationEnabled(true);
-                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                    initMyLocation();
-                }
-                break;
-        }
-    }
-
-    private boolean canAccessLocation() {
-        return (hasPermission(Manifest.permission.ACCESS_FINE_LOCATION));
-    }
-
-    private boolean hasPermission(String perm) {
-        return (PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm));
-    }
-
     private void initMap() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.getBaseContext());
 
@@ -256,25 +220,10 @@ public class CommunityDistributionFragment extends BaseFragment {
             mMap.setPadding(0, paddingInPx, 0, 0);
             mMap.getUiSettings().setZoomControlsEnabled(true);
 
-            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-            if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
-                if (ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_FINE_LOCATION) ==
-                        PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(mActivity, android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
-                                PackageManager.PERMISSION_GRANTED) {
-                    mMap.setMyLocationEnabled(true);
-                    mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-                    initMyLocation();
-                } else {
-                    mActivity.requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
-                }
-            } else {
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-                initMyLocation();
-            }
+            initMyLocation();
         }
 
         initMapEvents();

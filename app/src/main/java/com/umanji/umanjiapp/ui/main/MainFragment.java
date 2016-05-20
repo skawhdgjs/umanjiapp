@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -21,10 +22,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -112,36 +110,36 @@ public class MainFragment extends BaseFragment {
     private ChannelData mEnvironmentChannel;
     private ChannelData mEnergyChannel;
 
-    private ImageView   mEnvironmentImageView;
-    private ImageView   mEnergyImageView;
+    private ImageView mEnvironmentImageView;
+    private ImageView mEnergyImageView;
     // Level 3
     private ChannelData mSpiritualChannel;
 
-    private ImageView   mSpiritualImageView;
+    private ImageView mSpiritualImageView;
 
 
     // Level 4
     private ChannelData mHistoryChannel;
 
-    private ImageView   mHistoryImageView;
+    private ImageView mHistoryImageView;
 
     // Level 5
     private ChannelData mUnityChannel;
 
-    private ImageView   mUnityImageView;
+    private ImageView mUnityImageView;
 
     // Level 6
     private ChannelData mHealthChannel;
     private ChannelData mPoliticsChannel;
 
-    private ImageView   mHealthImageView;
-    private ImageView   mPoliticsImageView;
+    private ImageView mHealthImageView;
+    private ImageView mPoliticsImageView;
     // Level 7
     private ChannelData mClimbChannel;
     private ChannelData mGolfChannel;
 
-    private ImageView   mClimbImageView;
-    private ImageView   mGolfImageView;
+    private ImageView mClimbImageView;
+    private ImageView mGolfImageView;
 
 
     /****************************************************
@@ -164,11 +162,8 @@ public class MainFragment extends BaseFragment {
             Manifest.permission.INTERNET,
     };
 
-
     private static final int INITIAL_REQUEST = 10;
     private static final int PERMS_REQUEST = INITIAL_REQUEST + 2;
-    private static final int LOCATION_REQUEST = INITIAL_REQUEST + 3;
-    private static final int EXTERNAL_STORAGE_REQUEST = INITIAL_REQUEST + 4;
 
 
     /****************************************************
@@ -364,93 +359,39 @@ public class MainFragment extends BaseFragment {
         mLauncherLevel7 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level7);
 
 
-
         // Level 2
-        mEnvironmentImageView   = (ImageView) view.findViewById(R.id.environment);
-        mEnergyImageView        = (ImageView) view.findViewById(R.id.energy);
+        mEnvironmentImageView = (ImageView) view.findViewById(R.id.environment);
+        mEnergyImageView = (ImageView) view.findViewById(R.id.energy);
         mEnvironmentImageView.setOnClickListener(this);
         mEnergyImageView.setOnClickListener(this);
 
 
-
-
         // Level 3
-        mSpiritualImageView     = (ImageView) view.findViewById(R.id.spiritual);
+        mSpiritualImageView = (ImageView) view.findViewById(R.id.spiritual);
         mSpiritualImageView.setOnClickListener(this);
 
         // Level 4
-        mHistoryImageView       = (ImageView) view.findViewById(R.id.history);
+        mHistoryImageView = (ImageView) view.findViewById(R.id.history);
         mHistoryImageView.setOnClickListener(this);
 
         // Level 5
-        mUnityImageView         = (ImageView) view.findViewById(R.id.unity);
+        mUnityImageView = (ImageView) view.findViewById(R.id.unity);
         mUnityImageView.setOnClickListener(this);
 
         // Level 6
-        mHealthImageView        = (ImageView) view.findViewById(R.id.health);
-        mPoliticsImageView      = (ImageView) view.findViewById(R.id.politics);
+        mHealthImageView = (ImageView) view.findViewById(R.id.health);
+        mPoliticsImageView = (ImageView) view.findViewById(R.id.politics);
 
         mHealthImageView.setOnClickListener(this);
         mPoliticsImageView.setOnClickListener(this);
 
         // Level 7
-        mClimbImageView         = (ImageView) view.findViewById(R.id.climb);
-        mGolfImageView          = (ImageView) view.findViewById(R.id.golf);
+        mClimbImageView = (ImageView) view.findViewById(R.id.climb);
+        mGolfImageView = (ImageView) view.findViewById(R.id.golf);
 
         mClimbImageView.setOnClickListener(this);
         mGolfImageView.setOnClickListener(this);
 
-        checkGuide01(view);
-
-    }
-
-
-    private void checkGuide01(View view) {
-        String guide01 = FileHelper.getString(mActivity, "guide01");
-        if (TextUtils.isEmpty(guide01)) {
-            FileHelper.setString(mActivity, "guide01", "checked");
-
-            Toast toast = Toast.makeText(mActivity, "우만지 베타 참여를 환영합니다.", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
-            toast.show();
-
-            Handler mHandler = new Handler();
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Toast toast = Toast.makeText(mActivity, "처음이시라 무엇을 해야 할지 막막하시죠 ^^?", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
-                    toast.show();
-                }
-            }, 2000);
-
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Toast toast = Toast.makeText(mActivity, "일단, 화면의 버튼들을 눌러보세요.", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
-                    toast.show();
-                }
-            }, 4000);
-
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Toast toast = Toast.makeText(mActivity, "맵을 확대하여 Zoom 18로 이동해 보세요.", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
-                    toast.show();
-                }
-            }, 18000);
-
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Toast toast = Toast.makeText(mActivity, "Zoom 18에서 맵을 클릭하여 나만의 스팟을 생성해 보세요.", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 500);
-                    toast.show();
-                }
-            }, 25000);
-        }
     }
 
 
@@ -459,15 +400,10 @@ public class MainFragment extends BaseFragment {
         if (AuthHelper.isLogin(mActivity)) {
             loadNewNoties();
         }
-        //mProgress.show();
 
         loadMainMarkers();
         loadMainPosts();
         loadMainAds();
-
-    }
-
-    public void loadMoreData() {
 
     }
 
@@ -667,7 +603,13 @@ public class MainFragment extends BaseFragment {
     }
 
     private boolean hasPermission(String perm) {
-        return (PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }else if(PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm)){
+            return true;
+        }
+
+        return false;
     }
 
     private void initMap() {
@@ -993,11 +935,9 @@ public class MainFragment extends BaseFragment {
                     }
                 });
 
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
-
-
 
 
         } else if (zoom == 3) {
@@ -1020,7 +960,7 @@ public class MainFragment extends BaseFragment {
                     }
                 });
 
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
 
@@ -1044,7 +984,7 @@ public class MainFragment extends BaseFragment {
                     }
                 });
 
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
 
@@ -1068,7 +1008,7 @@ public class MainFragment extends BaseFragment {
                     }
                 });
 
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
         } else if (zoom == 6) {
@@ -1101,7 +1041,7 @@ public class MainFragment extends BaseFragment {
                     }
                 });
 
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
         } else if (zoom == 7) {
@@ -1134,7 +1074,7 @@ public class MainFragment extends BaseFragment {
                     }
                 });
 
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
         } else {

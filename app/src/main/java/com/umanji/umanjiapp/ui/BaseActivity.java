@@ -1,15 +1,17 @@
 package com.umanji.umanjiapp.ui;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
+
+import static android.Manifest.permission.READ_CONTACTS;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements AppConfig {
@@ -25,6 +27,7 @@ public abstract class BaseActivity extends AppCompatActivity implements AppConfi
         setContentView(getLayoutResourceId());
         initFragment();
 
+        checkSelfPermission(READ_CONTACTS);
     }
 
     @Override
