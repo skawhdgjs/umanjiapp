@@ -590,8 +590,18 @@ public class MainFragment extends BaseFragment {
                 break;
 
             case R.id.infoButton:
+                int zoom = (int) mMap.getCameraPosition().zoom;
+
                 Intent webInt = new Intent(mActivity, WebViewActivity.class);
-                //webInt.putExtra("url", "http://blog.naver.com/mothcar/220673352101");
+                switch (zoom) {
+                    case 15:
+                        webInt.putExtra("url", "http://blog.naver.com/mothcar/220715838911"); // 복합단지 설명
+                        break;
+                    default:
+                        webInt.putExtra("url", "http://blog.naver.com/mothcar/220715638989");  // 일반 사용설명
+                }
+                // http://blog.naver.com/mothcar/220715638989
+
                 mActivity.startActivity(webInt);
                 break;
 
