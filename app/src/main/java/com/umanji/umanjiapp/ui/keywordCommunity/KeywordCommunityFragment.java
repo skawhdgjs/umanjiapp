@@ -782,13 +782,7 @@ public class KeywordCommunityFragment extends BaseFragment {
 
                 try {
                     String idx = marker.getSnippet();
-
-                    if (TextUtils.equals(idx, String.valueOf(MARKER_INDEX_CLICKED))) {
-                        mClickedChannel = mSelectedChannel;
-                    } else {
-                        mClickedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
-                    }
-
+                    mSelectedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
                 }
@@ -809,10 +803,10 @@ public class KeywordCommunityFragment extends BaseFragment {
                     } else if (TextUtils.equals(index, String.valueOf(MARKER_INDEX_CLICKED))) {
                         channelData = mSelectedChannel;
                     } else {
-                        channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
+                        channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));  // get here from communityDistribution
                     }
 
-                    Helper.startActivity(mActivity, channelData);
+                    Helper.startActivity(mActivity, channelData.getParent());
 
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
@@ -1136,37 +1130,10 @@ public class KeywordCommunityFragment extends BaseFragment {
 
             mMarkers = jsonObject.getJSONArray("data");
 
-            int idx = 0;
-
-            if (mCurrentChannel != null) {
-                if (Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
-                } else {
-                    mCurrentChannel = null;
-                }
-            }
-
-            if (mClickedChannel != null) {
-                if (Helper.isInVisibleResion(mMap, new LatLng(mClickedChannel.getLatitude(), mClickedChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mClickedChannel, MARKER_INDEX_CLICKED);
-                    mSelectedChannel = mClickedChannel;
-                } else {
-                    mSelectedChannel = null;
-                    mClickedChannel = null;
-                }
-            }
-
             if (mMarkers != null) {
-                for (; idx < mMarkers.length(); idx++) {
+                for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-
-                    if (mCurrentChannel != null && !TextUtils.equals(mCurrentChannel.getId(), channelData.getId())) {
-                        Helper.addMarkerToMap(mMap, channelData, idx);
-                    } else if (mSelectedChannel != null && !TextUtils.equals(mSelectedChannel.getId(), channelData.getId())) {
-                        Helper.addMarkerToMap(mMap, channelData, idx);
-                    } else {
-                        Helper.addMarkerToMap(mMap, channelData, idx);
-                    }
+                    Helper.addMarkerToMap(mMap, channelData.getParent(), idx);
                 }
             }
 
