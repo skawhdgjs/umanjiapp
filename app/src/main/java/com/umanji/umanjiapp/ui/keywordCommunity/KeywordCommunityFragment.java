@@ -54,6 +54,7 @@ import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
@@ -1094,13 +1095,14 @@ public class KeywordCommunityFragment extends BaseFragment {
 
 
     private void loadMainMarkers() {
-        //mProgress.show();
         try {
-            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("zoom", (int) mMap.getCameraPosition().zoom);
-            params.put("limit", 100);
-            params.put("sort", "point DESC");
-            mApi.call(api_main_findMarkers, params, new AjaxCallback<JSONObject>() {
+            JSONObject params = new JSONObject();
+            //ArrayList<SubLinkData> subLinks = mChannel.getSubLinks(TYPE_KEYWORD);
+
+            //if (subLinks == null || subLinks.size() < 1) return;
+            //params.put("name", subLinks.get(0).getName());
+            params.put("name", mChannel.getName());
+            mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     addChannelsToMap(json);
@@ -1109,7 +1111,6 @@ public class KeywordCommunityFragment extends BaseFragment {
         } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
-        mProgress.hide();
 
     }
 
