@@ -162,6 +162,7 @@ public class KeywordCommunityFragment extends BaseFragment {
     private LinearLayout mlayout;
 
     TextView searchBtn;
+    TextView mKeywordTitle;
 
     /****************************************************
      *  PageViewer
@@ -399,6 +400,9 @@ public class KeywordCommunityFragment extends BaseFragment {
 
         mInfoButton = (ImageView) view.findViewById(R.id.infoButton);
         mInfoButton.setOnClickListener(this);
+
+        mKeywordTitle = (TextView) view.findViewById(R.id.keyword_community_Title);
+        mKeywordTitle.setText(mChannel.getName());
 
     }
 
