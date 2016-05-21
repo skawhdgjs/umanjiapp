@@ -885,7 +885,7 @@ public class MainFragment extends BaseFragment {
                     isBlock = false;
                 } else {
 
-                    mZoomLevelText.setText("Zoom: " + (int) position.zoom);
+                    mZoomLevelText.setText("" + (int) position.zoom);
 
                     int zoom = (int) position.zoom;
                     // isPoliticTouchable
@@ -902,7 +902,7 @@ public class MainFragment extends BaseFragment {
                         mInfoTextPanel.setTextColor(getResources().getColor(R.color.white));
                         mZoomBtn.setImageResource(R.drawable.zoom_out);
                         mZoomBtn.setTag(ZOOM_OUT);
-                    } else if (isPoliticTouchable(zoom)) {
+                    } else if (isKeywordTouchable(zoom)) {
                         //mCreateComplexText.setVisibility(View.GONE);
                         mInfoTextPanel.setText("아이콘을 터치하면 해당 키워드 커뮤니티로 이동합니다");
                         mInfoTextPanel.setTextColor(getResources().getColor(R.color.white));
@@ -1309,8 +1309,8 @@ public class MainFragment extends BaseFragment {
         updateView();
     }
 
-    private static boolean isPoliticTouchable(int zoom) {
-        if (zoom >= 6 && zoom <= 7) {
+    private static boolean isKeywordTouchable(int zoom) {
+        if (zoom >= 2 && zoom <= 7) {
             return true;
         } else {
             return false;
