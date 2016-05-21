@@ -58,6 +58,7 @@ import com.umanji.umanjiapp.ui.channel.profile.update.ProfileUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
+import com.umanji.umanjiapp.ui.keywordCommunity.KeywordCommunityActivity;
 import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 import com.umanji.umanjiapp.ui.modal.map.MapActivity;
 
@@ -415,7 +416,7 @@ public final class Helper implements AppConfig {
                 break;
             case TYPE_KEYWORD:
             case TYPE_COMMUNITY:
-                intent = new Intent(activity, CommunityActivity.class);
+                intent = new Intent(activity, KeywordCommunityActivity.class);
                 break;
             case TYPE_INFO_CENTER:
                 intent = new Intent(activity, InfoActivity.class);

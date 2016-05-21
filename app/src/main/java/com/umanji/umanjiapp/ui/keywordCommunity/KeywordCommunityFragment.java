@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.main;
+package com.umanji.umanjiapp.ui.keywordCommunity;
 
 
 import android.Manifest;
@@ -12,13 +12,11 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,8 +70,8 @@ import java.util.Random;
 
 import de.greenrobot.event.EventBus;
 
-public class MainFragment extends BaseFragment {
-    private static final String TAG = "MainFragment";
+public class KeywordCommunityFragment extends BaseFragment {
+    private static final String TAG = "KeywordCommunityFragment";
 
     /****************************************************
      * View
@@ -198,8 +196,8 @@ public class MainFragment extends BaseFragment {
 
     TextView searchBtn;
 
-    public static MainFragment newInstance(Bundle bundle) {
-        MainFragment fragment = new MainFragment();
+    public static KeywordCommunityFragment newInstance(Bundle bundle) {
+        KeywordCommunityFragment fragment = new KeywordCommunityFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -244,8 +242,8 @@ public class MainFragment extends BaseFragment {
 
         initWidgets(view);
 
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-        if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
+        int currentapiVersion = Build.VERSION.SDK_INT;
+        if (currentapiVersion >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_EXTERNAL_STORAGE) ==
@@ -303,7 +301,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_main, container, false);
+        return inflater.inflate(R.layout.activity_keyword_community_main, container, false);
     }
 
     @Override
