@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.modal.map;
 
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -11,9 +12,11 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +63,13 @@ public class MapFragment extends BaseFragment {
     private boolean isBlock = false;
     private boolean isLoading = false;
 
+
+
+    boolean mMapIsTouched = false;
+    View mView;
+    TouchableWrapper mTouchView;
+
+
     public static MapFragment newInstance(Bundle bundle) {
         MapFragment fragment = new MapFragment();
         fragment.setArguments(bundle);
@@ -81,12 +91,14 @@ public class MapFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+        mView = super.onCreateView(inflater, container, savedInstanceState);
 
         initMap();
         updateView();
 
-        return view;
+        mTouchView = new TouchableWrapper(getActivity());
+        mTouchView.addView(mView);
+        return mTouchView;
     }
 
     @Override
@@ -234,6 +246,8 @@ public class MapFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
+                if(mMapIsTouched) return;
+
                 if(!isLoading) loadData();
             }
         });
@@ -254,5 +268,29 @@ public class MapFragment extends BaseFragment {
             Log.e(TAG, "error " + e.toString());
         }
 
+    }
+
+
+
+
+    private class TouchableWrapper extends FrameLayout {
+        public TouchableWrapper(Context context) {
+            super(context);
+        }
+
+        @Override
+        public boolean dispatchTouchEvent(MotionEvent ev) {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mMapIsTouched = true;
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    mMapIsTouched = false;
+                    break;
+            }
+
+            return super.dispatchTouchEvent(ev);
+        }
     }
 }

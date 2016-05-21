@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.distribution;
 
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
@@ -11,8 +12,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
@@ -77,6 +80,12 @@ public class DistributionFragment extends BaseFragment {
     private Marker mMarkerByPoint;
     private Marker mFocusedMarker;
 
+
+
+    boolean mMapIsTouched = false;
+    View mView;
+    TouchableWrapper mTouchView;
+
     public static DistributionFragment newInstance(Bundle bundle) {
         DistributionFragment fragment = new DistributionFragment();
         fragment.setArguments(bundle);
@@ -91,7 +100,7 @@ public class DistributionFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+        mView = super.onCreateView(inflater, container, savedInstanceState);
 
         if (AuthHelper.isLogin(mActivity)) {
 
@@ -99,10 +108,12 @@ public class DistributionFragment extends BaseFragment {
             updateView();
         }
 
-        initWidgets(view);
+        initWidgets(mView);
         initMap();
 
-        return view;
+        mTouchView = new TouchableWrapper(getActivity());
+        mTouchView.addView(mView);
+        return mTouchView;
     }
 
     @Override
@@ -355,6 +366,8 @@ public class DistributionFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
+                if(mMapIsTouched) return;
+
                 if (isBlock) {
                     isBlock = false;
                 } else {
@@ -513,6 +526,31 @@ public class DistributionFragment extends BaseFragment {
         intent.putExtra("exitAnim", R.anim.zoom_in);
 
         startActivity(intent);
+    }
+
+
+
+
+
+    private class TouchableWrapper extends FrameLayout {
+        public TouchableWrapper(Context context) {
+            super(context);
+        }
+
+        @Override
+        public boolean dispatchTouchEvent(MotionEvent ev) {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mMapIsTouched = true;
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    mMapIsTouched = false;
+                    break;
+            }
+
+            return super.dispatchTouchEvent(ev);
+        }
     }
 
 }

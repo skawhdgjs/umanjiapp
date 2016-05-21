@@ -4,6 +4,7 @@ package com.umanji.umanjiapp.ui.main;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,9 +21,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -198,6 +201,11 @@ public class MainFragment extends BaseFragment {
 
     TextView searchBtn;
 
+
+    boolean mMapIsTouched = false;
+    View mView;
+    TouchableWrapper mTouchView;
+
     public static MainFragment newInstance(Bundle bundle) {
         MainFragment fragment = new MainFragment();
         fragment.setArguments(bundle);
@@ -215,6 +223,7 @@ public class MainFragment extends BaseFragment {
         Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
         t.setScreenName("MainActivity");
         t.send(new HitBuilders.AppViewBuilder().build());
+
     }
 
     @Override
@@ -232,9 +241,9 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+        mView = super.onCreateView(inflater, container, savedInstanceState);
 
-        initMainListView(view);
+        initMainListView(mView);
 
         if (AuthHelper.isLogin(mActivity)) {
             loginByToken();
@@ -242,7 +251,7 @@ public class MainFragment extends BaseFragment {
             updateView();
         }
 
-        initWidgets(view);
+        initWidgets(mView);
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
@@ -266,7 +275,11 @@ public class MainFragment extends BaseFragment {
             startActivityForPush();
         }
 
-        return view;
+
+
+        mTouchView = new TouchableWrapper(getActivity());
+        mTouchView.addView(mView);
+        return mTouchView;
     }
 
     protected void startActivityForPush() {
@@ -304,6 +317,11 @@ public class MainFragment extends BaseFragment {
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.activity_main, container, false);
+    }
+
+    @Override
+    public View getView() {
+        return mView;
     }
 
     @Override
@@ -851,6 +869,8 @@ public class MainFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
+                if(mMapIsTouched) return;
+
                 if (isBlock) {
                     isBlock = false;
                 } else {
@@ -1550,5 +1570,26 @@ public class MainFragment extends BaseFragment {
             return false;
         }
         return true;
+    }
+
+    private class TouchableWrapper extends FrameLayout {
+        public TouchableWrapper(Context context) {
+            super(context);
+        }
+
+        @Override
+        public boolean dispatchTouchEvent(MotionEvent ev) {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    mMapIsTouched = true;
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    mMapIsTouched = false;
+                    break;
+            }
+
+            return super.dispatchTouchEvent(ev);
+        }
     }
 }
