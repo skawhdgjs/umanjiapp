@@ -416,8 +416,14 @@ public final class Helper implements AppConfig {
                 break;
             case TYPE_KEYWORD:
             case TYPE_COMMUNITY:
-                intent = new Intent(activity, KeywordCommunityActivity.class);
-                break;
+                if(channelData.getLevel() == 2){
+                    intent = new Intent(activity, KeywordCommunityActivity.class);
+                    break;
+                } else {
+                    intent = new Intent(activity, CommunityActivity.class);
+                    break;
+                }
+
             case TYPE_INFO_CENTER:
                 intent = new Intent(activity, InfoActivity.class);
                 break;

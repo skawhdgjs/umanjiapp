@@ -100,14 +100,14 @@ public interface AppConfig {
 
     String api_channels_id_authority       = "GET /channels/id/authority";
 
-    String TAB_ROLES                    = "ROLES";
-    String TAB_POSTS                    = "POSTS";
+    String TAB_ROLES                    = "역할";
+    String TAB_POSTS                    = "정보광장";
     String TAB_LIKES                    = "LIKES";
-    String TAB_COMMUNITIES              = "COMMUNITIES";
-    String TAB_SPOTS                    = "SPOTS";
-    String TAB_NOTIES                   = "NOTIES";
-    String TAB_MEMBERS                  = "MEMBERS";
-    String TAB_ABOUT                    = "ABOUT";
+    String TAB_COMMUNITIES              = "커뮤니티";
+    String TAB_SPOTS                    = "장소";
+    String TAB_NOTIES                   = "알림";
+    String TAB_MEMBERS                  = "멤버";
+    String TAB_ABOUT                    = "기타정보";
 
 
     String TYPE_MAIN                    = "MAIN";

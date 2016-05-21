@@ -343,57 +343,45 @@
             android:focusable="false"
             android:orientation="vertical">
 
-
-            <LinearLayout
-                android:id="@+id/headerPanel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/mZoomLevelText"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="0.3"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="Zoom:"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/mInfoTextPanel"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:ellipsize="marquee"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:freezesText="true"
-                    android:gravity="center_horizontal"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:paddingRight="10dp"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_slide" />
-
-
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            <!--<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clickable="false" />
+                android:clickable="false" />-->
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tabs_height"
+                android:layout_gravity="bottom"
+                style="@style/AppTheme.TabStyle"
+                android:background="@color/colorPrimary"
+
+                />
+
+            <!--app:tabMode="scrollable"-->
+
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPaper"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+
+
+            </android.support.design.widget.CoordinatorLayout>
         </LinearLayout>
 
 
