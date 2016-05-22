@@ -101,7 +101,8 @@ public class KeywordCommunityFragment extends BaseFragment {
 
     private RoundedImageView mZoomBtn;
 
-//    private TextView mZoomLevelText;
+    private TextView mZoomLevelText;
+
 //    private TextView mInfoTextPanel;
 
 
@@ -402,7 +403,7 @@ public class KeywordCommunityFragment extends BaseFragment {
         searchBtn = (TextView) view.findViewById(R.id.search);
         searchBtn.setOnClickListener(this);
 
-//        mZoomLevelText = (TextView) view.findViewById(R.id.mZoomLevelText);
+        mZoomLevelText = (TextView) view.findViewById(R.id.mZoomLevelText);
 //
 //        mInfoTextPanel = (TextView) view.findViewById(R.id.mInfoTextPanel);
 //        mInfoTextPanel.setSelected(true);
@@ -850,7 +851,7 @@ public class KeywordCommunityFragment extends BaseFragment {
                     isBlock = false;
                 } else {
 
-//                    mZoomLevelText.setText("Zoom: " + (int) position.zoom);
+                    mZoomLevelText.setText("" + (int) position.zoom);
 
                     int zoom = (int) position.zoom;
                     // isPoliticTouchable

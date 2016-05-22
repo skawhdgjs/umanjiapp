@@ -417,12 +417,12 @@ public abstract class BaseChannelFragment extends BaseFragment {
     }
 
     protected void setPoint(Activity activity, ChannelData channelData) {
-        mPoint.setText(channelData.getPoint() + " p");
+        mPoint.setText(channelData.getPoint() + "");
     }
 
-    protected void setLevel(Activity activity, ChannelData channelData) {
+    /*protected void setLevel(Activity activity, ChannelData channelData) {
         mLevel.setText("Lv " + channelData.getLevel());
-    }
+    }*/
 
     protected void setMemberCount(Activity activity, ChannelData channelData) {
         ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_MEMBER);

@@ -137,7 +137,7 @@ public class CommunityFragment extends BaseChannelFragment {
 
             setUserPhoto(mActivity, mChannel.getOwner());
             setPoint(mActivity, mChannel);
-            setLevel(mActivity, mChannel);
+//            setLevel(mActivity, mChannel);
             setMemberCount(mActivity, mChannel);
         } else {
             setKeywords(mActivity, mChannel.getParent());
@@ -148,7 +148,7 @@ public class CommunityFragment extends BaseChannelFragment {
 
             setUserPhoto(mActivity, mChannel.getOwner());
             setPoint(mActivity, mChannel.getParent());
-            setLevel(mActivity, mChannel.getParent());
+//            setLevel(mActivity, mChannel.getParent());
             setMemberCount(mActivity, mChannel.getParent());
         }
         //mFab.setVisibility(View.VISIBLE);

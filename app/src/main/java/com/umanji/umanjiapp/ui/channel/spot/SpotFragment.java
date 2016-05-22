@@ -85,13 +85,13 @@ public class SpotFragment extends BaseChannelFragment {
         Bundle bundle = new Bundle();
         if(mChannel.getType().equals(TYPE_SPOT_INNER)){
             bundle.putString("channel", mChannel.getJsonObject().toString());
-            adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
+            adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
             adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
             adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
             adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
         } else {
             bundle.putString("channel", mChannel.getJsonObject().toString());
-            adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
+            adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
             adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
             adapter.addFragment(SpotListFragment.newInstance(bundle), "SPOTS");
             adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
@@ -147,7 +147,7 @@ public class SpotFragment extends BaseChannelFragment {
 
         setUserPhoto(mActivity, mChannel.getOwner());
         setPoint(mActivity, mChannel);
-        setLevel(mActivity, mChannel);
+//        setLevel(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
         setKeywords(mActivity, mChannel);
     }
