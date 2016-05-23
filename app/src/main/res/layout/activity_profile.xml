@@ -65,16 +65,16 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="174dp"
+                        android:layout_height="220dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
-                            android:id="@+id/titlePanel"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true">
+                            android:layout_centerHorizontal="true"
+                            android:id="@+id/linearLayout3">
 
                             <TextView
                                 android:id="@+id/name"
@@ -82,7 +82,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|right"
                                 android:layout_marginTop="15dp"
-                                android:text="건물"
+                                android:text="이름"
                                 android:padding="15dp"
                                 android:shadowColor="#000"
                                 android:shadowRadius="7.0"
@@ -91,8 +91,7 @@
                                 android:textStyle="bold"
                                 app:layout_collapseMode="parallax"
                                 app:layout_collapseParallaxMultiplier="1.0"
-                                android:visibility="visible"
-                                android:layout_below="@+id/lookAround"/>
+                                android:visibility="visible"/>
 
                             <TextView
                                 app:layout_collapseMode="parallax"
@@ -107,8 +106,9 @@
                                 android:textColor="@color/white_50"
                                 android:textSize="20dp"
                                 android:textStyle="bold"
-                                android:visibility="visible"
+                                android:visibility="gone"
                                 android:layout_below="@+id/lookAround"/>
+
 
                             <TextView
                                 android:id="@+id/parentName"
@@ -124,10 +124,43 @@
                                 android:textStyle="bold"
                                 app:layout_collapseMode="parallax"
                                 app:layout_collapseParallaxMultiplier="1.0"
-                                android:visibility="visible"
+                                android:visibility="gone"
                                 android:layout_below="@+id/lookAround"/>
+
                         </LinearLayout>
 
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="멤버"
+                            android:id="@+id/textView3"
+                            android:textSize="16dp"
+                            android:shadowColor="#000"
+                            android:shadowRadius="7.0"
+                            android:textColor="@color/white"
+                            android:visibility="gone"
+                            android:layout_toLeftOf="@+id/linearLayout3"
+                            android:layout_toStartOf="@+id/linearLayout3"
+                            android:layout_marginRight="39dp"
+                            android:layout_marginEnd="39dp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5명"
+                            android:id="@+id/memberCount"
+                            android:textSize="16dp"
+                            android:shadowColor="#000"
+                            android:shadowRadius="7.0"
+                            android:textColor="@color/white"
+                            android:layout_alignTop="@+id/textView3"
+                            android:layout_toLeftOf="@+id/linearLayout3"
+                            android:layout_toStartOf="@+id/linearLayout3"
+                            android:layout_marginRight="9dp"
+                            android:layout_marginEnd="9dp"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -138,56 +171,11 @@
                             android:shadowColor="#000"
                             android:shadowRadius="7.0"
                             android:textColor="@color/white"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginBottom="20dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1000 p"
-                            android:id="@+id/point"
-                            android:textSize="16dp"
-                            android:layout_alignTop="@+id/textView5"
-                            android:layout_toRightOf="@+id/textView5"
-                            android:layout_toEndOf="@+id/textView5"
-                            android:layout_marginLeft="5dp"
-                            android:shadowColor="#000"
-                            android:shadowRadius="7.0"
-                            android:textColor="@color/white" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Lv 1"
-                            android:id="@+id/level"
-                            android:textSize="16dp"
-                            android:shadowColor="#000"
-                            android:shadowRadius="7.0"
-                            android:textColor="@color/white"
-                            android:layout_alignTop="@+id/point"
-                            android:layout_toRightOf="@+id/point"
-                            android:layout_toEndOf="@+id/point"
-                            android:layout_marginLeft="20dp"
+                            android:layout_alignTop="@+id/memberCount"
+                            android:layout_alignLeft="@+id/linearLayout3"
+                            android:layout_alignStart="@+id/linearLayout3"
                             android:visibility="gone"/>
 
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/keywordPanel"
-                            android:textSize="16dp"
-                            android:shadowColor="#000"
-                            android:shadowRadius="7.0"
-                            android:textColor="@color/white"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignLeft="@+id/textView5"
-                            android:layout_alignStart="@+id/textView5"
-                            android:layout_marginBottom="10dp">
-
-                        </LinearLayout>
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -201,33 +189,12 @@
                             app:riv_border_width="1px"
                             app:riv_corner_radius="5dp"
                             app:riv_oval="false"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginEnd="20dp"
-                            android:baselineAlignBottom="false"
                             android:layout_alignParentBottom="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginBottom="20dp" />
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="10dp" />
 
-                        <com.makeramen.roundedimageview.RoundedImageView
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/lookAround"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:src="@drawable/maps_look_around"
-                            android:layout_alignParentTop="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginRight="15dp"
-                            android:scaleType="centerCrop"
-                            android:layout_alignTop="@+id/point"
-                            android:visibility="gone"
-
-                            app:riv_border_color="@color/colorPrimary"
-                            app:riv_border_width="1px"
-                            app:riv_corner_radius="5dp"
-                            app:riv_oval="false"/>
 
                         <ImageView
                             app:layout_collapseMode="parallax"
@@ -239,8 +206,43 @@
                             android:padding="10dp"
                             android:src="@drawable/dong"
                             android:visibility="gone"
-                            android:layout_below="@+id/titlePanel"
+                            android:layout_below="@+id/lookAround"
                             android:layout_centerHorizontal="true"/>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:id="@+id/moneyPanel"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:text="1000"
+                                android:id="@+id/point"
+                                android:textSize="20dp"
+                                android:shadowColor="#000"
+                                android:shadowRadius="7.0"
+                                android:gravity="center"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:textColor="@color/white"
+                                android:layout_marginRight="5dp" />
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:id="@+id/coin"
+                                android:src="@drawable/coin"
+                                android:layout_marginBottom="5dp"/>
+
+                        </LinearLayout>
+
 
                     </RelativeLayout>
 

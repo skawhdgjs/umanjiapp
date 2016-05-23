@@ -163,12 +163,12 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mUserPhoto.setOnClickListener(this);
 
         mLookAround = (ImageView) view.findViewById(R.id.lookAround);
-        mLookAround.setOnClickListener(this);
+        if(mLookAround != null) {
+            mLookAround.setOnClickListener(this);
+        }
 
         mMemberCount = (TextView) view.findViewById(R.id.memberCount);
         mPoint = (TextView) view.findViewById(R.id.point);
-
-        mLevel = (TextView) view.findViewById(R.id.level);
 
         mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
 

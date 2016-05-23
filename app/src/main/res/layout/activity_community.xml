@@ -279,14 +279,15 @@
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="30dp"
                                 android:text="1000"
                                 android:id="@+id/point"
                                 android:textSize="20dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_toLeftOf="@+id/coin"
                                 android:shadowColor="#000"
                                 android:shadowRadius="7.0"
+                                android:gravity="center"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
                                 android:textColor="@color/white"
                                 android:layout_marginRight="5dp" />
 
@@ -294,7 +295,8 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:id="@+id/coin"
-                                android:src="@drawable/coin" />
+                                android:src="@drawable/coin"
+                                android:layout_marginBottom="5dp"/>
 
                         </LinearLayout>
 
