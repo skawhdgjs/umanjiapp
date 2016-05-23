@@ -86,16 +86,16 @@ public class SpotFragment extends BaseChannelFragment {
         if(mChannel.getType().equals(TYPE_SPOT_INNER)){
             bundle.putString("channel", mChannel.getJsonObject().toString());
             adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
-            adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
-            adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
-            adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+            adapter.addFragment(MemberListFragment.newInstance(bundle), "멤버");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "커뮤니티");
+            adapter.addFragment(AboutFragment.newInstance(bundle), "설정");
         } else {
             bundle.putString("channel", mChannel.getJsonObject().toString());
             adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
-            adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
-            adapter.addFragment(SpotListFragment.newInstance(bundle), "SPOTS");
-            adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
-            adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+            adapter.addFragment(MemberListFragment.newInstance(bundle), "멤버");
+            adapter.addFragment(SpotListFragment.newInstance(bundle), "장소");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "커뮤니티");
+            adapter.addFragment(AboutFragment.newInstance(bundle), "설정");
         }
 
     }

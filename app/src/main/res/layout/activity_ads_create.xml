@@ -23,23 +23,22 @@
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/submitBtn2"
-            android:layout_centerHorizontal="true"
             android:text="배너광고하기"
             android:textColor="#fff"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
 
         <TextView
-            android:id="@+id/submitBtn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:gravity="right"
-            android:text="완료"
+            android:layout_width="50dp"
+            android:layout_height="@dimen/tabs_height"
+            android:textSize="16dp"
             android:textColor="#fff"
-            android:textSize="16dp" />
+            android:text="완료"
+            android:id="@+id/submitBtn2"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
 
 

@@ -59,6 +59,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
 
         switch (mChannel.getType()) {
             case TYPE_USER:
+            case TYPE_INFO_CENTER:
                 mAddBtn.setVisibility(View.GONE);
                 break;
         }
@@ -125,6 +126,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
         if(mChannel != null) {
             switch (mChannel.getType()) {
                 case TYPE_USER:
+                case TYPE_INFO_CENTER:
                     mAddBtn.setVisibility(View.GONE);
                     break;
                 default:

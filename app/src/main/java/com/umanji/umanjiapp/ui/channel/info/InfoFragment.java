@@ -1,7 +1,6 @@
 package com.umanji.umanjiapp.ui.channel.info;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.text.TextUtils;
@@ -19,13 +18,12 @@ import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
+import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.about.AboutFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
-import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,10 +64,10 @@ public class InfoFragment extends BaseChannelFragment {
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter) {
         Bundle bundle = new Bundle();
         bundle.putString("channel", mChannel.getJsonObject().toString());
-        adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
-        adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
-        adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
-        adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+        adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
+        adapter.addFragment(MemberListFragment.newInstance(bundle), "멤버");
+        adapter.addFragment(CommunityListFragment.newInstance(bundle), "커뮤니티");
+        adapter.addFragment(AboutFragment.newInstance(bundle), "설정");
     }
 
     @Override
