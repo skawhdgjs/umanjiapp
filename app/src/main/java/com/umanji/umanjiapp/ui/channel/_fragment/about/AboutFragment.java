@@ -38,7 +38,6 @@ import de.greenrobot.event.EventBus;
 public class AboutFragment extends BaseChannelListFragment {
     private static final String TAG = "AboutFragment";
 
-    protected Button mAddBtn;
     protected Button mEditChannelBtn;
     protected Button mDeleteBtn;
     protected Button mAddHomeBtn;
@@ -71,9 +70,6 @@ public class AboutFragment extends BaseChannelListFragment {
 
     @Override
     public void initWidgets(View view) {
-        mAddBtn = (Button)view.findViewById(R.id.addKeywordBtn);
-        mAddBtn.setOnClickListener(this);
-
         mEditChannelBtn = (Button) view.findViewById(R.id.editChannelBtn);
         mEditChannelBtn.setOnClickListener(this);
 
@@ -157,10 +153,8 @@ public class AboutFragment extends BaseChannelListFragment {
     private void setAddBtn(Activity activity, ChannelData channelData) {
 
         if(TextUtils.equals(channelData.getType(), TYPE_INFO_CENTER)) {
-            mAddBtn.setVisibility(View.GONE);
             mEditChannelBtn.setVisibility(View.GONE);
         } else {
-            mAddBtn.setVisibility(View.VISIBLE);
             mEditChannelBtn.setVisibility(View.VISIBLE);
         }
     }
@@ -197,10 +191,6 @@ public class AboutFragment extends BaseChannelListFragment {
         super.onClick(v);
 
         switch (v.getId()) {
-            case R.id.addKeywordBtn:
-                Helper.startCreateActivity(mActivity, mChannel, TYPE_KEYWORD);
-                break;
-
             case R.id.editChannelBtn:
                 startChannelUpdateActivity(mActivity, mChannel);
                 break;

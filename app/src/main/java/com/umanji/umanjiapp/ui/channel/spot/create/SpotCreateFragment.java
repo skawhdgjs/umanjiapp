@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.umanji.umanjiapp.R;
@@ -28,6 +30,15 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
     private AutoCompleteTextView mFloor;
     private CheckBox mBasementCheckBox;
     private boolean isBasement = false;
+
+
+    protected AutoCompleteTextView mKeywordName;
+    protected Button mAddKeywordBtn;
+
+    protected TextView mKeyword1;
+    protected TextView mKeyword2;
+
+    ArrayList<String> keywords = new ArrayList<>();
 
     public static SpotCreateFragment newInstance(Bundle bundle) {
         SpotCreateFragment fragment = new SpotCreateFragment();
@@ -74,6 +85,17 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
         });
 
         mSubmitBtn.setText("스팟 생성");
+
+
+        mKeywordName = (AutoCompleteTextView) view.findViewById(R.id.keywordName);
+        mAddKeywordBtn = (Button) view.findViewById(R.id.addKeywordBtn);
+        mAddKeywordBtn.setOnClickListener(this);
+
+        mKeyword1 = (TextView) view.findViewById(R.id.keyword1);
+        mKeyword1.setOnClickListener(this);
+
+        mKeyword2 = (TextView) view.findViewById(R.id.keyword2);
+        mKeyword2.setOnClickListener(this);
     }
 
     @Override
@@ -87,6 +109,11 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
             params.put("parent", mChannel.getId());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_SPOT_INNER);
+
+
+            if(keywords.size() > 0) {
+                params.put("keywords", new JSONArray(keywords));
+            }
 
             setSpotDesc(params);
 
@@ -122,6 +149,49 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
         JSONObject descParams = new JSONObject();
         descParams.put("floor", floorNum);
         params.put("desc", descParams);
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.addKeywordBtn:
+                if(TextUtils.isEmpty(mKeyword1.getText())) {
+                    mKeyword1.setText(mKeywordName.getText() + " [X]");
+                    keywords.add(mKeywordName.getText().toString());
+                } else if(TextUtils.isEmpty(mKeyword2.getText())){
+                    mKeyword2.setText(mKeywordName.getText() + " [X]");
+                    keywords.add(mKeywordName.getText().toString());
+                } else {
+                    Toast.makeText(mActivity, "키워드는 2개까지 입력 가능합니다.", Toast.LENGTH_SHORT).show();
+                }
+
+                mKeywordName.setText(null);
+                break;
+
+            case R.id.keyword1:
+                if(!TextUtils.isEmpty(mKeyword1.getText())) {
+                    if(!TextUtils.isEmpty(mKeyword2.getText())) {
+                        mKeyword1.setText(mKeyword2.getText());
+                        keywords.remove(0);
+                        keywords.remove(0);
+
+                        keywords.add(mKeyword2.getText().toString());
+                        mKeyword2.setText(null);
+                    }else {
+                        mKeyword1.setText(null);
+                        keywords.remove(0);
+                    }
+                }
+                break;
+            case R.id.keyword2:
+                if(!TextUtils.isEmpty(mKeyword2.getText())) {
+                    mKeyword2.setText(null);
+                    keywords.remove(1);
+                }
+                break;
+        }
     }
 
     @Override

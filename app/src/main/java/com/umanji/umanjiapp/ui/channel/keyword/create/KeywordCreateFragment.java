@@ -75,7 +75,7 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
             }
 
             JSONObject params = mChannel.getAddressJSONObject();
-            params.put("parent", mChannel.getId());
+            params.put("id", mChannel.getId());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_KEYWORD);
 
@@ -86,7 +86,7 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
                 mPhotoUri = null;
             }
 
-            mApi.call(api_channels_create, params);
+            mApi.call(api_channels_createKeyword, params);
             mClicked = true;
 
         }catch(JSONException e) {
@@ -99,7 +99,7 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
         super.onEvent(event);
 
         switch (event.type) {
-            case api_channels_create:
+            case api_channels_createKeyword:
                 mClicked = false;
                 mActivity.finish();
                 break;

@@ -885,7 +885,7 @@ public class MainFragment extends BaseFragment {
                     isBlock = false;
                 } else {
 
-                    mZoomLevelText.setText("" + (int) position.zoom);
+                    mZoomLevelText.setText("Lv " + (int) position.zoom);
 
                     int zoom = (int) position.zoom;
                     // isPoliticTouchable

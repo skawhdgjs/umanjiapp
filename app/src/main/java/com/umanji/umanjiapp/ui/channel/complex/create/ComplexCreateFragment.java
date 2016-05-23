@@ -1,10 +1,15 @@
 package com.umanji.umanjiapp.ui.channel.complex.create;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -25,6 +30,14 @@ import de.greenrobot.event.EventBus;
 
 public class ComplexCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "ComplexCreateFragment";
+
+    protected AutoCompleteTextView mKeywordName;
+    protected Button mAddKeywordBtn;
+
+    protected TextView mKeyword1;
+    protected TextView mKeyword2;
+
+    ArrayList<String> mKeywords = new ArrayList<>();
 
     public static ComplexCreateFragment newInstance(Bundle bundle) {
         ComplexCreateFragment fragment = new ComplexCreateFragment();
@@ -47,6 +60,16 @@ public class ComplexCreateFragment extends BaseChannelCreateFragment {
         super.initWidgets(view);
 
         mSubmitBtn.setText("복합단지 생성");
+
+        mKeywordName = (AutoCompleteTextView) view.findViewById(R.id.keywordName);
+        mAddKeywordBtn = (Button) view.findViewById(R.id.addKeywordBtn);
+        mAddKeywordBtn.setOnClickListener(this);
+
+        mKeyword1 = (TextView) view.findViewById(R.id.keyword1);
+        mKeyword1.setOnClickListener(this);
+
+        mKeyword2 = (TextView) view.findViewById(R.id.keyword2);
+        mKeyword2.setOnClickListener(this);
     }
 
     @Override
@@ -62,6 +85,10 @@ public class ComplexCreateFragment extends BaseChannelCreateFragment {
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMPLEX);
             params.put("level", LEVEL_COMPLEX);
+
+            if(mKeywords.size() > 0) {
+                params.put("keywords", new JSONArray(mKeywords));
+            }
 
             if(mPhotoUri != null) {
                 ArrayList<String> photos = new ArrayList<>();
@@ -83,6 +110,49 @@ public class ComplexCreateFragment extends BaseChannelCreateFragment {
 
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+
+        switch (v.getId()) {
+            case R.id.addKeywordBtn:
+                if(TextUtils.isEmpty(mKeyword1.getText())) {
+                    mKeyword1.setText(mKeywordName.getText() + " [X]");
+                    mKeywords.add(mKeywordName.getText().toString());
+                } else if(TextUtils.isEmpty(mKeyword2.getText())){
+                    mKeyword2.setText(mKeywordName.getText() + " [X]");
+                    mKeywords.add(mKeywordName.getText().toString());
+                } else {
+                    Toast.makeText(mActivity, "키워드는 2개까지 입력 가능합니다.", Toast.LENGTH_SHORT).show();
+                }
+
+                mKeywordName.setText(null);
+                break;
+
+            case R.id.keyword1:
+                if(!TextUtils.isEmpty(mKeyword1.getText())) {
+                    if(!TextUtils.isEmpty(mKeyword2.getText())) {
+                        mKeyword1.setText(mKeyword2.getText());
+                        mKeywords.remove(0);
+                        mKeywords.remove(0);
+
+                        mKeywords.add(mKeyword2.getText().toString());
+                        mKeyword2.setText(null);
+                    }else {
+                        mKeyword1.setText(null);
+                        mKeywords.remove(0);
+                    }
+                }
+                break;
+            case R.id.keyword2:
+                if(!TextUtils.isEmpty(mKeyword2.getText())) {
+                    mKeyword2.setText(null);
+                    mKeywords.remove(1);
+                }
+                break;
         }
     }
 

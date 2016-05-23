@@ -42,6 +42,7 @@ public interface AppConfig {
     String api_channels_createSpot      = "POST /channels/spot";
     String api_channels_createComplex   = "POST /channels/complex";
     String api_channels_createCommunity = "POST /channels/community";
+    String api_channels_createKeyword   = "POST /channels/keyword";
     String api_channels_create          = "POST /channels";
 
     String api_channels_get             = "GET  /channels/id";

@@ -165,8 +165,6 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mLookAround = (ImageView) view.findViewById(R.id.lookAround);
         mLookAround.setOnClickListener(this);
 
-        mLookLink = (ImageView) view.findViewById(R.id.lookLink);
-
         mMemberCount = (TextView) view.findViewById(R.id.memberCount);
         mPoint = (TextView) view.findViewById(R.id.point);
 
@@ -280,6 +278,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
             case api_channels_id_unJoin:
             case api_channels_id_unLike:
                 Helper.showNoticePanel(mActivity, mNoticePanel, POINT_DEFAULT + " 포인트 감소");
+            case api_channels_createKeyword:
             case api_channels_id_update:
                 ChannelData channelData = new ChannelData(event.response);
                 if(TextUtils.equals(mChannel.getId(), channelData.getId())) {
@@ -356,12 +355,6 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     .load(defaultImage)
                     .into(mPhoto);
 
-            mPhoto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Helper.startUpdateActivity(mActivity, channelData);
-                }
-            });
         }
     }
 
@@ -432,25 +425,27 @@ public abstract class BaseChannelFragment extends BaseFragment {
     }
 
     protected void setKeywords(Activity activity, ChannelData channelData) {
-        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
-        if(subLinks != null && subLinks.size() > 0) {
-            if(subLinks.size() == 1) {
+
+        String [] keywords = channelData.getKeywords();
+
+        if(keywords != null && keywords.length > 0) {
+            if(keywords.length == 1) {
                 mKeywordPanel.removeAllViews();
 
                 TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView);
-                keywordView.setText(subLinks.get(0).getName());
+                keywordView.setText(keywords[0]);
 
-            }else if(subLinks.size() == 2) {
+            } else if(keywords.length >= 2) {
                 mKeywordPanel.removeAllViews();
 
                 TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView);
-                keywordView.setText("#" + subLinks.get(0).getName());
+                keywordView.setText("#" + keywords[0]);
 
                 TextView keywordView2 = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView2);
-                keywordView2.setText("#" + subLinks.get(1).getName());
+                keywordView2.setText("#" + keywords[1]);
             }
 
         } else {
@@ -458,7 +453,14 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
             TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
             mKeywordPanel.addView(keywordView);
-            keywordView.setText("#키워드를 입력해 주세요.");
+            keywordView.setText("#키워드추가");
+            keywordView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Helper.startUpdateActivity(mActivity, mChannel);
+                }
+            });
+
         }
     }
 
