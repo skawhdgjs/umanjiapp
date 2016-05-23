@@ -92,15 +92,15 @@ public class ProfileFragment extends BaseChannelFragment {
         bundle.putString("channel", mChannel.getJsonObject().toString());
 
         // new Roles Tab
-        adapter.addFragment(RoleListFragment.newInstance(bundle), "ROLES");
-        adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
-        adapter.addFragment(SpotListFragment.newInstance(bundle), "SPOTS");
-        adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
+        adapter.addFragment(RoleListFragment.newInstance(bundle), "역할");
+        adapter.addFragment(PostListFragment.newInstance(bundle), "포스트");
+        adapter.addFragment(SpotListFragment.newInstance(bundle), "장소");
+        adapter.addFragment(CommunityListFragment.newInstance(bundle), "커뮤니티");
 
         if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
-            adapter.addFragment(NotyListFragment.newInstance(bundle), "NOTIES");
+            adapter.addFragment(NotyListFragment.newInstance(bundle), "알림");
         }
-        adapter.addFragment(AboutProfileFragment.newInstance(bundle), "ABOUT");
+        adapter.addFragment(AboutProfileFragment.newInstance(bundle), "설정");
     }
 
     @Override

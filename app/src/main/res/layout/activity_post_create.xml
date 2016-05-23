@@ -24,17 +24,20 @@
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/submitBtn2"
-            android:layout_centerHorizontal="true"
-            android:text="포스트 작성하기"
+            android:textSize="18dp"
             android:textColor="#fff"
-            android:textSize="18dp" />
+            android:text="포스트 작성하기"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"/>
 
         <TextView
+            android:layout_width="50dp"
+            android:layout_height="@dimen/tabs_height"
+            android:textSize="16dp"
+            android:textColor="#fff"
+            android:text="완료"
             android:id="@+id/submitBtn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:gravity="center"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:gravity="right"
@@ -80,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!--<Button
+                <Button
                     android:id="@+id/photoBtn"
                     style="?android:textAppearanceSmall"
                     android:layout_width="wrap_content"
@@ -100,7 +103,6 @@
 
                 <!--<Button
                     android:id="@+id/voteBtn"
-                    style="?android:textAppearanceSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"

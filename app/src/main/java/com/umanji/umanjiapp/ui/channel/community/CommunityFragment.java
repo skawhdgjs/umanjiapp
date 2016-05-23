@@ -51,12 +51,12 @@ public class CommunityFragment extends BaseChannelFragment {
 
         if (mChannel.getSubLinks(TYPE_MEMBER) != null) {
             TabLayout.Tab tabMember = mTabLayout.getTabAt(1);
-            tabMember.setText("MEMBERS (" + mChannel.getSubLinks(TYPE_MEMBER).size() + ")");
+            tabMember.setText("멤버 (" + mChannel.getSubLinks(TYPE_MEMBER).size() + ")");
         }
 
         if (mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
             TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
-            tabSpot.setText("COMMUNITIES (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
+            tabSpot.setText("커뮤니티 (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
         }
 
         return view;
@@ -73,10 +73,10 @@ public class CommunityFragment extends BaseChannelFragment {
         if (getArguments().getString("fromDist") == null) {
             Bundle bundle = new Bundle();
             bundle.putString("channel", mChannel.getJsonObject().toString());
-            adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
-            adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
-            adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
-            adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+            adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
+            adapter.addFragment(MemberListFragment.newInstance(bundle), "멤버");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "커뮤니티");
+            adapter.addFragment(AboutFragment.newInstance(bundle), "설정");
         } else {
             Bundle bundle = new Bundle();
             if(mChannel.getUserName() == mChannel.getName()){
@@ -85,10 +85,10 @@ public class CommunityFragment extends BaseChannelFragment {
                 bundle.putString("channel", mChannel.getParent().getJsonObject().toString());
             }
 
-            adapter.addFragment(PostListFragment.newInstance(bundle), "POSTS");
-            adapter.addFragment(MemberListFragment.newInstance(bundle), "MEMBERS");
-            adapter.addFragment(CommunityListFragment.newInstance(bundle), "COMMUNITIES");
-            adapter.addFragment(AboutFragment.newInstance(bundle), "ABOUT");
+            adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
+            adapter.addFragment(MemberListFragment.newInstance(bundle), "멤버");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "커뮤니티");
+            adapter.addFragment(AboutFragment.newInstance(bundle), "설정");
         }
 
     }
