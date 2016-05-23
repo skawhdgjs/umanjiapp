@@ -127,6 +127,7 @@ public interface AppConfig {
     String TYPE_USER                    = "USER";
     String TYPE_MEMBER                  = "MEMBER";
     String TYPE_COMMUNITY               = "COMMUNITY";
+    String TYPE_KEYWORD_COMMUNITY       = "KEYWORD_COMMUNITY";
     String TYPE_KEYWORD                 = "KEYWORD";
 
     String TYPE_NOTY                    = "NOTY";
