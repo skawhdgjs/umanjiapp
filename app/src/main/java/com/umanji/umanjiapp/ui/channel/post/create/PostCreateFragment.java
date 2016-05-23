@@ -52,7 +52,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     protected boolean hasVote = false;
     protected LinearLayout mVotePanel;
     protected LinearLayout mVoteOptionPanel;
-    protected Button mVoteBtn;
+    protected LinearLayout mVoteBtn;
     protected Button mVoteRemoveBtn;
     protected Button mAddVoteOptionBtn;
 
@@ -92,7 +92,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
         mVotePanel = (LinearLayout) view.findViewById(R.id.votePanel);
         mVoteOptionPanel = (LinearLayout) view.findViewById(R.id.voteOptionPanel);
-        mVoteBtn = (Button) view.findViewById(R.id.voteBtn);
+        mVoteBtn = (LinearLayout) view.findViewById(R.id.voteBtn);
         mVoteBtn.setOnClickListener(this);
         mVoteRemoveBtn = (Button) view.findViewById(R.id.voteRemoveBtn);
         mVoteRemoveBtn.setOnClickListener(this);
