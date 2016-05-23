@@ -38,12 +38,9 @@
             android:text="완료"
             android:id="@+id/submitBtn2"
             android:gravity="center"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:gravity="right"
-            android:text="완료"
-            android:textColor="#fff"
-            android:textSize="16dp" />
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
     <ScrollView
@@ -83,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
+                <!--<Button
                     android:id="@+id/photoBtn"
                     style="?android:textAppearanceSmall"
                     android:layout_width="wrap_content"
