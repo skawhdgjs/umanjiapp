@@ -434,7 +434,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
                 TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView);
-                keywordView.setText(keywords[0]);
+                keywordView.setText("#" + keywords[0]);
 
             } else if(keywords.length >= 2) {
                 mKeywordPanel.removeAllViews();

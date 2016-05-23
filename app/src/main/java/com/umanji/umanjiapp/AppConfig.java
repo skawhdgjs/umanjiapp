@@ -1,7 +1,7 @@
 package com.umanji.umanjiapp;
 
 public interface AppConfig {
-    String REST_SERVER_URL = "http://10.10.0.209:3000/v1"; /* 로컬 API Server */
+    String REST_SERVER_URL = "http://172.30.1.5:3000/v1"; /* 로컬 API Server */
 //   String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
@@ -43,6 +43,8 @@ public interface AppConfig {
     String api_channels_createComplex   = "POST /channels/complex";
     String api_channels_createCommunity = "POST /channels/community";
     String api_channels_createKeyword   = "POST /channels/keyword";
+
+    String api_channels_createPost      = "POST /channels/post";
     String api_channels_create          = "POST /channels";
 
     String api_channels_get             = "GET  /channels/id";
@@ -62,11 +64,16 @@ public interface AppConfig {
     String api_channels_roles_find          = "GET  /channels/findRole";
 
 
+
     String api_profile_posts_find       = "GET  /profile/id/posts";
     String api_profile_spots_find       = "GET  /profile/id/spots";
     String api_profile_communities_find = "GET  /profile/id/communities";
 
     String api_main_findPosts           = "GET  /main/posts";
+
+    String api_keyword_findPosts        = "GET  /keyword/posts";
+    String api_keyword_findChannels     = "GET  /keyword/channels";
+
     String api_main_findMarkers         = "GET  /main/markers";
     String api_main_findDistributions   = "GET  /main/distribution";
     String api_main_findAds             = "GET  /main/ads";
