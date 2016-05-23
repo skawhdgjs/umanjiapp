@@ -49,6 +49,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     protected TextView mSubmitBtn2;
     protected ImageView mPhoto;
 
+
     /****************************************************
      *  Etc.
      ****************************************************/

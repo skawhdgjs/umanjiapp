@@ -23,8 +23,6 @@ import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.modal.map.MapActivity;
-import com.umanji.umanjiapp.ui.modal.map.update_address.MapUpdateAddressActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +52,6 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
     protected TextView mSubmitBtn2;
     protected ImageView mPhoto;
 
-    protected TextView mAddress;
     /****************************************************
      *  Etc.
      ****************************************************/
@@ -102,8 +99,6 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
         mGallaryBtn = (Button) view.findViewById(R.id.gallaryBtn);
         mGallaryBtn.setOnClickListener(this);
 
-        mAddress = (TextView) view.findViewById(R.id.address);
-
     }
 
 
@@ -124,10 +119,6 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
 
     protected void setName(Activity activity, ChannelData channelData) {
         mName.setText(mChannel.getName());
-    }
-
-    protected void setAddress(Activity activity, ChannelData channelData) {
-        mAddress.setText(Helper.getFullAddress(mChannel));
     }
 
     protected void setPhoto(Activity activity, ChannelData channelData) {

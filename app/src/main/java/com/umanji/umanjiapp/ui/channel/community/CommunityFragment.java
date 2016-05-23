@@ -126,9 +126,6 @@ public class CommunityFragment extends BaseChannelFragment {
         setName(mActivity, mChannel, "커뮤니티");
 
         if (getArguments().getString("fromDist") == null) {
-            mLookLink.setVisibility(View.VISIBLE);
-            mLookLink.setOnClickListener(this);
-
             setKeywords(mActivity, mChannel);
             setPhoto(mActivity, mChannel, R.drawable.community_background);
             if (mParentChannel != null) {
@@ -257,14 +254,6 @@ public class CommunityFragment extends BaseChannelFragment {
 
             case R.id.lookAround:
                 EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
-                break;
-
-            case R.id.lookLink:
-                Intent intent = new Intent(mActivity, CommunityDistributionActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                intent.putExtra("bundle", bundle);
-                startActivity(intent);
                 break;
         }
     }
