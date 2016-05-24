@@ -11,7 +11,7 @@
         android:id="@+id/titleLayout"
         android:layout_width="match_parent"
         android:layout_height="53dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/blue"
         android:gravity="center_vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -209,7 +209,7 @@
                 android:layout_height="@dimen/tabs_height"
                 android:layout_gravity="bottom"
                 style="@style/AppTheme.TabStyle"
-                android:background="@color/colorPrimary"
+                android:background="@color/blue"
 
                 />
 

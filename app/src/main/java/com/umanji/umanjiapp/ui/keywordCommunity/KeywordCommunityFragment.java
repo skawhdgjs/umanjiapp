@@ -63,9 +63,11 @@ import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.about.AboutFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
@@ -692,71 +694,6 @@ public class KeywordCommunityFragment extends BaseFragment {
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-
-                if (mFocusedMarker != null) {
-                    mFocusedMarker.remove();
-                }
-                if (mChannelByPoint != null) {
-                    mChannelByPoint = null;
-                }
-
-                final int zoom = (int) mMap.getCameraPosition().zoom;
-
-                if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
-                    int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
-                    Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다(" + POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                mLatLngByPoint = point;
-
-
-                if (zoom >= 15 && zoom <= 21) {
-
-                    try {
-                        JSONObject params = new JSONObject();
-                        params.put("latitude", mLatLngByPoint.latitude);
-                        params.put("longitude", mLatLngByPoint.longitude);
-
-                        mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject object, AjaxStatus status) {
-                                mChannelByPoint = new ChannelData(object);
-
-                                if (TextUtils.isEmpty(mChannelByPoint.getId())) {
-                                    if (AuthHelper.isLogin(mActivity)) {
-                                        isBlock = true;
-
-                                        mMarkerByPoint = Helper.addNewMarkerToMap(mMap, mChannelByPoint);
-                                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
-
-                                        mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
-
-                                        if (isComplexCreatable(zoom)) {
-                                            showCreateComplexDialog();
-                                        } else if (isSpotCreatable(zoom)) {
-                                            showCreateSpotDialog();
-                                        }
-
-                                    } else {
-                                        Helper.startSigninActivity(mActivity, mCurrentMyPosition);
-                                    }
-
-                                } else {
-                                    if (isComplexCreatable(zoom)) {
-                                        startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
-                                    } else if (isSpotCreatable(zoom)) {
-                                        startSpotActivity(mChannelByPoint, TYPE_SPOT);
-                                    }
-
-                                }
-                            }
-                        });
-                    } catch (JSONException e) {
-                        Log.e(TAG, "error " + e.toString());
-                    }
-                }
-
             }
         });
 
@@ -807,7 +744,7 @@ public class KeywordCommunityFragment extends BaseFragment {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));  // get here from communityDistribution
                     }
 
-                    Helper.startActivity(mActivity, channelData.getParent());
+                    Helper.startActivity(mActivity, channelData);
 
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
@@ -1106,12 +1043,9 @@ public class KeywordCommunityFragment extends BaseFragment {
 
     private void loadMainMarkers() {
         try {
-            JSONObject params = new JSONObject();
-            //ArrayList<SubLinkData> subLinks = mChannel.getSubLinks(TYPE_KEYWORD);
+            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+            params.put("keywords", mChannel.getName());
 
-            //if (subLinks == null || subLinks.size() < 1) return;
-            //params.put("name", subLinks.get(0).getName());
-            params.put("name", mChannel.getName());
             mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -1134,7 +1068,7 @@ public class KeywordCommunityFragment extends BaseFragment {
             if (mMarkers != null) {
                 for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMap(mMap, channelData.getParent(), idx);
+                    Helper.addMarkerToMap(mMap, channelData, idx);
                 }
             }
 
@@ -1275,13 +1209,9 @@ public class KeywordCommunityFragment extends BaseFragment {
 
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter) {
         Bundle bundle = new Bundle();
-
-            bundle.putString("channel", mChannel.getJsonObject().toString());
-            adapter.addFragment(PostListFragment.newInstance(bundle), "정보광장");
-            adapter.addFragment(MemberListFragment.newInstance(bundle), "멤버");
-            adapter.addFragment(CommunityListFragment.newInstance(bundle), "커뮤니티");
-            adapter.addFragment(AboutFragment.newInstance(bundle), "기타정보");
-
+        bundle.putString("channel", mChannel.getJsonObject().toString());
+        adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
+        adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "커뮤니티");
     }
 
 

@@ -21,7 +21,7 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.about.AboutFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.keywords.KeywordListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 
@@ -66,7 +66,7 @@ public class InfoFragment extends BaseChannelFragment {
         bundle.putString("channel", mChannel.getJsonObject().toString());
         adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
         adapter.addFragment(MemberListFragment.newInstance(bundle), "멤버");
-        adapter.addFragment(CommunityListFragment.newInstance(bundle), "커뮤니티");
+        adapter.addFragment(KeywordListFragment.newInstance(bundle), "커뮤니티");
         adapter.addFragment(AboutFragment.newInstance(bundle), "설정");
     }
 

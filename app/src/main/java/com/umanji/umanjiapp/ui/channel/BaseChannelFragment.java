@@ -163,12 +163,12 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mUserPhoto.setOnClickListener(this);
 
         mLookAround = (ImageView) view.findViewById(R.id.lookAround);
-        mLookAround.setOnClickListener(this);
+        if(mLookAround != null) {
+            mLookAround.setOnClickListener(this);
+        }
 
         mMemberCount = (TextView) view.findViewById(R.id.memberCount);
         mPoint = (TextView) view.findViewById(R.id.point);
-
-        mLevel = (TextView) view.findViewById(R.id.level);
 
         mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
 
@@ -434,7 +434,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
                 TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView);
-                keywordView.setText(keywords[0]);
+                keywordView.setText("#" + keywords[0]);
 
             } else if(keywords.length >= 2) {
                 mKeywordPanel.removeAllViews();

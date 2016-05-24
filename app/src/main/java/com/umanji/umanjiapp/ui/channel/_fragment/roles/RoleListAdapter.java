@@ -3,6 +3,7 @@ package com.umanji.umanjiapp.ui.channel._fragment.roles;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 public class RoleListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "RoleListAdapter";
 
-
+    private View mView;
     public RoleListAdapter(BaseActivity activity, Fragment fragment) {
         super(activity, fragment);
     }
@@ -32,10 +33,10 @@ public class RoleListAdapter extends BaseChannelListAdapter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        mView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_role, parent, false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(mView);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class RoleListAdapter extends BaseChannelListAdapter {
         String[] roles ;
         String role = null;
 
-        roles = mChannel.getRoles();
+        roles = channelData.getRoles();
         if(roles != null) {
             role = roles[0];
         }
@@ -57,8 +58,17 @@ public class RoleListAdapter extends BaseChannelListAdapter {
         String roleName ="역할명";
 
         switch(role){
+            case "umanji_citizon":
+                roleName = "우만지 시민";
+                break;
             case "umanji_cow":
                 roleName = "우만지 일꾼";
+                break;
+            case "ad_world":
+                roleName = "세계 광고 권한자";
+                break;
+            case "ad_country":
+                roleName = "국가단위 광고 권한자";
                 break;
             case "ad_admin":
                 roleName = "시도단위 광고 권한자";
@@ -68,6 +78,22 @@ public class RoleListAdapter extends BaseChannelListAdapter {
                 break;
             case "ad_thoroughfare":
                 roleName = "읍면동단위 광고 권한자";
+                break;
+
+            case "info_world":
+                roleName = "세계 정보센터장";
+                break;
+            case "info_country":
+                roleName = "국가단위 정보센터장";
+                break;
+            case "info_admin":
+                roleName = "시도단위 정보센터장";
+                break;
+            case "info_locality":
+                roleName = "구군단위 정보센터장";
+                break;
+            case "info_thoroughfare":
+                roleName = "읍면동단위 정보센터장";
                 break;
 
         }
@@ -91,5 +117,13 @@ public class RoleListAdapter extends BaseChannelListAdapter {
 
             }
         });
+
+
+        if(TextUtils.equals(channelData.getType(), "ACTIVE")) {
+            mView.setBackgroundResource(R.color.yellow);
+        } else {
+            mView.setBackgroundResource(R.color.gray_text);
+        }
+
     }
 }

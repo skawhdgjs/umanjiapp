@@ -59,8 +59,6 @@ public class ProfileFragment extends BaseChannelFragment {
     @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
-
-        mKeywordPanel.setVisibility(View.GONE);
     }
 
     @Override
@@ -153,7 +151,7 @@ public class ProfileFragment extends BaseChannelFragment {
         setPoint(mActivity, mChannel);
 //        setLevel(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
-        setKeywords(mActivity, mChannel);
+//        setKeywords(mActivity, mChannel);
     }
 
     @Override

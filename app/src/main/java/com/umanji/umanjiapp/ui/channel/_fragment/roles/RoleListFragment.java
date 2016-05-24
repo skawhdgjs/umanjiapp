@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel._fragment.roles;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,23 @@ public class RoleListFragment extends BaseChannelListFragment {
 
     private TextView mRole ;
     private LinearLayout mLayout ;
+
+    private String [] mRoles = {
+            "info_world",
+            "info_country",
+            "info_admin",
+            "info_locality",
+            "info_thoroughfare",
+
+            "ad_world",
+            "ad_country",
+            "ad_admin",
+            "ad_locality",
+            "ad_thoroughfare",
+
+            "umanji_cow",
+            "umanji_citizon"
+    };
 
 
     public static RoleListFragment newInstance(Bundle bundle) {
@@ -52,18 +70,29 @@ public class RoleListFragment extends BaseChannelListFragment {
     @Override
     public void loadMoreData() {
 
-        String [] roles = mChannel.getRoles();
-
-        if(roles != null) {
+        if(mRoles != null) {
             mLayout.setBackgroundResource(R.color.feed_bg);
 
-            for(int idx = 0; idx < roles.length; idx++) {
-                String[] role = new String [] {roles[idx]};
+
+            String [] roles = mChannel.getRoles();
+
+            for(int idx = 0; idx < mRoles.length; idx++) {
+
+                String[] role = new String [] {mRoles[idx]};
                 ChannelData doc = new ChannelData();
                 doc.setId(mChannel.getId());
                 doc.setRoles(role);
+
+                for(int idx2 = 0; idx2 < roles.length; idx2++) {
+                    if(TextUtils.equals(roles[idx2], role[0])) {
+                        doc.setType("ACTIVE");
+                    }
+                }
+
                 mAdapter.addBottom(doc);
             }
+
+
 
             updateView();
         }

@@ -25,13 +25,13 @@ import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
-public class CommunityListFragment extends BaseChannelListFragment {
-    private static final String TAG = "CommunityListFragment";
+public class CommunityListKeywordFragment extends BaseChannelListFragment {
+    private static final String TAG = "CommunityListKeyword";
 
     private Button mAddBtn;
 
-    public static CommunityListFragment newInstance(Bundle bundle) {
-        CommunityListFragment fragment = new CommunityListFragment();
+    public static CommunityListKeywordFragment newInstance(Bundle bundle) {
+        CommunityListKeywordFragment fragment = new CommunityListKeywordFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -55,14 +55,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
     @Override
     public void initWidgets(View view) {
         mAddBtn = (Button)view.findViewById(R.id.addChannelBtn);
-        mAddBtn.setOnClickListener(this);
-
-        switch (mChannel.getType()) {
-            case TYPE_USER:
-            case TYPE_INFO_CENTER:
-                mAddBtn.setVisibility(View.GONE);
-                break;
-        }
+        mAddBtn.setVisibility(View.GONE);
     }
 
     @Override
@@ -72,25 +65,10 @@ public class CommunityListFragment extends BaseChannelListFragment {
         try {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
-            params.put("level", mChannel.getLevel());
+            params.put("keywords", mChannel.getName());
             params.put("sort", "point DESC");
 
-            switch (mChannel.getType()) {
-                case TYPE_USER:
-                    params.put("owner", mChannel.getId());
-                    params.put("type", TYPE_PROFILE_COMMUNITIES);
-                    break;
-                case TYPE_INFO_CENTER:
-                    params.put("type", TYPE_KEYWORD_COMMUNITY);
-                    setAddressParams(params, mChannel);
-                    break;
-                default:
-                    params.put("parent", mChannel.getId());
-                    params.put("type", TYPE_COMMUNITY);
-                    break;
-            }
-
-            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
+            mApi.call(api_keyword_findChannels, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     if(status.getCode() == 500) {
@@ -123,18 +101,6 @@ public class CommunityListFragment extends BaseChannelListFragment {
 
     @Override
     public void updateView() {
-
-        if(mChannel != null) {
-            switch (mChannel.getType()) {
-                case TYPE_USER:
-                case TYPE_INFO_CENTER:
-                    mAddBtn.setVisibility(View.GONE);
-                    break;
-                default:
-                    mAddBtn.setVisibility(View.VISIBLE);
-                    break;
-            }
-        }
 
         mAdapter.notifyDataSetChanged();
     }

@@ -9,17 +9,17 @@
                 android:paddingTop="14dp"
                 android:paddingBottom="14dp">
 
-<TextView
-    android:id="@+id/roles"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="This is My Roles"
-    android:textAppearance="?attr/textAppearanceListItem"
-    android:layout_alignParentRight="true"
-    android:layout_toRightOf="@+id/photo"
-    android:gravity="center_horizontal"
-    android:textSize="20dp"
-    android:textStyle="bold" />
+    <TextView
+        android:id="@+id/roles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is My Roles"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/photo"
+        android:gravity="center_horizontal"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>

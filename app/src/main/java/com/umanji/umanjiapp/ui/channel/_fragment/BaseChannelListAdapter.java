@@ -175,11 +175,17 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
     }
 
     protected void setKeywords(final ViewHolder holder, ChannelData channelData) {
-        ArrayList<SubLinkData> spotSubLinks = channelData.getSubLinks(TYPE_KEYWORD);
-        if(spotSubLinks != null && spotSubLinks.size() > 0) {
-            holder.keyword.setText(spotSubLinks.get(0).getName());
+        String [] keywords = channelData.getKeywords();
+
+
+        if(keywords != null && keywords.length > 0) {
+            String keyword = "";
+            for(int idx=0; idx < keywords.length; idx++) {
+                keyword = keyword + "#" + keywords[idx] + " ";
+            }
+            holder.keyword.setText(keyword);
         }else {
-            holder.keyword.setText("키워드를 설정해 주세요");
+            holder.keyword.setText("키워드 없음");
         }
     }
 

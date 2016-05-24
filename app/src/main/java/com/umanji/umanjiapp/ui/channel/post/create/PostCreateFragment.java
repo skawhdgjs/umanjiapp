@@ -179,6 +179,19 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_POST);
 
+
+            String [] keywords = mChannel.getKeywords();
+
+            if(keywords!=null && keywords.length >0) {
+
+                ArrayList<String> keywordArray = new ArrayList<>();
+
+                for(int idx=0; idx < keywords.length; idx++) {
+                    keywordArray.add(keywords[idx]);
+                }
+                params.put("keywords", new JSONArray(keywordArray));
+            }
+
             params.put("push", isPushChecked);
 
             if(mPhotoUri != null) {
