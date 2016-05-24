@@ -91,57 +91,6 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
     @Override
     public void loadMoreData() {
-        isLoading = true;
-        mLoadCount = mLoadCount + 1;
-
-        try {
-            JSONObject params = new JSONObject();
-            params.put("page", mAdapter.getCurrentPage()); // for paging
-            params.put("type", TYPE_KEYWORD);
-            params.put("sort", "point DESC");
-
-            switch (mChannel.getType()) {
-                case TYPE_USER:
-                    params.put("owner", mChannel.getId());
-                    break;
-                case TYPE_INFO_CENTER:
-                case TYPE_COMMUNITY:
-                    setAddressParams(params, mChannel);
-                    break;
-                default:
-                    params.put("parent", mChannel.getId());
-                    break;
-            }
-
-            mApi.call(api_channels_keywords_find, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if (status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    } else {
-                        try {
-                            JSONArray jsonArray = object.getJSONArray("data");
-                            for (int idx = 0; idx < jsonArray.length(); idx++) {
-                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                ChannelData doc = new ChannelData(jsonDoc);
-                                mAdapter.addBottom(doc);
-                            }
-
-                            updateView();
-
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error " + e.toString());
-                        }
-
-                        isLoading = false;
-                    }
-                }
-            });
-            mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-        } catch (JSONException e) {
-            Log.e(TAG, "error " + e.toString());
-        }
-
     }
 
     @Override

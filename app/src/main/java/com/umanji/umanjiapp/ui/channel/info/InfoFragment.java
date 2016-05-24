@@ -139,8 +139,12 @@ public class InfoFragment extends BaseChannelFragment {
         setPoint(mActivity, mChannel);
 //        setLevel(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
-        setKeywords(mActivity, mChannel);
+
+
+        mKeywordPanel.setVisibility(View.GONE);
+//        setKeywords(mActivity, mChannel);
     }
+
 
     @Override
     protected void setName(Activity activity, final ChannelData channelData, String label) {
