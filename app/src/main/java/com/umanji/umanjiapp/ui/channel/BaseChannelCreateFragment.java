@@ -41,8 +41,8 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
      ****************************************************/
 
     protected AutoCompleteTextView mName;
-    protected LinearLayout mPhotoBtn;
-    protected LinearLayout mGallaryBtn;
+    protected Button mPhotoBtn;
+    protected Button mGallaryBtn;
 
     protected Button mSubmitBtn;
     protected TextView mHeaderTitle;
@@ -92,10 +92,10 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
         mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
         mSubmitBtn2.setOnClickListener(this);
 
-        mPhotoBtn = (LinearLayout) view.findViewById(R.id.photoBtn);
+        mPhotoBtn = (Button) view.findViewById(R.id.photoBtn);
         mPhotoBtn.setOnClickListener(this);
 
-        mGallaryBtn = (LinearLayout) view.findViewById(R.id.gallaryBtn);
+        mGallaryBtn = (Button) view.findViewById(R.id.gallaryBtn);
         mGallaryBtn.setOnClickListener(this);
 
     }
