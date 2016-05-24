@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- my custom color -->
+
+    <color name="text_clickable">#0a80d1</color>
+
+    <!-- default color -->
     <color name="colorPrimary">#6570da</color>
     <color name="colorPrimaryDark">#4b529c</color>
 

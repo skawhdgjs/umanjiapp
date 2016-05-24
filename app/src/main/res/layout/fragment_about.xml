@@ -3,55 +3,205 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/feed_bg"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:background="@color/feed_bg" >
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/advertiseBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="배너광고"
+            android:textColor="@color/text_clickable"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/editChannelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="정보추가 및 수정"
+            android:textColor="@color/text_clickable"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/homePanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:orientation="vertical"
         android:padding="20dp">
 
         <Button
             android:id="@+id/addHomeBtn"
             android:layout_width="50dp"
             android:layout_height="24dp"
-            android:text="설정"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@+id/addressLabel"
+            android:layout_toRightOf="@+id/addressLabel"
             android:background="@drawable/default_btn_radius"
             android:padding="5dp"
+            android:text="설정"
             android:textColor="#FFFFFF"
             android:textSize="10dp"
-            android:visibility="visible"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/addressLabel"
-            android:layout_toEndOf="@+id/addressLabel"
-            android:layout_marginLeft="10dp"/>
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/addressLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:text="해당 장소 위치 변경"
             android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="집주소 입니다 ......"
-            android:textSize="14dp"
             android:layout_below="@id/addressLabel"
-            android:id="@+id/address"
-            android:layout_marginTop="10dp"/>
-
-
+            android:layout_marginTop="10dp"
+            android:text="집주소 입니다 ......"
+            android:textSize="14dp" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="장소 이름"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="삼구골프클럽"
+                android:paddingLeft="10dp"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="대표단어"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/keywordName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="커피"
+                android:paddingLeft="10dp"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="장소위치"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/floor"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:hint="1"
+                android:paddingLeft="10dp"
+                android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="층"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="배너광고"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/bannerAds"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="없음"
+                android:paddingLeft="10dp"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="최종수정일"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/latestDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="2016년 5월 25일"
+                android:paddingLeft="10dp"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,62 +209,30 @@
         android:orientation="vertical">
 
 
-
-
-
-    <Button
-        android:id="@+id/editChannelBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/about_channel_update"
-        android:background="@drawable/default_btn_radius"
-        android:padding="5dp"
-        android:textColor="#FFFFFF"
-        android:textSize="14dp"
-        android:layout_margin="14dp"
-        android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/advertiseBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="배너광고하기"
-        android:background="@drawable/default_btn_radius"
-        android:padding="5dp"
-        android:textColor="#FFFFFF"
-        android:textSize="14dp"
-        android:layout_margin="14dp"/>
-
-    <Button
-        android:id="@+id/deleteBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="DELETE"
-        android:background="@drawable/default_btn_red_radius"
-        android:padding="5dp"
-        android:textColor="@color/white"
-        android:textSize="14dp"
-        android:layout_margin="14dp"
-        android:visibility="gone"/>
+        <Button
+            android:id="@+id/deleteBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="14dp"
+            android:background="@drawable/default_btn_red_radius"
+            android:padding="5dp"
+            android:text="DELETE"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:visibility="gone" />
 
     </LinearLayout>
-
-
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.RecyclerView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
     </LinearLayout>
-
 
 
 </LinearLayout>

@@ -38,10 +38,10 @@ import de.greenrobot.event.EventBus;
 public class AboutFragment extends BaseChannelListFragment {
     private static final String TAG = "AboutFragment";
 
-    protected Button mEditChannelBtn;
+    protected TextView mEditChannelBtn;
     protected Button mDeleteBtn;
     protected Button mAddHomeBtn;
-    protected Button advertiseBtn;
+    protected TextView advertiseBtn;
     protected TextView mAddress;
 
     private AlertDialog.Builder mAlert;
@@ -70,7 +70,7 @@ public class AboutFragment extends BaseChannelListFragment {
 
     @Override
     public void initWidgets(View view) {
-        mEditChannelBtn = (Button) view.findViewById(R.id.editChannelBtn);
+        mEditChannelBtn = (TextView) view.findViewById(R.id.editChannelBtn);
         mEditChannelBtn.setOnClickListener(this);
 
         mDeleteBtn = (Button) view.findViewById(R.id.deleteBtn);
@@ -79,7 +79,7 @@ public class AboutFragment extends BaseChannelListFragment {
         mAddHomeBtn = (Button) view.findViewById(R.id.addHomeBtn);
         mAddHomeBtn.setOnClickListener(this);
 
-        advertiseBtn = (Button) view.findViewById(R.id.advertiseBtn);
+        advertiseBtn = (TextView) view.findViewById(R.id.advertiseBtn);
         advertiseBtn.setOnClickListener(this);
 
         mAddress = (TextView) view.findViewById(R.id.address);
