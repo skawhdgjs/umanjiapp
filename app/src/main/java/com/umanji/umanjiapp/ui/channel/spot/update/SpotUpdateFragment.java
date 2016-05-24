@@ -11,6 +11,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,13 +33,15 @@ import de.greenrobot.event.EventBus;
 public class SpotUpdateFragment extends BaseChannelUpdateFragment {
     private static final String TAG = "SpotUpdateFragment";
 
-    private AutoCompleteTextView mFloor;
+    private EditText mFloor;
     private CheckBox mBasementCheckBox;
     private boolean isBasement = false;
 
 
-    protected AutoCompleteTextView mKeywordName;
+    protected EditText mKeywordName;
     protected Button mAddKeywordBtn;
+
+    protected LinearLayout mKeywordPanel;
 
     protected TextView mKeyword1;
     protected TextView mKeyword2;
@@ -59,7 +63,7 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        mFloor = (AutoCompleteTextView) view.findViewById(R.id.floor);
+        mFloor = (EditText) view.findViewById(R.id.floor);
         mBasementCheckBox = (CheckBox) view.findViewById(R.id.basementCheckBox);
         mBasementCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -76,7 +80,7 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
             }
         });
 
-        mKeywordName = (AutoCompleteTextView) view.findViewById(R.id.keywordName);
+        mKeywordName = (EditText) view.findViewById(R.id.keywordName);
         mAddKeywordBtn = (Button) view.findViewById(R.id.addKeywordBtn);
         mAddKeywordBtn.setOnClickListener(this);
 
@@ -85,6 +89,8 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
 
         mKeyword2 = (TextView) view.findViewById(R.id.keyword2);
         mKeyword2.setOnClickListener(this);
+
+        mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
 
         updateView();
         return view;
@@ -147,9 +153,11 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
         String [] keywords = channelData.getKeywords();
         if(keywords == null) return;
         if(keywords.length == 1) {
+            mKeywordPanel.setVisibility(View.VISIBLE);
             mKeywords.add(keywords[0]);
             mKeyword1.setText(keywords[0] + " [X]");
         } else if(keywords.length == 2){
+            mKeywordPanel.setVisibility(View.VISIBLE);
             mKeywords.add(keywords[0]);
             mKeyword1.setText(keywords[0] + " [X]");
 
@@ -193,6 +201,7 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
                 }
 
                 mKeywordName.setText(null);
+                updateView();
                 break;
 
             case R.id.keyword1:

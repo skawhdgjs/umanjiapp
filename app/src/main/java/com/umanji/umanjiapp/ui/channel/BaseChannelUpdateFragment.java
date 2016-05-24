@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -44,9 +45,9 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
      *  View
      ****************************************************/
 
-    protected AutoCompleteTextView mName;
-    protected Button mPhotoBtn;
-    protected Button mGallaryBtn;
+    protected EditText mName;
+    protected ImageView mPhotoBtn;
+    protected ImageView mGallaryBtn;
 
     protected Button mSubmitBtn;
     protected TextView mSubmitBtn2;
@@ -84,7 +85,7 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
-        mName = (AutoCompleteTextView) view.findViewById(R.id.name);
+        mName = (EditText) view.findViewById(R.id.name);
         mPhoto = (ImageView) view.findViewById(R.id.photo);
 
         mSubmitBtn = (Button) view.findViewById(R.id.submitBtn);
@@ -93,10 +94,10 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
         mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
         mSubmitBtn2.setOnClickListener(this);
 
-        mPhotoBtn = (Button) view.findViewById(R.id.photoBtn);
+        mPhotoBtn = (ImageView) view.findViewById(R.id.photoBtn);
         mPhotoBtn.setOnClickListener(this);
 
-        mGallaryBtn = (Button) view.findViewById(R.id.gallaryBtn);
+        mGallaryBtn = (ImageView) view.findViewById(R.id.gallaryBtn);
         mGallaryBtn.setOnClickListener(this);
 
     }

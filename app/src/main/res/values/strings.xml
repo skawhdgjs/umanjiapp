@@ -13,7 +13,7 @@
     <string name="error_bad_network">네트워크 상태가 좋지 않습니다. 잠시후 다시 시도해주세요.</string>
 
     <!-- 메인 지도 -->
-    <string name="main_map_create_spot">지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.</string>
+    <string name="main_map_create_spot">지도을 터치하면 건물(장소)를 만들거나 홍보를 할 수 있어요.</string>
     <string name="main_map_create_complex">지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.</string>
 
 
@@ -22,7 +22,7 @@
     <string name="delete_btn">삭제</string>
     <string name="cancel_btn">취소</string>
 
-    <!-- 스팟 어드민 -->
+    <!-- 장소 어드민 -->
     <string name="admin_set_dong_level">동단위 정보센터 지정</string>
     <string name="admin_set_gu_level">구단위 정보센터 지정</string>
     <string name="admin_set_city_level">시단위 정보센터 지정</string>
@@ -32,17 +32,17 @@
     <string name="admin_remove_city_level">동단위 정보센터 해제</string>
 
 
-    <!-- 스팟 관려 -->
-    <string name="spot_no_name">이름없는 스팟</string>
+    <!-- 장소 관려 -->
+    <string name="spot_no_name">이름없는 장소</string>
     <string name="spot_input_name">이름을 입력해 주세요.</string>
     <string name="spot_input_floor">층 입력(숫자로)</string>
-    <string name="spot_add_btn">스팟추가</string>
+    <string name="spot_add_btn">장소추가</string>
     <string name="spot_join_btn">참여하기</string>
     <string name="spot_unjoin_btn">탈퇴하기</string>
 
-    <string name="spot_create_btn">스팟 생성</string>
-    <string name="spot_create_success">스팟 생성 성공!</string>
-    <string name="spot_create_confirm">이곳에 스팟(장소)를 만드시겠습니까?</string>
+    <string name="spot_create_btn">장소 생성</string>
+    <string name="spot_create_success">장소 생성 성공!</string>
+    <string name="spot_create_confirm">이곳에 장소(건물)를 만드시겠습니까?</string>
 
 
     <string name="spot_update_address_label">지도을 터치하거나 마커를 드래그 하면 주소를 수정할 수 있습니다.</string>
@@ -52,7 +52,7 @@
 
     <string name="spot_create_error">네트워크 상태가 좋지 않습니다. 잠시후 다시 시도해주세요.</string>
 
-    <string name="complex_create_btn">스팟 생성</string>
+    <string name="complex_create_btn">장소 생성</string>
     <string name="complex_create_success">복합단지 생성 성공!</string>
     <string name="complex_create_confirm">공원, 대학교, 아파트단지를 만듭니다.</string>
 
@@ -70,7 +70,7 @@
 
     <!-- 포스트 -->
     <string name="post_input_name">포스트 이름</string>
-    <string name="post_input_text">내용을 입력해주세요</string>
+    <string name="post_input_text">예 : 골프연습장</string>
     <string name="post_gallery_btn">이미지</string>
     <string name="post_create_btn">포스트 생성</string>
     <string name="post_create_success">포스트 생성 성공!</string>
