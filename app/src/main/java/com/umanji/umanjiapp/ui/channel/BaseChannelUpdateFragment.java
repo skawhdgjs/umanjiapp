@@ -45,6 +45,7 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
      *  View
      ****************************************************/
 
+    protected TextView mAddress;
     protected EditText mName;
     protected ImageView mPhotoBtn;
     protected ImageView mGallaryBtn;
@@ -85,6 +86,8 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+
+        mAddress = (TextView) view.findViewById(R.id.address);
         mName = (EditText) view.findViewById(R.id.name);
         mPhoto = (ImageView) view.findViewById(R.id.photo);
 
@@ -116,6 +119,10 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
     @Override
     public void updateView() {
 
+    }
+    protected void setAddress(Activity activity, ChannelData channelData) {
+        //mAddress.setText(mChannel.getAddress());
+        mAddress.setText(Helper.getFullAddress(mChannel));
     }
 
     protected void setName(Activity activity, ChannelData channelData) {

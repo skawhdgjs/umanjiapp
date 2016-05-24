@@ -141,6 +141,8 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
     public void updateView() {
         super.updateView();
 
+        setAddress(mActivity, mChannel);
+
         setName(mActivity, mChannel);
         setPhoto(mActivity, mChannel);
         setFloor(mActivity, mChannel);

@@ -118,9 +118,11 @@
                     android:hint="서울특별시 동작구 ..."
                     android:inputType="text"
                     android:maxLines="1"
-                    android:padding="16dp"
                     android:singleLine="true"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:paddingLeft="40dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="15dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -182,7 +184,6 @@
                         android:text="추가"
                         android:textStyle="bold" />
 
-
                 </LinearLayout>
 
             </RelativeLayout>
@@ -200,7 +201,7 @@
                     android:id="@+id/keyword1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:shadowColor="#000"
                     android:shadowRadius="7.0"
                     android:textSize="16dp" />
@@ -210,7 +211,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.7"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:shadowColor="#000"
                     android:shadowRadius="7.0"
                     android:textSize="16dp" />
