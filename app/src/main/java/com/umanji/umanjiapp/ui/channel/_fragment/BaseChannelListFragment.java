@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -34,6 +35,7 @@ public abstract class BaseChannelListFragment extends BaseFragment {
     protected BaseChannelListAdapter mAdapter;
 
     protected ImageView mEmptyStates;
+
 
 
     /****************************************************

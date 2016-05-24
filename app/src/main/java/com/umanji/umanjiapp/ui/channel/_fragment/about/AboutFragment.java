@@ -40,9 +40,11 @@ public class AboutFragment extends BaseChannelListFragment {
 
     protected TextView mEditChannelBtn;
     protected Button mDeleteBtn;
-    protected Button mAddHomeBtn;
+    protected TextView mAddHomeBtn;
     protected TextView advertiseBtn;
     protected TextView mAddress;
+
+    protected TextView mName;
 
     private AlertDialog.Builder mAlert;
 
@@ -76,7 +78,7 @@ public class AboutFragment extends BaseChannelListFragment {
         mDeleteBtn = (Button) view.findViewById(R.id.deleteBtn);
         mDeleteBtn.setOnClickListener(this);
 
-        mAddHomeBtn = (Button) view.findViewById(R.id.addHomeBtn);
+        mAddHomeBtn = (TextView) view.findViewById(R.id.addHomeBtn);
         mAddHomeBtn.setOnClickListener(this);
 
         advertiseBtn = (TextView) view.findViewById(R.id.advertiseBtn);
@@ -85,6 +87,9 @@ public class AboutFragment extends BaseChannelListFragment {
         mAddress = (TextView) view.findViewById(R.id.address);
 
         mAlert = new AlertDialog.Builder(mActivity);
+
+        mName = (TextView) view.findViewById(R.id.name);
+        mName.setText(mChannel.getName());
 
         mAddress.setText(Helper.getFullAddress(mChannel));
     }
