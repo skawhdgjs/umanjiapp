@@ -191,17 +191,19 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
         switch (v.getId()) {
             case R.id.addKeywordBtn:
                 if(TextUtils.isEmpty(mKeyword1.getText())) {
+                    mKeywordPanel.setVisibility(View.VISIBLE);
                     mKeyword1.setText(mKeywordName.getText() + " [X]");
                     mKeywords.add(mKeywordName.getText().toString());
                 } else if(TextUtils.isEmpty(mKeyword2.getText())){
                     mKeyword2.setText(mKeywordName.getText() + " [X]");
                     mKeywords.add(mKeywordName.getText().toString());
+                    updateView();
                 } else {
                     Toast.makeText(mActivity, "키워드는 2개까지 입력 가능합니다.", Toast.LENGTH_SHORT).show();
                 }
 
                 mKeywordName.setText(null);
-                updateView();
+
                 break;
 
             case R.id.keyword1:
