@@ -82,6 +82,9 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
         mUserName = (TextView) view.findViewById(R.id.userName);
 
+        mAddress.setText(Helper.getFullAddress(mChannel));
+        mUserName.setText(mChannel.getUserName());
+
         if (AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
             mUserName.setOnClickListener(this);
             mUserName.setTextColor(Color.parseColor("#0066ff"));
@@ -95,8 +98,8 @@ public class AboutProfileFragment extends BaseChannelListFragment {
 
     @Override
     public void updateView() {
-        mAddress.setText(Helper.getFullAddress(mChannel));
-        mUserName.setText(mChannel.getUserName());
+//        mAddress.setText(Helper.getFullAddress(mChannel));
+//        mUserName.setText(mChannel.getUserName());
     }
 
     @Override

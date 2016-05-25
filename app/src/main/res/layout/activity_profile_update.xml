@@ -9,7 +9,7 @@
     <RelativeLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="53dp"
+        android:layout_height="48dp"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
@@ -57,6 +57,50 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/empty_image" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="#77ffffff"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/photoBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/gallaryBtn"
+                        android:layout_toStartOf="@+id/gallaryBtn"
+                        android:src="@drawable/icon_camera_png" />
+
+                    <ImageView
+                        android:id="@+id/gallaryBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/icon_picture_png" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -73,9 +117,6 @@
                     android:textSize="18dp"
                     android:text="이메일"/>
 
-
-
-
             </android.support.design.widget.TextInputLayout>
 
 
@@ -90,30 +131,8 @@
                 android:padding="16dp"
                 android:textSize="18dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/photoBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="사진찍기"
-                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/gallaryBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="앨범"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
 
             <Button
                 android:id="@+id/submitBtn"
@@ -123,13 +142,6 @@
                 android:layout_marginTop="16dp"
                 android:text="변경"
                 android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/photo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:visibility="visible"/>
 
         </LinearLayout>
     </ScrollView>
