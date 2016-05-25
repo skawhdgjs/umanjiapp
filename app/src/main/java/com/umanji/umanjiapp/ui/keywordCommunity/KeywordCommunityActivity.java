@@ -15,6 +15,7 @@ public class KeywordCommunityActivity extends BaseActivity {
     int mEnterAnim = 0;
     int mExitAnim = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
