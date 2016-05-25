@@ -165,6 +165,13 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
 
             mKeywords.add(keywords[1]);
             mKeyword2.setText(keywords[1] + " [X]");
+        } else {
+            mKeywordPanel.setVisibility(View.VISIBLE);
+            mKeywords.add(keywords[0]);
+            mKeyword1.setText(keywords[0] + " [X]");
+
+            mKeywords.add(keywords[1]);
+            mKeyword2.setText(keywords[1] + " [X]");
         }
     }
 
