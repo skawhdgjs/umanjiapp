@@ -76,22 +76,31 @@ public class RoleListFragment extends BaseChannelListFragment {
 
             String [] roles = mChannel.getRoles();
 
-            for(int idx = 0; idx < mRoles.length; idx++) {
+                for(int idx = 0; idx < mRoles.length; idx++) {
 
-                String[] role = new String [] {mRoles[idx]};
-                ChannelData doc = new ChannelData();
-                doc.setId(mChannel.getId());
-                doc.setRoles(role);
+                    String[] role = new String [] {mRoles[idx]};
+                    ChannelData doc = new ChannelData();
+                    doc.setId(mChannel.getId());
+                    doc.setRoles(role);
 
-                for(int idx2 = 0; idx2 < roles.length; idx2++) {
-                    if(TextUtils.equals(roles[idx2], role[0])) {
-                        doc.setType("ACTIVE");
+                    if(roles != null){
+                        for(int idx2 = 0; idx2 < roles.length; idx2++) {
+                            if(TextUtils.equals(roles[idx2], role[0])) {
+                                doc.setType("ACTIVE");
+                            }
+                        }
+                    } else {
+                        for(int idx2 = 0; idx2 < 1; idx2++) {
+                            if(TextUtils.equals("umanji_citizon", role[0])) {
+                                doc.setType("ACTIVE");
+                            }
+                        }
                     }
+
+
+
+                    mAdapter.addBottom(doc);
                 }
-
-                mAdapter.addBottom(doc);
-            }
-
 
 
             updateView();
