@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="53dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
-        android:layout_marginBottom="20dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" >
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -26,22 +24,22 @@
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:textColor="#fff"
-            android:text="각종 수정 및 정보갱신"
+            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:text="각종 수정 및 정보갱신"
+            android:textColor="#fff"
+            android:textSize="18dp" />
 
         <TextView
+            android:id="@+id/submitBtn2"
             android:layout_width="50dp"
             android:layout_height="@dimen/tabs_height"
-            android:textSize="16dp"
-            android:textColor="#fff"
-            android:text="완료"
-            android:id="@+id/submitBtn2"
-            android:gravity="center"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:gravity="center"
+            android:text="완료"
+            android:textColor="#fff"
+            android:textSize="16dp" />
     </RelativeLayout>
 
     <ScrollView
@@ -58,9 +56,54 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/empty_image" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:background="#77ffffff"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:id="@+id/photoBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/gallaryBtn"
+                        android:layout_toStartOf="@+id/gallaryBtn"
+                        android:src="@drawable/icon_camera_png" />
+
+                    <ImageView
+                        android:id="@+id/gallaryBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/icon_picture_png" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/name"
@@ -69,17 +112,17 @@
                     android:hint="@string/post_input_text"
                     android:inputType="text"
                     android:maxLines="1"
-                    android:singleLine="true"
                     android:padding="16dp"
+                    android:singleLine="true"
                     android:textSize="18dp" />
 
 
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:weightSum="1">
 
 
@@ -95,8 +138,8 @@
                         android:hint="키워드 입력"
                         android:inputType="text"
                         android:maxLines="1"
-                        android:singleLine="true"
                         android:padding="16dp"
+                        android:singleLine="true"
                         android:textSize="18dp" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -107,63 +150,39 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="추가"
                     android:layout_weight="0.3"
+                    android:text="추가"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/keywordPanel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/keywordPanel">
+                android:orientation="horizontal"
+                android:layout_marginLeft="30dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:shadowColor="#000"
-                    android:shadowRadius="7.0"
                     android:id="@+id/keyword1"
-                    android:padding="10dp"
-                    android:layout_gravity="right" />
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
+                    android:layout_gravity="right"
+                    android:padding="10dp"
                     android:shadowColor="#000"
                     android:shadowRadius="7.0"
+                    android:textSize="16dp" />
+
+                <TextView
                     android:id="@+id/keyword2"
-                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="right" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/photoBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="사진찍기"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/gallaryBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="앨범"
-                    android:textStyle="bold" />
+                    android:padding="10dp"
+                    android:shadowColor="#000"
+                    android:shadowRadius="7.0"
+                    android:textSize="16dp" />
 
             </LinearLayout>
 
@@ -174,14 +193,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="변경"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/photo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:visibility="visible"/>
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
         </LinearLayout>
     </ScrollView>
