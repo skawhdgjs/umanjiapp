@@ -420,9 +420,13 @@ public final class Helper implements AppConfig {
                 break;
             case TYPE_KEYWORD_COMMUNITY:
                 intent = new Intent(activity, KeywordCommunityActivity.class);
+                intent.putExtra("enterAnim", R.anim.zoom_out);
+                intent.putExtra("exitAnim", R.anim.zoom_in);
                 break;
             case TYPE_INFO_CENTER:
                 intent = new Intent(activity, InfoActivity.class);
+                intent.putExtra("enterAnim", R.anim.zoom_out);
+                intent.putExtra("exitAnim", R.anim.zoom_in);
                 break;
 
             case TYPE_MEMBER:

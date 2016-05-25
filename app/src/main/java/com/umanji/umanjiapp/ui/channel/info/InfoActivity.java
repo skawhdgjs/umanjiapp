@@ -10,10 +10,18 @@ import com.umanji.umanjiapp.ui.BaseActivity;
 public class InfoActivity extends BaseActivity {
     private static final String TAG = "SpotActivity";
 
+    int mEnterAnim = 0;
+    int mExitAnim = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.overridePendingTransition(R.anim.slide_in_right, R.anim.move_back);
+        //this.overridePendingTransition(R.anim.slide_in_right, R.anim.move_back);
+
+        mEnterAnim = getIntent().getIntExtra("enterAnim", R.anim.slide_in_right);
+        mExitAnim = getIntent().getIntExtra("exitAnim", R.anim.slide_out_right);
+
+        this.overridePendingTransition(mEnterAnim, R.anim.move_back);
     }
 
     protected Fragment createFragment() {
@@ -23,6 +31,7 @@ public class InfoActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
-        this.overridePendingTransition(R.anim.move_base, R.anim.slide_out_right);
+//        this.overridePendingTransition(R.anim.move_base, R.anim.slide_out_right);
+        this.overridePendingTransition(R.anim.move_base, mExitAnim);
     }
 }
