@@ -29,6 +29,7 @@ import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -68,6 +69,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     protected ViewPager mViewPager;
     protected TabLayout mTabLayout;
+
+    protected TextView mNameType;
 
 
 
@@ -171,6 +174,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mPoint = (TextView) view.findViewById(R.id.point);
 
         mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
+
+        mNameType = (TextView) view.findViewById(R.id.nameType);
 
     }
 
