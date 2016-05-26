@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
 
     <RelativeLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:textColor="#fff"
-            android:text="정보생성"
+            android:text="스팟 생성"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>
 
@@ -64,7 +64,7 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/post_input_text"
+                    android:hint="이름을 입력해주세요"
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"
@@ -72,43 +72,6 @@
                     android:textSize="18dp" />
 
             </android.support.design.widget.TextInputLayout>
-
-
-
-
-            <RelativeLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/view">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/floor"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/spot_input_floor"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:padding="16dp"
-                        android:textSize="18dp"
-                        android:inputType="number"/>
-
-                </android.support.design.widget.TextInputLayout>
-
-                <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="지하"
-                    android:id="@+id/basementCheckBox"
-                    android:checked="false"
-                    android:layout_toRightOf="@+id/view"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginLeft="10dp"/>
-            </RelativeLayout>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -176,28 +139,64 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
 
-                <Button
+                <EditText
+                    android:id="@+id/floor"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:hint="1"
+                    android:textColorHint="@color/timestamp"
+                    android:paddingLeft="10dp"
+                    android:textSize="16dp" />
+
+                <CheckBox
+                    android:id="@+id/basementCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/floor"
+                    android:layout_toRightOf="@+id/floor"
+                    android:layout_weight="0.5"
+                    android:checked="false"
+                    android:text="지하" />
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="#77ffffff"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageView
                     android:id="@+id/photoBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="사진찍기"
-                    android:textStyle="bold" />
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/gallaryBtn"
+                    android:layout_toStartOf="@+id/gallaryBtn"
+                    android:src="@drawable/icon_camera_png" />
 
-                <Button
+                <ImageView
                     android:id="@+id/gallaryBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="앨범"
-                    android:textStyle="bold" />
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/icon_picture_png" />
+
 
             </LinearLayout>
 
@@ -207,7 +206,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/post_create_btn"
+                android:text="완료"
                 android:textStyle="bold" />
 
             <ImageView
@@ -219,4 +218,5 @@
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

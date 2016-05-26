@@ -10,6 +10,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +29,15 @@ import java.util.ArrayList;
 public class SpotCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "SpotCreateFragment";
 
-    private AutoCompleteTextView mFloor;
+    private EditText mFloor;
     private CheckBox mBasementCheckBox;
     private boolean isBasement = false;
 
 
-    protected AutoCompleteTextView mKeywordName;
+    protected EditText mKeywordName;
     protected Button mAddKeywordBtn;
+
+    protected LinearLayout mKeywordPanel;
 
     protected TextView mKeyword1;
     protected TextView mKeyword2;
@@ -67,7 +71,7 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
     public void initWidgets(View view) {
         super.initWidgets(view);
 
-        mFloor = (AutoCompleteTextView) view.findViewById(R.id.floor);
+        mFloor = (EditText) view.findViewById(R.id.floor);
         mBasementCheckBox = (CheckBox) view.findViewById(R.id.basementCheckBox);
         mBasementCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -87,9 +91,11 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
         mSubmitBtn.setText("스팟 생성");
 
 
-        mKeywordName = (AutoCompleteTextView) view.findViewById(R.id.keywordName);
+        mKeywordName = (EditText) view.findViewById(R.id.keywordName);
         mAddKeywordBtn = (Button) view.findViewById(R.id.addKeywordBtn);
         mAddKeywordBtn.setOnClickListener(this);
+
+        mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
 
         mKeyword1 = (TextView) view.findViewById(R.id.keyword1);
         mKeyword1.setOnClickListener(this);
@@ -158,9 +164,11 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
         switch (v.getId()) {
             case R.id.addKeywordBtn:
                 if(TextUtils.isEmpty(mKeyword1.getText())) {
+                    mKeywordPanel.setVisibility(View.VISIBLE);
                     mKeyword1.setText(mKeywordName.getText() + " [X]");
                     keywords.add(mKeywordName.getText().toString());
                 } else if(TextUtils.isEmpty(mKeyword2.getText())){
+                    mKeywordPanel.setVisibility(View.VISIBLE);
                     mKeyword2.setText(mKeywordName.getText() + " [X]");
                     keywords.add(mKeywordName.getText().toString());
                 } else {
