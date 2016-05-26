@@ -77,6 +77,17 @@
                             android:id="@+id/linearLayout3">
 
                             <TextView
+                                android:id="@+id/nameType"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="장소 : "
+                                android:textColor="@color/white"
+                                android:textSize="15dp"
+                                android:textStyle="bold"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="5dp" />
+
+                            <TextView
                                 android:id="@+id/name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

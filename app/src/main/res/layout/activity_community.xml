@@ -77,12 +77,23 @@
                             android:id="@+id/linearLayout3">
 
                             <TextView
+                                android:id="@+id/nameType"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="커뮤니티 : "
+                                android:textColor="@color/white"
+                                android:textSize="15dp"
+                                android:textStyle="bold"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="5dp" />
+
+                            <TextView
                                 android:id="@+id/name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|right"
                                 android:layout_marginTop="15dp"
-                                android:text="건물"
+                                android:text="커뮤니티"
                                 android:padding="15dp"
                                 android:shadowColor="#000"
                                 android:shadowRadius="7.0"
