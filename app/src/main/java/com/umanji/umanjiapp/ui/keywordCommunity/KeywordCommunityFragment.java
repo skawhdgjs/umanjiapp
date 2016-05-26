@@ -113,6 +113,8 @@ public class KeywordCommunityFragment extends BaseFragment {
     private ImageView mInfoButton;
 
 
+    private Button mToCommunityBtn;
+    private ChannelData mAddressChannel;
 
     /****************************************************
      * Map
@@ -421,6 +423,9 @@ public class KeywordCommunityFragment extends BaseFragment {
         mKeywordTitle = (TextView) view.findViewById(R.id.keyword_community_Title);
         mKeywordTitle.setText(mChannel.getName());
 
+
+        mToCommunityBtn = (Button) view.findViewById(R.id.toCommunityBtn);
+
     }
 
 
@@ -462,6 +467,7 @@ public class KeywordCommunityFragment extends BaseFragment {
                     .override(40, 40)
                     .into(mAvatarImageBtn);
         }
+
     }
 
     @Override
@@ -808,8 +814,8 @@ public class KeywordCommunityFragment extends BaseFragment {
                         mZoomBtn.setTag(ZOOM_IN);
                     }
 
+                    updateCommunityBtn(zoom);
                     loadData();
-
                 }
             }
         });
@@ -823,6 +829,90 @@ public class KeywordCommunityFragment extends BaseFragment {
 
     }
 
+    private void updateCommunityBtn(final int zoom) {
+        if(mCurrentMyPosition != null) {
+            mToCommunityBtn.setVisibility(View.VISIBLE);
+
+            try {
+                JSONObject params = new JSONObject();
+                params.put("latitude", mCurrentMyPosition.latitude);
+                params.put("longitude", mCurrentMyPosition.longitude);
+
+                mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mAddressChannel = new ChannelData(json);
+
+                        mToCommunityBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    JSONObject params = new JSONObject();
+                                    params.put("name", mChannel.getName());
+
+
+                                    if(zoom < 8) {
+                                        params.put("countryCode", mAddressChannel.getCountryCode());
+                                        params.put("level", 2);
+                                    } else if(zoom < 12) {
+                                        params.put("countryCode", mAddressChannel.getCountryCode());
+                                        params.put("adminArea", mAddressChannel.getAdminArea());
+
+                                        params.put("level", 8);
+                                    } else if(zoom < 14) {
+                                        params.put("countryCode", mAddressChannel.getCountryCode());
+                                        params.put("adminArea", mAddressChannel.getAdminArea());
+                                        params.put("locality", mAddressChannel.getLocality());
+                                        params.put("level", 12);
+                                    } else {
+                                        params.put("countryCode", mAddressChannel.getCountryCode());
+                                        params.put("adminArea", mAddressChannel.getAdminArea());
+                                        params.put("locality", mAddressChannel.getLocality());
+                                        params.put("thoroughfare", mAddressChannel.getThoroughfare());
+                                        params.put("level", 14);
+                                    }
+
+                                    mApi.call(api_findCommunity, params, new AjaxCallback<JSONObject>() {
+                                        @Override
+                                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                                            ChannelData channelData = new ChannelData(json);
+                                            if(TextUtils.isEmpty(channelData.getId())) {
+                                                Toast.makeText(mActivity, "지역내에 키워드 커뮤니티가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                                            }else {
+                                                Helper.startActivity(mActivity, channelData);
+                                            }
+                                        }
+                                    });
+
+                                } catch (JSONException e) {
+                                    Log.e(TAG, "error " + e.toString());
+                                }
+                            }
+                        });
+                    }
+                });
+
+
+
+                if(zoom < 8) { // 대한민국
+                    mToCommunityBtn.setText("국가단위 커뮤니티연합");
+                } else if(zoom < 12) { // 도시단위
+                    mToCommunityBtn.setText("도시단위 커뮤니티연합");
+                } else if(zoom < 14) { // 구군단위
+                    mToCommunityBtn.setText("구군단위 커뮤니티연합");
+                } else { //동단위
+                    mToCommunityBtn.setText("동단위 커뮤니티연합");
+                }
+
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
+        }else {
+            mToCommunityBtn.setVisibility(View.GONE);
+        }
+
+    }
 
    /* private void loadMainPosts() {
         mAdapter.resetDocs();

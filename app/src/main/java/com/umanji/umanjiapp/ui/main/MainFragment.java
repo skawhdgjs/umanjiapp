@@ -554,31 +554,31 @@ public class MainFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.environment:
-                Helper.startActivity(mActivity, mEnvironmentChannel);
+                Helper.startKeywordMapActivity(mActivity, mEnvironmentChannel);
                 break;
             case R.id.energy:
-                Helper.startActivity(mActivity, mEnergyChannel);
+                Helper.startKeywordMapActivity(mActivity, mEnergyChannel);
                 break;
             case R.id.spiritual:
-                Helper.startActivity(mActivity, mSpiritualChannel);
+                Helper.startKeywordMapActivity(mActivity, mSpiritualChannel);
                 break;
             case R.id.history:
-                Helper.startActivity(mActivity, mHistoryChannel);
+                Helper.startKeywordMapActivity(mActivity, mHistoryChannel);
                 break;
             case R.id.unity:
-                Helper.startActivity(mActivity, mUnityChannel);
+                Helper.startKeywordMapActivity(mActivity, mUnityChannel);
                 break;
             case R.id.health:
-                Helper.startActivity(mActivity, mHealthChannel);
+                Helper.startKeywordMapActivity(mActivity, mHealthChannel);
                 break;
             case R.id.politics:
-                Helper.startActivity(mActivity, mPoliticsChannel);
+                Helper.startKeywordMapActivity(mActivity, mPoliticsChannel);
                 break;
             case R.id.climb:
-                Helper.startActivity(mActivity, mClimbChannel);
+                Helper.startKeywordMapActivity(mActivity, mClimbChannel);
                 break;
             case R.id.golf:
-                Helper.startActivity(mActivity, mGolfChannel);
+                Helper.startKeywordMapActivity(mActivity, mGolfChannel);
                 break;
 
             case R.id.headerPanel:
@@ -982,6 +982,7 @@ public class MainFragment extends BaseFragment {
             try {
                 JSONObject params1 = new JSONObject();
                 params1.put("name", "환경");
+
 
                 mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
                     @Override

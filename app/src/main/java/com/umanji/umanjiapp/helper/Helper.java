@@ -390,6 +390,20 @@ public final class Helper implements AppConfig {
         }
     }
 
+    public static void startKeywordMapActivity(Activity activity, ChannelData channelData) {
+        Intent intent = null;
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channelData.getJsonObject().toString());
+        bundle.putString("tabType", TAB_POSTS);
+
+        intent = new Intent(activity, KeywordCommunityActivity.class);
+        intent.putExtra("enterAnim", R.anim.zoom_out);
+        intent.putExtra("exitAnim", R.anim.zoom_in);
+
+        intent.putExtra("bundle", bundle);
+        activity.startActivity(intent);
+    }
+
     public static void startActivity(Activity activity, ChannelData channelData, String tabType) {
         Intent intent = null;
         Bundle bundle = new Bundle();
@@ -416,12 +430,8 @@ public final class Helper implements AppConfig {
                 break;
             case TYPE_KEYWORD:
             case TYPE_COMMUNITY:
-                intent = new Intent(activity, CommunityActivity.class);
-                break;
             case TYPE_KEYWORD_COMMUNITY:
-                intent = new Intent(activity, KeywordCommunityActivity.class);
-                intent.putExtra("enterAnim", R.anim.zoom_out);
-                intent.putExtra("exitAnim", R.anim.zoom_in);
+                intent = new Intent(activity, CommunityActivity.class);
                 break;
             case TYPE_INFO_CENTER:
                 intent = new Intent(activity, InfoActivity.class);

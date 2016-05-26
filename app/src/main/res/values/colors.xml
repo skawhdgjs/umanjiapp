@@ -36,6 +36,9 @@
     <color name="link">#0a80d1</color>
     <color name="timestamp">#a0a3a7</color>
 
+    <color name="default0_t">#886570da</color>
+    <color name="default1_t">#77737cd7</color>
+
     <color name="default0">#6570da</color>
     <color name="default1">#737cd7</color>
     <color name="default2">#9298d4</color>

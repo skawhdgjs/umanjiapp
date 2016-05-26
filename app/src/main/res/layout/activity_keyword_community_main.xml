@@ -183,6 +183,19 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginBottom="40dp" />
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="커뮤니티 이동"
+                android:id="@+id/toCommunityBtn"
+                android:background="@drawable/default_btn_radius_trans"
+                android:textColor="@color/white"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"/>
+
 
         </RelativeLayout>
 
