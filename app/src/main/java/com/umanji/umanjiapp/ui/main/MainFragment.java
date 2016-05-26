@@ -8,9 +8,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -73,6 +75,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Random;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.greenrobot.event.EventBus;
 
 public class MainFragment extends BaseFragment {
@@ -274,6 +277,39 @@ public class MainFragment extends BaseFragment {
         if (!TextUtils.isEmpty(mChannelIdForPush)) {
             startActivityForPush();
         }
+
+
+        mApi.call(api_system_version, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                JSONObject data = json;
+                if(json.optJSONObject("data") != null) {
+                    data = json.optJSONObject("data");
+                }
+
+                String version = data.optString("value");
+
+                if(!TextUtils.equals(version, APP_VERSION)) {
+                    new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("신규 기능 업데이트")
+                            .setContentText("마켓에서 새로운 버젼을 다운받아 주세요.")
+                            .setConfirmText("마켓으로 이동하기")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                    final String appPackageName = mActivity.getPackageName();
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                    }
+                                }
+                            })
+                            .show();
+                }
+            }
+        });
 
 
 

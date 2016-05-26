@@ -1,7 +1,10 @@
 package com.umanji.umanjiapp;
 
 public interface AppConfig {
-//    String REST_SERVER_URL = "http://10.10.0.209:3000/v1"; /* 로컬 API Server */
+
+    String APP_VERSION      = "1";
+
+//    String REST_SERVER_URL = "http://172.30.1.6:3000/v1"; /* 로컬 API Server */
    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
@@ -28,6 +31,9 @@ public interface AppConfig {
 
     String dataLoaded                   = "dataLoaded";
 
+
+
+    String api_system_version           = "GET  /system/version";
 
     String api_channels_gcm             = "PUT  /channels/id/gcm";
 
