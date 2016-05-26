@@ -55,7 +55,7 @@ public class InfoFragment extends BaseChannelFragment {
         super.initWidgets(view);
 
         mNameType.setText("정보센터 : ");
-        
+
     }
 
     @Override

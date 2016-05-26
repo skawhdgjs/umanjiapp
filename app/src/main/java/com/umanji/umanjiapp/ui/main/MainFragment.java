@@ -103,6 +103,9 @@ public class MainFragment extends BaseFragment {
 
     private ImageView mGuideImageView01;
 
+    private ImageView mHomeBtn;
+    private ChannelData mHomeChannel;
+
     private ImageView mInfoButton;
     private LinearLayout mLauncherLevel2;
     private LinearLayout mLauncherLevel3;
@@ -400,6 +403,9 @@ public class MainFragment extends BaseFragment {
 
         mlayout = (LinearLayout) view.findViewById(R.id.mainListContainer);
 
+        mHomeBtn = (ImageView) view.findViewById(R.id.homeBtn);
+        mHomeBtn.setOnClickListener(this);
+
         mInfoButton = (ImageView) view.findViewById(R.id.infoButton);
         mInfoButton.setOnClickListener(this);
 
@@ -553,6 +559,10 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.homeBtn:
+                Helper.startActivity(mActivity, mHomeChannel);
+                break;
+
             case R.id.environment:
                 Helper.startKeywordMapActivity(mActivity, mEnvironmentChannel);
                 break;
@@ -634,8 +644,10 @@ public class MainFragment extends BaseFragment {
                         webInt.putExtra("url", "http://blog.naver.com/mothcar/220715838911"); // 복합단지 설명
                         break;
                     default:
-                        webInt.putExtra("url", "http://blog.naver.com/mothcar/220715638989");  // 일반 사용설명
+                        webInt.putExtra("url", "http://blog.naver.com/mothcar/220720111996");  // 일반 사용설명
                 }
+                // 일반 사용설명 : http://blog.naver.com/mothcar/220720111996
+                // 키워드 설명  : http://blog.naver.com/mothcar/220715638989
                 // http://blog.naver.com/mothcar/220715638989
 
                 mActivity.startActivity(webInt);
@@ -773,7 +785,6 @@ public class MainFragment extends BaseFragment {
                 }
 
                 mLatLngByPoint = point;
-
 
                 if (zoom >= 15 && zoom <= 21) {
 
@@ -1384,6 +1395,18 @@ public class MainFragment extends BaseFragment {
                     addChannelsToMap(json);
                 }
             });
+
+            JSONObject params1 = new JSONObject();
+            params1.put("name", "대한민국 정보센터");
+
+            mApi.call(api_channels_findOne, params1, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    mHomeChannel = new ChannelData(json);
+                    //mHomeChannel.setType("INFO_CENTER");
+                }
+            });
+
         } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
