@@ -13,6 +13,8 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 
+import uk.co.senab.photoview.PhotoViewAttacher;
+
 
 public class ImageViewFragment extends BaseFragment {
     private static final String TAG = "SigninFragment";
@@ -22,6 +24,8 @@ public class ImageViewFragment extends BaseFragment {
      *  View
      ****************************************************/
     ImageView mPhoto;
+    PhotoViewAttacher mPhotoAttacher;
+
     ChannelData mChannel;
 
     public static ImageViewFragment newInstance(Bundle bundle) {
@@ -80,6 +84,8 @@ public class ImageViewFragment extends BaseFragment {
         }else {
             mPhoto.setVisibility(View.GONE);
         }
+
+        mPhotoAttacher = new PhotoViewAttacher(mPhoto);
     }
 
 
