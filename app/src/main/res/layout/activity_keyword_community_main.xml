@@ -5,51 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Keyword Community Top Title-->
-    <RelativeLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/titleLayout"
-        android:layout_width="match_parent"
-        android:layout_height="53dp"
-        android:background="@color/blue"
-        android:gravity="center_vertical"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="40dp"
-            android:layout_height="@dimen/tabs_height"
-            app:layout_collapseMode="pin"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/keyword_community_Title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="key"
-                android:textColor="#fff"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/headerTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 커뮤니티 연합"
-                android:textColor="#fff"
-                android:textSize="18dp" />
-        </LinearLayout>
-
-    </RelativeLayout>
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        android:layout_below="@+id/titleLayout"
         android:id="@+id/slidingUpPanelLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -199,11 +157,12 @@
 
         </RelativeLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mainListContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/empty_main_post"
             android:clickable="true"
             android:focusable="false"
@@ -216,13 +175,59 @@
                 android:layout_height="match_parent"
                 android:clickable="false" />-->
 
+
+            <!-- Keyword Community Top Title-->
+            <RelativeLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/titleLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/green"
+                android:gravity="center_vertical"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/keyword_community_Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="key"
+                        android:textColor="#fff"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/headerTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text=" 커뮤니티 연합"
+                        android:gravity="center"
+                        android:textColor="#fff"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/tabs_height"
+                android:layout_height="25dp"
                 android:layout_gravity="bottom"
                 style="@style/AppTheme.TabStyle"
-                android:background="@color/blue"
+                android:background="@color/green"
 
                 />
 
@@ -233,9 +238,6 @@
                 android:layout_height="match_parent"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto">
-
-
-
 
 
             <android.support.v4.view.ViewPager

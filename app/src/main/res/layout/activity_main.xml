@@ -107,6 +107,22 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="55dp"/>
 
+            <TextView
+                android:id="@+id/mZoomLevelText"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="150dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:background="@drawable/btn_label"
+                android:text="12"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
             <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/mZoomBtn"
                 android:layout_width="40dp"
@@ -338,24 +354,24 @@
             <LinearLayout
                 android:id="@+id/headerPanel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/mZoomLevelText"
-                    android:layout_width="60dp"
-                    android:layout_height="50dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="7"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/mZoomLevelText"-->
+                    <!--android:layout_width="60dp"-->
+                    <!--android:layout_height="50dp"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="7"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:textSize="14sp" />-->
 
                 <TextView
                     android:id="@+id/mInfoTextPanel"
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:ellipsize="marquee"
                     android:focusable="true"
@@ -363,7 +379,7 @@
                     android:freezesText="true"
                     android:gravity="center"
                     android:marqueeRepeatLimit="marquee_forever"
-                    android:paddingLeft="0dp"
+                    android:paddingLeft="50dp"
                     android:paddingRight="50dp"
                     android:scrollHorizontally="true"
                     android:singleLine="true"
@@ -372,7 +388,8 @@
 
                 <ImageView
                     android:layout_width="10dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:src="@drawable/ic_slide" />
 

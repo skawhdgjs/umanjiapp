@@ -290,9 +290,9 @@ public class MainFragment extends BaseFragment {
                     data = json.optJSONObject("data");
                 }
 
-                String version = data.optString("value");
+                int version = data.optInt("value");
 
-                if(!TextUtils.equals(version, APP_VERSION)) {
+                if(APP_VERSION < version) {
                     new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("신규 기능 업데이트")
                             .setContentText("마켓에서 새로운 버젼을 다운받아 주세요.")
@@ -932,7 +932,7 @@ public class MainFragment extends BaseFragment {
                     isBlock = false;
                 } else {
 
-                    mZoomLevelText.setText("Lv " + (int) position.zoom);
+                    mZoomLevelText.setText("" + (int) position.zoom);
 
                     int zoom = (int) position.zoom;
                     // isPoliticTouchable
