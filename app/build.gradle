@@ -9,8 +9,8 @@ android {
         applicationId "com.umanji.umanjiapp"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 62
-        versionName "2.062"
+        versionCode 63
+        versionName "2.063"
     }
 
     buildTypes {
@@ -61,10 +61,6 @@ dependencies {
      ***********************************************/
     compile 'com.github.androidquery:androidquery:0.26.9'       // api 통신용
     compile 'de.greenrobot:eventbus:2.4.0'
-
-
-
-
-//    compile 'org.jsoup:jsoup:1.8.3' // 안쓰는 것 같아 보이는 Lib, 몇번 해보고 문제 없으면 곧 지워야함.
+    compile 'org.jsoup:jsoup:1.8.3'
 
 }
