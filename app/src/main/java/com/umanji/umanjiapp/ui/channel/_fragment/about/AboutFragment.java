@@ -200,7 +200,6 @@ public class AboutFragment extends BaseChannelListFragment {
                 intent = new Intent(activity, SpotUpdateActivity.class);
                 break;
 
-            // TYPE_KEYWORD_COMMUNITY
         }
         Bundle bundle = new Bundle();
         bundle.putString("channel", channelData.getJsonObject().toString());
