@@ -59,7 +59,7 @@ public class CommunityFragment extends BaseChannelFragment {
             TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
             tabSpot.setText("커뮤니티 (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
         }
-        
+
         return view;
     }
 
