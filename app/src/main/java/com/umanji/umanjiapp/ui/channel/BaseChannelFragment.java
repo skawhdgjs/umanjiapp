@@ -441,6 +441,29 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 mKeywordPanel.addView(keywordView);
                 keywordView.setText("#" + keywords[0]);
 
+
+                try {
+                    JSONObject params = new JSONObject();
+                    params.put("name", keywords[0]);
+
+                    mApi.call(api_findCommunity, params, new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                            final ChannelData channelData1 = new ChannelData(json);
+
+                            mKeywordPanel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Helper.startKeywordMapActivity(mActivity, channelData1);
+                                }
+                            });
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "error " + e.toString());
+                }
+
             } else if(keywords.length >= 2) {
                 mKeywordPanel.removeAllViews();
 
@@ -448,9 +471,55 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 mKeywordPanel.addView(keywordView);
                 keywordView.setText("#" + keywords[0]);
 
+
+                try {
+                    JSONObject params = new JSONObject();
+                    params.put("name", keywords[0]);
+
+                    mApi.call(api_findCommunity, params, new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                            final ChannelData channelData1 = new ChannelData(json);
+
+                            mKeywordPanel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Helper.startKeywordMapActivity(mActivity, channelData1);
+                                }
+                            });
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "error " + e.toString());
+                }
+
                 TextView keywordView2 = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView2);
                 keywordView2.setText("#" + keywords[1]);
+
+
+                try {
+                    JSONObject params2 = new JSONObject();
+                    params2.put("name", keywords[1]);
+
+                    mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                            final ChannelData channelData2 = new ChannelData(json);
+
+                            mKeywordPanel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Helper.startKeywordMapActivity(mActivity, channelData2);
+                                }
+                            });
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "error " + e.toString());
+                }
             }
 
         } else {
