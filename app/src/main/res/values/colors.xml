@@ -4,6 +4,7 @@
     <!-- my custom color -->
 
     <color name="text_clickable">#0a80d1</color>
+    <color name="gray_button">#80777777</color>
 
     <!-- default color -->
     <color name="colorPrimary">#6570da</color>

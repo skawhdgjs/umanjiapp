@@ -25,6 +25,8 @@ import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.channel.advertise.AdsCreateActivity;
 import com.umanji.umanjiapp.ui.channel.community.update.CommunityUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.complex.update.ComplexUpdateActivity;
+import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
+import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 import com.umanji.umanjiapp.ui.modal.map.update_address.MapUpdateAddressActivity;
 
@@ -186,12 +188,19 @@ public class AboutFragment extends BaseChannelListFragment {
                 intent = new Intent(activity, CommunityUpdateActivity.class);
                 break;
             case TYPE_INFO_CENTER:
+                intent = new Intent(activity, SpotUpdateActivity.class);
                 break;
             case TYPE_USER:
                 break;
             case TYPE_COMPLEX:
                 intent = new Intent(activity, ComplexUpdateActivity.class);
                 break;
+
+            case TYPE_KEYWORD_COMMUNITY:
+                intent = new Intent(activity, SpotUpdateActivity.class);
+                break;
+
+            // TYPE_KEYWORD_COMMUNITY
         }
         Bundle bundle = new Bundle();
         bundle.putString("channel", channelData.getJsonObject().toString());

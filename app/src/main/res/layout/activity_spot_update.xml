@@ -62,7 +62,7 @@
                 <ImageView
                     android:id="@+id/photo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/empty_image" />
 
@@ -72,14 +72,14 @@
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:background="#77ffffff"
+                    android:background="@color/gray_button"
                     android:orientation="horizontal"
                     android:padding="5dp">
 
                     <ImageView
                         android:id="@+id/photoBtn"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginRight="10dp"
                         android:layout_toLeftOf="@+id/gallaryBtn"
@@ -88,8 +88,8 @@
 
                     <ImageView
                         android:id="@+id/gallaryBtn"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
