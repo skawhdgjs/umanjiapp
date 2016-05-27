@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -58,9 +59,10 @@ public class CommunityFragment extends BaseChannelFragment {
             TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
             tabSpot.setText("커뮤니티 (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
         }
-
+        
         return view;
     }
+
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
@@ -186,6 +188,8 @@ public class CommunityFragment extends BaseChannelFragment {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
+
         switch (v.getId()) {
             case R.id.parentInfoCenter:
                 Log.d(TAG, "parentInfoCenter");

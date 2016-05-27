@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -26,6 +27,7 @@ import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
+import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +73,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
     protected TabLayout mTabLayout;
 
     protected TextView mNameType;
+
+    protected ImageView mInfoBtn;
 
 
 
@@ -176,6 +180,9 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
 
         mNameType = (TextView) view.findViewById(R.id.nameType);
+
+        mInfoBtn = (ImageView) view.findViewById(R.id.infoButton);
+        mInfoBtn.setOnClickListener(this);
 
     }
 
@@ -316,6 +323,32 @@ public abstract class BaseChannelFragment extends BaseFragment {
             case R.id.lookAround:
                 EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
                 break;
+
+            case R.id.infoButton:
+                switch(mChannel.getType()){
+                    case TYPE_INFO_CENTER:
+                        Intent webInt = new Intent(mActivity, WebViewActivity.class);
+                        webInt.putExtra("url", "http://blog.naver.com/mothcar/220720734128");
+                        mActivity.startActivity(webInt);
+                        break;
+
+                    case TYPE_KEYWORD_COMMUNITY:
+                        Intent webInt_com = new Intent(mActivity, WebViewActivity.class);
+                        webInt_com.putExtra("url", "http://blog.naver.com/mothcar/220720734128");
+                        mActivity.startActivity(webInt_com);
+                        Toast.makeText(mActivity, "Type community", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:
+                        Intent webInt_nor = new Intent(mActivity, WebViewActivity.class);
+                        webInt_nor.putExtra("url", "http://blog.naver.com/mothcar/220720111996");
+                        mActivity.startActivity(webInt_nor);
+                        Toast.makeText(mActivity,"default", Toast.LENGTH_SHORT).show();
+
+                        // 일반 사용설명 : http://blog.naver.com/mothcar/220720111996
+                        // 인포센터 설명 : http://blog.naver.com/mothcar/220720734128
+                        // 커뮤티니 설명 :
+                }
 
         }
     }

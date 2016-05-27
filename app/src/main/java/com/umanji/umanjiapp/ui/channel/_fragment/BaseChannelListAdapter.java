@@ -160,7 +160,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
     protected void setName(final ViewHolder holder, final ChannelData channelData) {
 
         if(TextUtils.isEmpty(channelData.getName())) {
-            holder.name.setText("단체 없음");
+            holder.name.setText("내용 없음");
         } else {
             holder.name.setText(Helper.getShortenString(channelData.getName(), 200));
         }
