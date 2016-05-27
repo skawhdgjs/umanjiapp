@@ -29,6 +29,7 @@
     <color name="purple">#B10DC9</color>
     <color name="silver">#ddd</color>
     <color name="gray">#aaa</color>
+    <color name="gray_trans">#99001FC9</color>
 
     <color name="feed_bg">#d3d6db</color>
     <color name="feed_item_bg">#ffffff</color>

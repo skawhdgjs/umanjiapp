@@ -4,7 +4,8 @@
         <shape
             android:shape="rectangle">
             <!--테두리 shdow-->
-            <corners android:radius="18dp"/>
+            <solid android:color="#55808080" />
+            <corners android:radius="2dp"/>
 
         </shape>
     </item>
@@ -12,8 +13,8 @@
         <shape
             android:shape="rectangle">
             <!--안쪽 흰색 바탕-->
-            <solid android:color="@color/gray_trans"/>
-            <corners android:radius="18dp"/>
+            <solid android:color="#ccffffff"/>
+            <corners android:radius="2dp"/>
 
         </shape>
     </item>
