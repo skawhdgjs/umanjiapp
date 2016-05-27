@@ -52,6 +52,17 @@ public class KeywordListAdapter extends BaseChannelListAdapter {
     }
 
     @Override
+    protected void setName(ViewHolder holder, ChannelData channelData) {
+        super.setName(holder, channelData);
+
+        if(TextUtils.isEmpty(channelData.getName())) {
+            holder.name.setText("단체 없음");
+        } else {
+            holder.name.setText(Helper.getShortenString(channelData.getName()  + " 단체들", 200));
+        }
+    }
+
+    @Override
     protected void setParentName(final ViewHolder holder, final ChannelData parentChannelData) {
         String parentId = "";
         if(mChannel != null ) parentId = mChannel.getId();
