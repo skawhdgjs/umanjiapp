@@ -114,25 +114,26 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="150dp"
+                android:layout_marginBottom="140dp"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:background="@drawable/btn_label"
                 android:text="12"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:textSize="18sp" />
+                android:textSize="16dp" />
 
-            <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.makeramen.roundedimageview.RoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/mZoomBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="100dp"
+                android:layout_marginBottom="94dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/shadow"
+                android:background="@drawable/zoom_btn"
                 android:padding="8dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/zoom_in"
@@ -354,7 +355,7 @@
             <LinearLayout
                 android:id="@+id/headerPanel"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="36dp"
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal">
 
@@ -371,7 +372,7 @@
                 <TextView
                     android:id="@+id/mInfoTextPanel"
                     android:layout_width="0dp"
-                    android:layout_height="30dp"
+                    android:layout_height="36dp"
                     android:layout_weight="1"
                     android:ellipsize="marquee"
                     android:focusable="true"
@@ -388,7 +389,7 @@
 
                 <ImageView
                     android:layout_width="10dp"
-                    android:layout_height="20dp"
+                    android:layout_height="26dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:src="@drawable/ic_slide" />

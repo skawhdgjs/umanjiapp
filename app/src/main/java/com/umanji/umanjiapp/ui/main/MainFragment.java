@@ -155,7 +155,7 @@ public class MainFragment extends BaseFragment {
      * Map
      ****************************************************/
     LatLng mCurrentMyPosition;
-
+    private int currentZoomLevel = 0;
 
     private static final String[] LOCATION_PERMS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -368,7 +368,7 @@ public class MainFragment extends BaseFragment {
         mNoticePanel = view.findViewById(R.id.noticePanel);
 
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanelLayout);
-        mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 200));
+        mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 150));
         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
         mSlidingUpPanelLayout.setMinFlingVelocity(DEFAULT_MIN_FLING_VELOCITY);
 
@@ -926,6 +926,7 @@ public class MainFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
+                currentZoomLevel = (int)position.zoom;
                 if(mMapIsTouched) return;
 
                 if (isBlock) {
