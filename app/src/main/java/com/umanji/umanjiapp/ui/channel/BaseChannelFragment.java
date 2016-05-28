@@ -180,6 +180,23 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
 
         mNameType = (TextView) view.findViewById(R.id.nameType);
+        switch(mChannel.getType()){
+            case TYPE_COMMUNITY:
+                mNameType.setText("커뮤니티 : ");
+                break;
+            case TYPE_KEYWORD_COMMUNITY:
+                mNameType.setText("단체들 : ");
+                break;
+            case TYPE_INFO_CENTER:
+                mNameType.setText("정보센터 : ");
+                break;
+            case TYPE_SPOT:
+                mNameType.setText("빌딩 : ");
+                break;
+            case TYPE_SPOT_INNER:
+                mNameType.setText("내부공간 : ");
+                break;
+        }
 
         mInfoBtn = (ImageView) view.findViewById(R.id.infoButton);
         if(mInfoBtn !=null) {
@@ -433,7 +450,15 @@ public abstract class BaseChannelFragment extends BaseFragment {
             mParentName.setVisibility(View.VISIBLE);
 
             if(TextUtils.isEmpty(parentData.getName())) {
-                mParentName.setText("상위키워드");
+                switch(mChannel.getType()){
+                    case TYPE_SPOT_INNER:
+                        mParentName.setText("빌딩");
+                        break;
+                    default:
+                        mParentName.setText("상위");
+                        break;
+
+                }
             } else {
                 mParentName.setText(parentData.getName());
             }

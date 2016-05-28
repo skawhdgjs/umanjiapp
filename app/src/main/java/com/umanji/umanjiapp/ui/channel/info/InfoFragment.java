@@ -51,14 +51,6 @@ public class InfoFragment extends BaseChannelFragment {
     }
 
     @Override
-    public void initWidgets(View view) {
-        super.initWidgets(view);
-
-        mNameType.setText("정보센터 : ");
-
-    }
-
-    @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.activity_channel, container, false);
     }
