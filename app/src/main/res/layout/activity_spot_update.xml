@@ -95,7 +95,6 @@
                         android:layout_alignParentRight="true"
                         android:src="@drawable/icon_picture_png" />
 
-
                 </LinearLayout>
 
             </RelativeLayout>

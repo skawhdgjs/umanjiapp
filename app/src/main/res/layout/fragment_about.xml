@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    app:layout_collapseMode="parallax"
+    app:layout_scrollFlags="scroll|enterAlways">
 
-    <android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -23,10 +22,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:paddingRight="20dp"
+            android:paddingTop="20dp">
 
             <TextView
                 android:id="@+id/advertiseBtn"
@@ -47,6 +46,7 @@
                 android:textColor="@color/text_clickable"
                 android:textSize="16dp" />
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,8 +68,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:text="집주소 입니다 ......"
                     android:paddingBottom="10dp"
+                    android:text="집주소 입니다 ......"
                     android:textSize="16dp" />
 
                 <TextView
@@ -98,8 +98,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp">
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
                     <TextView
                         android:layout_width="80dp"
@@ -120,8 +120,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp">
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
                     <TextView
                         android:layout_width="80dp"
@@ -142,8 +142,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp">
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
                     <TextView
                         android:layout_width="80dp"
@@ -170,8 +170,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="20dp"
-                    android:paddingBottom="20dp">
+                    android:paddingBottom="20dp"
+                    android:paddingTop="20dp">
 
                     <TextView
                         android:layout_width="80dp"
@@ -236,12 +236,8 @@
             </LinearLayout>
 
 
-
         </LinearLayout>
     </LinearLayout>
-
-
-
 
 
 </RelativeLayout>
