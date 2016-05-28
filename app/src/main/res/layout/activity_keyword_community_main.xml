@@ -145,7 +145,7 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:text="커뮤니티 이동"
+                android:text="단체 이동"
                 android:id="@+id/toCommunityBtn"
                 android:background="@drawable/default_btn_radius_trans"
                 android:textColor="@color/white"
@@ -183,7 +183,7 @@
                 android:id="@+id/titleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/green"
+                android:background="@color/colorPrimaryDark"
                 android:gravity="center_vertical"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -214,7 +214,7 @@
                         android:id="@+id/headerTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:text=" 커뮤니티 연합"
+                        android:text=" 단체들"
                         android:gravity="center"
                         android:textColor="#fff"
                         android:textSize="14dp" />
@@ -225,10 +225,10 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
+                android:layout_height="35dp"
                 android:layout_gravity="bottom"
                 style="@style/AppTheme.TabStyle"
-                android:background="@color/green"
+                android:background="@color/colorPrimaryDark"
 
                 />
 

@@ -877,7 +877,7 @@ public class KeywordCommunityFragment extends BaseFragment {
                                         public void callback(String url, JSONObject json, AjaxStatus status) {
                                             ChannelData channelData = new ChannelData(json);
                                             if(TextUtils.isEmpty(channelData.getId())) {
-                                                Toast.makeText(mActivity, "지역내에 키워드 커뮤니티가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mActivity, "지역내에 단체가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
                                             }else {
                                                 Helper.startActivity(mActivity, channelData);
                                             }
@@ -893,15 +893,16 @@ public class KeywordCommunityFragment extends BaseFragment {
                 });
 
 
+                String communityBtnName = mChannel.getName();
 
                 if(zoom < 8) { // 대한민국
-                    mToCommunityBtn.setText("국가단위 커뮤니티연합");
+                    mToCommunityBtn.setText("국가단위 " + communityBtnName + " 단체");
                 } else if(zoom < 12) { // 도시단위
-                    mToCommunityBtn.setText("도시단위 커뮤니티연합");
+                    mToCommunityBtn.setText("도시단위 " + communityBtnName + " 단체");
                 } else if(zoom < 14) { // 구군단위
-                    mToCommunityBtn.setText("구군단위 커뮤니티연합");
+                    mToCommunityBtn.setText("구군단위 " + communityBtnName + " 단체");
                 } else { //동단위
-                    mToCommunityBtn.setText("동단위 커뮤니티연합");
+                    mToCommunityBtn.setText("동단위 " + communityBtnName + " 단체");
                 }
 
             } catch(JSONException e) {
@@ -1301,7 +1302,7 @@ public class KeywordCommunityFragment extends BaseFragment {
         Bundle bundle = new Bundle();
         bundle.putString("channel", mChannel.getJsonObject().toString());
         adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
-        adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "커뮤니티");
+        adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
     }
 
 
