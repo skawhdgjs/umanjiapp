@@ -182,8 +182,9 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mNameType = (TextView) view.findViewById(R.id.nameType);
 
         mInfoBtn = (ImageView) view.findViewById(R.id.infoButton);
-        mInfoBtn.setOnClickListener(this);
-
+        if(mInfoBtn !=null) {
+            mInfoBtn.setOnClickListener(this);
+        }
     }
 
     protected void initTabAdapter(View view) {
