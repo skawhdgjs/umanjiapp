@@ -103,7 +103,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
                 default:
                     apiType = api_channels_community_find;
                     break;
-
+//          일단 헷갈려서 여기까지... 필요없을 수도 있지만 2중 체크 차원에서 해놓음
             }
 
 //            api_channels_communities_find
