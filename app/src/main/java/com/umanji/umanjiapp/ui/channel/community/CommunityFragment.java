@@ -237,7 +237,7 @@ public class CommunityFragment extends BaseChannelFragment {
                 }
                 break;
 
-            case R.id.fab:
+            /*case R.id.fab:
                 if (mCurrentTapPosition == 0) {
                     if (getArguments().getString("fromDist") == null) {
                         Intent intent = new Intent(mActivity, PostCreateActivity.class);
@@ -254,7 +254,7 @@ public class CommunityFragment extends BaseChannelFragment {
                     }
 
                 }
-                break;
+                break;*/
 
             case R.id.lookAround:
                 EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));

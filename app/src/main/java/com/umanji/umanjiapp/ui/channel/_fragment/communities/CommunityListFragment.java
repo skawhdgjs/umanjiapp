@@ -90,7 +90,8 @@ public class CommunityListFragment extends BaseChannelListFragment {
                     break;
             }
 
-            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
+//            api_channels_communities_find
+            mApi.call(api_channels_community_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     if(status.getCode() == 500) {
