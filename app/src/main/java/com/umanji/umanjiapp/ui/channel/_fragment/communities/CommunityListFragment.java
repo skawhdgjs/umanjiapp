@@ -90,8 +90,24 @@ public class CommunityListFragment extends BaseChannelListFragment {
                     break;
             }
 
+            String communityType = mChannel.getType();
+            String apiType;
+
+            switch(communityType){
+                case TYPE_COMMUNITY:
+                    apiType = api_channels_community_find;
+                    break;
+                case TYPE_INFO_CENTER:
+                    apiType = api_channels_communities_find;
+                    break;
+                default:
+                    apiType = api_channels_community_find;
+                    break;
+
+            }
+
 //            api_channels_communities_find
-            mApi.call(api_channels_community_find, params, new AjaxCallback<JSONObject>() {
+            mApi.call(apiType, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     if(status.getCode() == 500) {
