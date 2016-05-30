@@ -72,8 +72,7 @@ public class CommunityFragment extends BaseChannelFragment {
 
         return view;
     }
-
-
+    
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.activity_community, container, false);
