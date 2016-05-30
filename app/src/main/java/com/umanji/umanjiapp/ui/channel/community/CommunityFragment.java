@@ -66,13 +66,14 @@ public class CommunityFragment extends BaseChannelFragment {
         String channerType = mChannel.getType();
 
         if (channerType.equals(TYPE_KEYWORD_COMMUNITY)){
+            mKeywordPanel.setVisibility(View.GONE);
             mLookLink.setVisibility(View.VISIBLE);
             mLookLink.setOnClickListener(this);
         }
 
         return view;
     }
-    
+
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.activity_community, container, false);
