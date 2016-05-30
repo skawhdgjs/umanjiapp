@@ -48,5 +48,6 @@ public class PostListAdapter extends BaseChannelListAdapter {
         setUserPhoto(holder, channelData.getOwner());
         setActionPanel(holder, channelData);
         setCreatedAt(holder, channelData);
+        setParentType(holder, channelData.getParent());
     }
 }
