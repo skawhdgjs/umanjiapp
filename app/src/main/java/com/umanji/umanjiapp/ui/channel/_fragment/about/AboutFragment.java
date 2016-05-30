@@ -98,7 +98,7 @@ public class AboutFragment extends BaseChannelListFragment {
 
         mRepresentKeyword = (LinearLayout) view.findViewById(R.id.representKeyword);
         mUpdatedDate = (TextView) view.findViewById(R.id.updatedDate);
-        mUpdatedDate.setText(mChannel.getUpdatedAt());
+        mUpdatedDate.setText(subDate());
 
         mKeywordName = (TextView) view.findViewById(R.id.keywordName);
         if (mChannel.getKeywords() != null) {
@@ -109,6 +109,17 @@ public class AboutFragment extends BaseChannelListFragment {
 
         mAddress.setText(Helper.getFullAddress(mChannel));
     }
+
+    public String subDate(){
+        String fullStr = mChannel.getUpdatedAt();
+        String yearStr = fullStr.substring(0, 4);
+        String monthStr = fullStr.substring(5, 7);
+        String dayStr = fullStr.substring(8, 10);
+        String submitDate = yearStr + "년 " + monthStr + "월 " + dayStr + "일";
+
+        return submitDate;
+    }
+
 
     @Override
     public void loadMoreData() {
