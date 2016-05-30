@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
@@ -44,7 +45,11 @@ public class AboutFragment extends BaseChannelListFragment {
     protected TextView advertiseBtn;
     protected TextView mAddress;
 
+    protected LinearLayout mRepresentKeyword;
+
     protected TextView mName;
+    protected TextView mKeywordName;
+    protected TextView mUpdatedDate;
 
     private AlertDialog.Builder mAlert;
 
@@ -91,6 +96,17 @@ public class AboutFragment extends BaseChannelListFragment {
         mName = (TextView) view.findViewById(R.id.name);
         mName.setText(mChannel.getName());
 
+        mRepresentKeyword = (LinearLayout) view.findViewById(R.id.representKeyword);
+        mUpdatedDate = (TextView) view.findViewById(R.id.updatedDate);
+        mUpdatedDate.setText(mChannel.getUpdatedAt());
+
+        mKeywordName = (TextView) view.findViewById(R.id.keywordName);
+        if (mChannel.getKeywords() != null) {
+            mRepresentKeyword.setVisibility(View.VISIBLE);
+            String [] keywords = mChannel.getKeywords();
+            mKeywordName.setText(keywords[0]);
+        }
+
         mAddress.setText(Helper.getFullAddress(mChannel));
     }
 
@@ -106,6 +122,8 @@ public class AboutFragment extends BaseChannelListFragment {
 
         setAddBtn(mActivity, mChannel);
         setDeleteBtn(mActivity, mChannel);
+
+
     }
 
     private void setAddBtn(Activity activity, ChannelData channelData) {
@@ -169,6 +187,7 @@ public class AboutFragment extends BaseChannelListFragment {
             case R.id.advertiseBtn:
                 Bundle adsBundle = new Bundle();
                 adsBundle.putString("channel", mChannel.getJsonObject().toString());
+                adsBundle.putString("whichAction", "whatever");
                 Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
                 adsIntent.putExtra("bundle", adsBundle);
                 startActivity(adsIntent);
