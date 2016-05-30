@@ -37,6 +37,8 @@ public class CommunityFragment extends BaseChannelFragment {
     private ChannelData mParentChannel;
     private String mFromWhere;
 
+    private ImageView mLookLink;
+
 
     public static CommunityFragment newInstance(Bundle bundle) {
         CommunityFragment fragment = new CommunityFragment();
@@ -58,6 +60,14 @@ public class CommunityFragment extends BaseChannelFragment {
         if (mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
             TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
             tabSpot.setText("커뮤니티 (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
+        }
+
+        mLookLink = (ImageView) view.findViewById(R.id.lookLink);
+        String channerType = mChannel.getType();
+
+        if (channerType.equals(TYPE_KEYWORD_COMMUNITY)){
+            mLookLink.setVisibility(View.VISIBLE);
+            mLookLink.setOnClickListener(this);
         }
 
         return view;
@@ -258,6 +268,10 @@ public class CommunityFragment extends BaseChannelFragment {
 
             case R.id.lookAround:
                 EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                break;
+
+            case R.id.lookLink:
+                Helper.startKeywordMapActivity(mActivity, mChannel);
                 break;
         }
     }
