@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class ComplexUpdateFragment extends BaseChannelUpdateFragment {
 
     protected AutoCompleteTextView mKeywordName;
     protected Button mAddKeywordBtn;
+
+    protected LinearLayout mKeywordPanel;
 
     protected TextView mKeyword1;
     protected TextView mKeyword2;
@@ -62,6 +65,8 @@ public class ComplexUpdateFragment extends BaseChannelUpdateFragment {
 
         mKeyword2 = (TextView) view.findViewById(R.id.keyword2);
         mKeyword2.setOnClickListener(this);
+
+        mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
 
         updateView();
         return view;
@@ -103,9 +108,18 @@ public class ComplexUpdateFragment extends BaseChannelUpdateFragment {
         String [] keywords = channelData.getKeywords();
         if(keywords == null) return;
         if(keywords.length == 1) {
+            mKeywordPanel.setVisibility(View.VISIBLE);
             mKeywords.add(keywords[0]);
             mKeyword1.setText(keywords[0] + " [X]");
         } else if(keywords.length == 2){
+            mKeywordPanel.setVisibility(View.VISIBLE);
+            mKeywords.add(keywords[0]);
+            mKeyword1.setText(keywords[0] + " [X]");
+
+            mKeywords.add(keywords[1]);
+            mKeyword2.setText(keywords[1] + " [X]");
+        } else {
+            mKeywordPanel.setVisibility(View.VISIBLE);
             mKeywords.add(keywords[0]);
             mKeyword1.setText(keywords[0] + " [X]");
 
@@ -121,11 +135,13 @@ public class ComplexUpdateFragment extends BaseChannelUpdateFragment {
         switch (v.getId()) {
             case R.id.addKeywordBtn:
                 if(TextUtils.isEmpty(mKeyword1.getText())) {
+                    mKeywordPanel.setVisibility(View.VISIBLE);
                     mKeyword1.setText(mKeywordName.getText() + " [X]");
                     mKeywords.add(mKeywordName.getText().toString());
                 } else if(TextUtils.isEmpty(mKeyword2.getText())){
                     mKeyword2.setText(mKeywordName.getText() + " [X]");
                     mKeywords.add(mKeywordName.getText().toString());
+                    updateView();
                 } else {
                     Toast.makeText(mActivity, "키워드는 2개까지 입력 가능합니다.", Toast.LENGTH_SHORT).show();
                 }
