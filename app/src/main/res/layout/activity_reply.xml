@@ -54,6 +54,8 @@
                     android:layout_width="@dimen/list_item_avatar_size"
                     android:layout_height="@dimen/list_item_avatar_size"
                     android:layout_marginRight="16dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/avatar_default_0"
                     app:riv_border_color="@color/colorPrimary"
@@ -61,51 +63,60 @@
                     app:riv_corner_radius="5dp"
                     app:riv_oval="false"/>
 
-                <TextView
-                    android:id="@+id/userName"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?attr/textAppearanceListItem"
-                    android:text="bruce"
-                    android:textSize="16dp"
-                    android:layout_alignBottom="@+id/lookAround"
-                    android:layout_alignLeft="@+id/createdAt"
-                    android:layout_alignStart="@+id/createdAt" />
+                    android:orientation="horizontal"
+                    android:layout_alignTop="@+id/userPhoto"
+                    android:layout_toRightOf="@+id/userPhoto"
+                    android:layout_toEndOf="@+id/userPhoto"
+                    android:layout_marginTop="3dp"
+                    android:id="@+id/linearLayout2">
 
-                <TextView
-                    android:id="@+id/parentName"
-                    android:textAppearance="?attr/textAppearanceListItem"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12dp"
-                    android:textColor="@color/text"
-                    android:textStyle="bold"
-                    android:text="이름없음"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_alignParentRight="false"
-                    android:layout_toRightOf="@+id/userName"
-                    android:padding="5dp"
-                    android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:text="bruce"
+                        android:textSize="14dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/parentName"
+                        android:textAppearance="?attr/textAppearanceListItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:textColor="@color/text"
+                        android:textStyle="bold"
+                        android:text="이름없음"
+                        android:visibility="gone"
+                        android:layout_alignBottom="@+id/userName"
+                        android:layout_toRightOf="@+id/userName"
+                        android:layout_marginLeft="20dp" />
+
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/createdAt"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:text="2015:11:05"
                     android:textSize="10dp"
                     android:textColor="@color/text"
-                    android:layout_below="@+id/userName"
+                    android:layout_below="@+id/linearLayout2"
                     android:layout_toRightOf="@+id/userPhoto"
-                    />
+                    android:layout_toEndOf="@+id/userPhoto"
+                    android:layout_marginTop="3dp"/>
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/lookAround"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/maps_look_around"
                     android:scaleType="fitXY"
                     app:riv_border_color="@color/colorPrimary"
@@ -113,12 +124,16 @@
                     app:riv_corner_radius="5dp"
                     app:riv_oval="false"
                     android:layout_alignParentTop="true"
-                    android:layout_alignRight="@+id/createdAt"
-                    android:layout_alignEnd="@+id/createdAt"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="10dp"/>
 
                 <LinearLayout
                     android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -137,7 +152,7 @@
                         android:layout_below="@+id/userPhoto"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="20dp"
                         android:autoLink="all"/>
 
                     <ImageView
@@ -156,7 +171,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/surveyPanel"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="20dp"
                         android:background="@drawable/meta_bordered"
                         android:visibility="gone">
 
@@ -217,7 +232,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:layout_marginTop="20dp"
-                        android:padding="20dp">
+                        android:padding="20dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -231,6 +247,12 @@
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/black900" />
+
             <!--<ImageView-->
                 <!--android:id="@+id/empty_states"-->
                 <!--android:layout_width="wrap_content"-->
@@ -243,6 +265,8 @@
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="349dp"/>
+
+
 
         </LinearLayout>
 
