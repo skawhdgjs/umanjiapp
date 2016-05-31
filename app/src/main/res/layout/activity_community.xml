@@ -268,6 +268,24 @@
 
                         <com.makeramen.roundedimageview.RoundedImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/lookLink"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/maps_look_link"
+                            android:scaleType="fitXY"
+                            app:riv_border_color="@color/colorPrimary"
+                            app:riv_border_width="1px"
+                            app:riv_corner_radius="5dp"
+                            app:riv_oval="false"
+                            android:layout_below="@+id/lookAround"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="15dp"
+                            android:visibility="gone"/>
+
+                        <com.makeramen.roundedimageview.RoundedImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/infoButton"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
@@ -277,7 +295,7 @@
                             app:riv_border_width="1px"
                             app:riv_corner_radius="15dp"
                             app:riv_oval="false"
-                            android:layout_below="@+id/lookAround"
+                            android:layout_below="@+id/lookLink"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentEnd="true"
                             android:layout_marginRight="10dp"

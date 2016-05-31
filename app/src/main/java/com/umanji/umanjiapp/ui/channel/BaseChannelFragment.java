@@ -352,7 +352,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
                     case TYPE_KEYWORD_COMMUNITY:
                         Intent webInt_com = new Intent(mActivity, WebViewActivity.class);
-                        webInt_com.putExtra("url", "http://blog.naver.com/mothcar/220720734128");
+                        webInt_com.putExtra("url", "http://blog.naver.com/mothcar/220715638989");
                         mActivity.startActivity(webInt_com);
                         Toast.makeText(mActivity, "Type community", Toast.LENGTH_SHORT).show();
                         break;
@@ -364,7 +364,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
                         Toast.makeText(mActivity,"default", Toast.LENGTH_SHORT).show();
 
                         // 일반 사용설명 : http://blog.naver.com/mothcar/220720111996
-                        // 인포센터 설명 : http://blog.naver.com/mothcar/220720734128
+                        // 인포센터 설명  : http://blog.naver.com/mothcar/220720734128
+                        // 키워드 커뮤니티 : http://blog.naver.com/mothcar/220715638989
                         // 커뮤티니 설명 :
                 }
 

@@ -100,75 +100,90 @@
 
             </RelativeLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal">
 
-                <AutoCompleteTextView
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="장소이름"
+                    android:textSize="16dp" />
+
+                <EditText
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/post_input_text"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:padding="16dp"
-                    android:singleLine="true"
-                    android:textSize="18dp" />
+                    android:hint="삼구골프클럽"
+                    android:textColorHint="@color/timestamp"
+                    android:paddingLeft="10dp"
+                    android:textSize="16dp" />
 
-
-            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="대표단어"
+                    android:gravity="center_vertical"
+                    android:textSize="16dp" />
 
-                <android.support.design.widget.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.7">
+                    android:layout_toEndOf="@+id/textView"
+                    android:layout_toRightOf="@+id/textView"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
-                    <AutoCompleteTextView
+                    <EditText
                         android:id="@+id/keywordName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="키워드 입력"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:padding="16dp"
-                        android:singleLine="true"
-                        android:textSize="18dp" />
+                        android:layout_weight="0.7"
+                        android:hint="장소를 대표하는 단어"
+                        android:textColorHint="@color/timestamp"
+                        android:paddingLeft="10dp"
+                        android:textSize="16dp" />
 
-                </android.support.design.widget.TextInputLayout>
+                    <Button
+                        android:id="@+id/addKeywordBtn"
+                        style="?android:textAppearanceSmall"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.3"
+                        android:padding="0dp"
+                        android:text="추가"
+                        android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/addKeywordBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_weight="0.3"
-                    android:text="추가"
-                    android:textStyle="bold" />
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/keywordPanel"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="30dp">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginLeft="80dp">
 
                 <TextView
                     android:id="@+id/keyword1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:shadowColor="#000"
                     android:shadowRadius="7.0"
                     android:textSize="16dp" />
@@ -177,9 +192,8 @@
                     android:id="@+id/keyword2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginTop="10dp"
-                    android:padding="10dp"
+                    android:layout_weight="0.7"
+                    android:padding="5dp"
                     android:shadowColor="#000"
                     android:shadowRadius="7.0"
                     android:textSize="16dp" />

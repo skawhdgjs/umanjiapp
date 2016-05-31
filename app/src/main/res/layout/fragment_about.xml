@@ -76,13 +76,13 @@
                     android:id="@+id/addHomeBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_below="@+id/address"
                     android:paddingTop="10dp"
                     android:text="위치 변경"
                     android:textColor="@color/text_clickable"
-                    android:textSize="14dp" />
+                    android:textSize="16dp" />
 
 
             </RelativeLayout>
@@ -98,8 +98,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="20dp">
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
 
                     <TextView
                         android:layout_width="80dp"
@@ -111,17 +111,19 @@
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="삼구골프클럽"
+                        android:hint="우만지 사무실"
                         android:paddingLeft="10dp"
                         android:textSize="16dp" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/representKeyword"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="20dp">
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
 
                     <TextView
                         android:layout_width="80dp"
@@ -133,7 +135,7 @@
                         android:id="@+id/keywordName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="커피"
+                        android:hint="없음"
                         android:paddingLeft="10dp"
                         android:textSize="16dp" />
                 </LinearLayout>
@@ -142,8 +144,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="20dp">
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
 
                     <TextView
                         android:layout_width="80dp"
@@ -170,8 +172,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="20dp">
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
 
                     <TextView
                         android:layout_width="80dp"
@@ -193,8 +195,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="20dp">
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp">
 
                     <TextView
                         android:layout_width="80dp"
@@ -203,7 +205,7 @@
                         android:textSize="16dp" />
 
                     <TextView
-                        android:id="@+id/latestDate"
+                        android:id="@+id/updatedDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="2016년 5월 25일"

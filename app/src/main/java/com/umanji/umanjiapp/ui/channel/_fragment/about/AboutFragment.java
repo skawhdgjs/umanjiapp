@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
@@ -44,7 +45,11 @@ public class AboutFragment extends BaseChannelListFragment {
     protected TextView advertiseBtn;
     protected TextView mAddress;
 
+    protected LinearLayout mRepresentKeyword;
+
     protected TextView mName;
+    protected TextView mKeywordName;
+    protected TextView mUpdatedDate;
 
     private AlertDialog.Builder mAlert;
 
@@ -91,8 +96,30 @@ public class AboutFragment extends BaseChannelListFragment {
         mName = (TextView) view.findViewById(R.id.name);
         mName.setText(mChannel.getName());
 
+        mRepresentKeyword = (LinearLayout) view.findViewById(R.id.representKeyword);
+        mUpdatedDate = (TextView) view.findViewById(R.id.updatedDate);
+        mUpdatedDate.setText(subDate());
+
+        mKeywordName = (TextView) view.findViewById(R.id.keywordName);
+        if (mChannel.getKeywords() != null) {
+            mRepresentKeyword.setVisibility(View.VISIBLE);
+            String [] keywords = mChannel.getKeywords();
+            mKeywordName.setText(keywords[0]);
+        }
+
         mAddress.setText(Helper.getFullAddress(mChannel));
     }
+
+    public String subDate(){
+        String fullStr = mChannel.getUpdatedAt();
+        String yearStr = fullStr.substring(0, 4);
+        String monthStr = fullStr.substring(5, 7);
+        String dayStr = fullStr.substring(8, 10);
+        String submitDate = yearStr + "년 " + monthStr + "월 " + dayStr + "일";
+
+        return submitDate;
+    }
+
 
     @Override
     public void loadMoreData() {
@@ -106,6 +133,8 @@ public class AboutFragment extends BaseChannelListFragment {
 
         setAddBtn(mActivity, mChannel);
         setDeleteBtn(mActivity, mChannel);
+
+
     }
 
     private void setAddBtn(Activity activity, ChannelData channelData) {
@@ -169,6 +198,7 @@ public class AboutFragment extends BaseChannelListFragment {
             case R.id.advertiseBtn:
                 Bundle adsBundle = new Bundle();
                 adsBundle.putString("channel", mChannel.getJsonObject().toString());
+                adsBundle.putString("whichAction", "whatever");
                 Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
                 adsIntent.putExtra("bundle", adsBundle);
                 startActivity(adsIntent);

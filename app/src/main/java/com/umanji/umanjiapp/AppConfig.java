@@ -66,6 +66,7 @@ public interface AppConfig {
     String api_channels_members_find        = "GET  /channels/id/members";
     String api_channels_likes_find          = "GET  /channels/id/likes";
     String api_channels_communities_find    = "GET  /channels/id/communities";
+    String api_channels_community_find      = "GET  /channels/id/keywords";     //community list on spot
     String api_channels_spots_find          = "GET  /channels/id/spots";
     String api_channels_roles_find          = "GET  /channels/findRole";
 

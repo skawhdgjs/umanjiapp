@@ -37,6 +37,8 @@ public class CommunityFragment extends BaseChannelFragment {
     private ChannelData mParentChannel;
     private String mFromWhere;
 
+    private ImageView mLookLink;
+
 
     public static CommunityFragment newInstance(Bundle bundle) {
         CommunityFragment fragment = new CommunityFragment();
@@ -60,9 +62,17 @@ public class CommunityFragment extends BaseChannelFragment {
             tabSpot.setText("커뮤니티 (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
         }
 
+        mLookLink = (ImageView) view.findViewById(R.id.lookLink);
+        String channerType = mChannel.getType();
+
+        if (channerType.equals(TYPE_KEYWORD_COMMUNITY)){
+            mKeywordPanel.setVisibility(View.GONE);
+            mLookLink.setVisibility(View.VISIBLE);
+            mLookLink.setOnClickListener(this);
+        }
+
         return view;
     }
-
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
@@ -75,7 +85,7 @@ public class CommunityFragment extends BaseChannelFragment {
         if (getArguments().getString("fromDist") == null) {
             Bundle bundle = new Bundle();
             bundle.putString("channel", mChannel.getJsonObject().toString());
-            adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
+            adapter.addFragment(PostListFragment.newInstance(bundle), "정보광장");
             adapter.addFragment(MemberListFragment.newInstance(bundle), "사람들");
             adapter.addFragment(CommunityListFragment.newInstance(bundle), "단체 : 커뮤니티");
             adapter.addFragment(AboutFragment.newInstance(bundle), "상세정보 및 수정");
@@ -87,7 +97,7 @@ public class CommunityFragment extends BaseChannelFragment {
                 bundle.putString("channel", mChannel.getParent().getJsonObject().toString());
             }
 
-            adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
+            adapter.addFragment(PostListFragment.newInstance(bundle), "무슨광장");
             adapter.addFragment(MemberListFragment.newInstance(bundle), "사람들");
             adapter.addFragment(CommunityListFragment.newInstance(bundle), "단체 : 커뮤니티");
             adapter.addFragment(AboutFragment.newInstance(bundle), "상세정보 및 수정");
@@ -237,7 +247,7 @@ public class CommunityFragment extends BaseChannelFragment {
                 }
                 break;
 
-            case R.id.fab:
+            /*case R.id.fab:
                 if (mCurrentTapPosition == 0) {
                     if (getArguments().getString("fromDist") == null) {
                         Intent intent = new Intent(mActivity, PostCreateActivity.class);
@@ -254,10 +264,14 @@ public class CommunityFragment extends BaseChannelFragment {
                     }
 
                 }
-                break;
+                break;*/
 
             case R.id.lookAround:
                 EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                break;
+
+            case R.id.lookLink:
+                Helper.startKeywordMapActivity(mActivity, mChannel);
                 break;
         }
     }

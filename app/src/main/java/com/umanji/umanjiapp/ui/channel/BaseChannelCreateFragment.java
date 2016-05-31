@@ -92,11 +92,16 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
         mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
         mSubmitBtn2.setOnClickListener(this);
 
-        mPhotoBtn = (ImageView) view.findViewById(R.id.photoBtn);
-        mPhotoBtn.setOnClickListener(this);
+        String channelType = getArguments().getString("whichAction");
 
-        mGallaryBtn = (ImageView) view.findViewById(R.id.gallaryBtn);
-        mGallaryBtn.setOnClickListener(this);
+        if (channelType == null){
+            mPhotoBtn = (ImageView) view.findViewById(R.id.photoBtn);
+            mPhotoBtn.setOnClickListener(this);
+            mGallaryBtn = (ImageView) view.findViewById(R.id.gallaryBtn);
+            mGallaryBtn.setOnClickListener(this);
+        } else {
+            return;
+        }
 
     }
 

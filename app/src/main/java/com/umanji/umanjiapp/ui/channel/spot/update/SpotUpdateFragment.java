@@ -212,7 +212,6 @@ public class SpotUpdateFragment extends BaseChannelUpdateFragment {
                 }
 
                 mKeywordName.setText(null);
-
                 break;
 
             case R.id.keyword1:

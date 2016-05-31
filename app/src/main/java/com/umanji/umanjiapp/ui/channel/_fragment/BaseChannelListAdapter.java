@@ -418,6 +418,39 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         }
     }
 
+    protected  void setParentType (final ViewHolder holder, final ChannelData parentChannelData){
+        if (parentChannelData == null){
+            return;
+        } else{
+            if(parentChannelData.getType() != null) {
+                String typeName="";
+                switch(parentChannelData.getType()){
+                    case TYPE_SPOT:
+                        typeName = "빌딩";
+                        break;
+                    case TYPE_SPOT_INNER:
+                        typeName = "장소";
+                        break;
+                    case TYPE_COMPLEX:
+                        typeName = "복합건물";
+                        break;
+                    case TYPE_COMMUNITY:
+                        typeName = "커뮤니티";
+                        break;
+                    case TYPE_KEYWORD_COMMUNITY:
+                        typeName = "연합단체";
+                        break;
+                    case TYPE_INFO_CENTER:
+                        typeName = "정보센터";
+                        break;
+                }
+                holder.mParentType.setVisibility(View.VISIBLE);
+                holder.mParentType.setText(typeName);
+            }
+        }
+
+    }
+
 
 
     protected void setPhoto(final ViewHolder holder, final ChannelData channelData) {
@@ -704,6 +737,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
         public final TextView     surveyName;
         public final RelativeLayout     mRewardPanel;
+        public TextView mParentType;
+
 
 
 
@@ -748,6 +783,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             surveyName      = (TextView) view.findViewById(R.id.surveyName);
 
             mRewardPanel    = (RelativeLayout) view.findViewById(R.id.rewardPanel);
+
+            mParentType = (TextView) view.findViewById(R.id.parentType);
 
         }
     }

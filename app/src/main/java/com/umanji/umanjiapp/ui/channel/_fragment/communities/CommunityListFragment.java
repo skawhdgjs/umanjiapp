@@ -90,7 +90,24 @@ public class CommunityListFragment extends BaseChannelListFragment {
                     break;
             }
 
-            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
+            String communityType = mChannel.getType();
+            String apiType;
+
+            switch(communityType){
+                case TYPE_COMMUNITY:
+                    apiType = api_channels_community_find;
+                    break;
+                case TYPE_INFO_CENTER:
+                    apiType = api_channels_communities_find;
+                    break;
+                default:
+                    apiType = api_channels_community_find;
+                    break;
+//          일단 헷갈려서 여기까지... 필요없을 수도 있지만 2중 체크 차원에서 해놓음
+            }
+
+//            api_channels_communities_find
+            mApi.call(apiType, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     if(status.getCode() == 500) {

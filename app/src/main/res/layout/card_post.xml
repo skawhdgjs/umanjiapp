@@ -35,6 +35,21 @@
         android:padding="5dp"/>
 
     <TextView
+        android:id="@+id/parentType"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="@color/text"
+        android:text="이름없음"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@+id/userName"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
+    <TextView
         android:id="@+id/parentName"
         android:textAppearance="?attr/textAppearanceListItem"
         android:layout_width="wrap_content"
@@ -44,9 +59,8 @@
         android:textStyle="bold"
         android:text="이름없음"
         android:layout_marginTop="0dp"
-        android:layout_marginLeft="5dp"
         android:layout_alignParentRight="false"
-        android:layout_toRightOf="@+id/userName"
+        android:layout_toRightOf="@+id/parentType"
         android:padding="5dp"
         android:visibility="gone"/>
 
