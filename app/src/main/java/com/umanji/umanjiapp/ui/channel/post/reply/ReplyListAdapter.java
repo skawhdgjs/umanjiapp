@@ -28,7 +28,7 @@ public class ReplyListAdapter extends BaseChannelListAdapter {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_post, parent, false);
+                .inflate(R.layout.card_reply, parent, false);
 
         return new ViewHolder(view);
     }

@@ -251,7 +251,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/black900" />
+                android:background="@color/black_30" />
 
             <!--<ImageView-->
                 <!--android:id="@+id/empty_states"-->

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/feed_bg"
+    android:layout_marginTop="5dp"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/userPhoto"
+        android:layout_width="@dimen/list_item_avatar_size"
+        android:layout_height="@dimen/list_item_avatar_size"
+        android:layout_marginRight="16dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default_0"
+        app:riv_border_color="@color/colorPrimary"
+        app:riv_border_width="1px"
+        app:riv_corner_radius="5dp"
+        app:riv_oval="false"/>
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="bruce"
+        android:textSize="12dp"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@+id/userPhoto"
+        android:padding="5dp"/>
+
+    <TextView
+        android:id="@+id/parentType"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="@color/text"
+        android:text="이름없음"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@+id/userName"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/parentName"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:textColor="@color/text"
+        android:textStyle="bold"
+        android:text="이름없음"
+        android:layout_marginTop="0dp"
+        android:layout_alignParentRight="false"
+        android:layout_toRightOf="@+id/parentType"
+        android:padding="5dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/createdAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:text="2015:11:05"
+        android:textSize="8dp"
+        android:textColor="@color/text"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/userName"
+        android:layout_toRightOf="@+id/userPhoto"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout"
+        android:layout_below="@+id/userPhoto">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:text="내용입니다."
+            android:layout_marginTop="17dp"
+            android:textColor="@color/text"
+            android:layout_below="@+id/userPhoto"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="5dp"
+            android:autoLink="all"/>
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/empty"
+            android:layout_below="@+id/name"
+            android:visibility="visible"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/surveyPanel"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/meta_bordered"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/surveyContentPanel">
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="# 클자를 클릭하여 투표에 참여하세요."
+                android:layout_marginTop="10dp"
+                android:padding="15dp"
+                android:textSize="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/metaPanel"
+            android:orientation="vertical"
+            android:background="@drawable/meta_bordered"
+            android:padding="5dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metaTitle"
+                android:text="제목"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/metaDesc"
+                android:text="설명"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/metaPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitStart"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:id="@+id/actionPanel"
+            android:background="@drawable/default_btn_transparent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/replyBtn"
+            android:layout_alignEnd="@+id/replyBtn"
+            android:layout_below="@+id/name">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="활동포인트 1000 p"
+                android:id="@+id/point"
+                android:textSize="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="댓글"
+                android:id="@+id/textView6"
+                android:textSize="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/point"
+                android:layout_toEndOf="@+id/point"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="10 개"
+                android:id="@+id/replyCount"
+                android:textSize="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/textView6"
+                android:layout_toEndOf="@+id/textView6"
+                android:layout_marginLeft="10dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:text="공익적인 글"
+        android:id="@+id/likeBtn"
+        android:background="@drawable/default_btn_grey_radius"
+        android:textColor="@color/gray_text"
+        android:textSize="12dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:text="댓글 달기"
+        android:id="@+id/replyBtn"
+        android:padding="5dp"
+        android:background="@drawable/default_btn_grey_radius"
+        android:textColor="@color/gray_text"
+        android:textSize="12dp"
+        android:layout_alignTop="@+id/likeBtn"
+        android:layout_toRightOf="@+id/likeBtn"
+        android:layout_toEndOf="@+id/likeBtn"
+        android:layout_marginLeft="10dp"/>
+
+
+</RelativeLayout>
