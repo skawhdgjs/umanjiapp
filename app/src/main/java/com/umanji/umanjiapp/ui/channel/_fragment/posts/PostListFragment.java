@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -25,7 +26,7 @@ import de.greenrobot.event.EventBus;
 
 public class PostListFragment extends BaseChannelListFragment {
     private static final String TAG = "PostListFragment";
-    private LinearLayout mlayout;
+    private RelativeLayout mlayout;
 
     public static PostListFragment newInstance(Bundle bundle) {
         PostListFragment fragment = new PostListFragment();
@@ -52,7 +53,7 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void initWidgets(View view) {
 
-        mlayout = (LinearLayout) view.findViewById(R.id.postLayout);
+        mlayout = (RelativeLayout) view.findViewById(R.id.postLayout);
 
     }
 
