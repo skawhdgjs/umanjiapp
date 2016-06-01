@@ -1,10 +1,12 @@
 package com.umanji.umanjiapp.ui.channel.post.reply;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -528,6 +530,41 @@ public class ReplyFragment extends BaseChannelListFragment {
 
     }
 
+    private void showOptionAlert() {
+        final CharSequence[] items = {
+                "위치 살펴보기 :  이 글이 쓰여진 장소로 이동합니다. 화면이 닫힙니다.", "홍보하기", "신고", "수정"
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        //builder.setTitle("Make your selection");
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                // Do something with the selection
+                switch(item){
+                    case 0:
+                        EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                        break;
+                    case 1:
+                        Bundle adsBundle = new Bundle();
+                        adsBundle.putString("channel", mChannel.getJsonObject().toString());
+                        adsBundle.putString("whichAction", "nothing");
+                        Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
+                        adsIntent.putExtra("bundle", adsBundle);
+                        startActivity(adsIntent);
+                        break;
+                    case 2:
+                        Toast.makeText(mActivity, "준비중입니다...", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        Toast.makeText(mActivity, "수정하세요.", Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
     @Override
     public void updateView() {
         mAdapter.notifyDataSetChanged();
@@ -590,7 +627,7 @@ public class ReplyFragment extends BaseChannelListFragment {
                 mOptionBtn.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
-                Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
+                showOptionAlert();
         }
     }
 }
