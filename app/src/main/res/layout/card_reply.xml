@@ -228,7 +228,8 @@
                     android:text="2015:11:05"
                     android:textAppearance="?attr/textAppearanceListItem"
                     android:textColor="@color/text"
-                    android:textSize="8dp" />
+                    android:textSize="8dp"
+                    android:layout_marginBottom="10dp"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -238,40 +239,72 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/container"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp">
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
 
-        <Button
-            android:id="@+id/likeBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_weight="5"
-            android:background="@drawable/default_btn_grey_radius"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="공익적인 글"
-            android:textColor="@color/gray_text"
-            android:textSize="12dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/likeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="60dp"
+                    android:src="@drawable/alert_ic_ads" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:text="공익적인 글"
+                    android:textColor="@color/gray_text"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/replyBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/alert_ic_comment" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="댓글 달기"
+                    android:textColor="@color/gray_text"
+                    android:textSize="12dp" />
+
+            </LinearLayout>
 
 
-        <Button
-            android:id="@+id/replyBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_weight="5"
-            android:layout_alignTop="@+id/likeBtn"
-            android:layout_marginLeft="10dp"
-            android:layout_toEndOf="@+id/likeBtn"
-            android:layout_toRightOf="@+id/likeBtn"
-            android:background="@drawable/default_btn_grey_radius"
-            android:padding="5dp"
-            android:text="댓글 달기"
-            android:textColor="@color/gray_text"
-            android:textSize="12dp" />
+        </LinearLayout>
 
     </LinearLayout>
     <View

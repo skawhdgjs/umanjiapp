@@ -500,10 +500,10 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         String actionId = channelData.getActionId(TYPE_LIKE, AuthHelper.getUserId(mActivity));
         if(!TextUtils.isEmpty(actionId)) {
             holder.likeBtn.setTag(actionId);
-            holder.likeBtn.setBackgroundResource(R.drawable.default2_btn_radius);
+//            holder.likeBtn.setBackgroundResource(R.drawable.default2_btn_radius);
         }else {
             holder.likeBtn.setTag(null);
-            holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
+//            holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
         }
 
 
@@ -528,7 +528,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                     ChannelData parentData = new ChannelData(json);
                                     holder.point.setText("활동포인트 " + parentData.getPoint());
                                     holder.likeBtn.setTag(null);
-                                    holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
+//                                    holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
 
                                     EventBus.getDefault().post(new SuccessData(api_channels_id_unLike, json));
                                 }
@@ -551,7 +551,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                     holder.point.setText("활동포인트 " + parentData.getPoint());
                                     String actionId = parentData.getActionId(TYPE_LIKE, AuthHelper.getUserId(mActivity));
                                     holder.likeBtn.setTag(actionId);
-                                    holder.likeBtn.setBackgroundResource(R.drawable.default2_btn_radius);
+//                                    holder.likeBtn.setBackgroundResource(R.drawable.default2_btn_radius);
 
                                     EventBus.getDefault().post(new SuccessData(api_channels_id_like, json));
                                 }
@@ -722,8 +722,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
         public final TextView   point;
         public final TextView   memberCount;
         public final TextView   replyCount;
-        public final Button     likeBtn;
-        public final Button     replyBtn;
+        public final LinearLayout     likeBtn;
+        public final LinearLayout     replyBtn;
 
 
         public final TextView     keyword;
@@ -766,8 +766,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             point           = (TextView) view.findViewById(R.id.point);
             memberCount     = (TextView) view.findViewById(R.id.memberCount);
             replyCount      = (TextView) view.findViewById(R.id.replyCount);
-            likeBtn         = (Button) view.findViewById(R.id.likeBtn);
-            replyBtn        = (Button) view.findViewById(R.id.replyBtn);
+            likeBtn         = (LinearLayout) view.findViewById(R.id.likeBtn);
+            replyBtn        = (LinearLayout) view.findViewById(R.id.replyBtn);
 
 
             keyword         = (TextView) view.findViewById(R.id.spotKeyword);
