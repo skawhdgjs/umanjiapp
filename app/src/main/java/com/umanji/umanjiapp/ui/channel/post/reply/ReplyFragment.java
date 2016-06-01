@@ -34,6 +34,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.channel.advertise.AdsCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
+import com.umanji.umanjiapp.ui.channel.post.update.PostUpdateActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -555,6 +556,11 @@ public class ReplyFragment extends BaseChannelListFragment {
                         Toast.makeText(mActivity, "준비중입니다...", Toast.LENGTH_SHORT).show();
                         break;
                     case 3:
+                        Intent editIntent = new Intent(mActivity, PostUpdateActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("channel", mChannel.getJsonObject().toString());
+                        editIntent.putExtra("bundle", bundle);
+                        startActivity(editIntent);
                         Toast.makeText(mActivity, "수정하세요.", Toast.LENGTH_SHORT).show();
                         break;
 

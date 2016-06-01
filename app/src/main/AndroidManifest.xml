@@ -147,7 +147,9 @@
         <activity
             android:name=".ui.keywordCommunity.KeywordCommunityActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".ui.channel.post.update.PostUpdateActivity"
+            android:screenOrientation="portrait" />
 
 
         <activity android:name=".ui.modal.WebViewActivity"></activity>
