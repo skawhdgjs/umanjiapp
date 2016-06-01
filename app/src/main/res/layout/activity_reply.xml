@@ -127,7 +127,20 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="20dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone"/>
+                <ImageView
+                    android:id="@+id/optionAlert"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/alert_ic_option"
+                    android:scaleType="fitXY"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="visible"
+                    android:padding="15dp"
+                    android:layout_marginTop="10dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
