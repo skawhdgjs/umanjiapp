@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -65,6 +66,7 @@ public class ReplyFragment extends BaseChannelListFragment {
     protected TextView metaTitle;
     protected TextView metaDesc;
     protected TextView mPostAd;
+    protected ImageView mOptionBtn;
 
     protected LinearLayout mSurveyPanel;
 
@@ -130,6 +132,9 @@ public class ReplyFragment extends BaseChannelListFragment {
 
         mPostAd = (TextView) view.findViewById(R.id.postAd);
         mPostAd.setOnClickListener(this);
+
+        mOptionBtn = (ImageView) view.findViewById(R.id.optionAlert);
+        mOptionBtn.setOnClickListener(this);
 
 
         setName(mActivity, mChannel, "내용없음");
@@ -556,6 +561,8 @@ public class ReplyFragment extends BaseChannelListFragment {
         }
     }
 
+    private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -578,6 +585,12 @@ public class ReplyFragment extends BaseChannelListFragment {
                 adsIntent.putExtra("bundle", adsBundle);
                 startActivity(adsIntent);
                 break;
+
+            case R.id.optionAlert:
+                mOptionBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
         }
     }
 }

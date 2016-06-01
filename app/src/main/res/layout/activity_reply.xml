@@ -140,7 +140,7 @@
                     android:layout_alignParentEnd="true"
                     android:visibility="visible"
                     android:padding="15dp"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="5dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
