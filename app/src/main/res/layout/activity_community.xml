@@ -375,14 +375,14 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.design.widget.FloatingActionButton
+        <!--<android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_discuss"
-            android:visibility="gone" />
+            android:visibility="gone" />-->
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -390,5 +390,78 @@
         android:layout_width="match_parent"
         android:layout_height="53dp"
         layout="@layout/include_notice_panel" />
+    <RelativeLayout
+        android:id="@+id/fab"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/comment_shadow"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/comment_icon"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_toRightOf="@+id/imageView"
+            android:layout_toEndOf="@+id/imageView"
+            android:id="@+id/linearLayout4">
+
+            <TextView
+                android:id="@+id/comment_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이곳에서 재미있는 일을 써주세요."
+                android:textColor="@color/gray_hint"
+                android:textSize="13dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray" />
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_picture"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_camera"
+            android:id="@+id/imageView3"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/imageView2"
+            android:layout_toStartOf="@+id/imageView2" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

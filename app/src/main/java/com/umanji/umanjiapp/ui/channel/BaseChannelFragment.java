@@ -74,6 +74,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
     protected TabLayout mTabLayout;
 
     protected TextView mNameType;
+    protected TextView mCommentHint;
 
     protected ImageView mInfoBtn;
 
@@ -113,6 +114,23 @@ public abstract class BaseChannelFragment extends BaseFragment {
     @Override
     public void updateView() {
         if(AuthHelper.isLogin(mActivity)) {
+            switch(mChannel.getType()){
+                case TYPE_SPOT:
+                    mCommentHint.setText("이 장소의 재미있는 일들을 공유해 보아요.");
+                    break;
+                case TYPE_COMMUNITY:
+                    mCommentHint.setText("우리 단체에게 알리고 싶은 글을 공유해 주세요.");
+                    break;
+                case TYPE_KEYWORD_COMMUNITY:
+                    mCommentHint.setText("우리 단체에게 알리고 싶은 정보를 공유해 주세요.");
+                    break;
+                case TYPE_INFO_CENTER:
+                    mCommentHint.setText("요즘 우리 지역은 어떤가요?");
+                    break;
+                case TYPE_SPOT_INNER:
+                    mCommentHint.setText("이 장소에서 여러 사람과 공유해 보아요. ");
+                    break;
+            }
             mFab.setVisibility(View.VISIBLE);
         }else {
             mFab.setVisibility(View.GONE);
@@ -198,6 +216,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 mNameType.setText("내부공간 : ");
                 break;
         }
+
+        mCommentHint = (TextView) view.findViewById(R.id.comment_hint);
 
         mInfoBtn = (ImageView) view.findViewById(R.id.infoButton);
         if(mInfoBtn !=null) {
