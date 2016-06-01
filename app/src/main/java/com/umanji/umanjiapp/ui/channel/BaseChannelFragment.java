@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     protected BaseTabAdapter mAdapter;
 
-    protected FloatingActionButton mFab;
+    protected RelativeLayout mFab;
 
     protected TextView mName;
     protected TextView mParentName;
@@ -149,7 +150,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
     public void initWidgets(View view) {
         mNoticePanel = view.findViewById(R.id.noticePanel);
 
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+        mFab = (RelativeLayout) view.findViewById(R.id.fab);
         mFab.setOnClickListener(this);
 
         mName= (TextView) view.findViewById(R.id.name);
@@ -253,7 +254,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
                 switch (mCurrentTapPosition) {
                     case 0:
-                        mFab.setImageResource(R.drawable.ic_discuss);
+//                        mFab.setImageResource(R.drawable.ic_discuss);
                         if (AuthHelper.isLogin(mActivity)) {
                             mFab.setVisibility(View.VISIBLE);
                         }

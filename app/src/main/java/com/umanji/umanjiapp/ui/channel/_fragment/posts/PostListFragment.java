@@ -26,7 +26,7 @@ import de.greenrobot.event.EventBus;
 
 public class PostListFragment extends BaseChannelListFragment {
     private static final String TAG = "PostListFragment";
-    private RelativeLayout mlayout;
+    private LinearLayout mlayout;
 
     public static PostListFragment newInstance(Bundle bundle) {
         PostListFragment fragment = new PostListFragment();
@@ -53,7 +53,7 @@ public class PostListFragment extends BaseChannelListFragment {
     @Override
     public void initWidgets(View view) {
 
-        mlayout = (RelativeLayout) view.findViewById(R.id.postLayout);
+        mlayout = (LinearLayout) view.findViewById(R.id.postLayout);
 
     }
 
