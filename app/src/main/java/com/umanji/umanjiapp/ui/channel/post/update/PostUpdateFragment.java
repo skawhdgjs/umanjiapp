@@ -64,8 +64,6 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
     protected TextView mMetaDesc;
     protected boolean isPreview = false;
 
-    //protected LinearLayout mSurveyPanel;
-
     // for voting
     protected boolean hasVote = false;
     protected LinearLayout mVotePanel;
@@ -101,7 +99,12 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+
+
+        updateView();
+        return view;
     }
 
     @Override
@@ -172,6 +175,14 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
         setSurvey(mActivity, mChannel);
     }
 
+    @Override
+    public void updateView() {
+        super.updateView();
+
+        setName(mActivity, mChannel);
+        setPhoto(mActivity, mChannel);
+    }
+
     protected void setMetaPanel(Activity activity, final ChannelData channelData) {
         JSONObject descJson = channelData.getDesc();
         if(descJson != null) {
@@ -240,21 +251,21 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
                     JSONArray options = survey.getJSONArray("options");
 
                     if(options == null && options.length() == 0) {
-                        mVoteOptionPanel.setVisibility(View.GONE);
+                        mVotePanel.setVisibility(View.GONE);
                         return;
                     }
 
-                    mVoteOptionPanel.setVisibility(View.VISIBLE);
+                    mVotePanel.setVisibility(View.VISIBLE);
 
-                    LinearLayout surveyContentPanel = (LinearLayout)mVoteOptionPanel.findViewById(R.id.surveyContentPanel);
-                    //surveyContentPanel.removeAllViews();
+                    LinearLayout surveyContentPanel = (LinearLayout)mVotePanel.findViewById(R.id.surveyContentPanel);
+                    surveyContentPanel.removeAllViews();
 
 
                     String actionName = channelData.getActionName(TYPE_SURVEY, AuthHelper.getUserId(mActivity));
                     if(TextUtils.isEmpty(actionName)) {
-                        mVoteOptionPanel.setTag(null);
+                        mVotePanel.setTag(null);
                     }else {
-                        mVoteOptionPanel.setTag(actionName);
+                        mVotePanel.setTag(actionName);
                     }
 
                     for(int idx = 0; idx < options.length(); idx++) {
@@ -284,7 +295,7 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
                         surveyOptionPanel.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String actionName = (String)mVoteOptionPanel.getTag();
+                                String actionName = (String)mVotePanel.getTag();
                                 if(!TextUtils.isEmpty(actionName)) {
                                     Toast.makeText(mActivity, "이미 투표에 참여하였습니다.", Toast.LENGTH_SHORT).show();
                                     return;
@@ -312,7 +323,7 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
                                                 voteCount.setText(subLinkDatas.size() + "명");
 
                                                 String actionName = parentData.getActionName(TYPE_SURVEY, AuthHelper.getUserId(mActivity));
-                                                mVoteOptionPanel.setTag(actionName);
+                                                mVotePanel.setTag(actionName);
                                                 surveyOptionPanel.setBackgroundResource(R.drawable.feed_new);
 
                                                 EventBus.getDefault().post(new SuccessData(api_channels_id_vote, object));
@@ -327,7 +338,7 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
                             }
                         });
 
-                        //surveyContentPanel.addView(view);
+                        surveyContentPanel.addView(view);
                     }
 
                 } catch (JSONException e) {
@@ -336,7 +347,7 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
 
 
             }else {
-                mVoteOptionPanel.setVisibility(View.GONE);
+                mVotePanel.setVisibility(View.GONE);
             }
         }
     }
@@ -375,33 +386,8 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
             return;
         }
         try {
-            JSONObject params = mChannel.getAddressJSONObject();
-            params.put("parent", mChannel.getId());
-            params.put("level", mChannel.getLevel());
-            params.put("name", mName.getText().toString());
-            params.put("type", TYPE_POST);
-
-
-            String [] keywords = mChannel.getKeywords();
-
-            if(keywords!=null && keywords.length >0) {
-
-                ArrayList<String> keywordArray = new ArrayList<>();
-
-                for(int idx=0; idx < keywords.length; idx++) {
-                    keywordArray.add(keywords[idx]);
-                }
-                params.put("keywords", new JSONArray(keywordArray));
-            }
-
-            params.put("push", isPushChecked);
-
-            if(mPhotoUri != null) {
-                ArrayList<String> photos = new ArrayList<>();
-                photos.add(mPhotoUri);
-                params.put("photos", new JSONArray(photos));
-                mPhotoUri = null;
-            }
+            JSONObject params = new JSONObject();
+            setChannelParams(params);
 
             JSONObject descParams = new JSONObject();
             if(isPreview) {
@@ -431,11 +417,10 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
             }
 
             params.put("desc", descParams);
-            mApi.call(api_channels_create, params);
-            mClicked = true;
+            mApi.call(api_channels_id_update, params);
 
         }catch(JSONException e) {
-            Log.e("BaseChannelCreate", "error " + e.toString());
+            Log.e("BaseChannelUpdate", "error " + e.toString());
         }
     }
 
@@ -444,10 +429,10 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
         super.onEvent(event);
 
         switch (event.type) {
-            case api_channels_create:
-                mProgress.hide();
+            case api_channels_id_update:
                 mActivity.finish();
                 mClicked = false;
+                EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
                 break;
         }
     }

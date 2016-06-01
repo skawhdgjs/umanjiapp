@@ -63,8 +63,8 @@
 
                 <ImageView
                     android:id="@+id/photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_width="200dp"
+                    android:layout_height="100dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/empty_image" />
 

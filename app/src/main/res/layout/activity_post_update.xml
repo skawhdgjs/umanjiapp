@@ -79,32 +79,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!--<Button
-                    android:id="@+id/photoBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="사진찍기"
-                    android:textStyle="bold" />-->
-
-                <!--<Button
-                    android:id="@+id/gallaryBtn"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="앨범"
-                    android:textStyle="bold" />-->
-
-                <!--<Button
-                    android:id="@+id/voteBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="설문"
-                    android:textStyle="bold" />-->
-
                 <Button
                     android:id="@+id/voteRemoveBtn"
                     style="?android:textAppearanceSmall"
@@ -171,8 +145,8 @@
             <ImageView
                 android:id="@+id/photo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
+                android:layout_height="300dp"
+                android:scaleType="fitCenter"
                 android:visibility="visible" />
 
             <LinearLayout

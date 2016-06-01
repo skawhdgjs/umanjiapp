@@ -575,6 +575,15 @@ public class ReplyFragment extends BaseChannelListFragment {
     public void updateView() {
         mAdapter.notifyDataSetChanged();
 
+        setName(mActivity, mChannel, "내용없음");
+        setUserPhoto(mActivity, mChannel.getOwner());
+        setPhoto(mActivity, mChannel);
+        setMetaPanel(mActivity, mChannel);
+        setSurvey(mActivity, mChannel);
+        setUserName(mActivity, mChannel.getOwner());
+        setParentName(mActivity, mChannel.getParent());
+        setCreatedAt(mChannel);
+
         if(AuthHelper.isLogin(mActivity)) {
             mFab.setVisibility(View.VISIBLE);
         }else {
