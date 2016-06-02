@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,7 +74,7 @@ public class ReplyFragment extends BaseChannelListFragment {
 
     protected LinearLayout mSurveyPanel;
 
-    protected FloatingActionButton mFab;
+    protected RelativeLayout mFab;
 
 
     public static ReplyFragment newInstance(Bundle bundle) {
@@ -121,7 +122,7 @@ public class ReplyFragment extends BaseChannelListFragment {
         mUserPhoto.setOnClickListener(this);
 
         mName = (TextView) view.findViewById(R.id.name);
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+        mFab = (RelativeLayout) view.findViewById(R.id.fab);
 
         metaPanel       = (LinearLayout) view.findViewById(R.id.metaPanel);
         metaPhoto       = (ImageView) view.findViewById(R.id.metaPhoto);
@@ -130,7 +131,7 @@ public class ReplyFragment extends BaseChannelListFragment {
 
         mSurveyPanel    = (LinearLayout) view.findViewById(R.id.surveyPanel);
 
-        mFab = (FloatingActionButton) view.findViewById(R.id.fab);
+        mFab = (RelativeLayout) view.findViewById(R.id.fab);
         mFab.setOnClickListener(this);
 
         mPostAd = (TextView) view.findViewById(R.id.postAd);

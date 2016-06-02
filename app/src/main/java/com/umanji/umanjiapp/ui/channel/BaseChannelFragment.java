@@ -119,7 +119,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
             if (AuthHelper.isLogin(mActivity)) {
                 switch (mChannel.getType()) {
                     case TYPE_SPOT:
-                        mCommentHint.setText("이 장소의 재미있는 일들을 공유해 보아요.");
+                        mCommentHint.setText("이 장소에서 일어난 일들을 공유해 보아요.");
                         break;
                     case TYPE_COMMUNITY:
                         mCommentHint.setText("우리 단체에게 알리고 싶은 글을 공유해 주세요.");
