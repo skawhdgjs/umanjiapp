@@ -43,12 +43,12 @@ public abstract class BaseChannelFragment extends BaseFragment {
     private static final String TAG = "BaseChannelFragment";
 
     /****************************************************
-     *  Intent
+     * Intent
      ****************************************************/
-    protected ChannelData   mChannel;
+    protected ChannelData mChannel;
 
     /****************************************************
-     *  View
+     * View
      ****************************************************/
     private View mNoticePanel;
 
@@ -79,22 +79,20 @@ public abstract class BaseChannelFragment extends BaseFragment {
     protected ImageView mInfoBtn;
 
 
-
     /****************************************************
-     *  For Etc.
+     * For Etc.
      ****************************************************/
     protected int mCurrentTapPosition = 0;
     protected String mTabType = "";
-
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             String jsonString = getArguments().getString("channel");
-            if(jsonString != null) {
+            if (jsonString != null) {
                 mChannel = new ChannelData(jsonString);
             }
 
@@ -113,27 +111,34 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     @Override
     public void updateView() {
-        if(AuthHelper.isLogin(mActivity)) {
-            switch(mChannel.getType()){
-                case TYPE_SPOT:
-                    mCommentHint.setText("이 장소의 재미있는 일들을 공유해 보아요.");
-                    break;
-                case TYPE_COMMUNITY:
-                    mCommentHint.setText("우리 단체에게 알리고 싶은 글을 공유해 주세요.");
-                    break;
-                case TYPE_KEYWORD_COMMUNITY:
-                    mCommentHint.setText("우리 단체에게 알리고 싶은 정보를 공유해 주세요.");
-                    break;
-                case TYPE_INFO_CENTER:
-                    mCommentHint.setText("요즘 우리 지역은 어떤가요?");
-                    break;
-                case TYPE_SPOT_INNER:
-                    mCommentHint.setText("이 장소에서 여러 사람과 공유해 보아요. ");
-                    break;
+        if (mChannel.getType().equals(TYPE_USER)) {
+            return;
+        } else {
+
+
+            if (AuthHelper.isLogin(mActivity)) {
+                switch (mChannel.getType()) {
+                    case TYPE_SPOT:
+                        mCommentHint.setText("이 장소의 재미있는 일들을 공유해 보아요.");
+                        break;
+                    case TYPE_COMMUNITY:
+                        mCommentHint.setText("우리 단체에게 알리고 싶은 글을 공유해 주세요.");
+                        break;
+                    case TYPE_KEYWORD_COMMUNITY:
+                        mCommentHint.setText("우리 단체에게 알리고 싶은 정보를 공유해 주세요.");
+                        break;
+                    case TYPE_INFO_CENTER:
+                        mCommentHint.setText("요즘 우리 지역은 어떤가요?");
+                        break;
+                    case TYPE_SPOT_INNER:
+                        mCommentHint.setText("이 장소에서 여러 사람과 공유해 보아요. ");
+                        break;
+                }
+                mFab.setVisibility(View.VISIBLE);
+            } else {
+                mFab.setVisibility(View.GONE);
             }
-            mFab.setVisibility(View.VISIBLE);
-        }else {
-            mFab.setVisibility(View.GONE);
+
         }
 
 
@@ -168,17 +173,22 @@ public abstract class BaseChannelFragment extends BaseFragment {
     public void initWidgets(View view) {
         mNoticePanel = view.findViewById(R.id.noticePanel);
 
-        mFab = (RelativeLayout) view.findViewById(R.id.fab);
-        mFab.setOnClickListener(this);
+        if (mChannel.getType().equals(TYPE_USER)) {
 
-        mName= (TextView) view.findViewById(R.id.name);
+        } else {
+            mFab = (RelativeLayout) view.findViewById(R.id.fab);
+            mFab.setOnClickListener(this);
+        }
+
+
+        mName = (TextView) view.findViewById(R.id.name);
         mName.setVisibility(View.VISIBLE);
         mName.setOnClickListener(this);
 
         mParentInfoCenter = (ImageView) view.findViewById(R.id.parentInfoCenter);
         mParentInfoCenter.setOnClickListener(this);
 
-        mParentName= (TextView) view.findViewById(R.id.parentName);
+        mParentName = (TextView) view.findViewById(R.id.parentName);
         mParentName.setOnClickListener(this);
 
         mHeaderBorder = (TextView) view.findViewById(R.id.headerBorder);
@@ -189,7 +199,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mUserPhoto.setOnClickListener(this);
 
         mLookAround = (ImageView) view.findViewById(R.id.lookAround);
-        if(mLookAround != null) {
+        if (mLookAround != null) {
             mLookAround.setOnClickListener(this);
         }
 
@@ -199,7 +209,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mKeywordPanel = (LinearLayout) view.findViewById(R.id.keywordPanel);
 
         mNameType = (TextView) view.findViewById(R.id.nameType);
-        switch(mChannel.getType()){
+        switch (mChannel.getType()) {
             case TYPE_COMMUNITY:
                 mNameType.setText("커뮤니티 : ");
                 break;
@@ -220,7 +230,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
         mCommentHint = (TextView) view.findViewById(R.id.comment_hint);
 
         mInfoBtn = (ImageView) view.findViewById(R.id.infoButton);
-        if(mInfoBtn !=null) {
+        if (mInfoBtn != null) {
             mInfoBtn.setOnClickListener(this);
         }
     }
@@ -279,7 +289,10 @@ public abstract class BaseChannelFragment extends BaseFragment {
                             mFab.setVisibility(View.VISIBLE);
                         }
                         break;
-                    case 1: case 2: case 3: case 4:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
                         mFab.setVisibility(View.GONE);
                         break;
 
@@ -291,7 +304,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-        if(!TextUtils.isEmpty(mChannel.getId())) {
+        if (!TextUtils.isEmpty(mChannel.getId())) {
             try {
                 JSONObject params = new JSONObject();
                 params.put("id", mChannel.getId());
@@ -302,7 +315,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     }
                 });
                 updateView();
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
         }
@@ -319,7 +332,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
             case api_channels_id_like:
             case api_channels_create:
                 String parentId = event.response.optString("parent");
-                if(TextUtils.equals(mChannel.getId(), parentId)) {
+                if (TextUtils.equals(mChannel.getId(), parentId)) {
                     ChannelData channelData = new ChannelData(event.response);
                     mChannel = channelData.getParent();
                 }
@@ -332,14 +345,14 @@ public abstract class BaseChannelFragment extends BaseFragment {
             case api_channels_createKeyword:
             case api_channels_id_update:
                 ChannelData channelData = new ChannelData(event.response);
-                if(TextUtils.equals(mChannel.getId(), channelData.getId())) {
+                if (TextUtils.equals(mChannel.getId(), channelData.getId())) {
                     mChannel = channelData;
                 }
                 updateView();
                 break;
 
             case EVENT_LOOK_AROUND:
-                if(mChannel.getType()!=TYPE_COMMUNITY){
+                if (mChannel.getType() != TYPE_COMMUNITY) {
                     mActivity.finish();
                 }
                 break;
@@ -364,7 +377,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 break;
 
             case R.id.infoButton:
-                switch(mChannel.getType()){
+                switch (mChannel.getType()) {
                     case TYPE_INFO_CENTER:
                         Intent webInt = new Intent(mActivity, WebViewActivity.class);
                         webInt.putExtra("url", "http://blog.naver.com/mothcar/220720734128");
@@ -382,7 +395,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                         Intent webInt_nor = new Intent(mActivity, WebViewActivity.class);
                         webInt_nor.putExtra("url", "http://blog.naver.com/mothcar/220720111996");
                         mActivity.startActivity(webInt_nor);
-                        Toast.makeText(mActivity,"default", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "default", Toast.LENGTH_SHORT).show();
 
                         // 일반 사용설명 : http://blog.naver.com/mothcar/220720111996
                         // 인포센터 설명  : http://blog.naver.com/mothcar/220720734128
@@ -394,13 +407,12 @@ public abstract class BaseChannelFragment extends BaseFragment {
     }
 
 
-
     /****************************************************
-     *  methods for Channel
+     * methods for Channel
      ****************************************************/
 
     protected void setName(Activity activity, ChannelData channelData, String label) {
-        if(!TextUtils.isEmpty(channelData.getName())) {
+        if (!TextUtils.isEmpty(channelData.getName())) {
             mName.setText(Helper.getShortenString(channelData.getName()));
         } else {
             mName.setText(label);
@@ -408,7 +420,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
     }
 
     protected void setUserName(Activity activity, ChannelData channelData, String label) {
-        if(!TextUtils.isEmpty(channelData.getUserName())) {
+        if (!TextUtils.isEmpty(channelData.getUserName())) {
             mName.setText(Helper.getShortenString(channelData.getUserName()) + " " + label);
         } else {
             mName.setText(label);
@@ -417,7 +429,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     protected void setPhoto(Activity activity, final ChannelData channelData, int defaultImage) {
         String photoUrl = channelData.getPhoto();
-        if(photoUrl != null) {
+        if (photoUrl != null) {
             Glide.with(activity)
                     .load(photoUrl)
                     .into(mPhoto);
@@ -428,7 +440,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     Helper.startImageViewActivity(mActivity, channelData);
                 }
             });
-        }else {
+        } else {
             Glide.with(activity)
                     .load(defaultImage)
                     .into(mPhoto);
@@ -437,9 +449,9 @@ public abstract class BaseChannelFragment extends BaseFragment {
     }
 
     protected void setUserPhoto(Activity activity, final ChannelData userData) {
-        if(userData != null) {
+        if (userData != null) {
             String userPhoto = userData.getPhoto();
-            if(userPhoto != null) {
+            if (userPhoto != null) {
                 Glide.with(mActivity)
                         .load(userPhoto)
                         .placeholder(R.drawable.empty)
@@ -464,15 +476,15 @@ public abstract class BaseChannelFragment extends BaseFragment {
     }
 
     protected void setParentName(Activity activity, final ChannelData parentData) {
-        if(parentData == null) {
+        if (parentData == null) {
             mHeaderBorder.setVisibility(View.GONE);
             mParentName.setVisibility(View.GONE);
         } else {
             mHeaderBorder.setVisibility(View.VISIBLE);
             mParentName.setVisibility(View.VISIBLE);
 
-            if(TextUtils.isEmpty(parentData.getName())) {
-                switch(mChannel.getType()){
+            if (TextUtils.isEmpty(parentData.getName())) {
+                switch (mChannel.getType()) {
                     case TYPE_SPOT_INNER:
                         mParentName.setText("빌딩");
                         break;
@@ -505,20 +517,20 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
     protected void setMemberCount(Activity activity, ChannelData channelData) {
         ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_MEMBER);
-        if(mMemberCount!=null && subLinks != null) {
+        if (mMemberCount != null && subLinks != null) {
             mMemberCount.setText(subLinks.size() + " 명");
         }
     }
 
     protected void setKeywords(Activity activity, ChannelData channelData) {
 
-        String [] keywords = channelData.getKeywords();
+        String[] keywords = channelData.getKeywords();
 
-        if(keywords != null && keywords.length > 0) {
-            if(keywords.length == 1) {
+        if (keywords != null && keywords.length > 0) {
+            if (keywords.length == 1) {
                 mKeywordPanel.removeAllViews();
 
-                TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
+                TextView keywordView = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView);
                 keywordView.setText("#" + keywords[0]);
 
@@ -545,10 +557,10 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     Log.e(TAG, "error " + e.toString());
                 }
 
-            } else if(keywords.length >= 2) {
+            } else if (keywords.length >= 2) {
                 mKeywordPanel.removeAllViews();
 
-                TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
+                TextView keywordView = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView);
                 keywordView.setText("#" + keywords[0]);
 
@@ -575,7 +587,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     Log.e(TAG, "error " + e.toString());
                 }
 
-                TextView keywordView2 = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
+                TextView keywordView2 = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView2);
                 keywordView2.setText("#" + keywords[1]);
 
@@ -606,7 +618,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
         } else {
             mKeywordPanel.removeAllViews();
 
-            TextView keywordView = (TextView)LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
+            TextView keywordView = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
             mKeywordPanel.addView(keywordView);
             keywordView.setText("#키워드추가");
             keywordView.setOnClickListener(new View.OnClickListener() {

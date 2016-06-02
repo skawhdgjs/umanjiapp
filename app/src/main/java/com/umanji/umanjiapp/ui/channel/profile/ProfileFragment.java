@@ -142,7 +142,7 @@ public class ProfileFragment extends BaseChannelFragment {
     public void updateView() {
         super.updateView();
 
-        mFab.setVisibility(View.GONE);
+//        mFab.setVisibility(View.GONE);
 
         setUserName(mActivity, mChannel, "프로필");
         setPhoto(mActivity, mChannel, R.drawable.multi_spot_background);

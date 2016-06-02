@@ -441,6 +441,7 @@ public final class Helper implements AppConfig {
 
             case TYPE_MEMBER:
                 intent = new Intent(activity, ProfileActivity.class);
+                bundle.putString("fromType", "whatever");
                 break;
             case TYPE_LIKE:
                 intent = new Intent(activity, ProfileActivity.class);
