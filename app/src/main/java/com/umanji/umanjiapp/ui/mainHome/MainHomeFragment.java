@@ -149,6 +149,7 @@ public class MainHomeFragment extends BaseFragment {
                 buttonClick.setDuration(500);
 
                 Toast.makeText(mActivity, "로그인해주세요", Toast.LENGTH_SHORT).show();
+                break;
 
             case R.id.create_community:
                 mCreateCommunity.startAnimation(buttonClick);

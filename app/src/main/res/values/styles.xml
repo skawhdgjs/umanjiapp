@@ -2,8 +2,13 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+<!--
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        -->
+
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
@@ -11,10 +16,10 @@
 
     <style name="AppTheme.TabStyle" parent="Widget.Design.TabLayout">
         <item name="tabTextAppearance">@style/AppTheme.TextStyle</item>
-        <item name="tabTextColor">@color/default2</item>
-        <item name="tabSelectedTextColor">#ffffff</item>
-        <item name="tabIndicatorColor">@color/darkBlue</item>
-        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabTextColor">@color/gray_soft</item>
+        <item name="tabSelectedTextColor">@color/gray_text</item>
+        <item name="tabIndicatorColor">@color/red</item>
+        <item name="tabIndicatorHeight">2dp</item>
         <item name="android:background">?attr/colorPrimary</item>
     </style>
 
