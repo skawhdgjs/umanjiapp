@@ -12,26 +12,30 @@
         android:gravity="center_vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="40dp"
-            android:layout_height="@dimen/tabs_height"
-            app:layout_collapseMode="pin"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        <ImageView
+            android:id="@+id/userPhoto"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_user_ghost"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp" />
 
         <TextView
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="50dp"
             android:text="HOME"
             android:textColor="@color/main_home_text"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_alignTop="@+id/umanji"
+            android:layout_toRightOf="@+id/userPhoto"
+            android:layout_toEndOf="@+id/userPhoto"
+            android:layout_marginLeft="10dp" />
 
         <TextView
+            android:id="@+id/umanji"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -40,7 +44,8 @@
             android:layout_marginRight="30dp"
             android:text="umanji"
             android:textColor="@color/main_home_text"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+             />
 
     </RelativeLayout>
 
@@ -49,7 +54,7 @@
     *** insert image
     -->
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -58,12 +63,34 @@
         android:layout_alignParentStart="true"
         android:layout_above="@+id/linearLayout5">
 
+
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/home_back"
             android:scaleType="centerCrop"/>
-    </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="현재 대한민국에는 200개의 커뮤니티가 있습니다."
+            android:lines="3"
+            android:textSize="28dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:shadowColor="#000"
+            android:shadowRadius="7.0"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:textIsSelectable="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal" />
+
+    </RelativeLayout>
 
 <!--
 *** select 1 of 2 options
@@ -89,18 +116,25 @@
         <LinearLayout
             android:id="@+id/create_community"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_above="@+id/myLine1"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_commnity_create"
+                android:layout_marginLeft="60dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="20dp"
                 android:text="커뮤니티 단체 만들기"
                 android:textColor="@color/main_home_text" />
         </LinearLayout>
@@ -117,18 +151,24 @@
         <LinearLayout
             android:id="@+id/community_lookaround"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/icon_magnifing"
+                android:layout_marginLeft="60dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="100dp"
+                android:layout_marginLeft="20dp"
                 android:text="커뮤니티 구경하기"
                 android:textColor="@color/main_home_text" />
         </LinearLayout>

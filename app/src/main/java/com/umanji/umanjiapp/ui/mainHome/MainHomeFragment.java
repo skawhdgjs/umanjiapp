@@ -38,6 +38,7 @@ import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.reply.ReplyListAdapter;
 import com.umanji.umanjiapp.ui.channel.post.update.PostUpdateActivity;
 import com.umanji.umanjiapp.ui.main.MainActivity;
+import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,7 +59,9 @@ import static com.umanji.umanjiapp.helper.FileHelper.extractUrls;
 public class MainHomeFragment extends BaseFragment {
     private static final String TAG = "ReplyFragment";
 
+    protected TextView mUmanji;
     protected TextView mName;
+    protected ImageView mUserPhoto;
     protected LinearLayout mLookAround;
     protected LinearLayout mCreateCommunity;
 
@@ -81,6 +84,13 @@ public class MainHomeFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+
+        mUmanji = (TextView) view.findViewById(R.id.umanji);
+        mUmanji.setOnClickListener(this);
+
+        mUserPhoto = (ImageView) view.findViewById(R.id.userPhoto);
+        mUserPhoto.setOnClickListener(this);
+
         mLookAround = (LinearLayout) view.findViewById(R.id.community_lookaround);
         mLookAround.setOnClickListener(this);
 
@@ -125,13 +135,34 @@ public class MainHomeFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
 
+            case R.id.umanji:
+                mLookAround.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Intent webInt = new Intent(mActivity, WebViewActivity.class);
+                webInt.putExtra("url", "http://blog.naver.com/mothcar/220720111996");
+                mActivity.startActivity(webInt);
+                break;
+
+            case R.id.userPhoto:
+                mLookAround.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                
+                Toast.makeText(mActivity, "로그인해주세요", Toast.LENGTH_SHORT).show();
+
             case R.id.create_community:
+                mCreateCommunity.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Toast.makeText(mActivity, "준비중입니다 ", Toast.LENGTH_SHORT).show();
                 /*Intent createInt = new Intent(mActivity, MainActivity.class);
                 startActivity(createInt);*/
                 break;
 
             case R.id.community_lookaround:
+                mLookAround.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Intent lookInt = new Intent(mActivity, MainActivity.class);
                 startActivity(lookInt);
                 break;
