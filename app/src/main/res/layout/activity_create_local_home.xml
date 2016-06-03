@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="가상이 아닌 실제 공간 커뮤니티"
+            android:layout_marginBottom="3dp"
             android:textSize="16dp"
             android:textColor="@color/white"
             android:layout_alignBottom="@+id/logo"
@@ -83,12 +84,12 @@
         android:layout_marginTop="34dp" />
 
     <Button
+        android:id="@+id/createLocalBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:text="커뮤니티 만들기"
-        android:id="@+id/button"
         android:layout_above="@+id/footer"
         android:layout_centerHorizontal="true" />
 
@@ -120,7 +121,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="15dp"
+            android:textSize="16dp"
             android:text="나가기"
             android:layout_alignBottom="@+id/textView14"
             android:layout_toRightOf="@+id/textView14"

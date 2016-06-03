@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class CreateLocalCommunityFragment extends BaseFragment {
     private static final String TAG = "CreateLocalCommunityFragment";
 
     protected TextView mGoOut;
+    protected Button mCreateLocalBtn;
 
     public static CreateLocalCommunityFragment newInstance(Bundle bundle) {
         CreateLocalCommunityFragment fragment = new CreateLocalCommunityFragment();
@@ -43,6 +45,9 @@ public class CreateLocalCommunityFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+
+        mCreateLocalBtn = (Button) view.findViewById(R.id.createLocalBtn);
+        mCreateLocalBtn.setOnClickListener(this);
 
         mGoOut = (TextView) view.findViewById(R.id.goout);
         mGoOut.setOnClickListener(this);
@@ -84,6 +89,11 @@ public class CreateLocalCommunityFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+
+            case R.id.createLocalBtn:
+                mActivity.finish();
+                break;
 
             case R.id.goout:
                 mGoOut.startAnimation(buttonClick);
