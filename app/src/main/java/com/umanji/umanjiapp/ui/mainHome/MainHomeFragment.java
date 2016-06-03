@@ -38,6 +38,7 @@ import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.reply.ReplyListAdapter;
 import com.umanji.umanjiapp.ui.channel.post.update.PostUpdateActivity;
 import com.umanji.umanjiapp.ui.main.MainActivity;
+import com.umanji.umanjiapp.ui.mainHome.localCommunity.CreateLocalCommunityActivity;
 import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
 import org.json.JSONArray;
@@ -155,9 +156,9 @@ public class MainHomeFragment extends BaseFragment {
                 mCreateCommunity.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
-                Toast.makeText(mActivity, "준비중입니다 ", Toast.LENGTH_SHORT).show();
-                /*Intent createInt = new Intent(mActivity, MainActivity.class);
-                startActivity(createInt);*/
+                Toast.makeText(mActivity, "커뮤니티 만들기 ", Toast.LENGTH_SHORT).show();
+                Intent createInt = new Intent(mActivity, CreateLocalCommunityActivity.class);
+                startActivity(createInt);
                 break;
 
             case R.id.community_lookaround:
