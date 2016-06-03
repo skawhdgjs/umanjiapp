@@ -65,12 +65,15 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/gray"
             android:layout_alignParentTop="true"
-            android:background="@color/gray" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
+            android:padding="30dp"
             android:layout_height="300dp"
             android:text="this is text"/>
     </RelativeLayout>
