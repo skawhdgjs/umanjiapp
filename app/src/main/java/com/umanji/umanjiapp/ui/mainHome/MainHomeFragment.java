@@ -156,7 +156,6 @@ public class MainHomeFragment extends BaseFragment {
                 mCreateCommunity.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
-                Toast.makeText(mActivity, "커뮤니티 만들기 ", Toast.LENGTH_SHORT).show();
                 Intent createInt = new Intent(mActivity, CreateLocalCommunityActivity.class);
                 startActivity(createInt);
                 break;

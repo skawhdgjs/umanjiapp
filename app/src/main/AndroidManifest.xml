@@ -71,6 +71,12 @@
             android:name=".ui.mainHome.localCommunity.CreateLocalCommunityActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.mainHome.localCommunity.StepOneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.mainHome.localCommunity.StepTwoActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
             android:label="@string/app_name"

@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,18 +15,16 @@ import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.main.MainActivity;
-import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
 
-public class CreateLocalCommunityFragment extends BaseFragment {
-    private static final String TAG = "CreateLocalCommunityFragment";
+public class StepTwoFragment extends BaseFragment {
+    private static final String TAG = "StepTwoFragment";
 
-    protected TextView mGoOut;
-    protected Button mCreateLocalBtn;
+    private ImageView mGoBackBtn;
+    private TextView mSubmit;
 
-    public static CreateLocalCommunityFragment newInstance(Bundle bundle) {
-        CreateLocalCommunityFragment fragment = new CreateLocalCommunityFragment();
+    public static StepTwoFragment newInstance(Bundle bundle) {
+        StepTwoFragment fragment = new StepTwoFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -40,17 +36,17 @@ public class CreateLocalCommunityFragment extends BaseFragment {
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_create_local_home, container, false);
+        return inflater.inflate(R.layout.activity_step_two, container, false);
     }
 
     @Override
     public void initWidgets(View view) {
 
-        mCreateLocalBtn = (Button) view.findViewById(R.id.createLocalBtn);
-        mCreateLocalBtn.setOnClickListener(this);
+        mGoBackBtn = (ImageView) view.findViewById(R.id.goBackBtn);
+        mGoBackBtn.setOnClickListener(this);
 
-        mGoOut = (TextView) view.findViewById(R.id.goout);
-        mGoOut.setOnClickListener(this);
+        mSubmit = (TextView) view.findViewById(R.id.submit);
+        mSubmit.setOnClickListener(this);
 
     }
 
@@ -90,19 +86,21 @@ public class CreateLocalCommunityFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
 
+            case R.id.goBackBtn:
+                mGoBackBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
 
-            case R.id.createLocalBtn:
                 Intent mInt = new Intent(mActivity, StepOneActivity.class);
                 startActivity(mInt);
                 mActivity.finish();
-                break;
 
-            case R.id.goout:
-                mGoOut.startAnimation(buttonClick);
+            case R.id.submit:
+                mSubmit.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
-                mActivity.finish();
-                break;
-
+                /*Intent nextInt = new Intent(mActivity, StepTwoActivity.class);
+                startActivity(nextInt);*/
+                Toast.makeText(mActivity, "submit", Toast.LENGTH_SHORT).show();
+//                mActivity.finish();
 
         }
     }
