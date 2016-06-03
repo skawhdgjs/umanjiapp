@@ -60,6 +60,7 @@ public class MainHomeFragment extends BaseFragment {
 
     protected TextView mName;
     protected LinearLayout mLookAround;
+    protected LinearLayout mCreateCommunity;
 
 
     public static MainHomeFragment newInstance(Bundle bundle) {
@@ -82,6 +83,9 @@ public class MainHomeFragment extends BaseFragment {
     public void initWidgets(View view) {
         mLookAround = (LinearLayout) view.findViewById(R.id.community_lookaround);
         mLookAround.setOnClickListener(this);
+
+        mCreateCommunity = (LinearLayout) view.findViewById(R.id.create_community);
+        mCreateCommunity.setOnClickListener(this);
 
     }
 
@@ -120,9 +124,17 @@ public class MainHomeFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.create_community:
+                Toast.makeText(mActivity, "준비중입니다 ", Toast.LENGTH_SHORT).show();
+                /*Intent createInt = new Intent(mActivity, MainActivity.class);
+                startActivity(createInt);*/
+                break;
+
             case R.id.community_lookaround:
-                Intent mInt = new Intent(mActivity, MainActivity.class);
-                startActivity(mInt);
+                Intent lookInt = new Intent(mActivity, MainActivity.class);
+                startActivity(lookInt);
+                break;
 
         }
     }

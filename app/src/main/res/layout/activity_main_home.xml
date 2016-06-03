@@ -7,7 +7,7 @@
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -44,51 +44,98 @@
 
     </RelativeLayout>
 
+    <!--
+    *** Image Layout
+    *** insert image
+    -->
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
-        android:gravity="center_vertical"
         android:orientation="vertical"
-        android:layout_above="@+id/myLine1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/main_home_text"
-            android:text="커뮤니티 단체 만들기"
-            android:layout_marginLeft="100dp" />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/myLine1"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"
-        android:layout_alignTop="@+id/community_lookaround"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headerLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:id="@+id/community_lookaround">
+        android:layout_above="@+id/linearLayout5">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/main_home_text"
-            android:text="커뮤니티 구경하기"
-            android:layout_marginLeft="100dp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/home_back"
+            android:scaleType="centerCrop"/>
     </LinearLayout>
+
+<!--
+*** select 1 of 2 options
+
+-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="@drawable/comment_shadow"
+        android:id="@+id/linearLayout5">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@+id/create_community"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/gray" />
+
+        <LinearLayout
+            android:id="@+id/create_community"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_above="@+id/myLine1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:text="커뮤니티 단체 만들기"
+                android:textColor="@color/main_home_text" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/myLine1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/community_lookaround"
+            android:background="@color/gray" />
+
+        <LinearLayout
+            android:id="@+id/community_lookaround"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:text="커뮤니티 구경하기"
+                android:textColor="@color/main_home_text" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>
