@@ -136,7 +136,7 @@ public class MainHomeFragment extends BaseFragment {
         switch (v.getId()) {
 
             case R.id.umanji:
-                mLookAround.startAnimation(buttonClick);
+                mUmanji.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
                 Intent webInt = new Intent(mActivity, WebViewActivity.class);
@@ -145,9 +145,9 @@ public class MainHomeFragment extends BaseFragment {
                 break;
 
             case R.id.userPhoto:
-                mLookAround.startAnimation(buttonClick);
+                mUserPhoto.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
-                
+
                 Toast.makeText(mActivity, "로그인해주세요", Toast.LENGTH_SHORT).show();
 
             case R.id.create_community:
