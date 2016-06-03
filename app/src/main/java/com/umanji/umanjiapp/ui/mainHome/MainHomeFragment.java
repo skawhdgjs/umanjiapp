@@ -37,6 +37,7 @@ import com.umanji.umanjiapp.ui.channel.advertise.AdsCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.reply.ReplyListAdapter;
 import com.umanji.umanjiapp.ui.channel.post.update.PostUpdateActivity;
+import com.umanji.umanjiapp.ui.main.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +59,7 @@ public class MainHomeFragment extends BaseFragment {
     private static final String TAG = "ReplyFragment";
 
     protected TextView mName;
+    protected LinearLayout mLookAround;
 
 
     public static MainHomeFragment newInstance(Bundle bundle) {
@@ -78,6 +80,8 @@ public class MainHomeFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+        mLookAround = (LinearLayout) view.findViewById(R.id.community_lookaround);
+        mLookAround.setOnClickListener(this);
 
     }
 
@@ -116,7 +120,9 @@ public class MainHomeFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fab:
+            case R.id.community_lookaround:
+                Intent mInt = new Intent(mActivity, MainActivity.class);
+                startActivity(mInt);
 
         }
     }

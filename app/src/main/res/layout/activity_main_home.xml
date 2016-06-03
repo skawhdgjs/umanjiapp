@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray"
-        android:layout_alignTop="@+id/linearLayout6"
+        android:layout_alignTop="@+id/community_lookaround"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -80,7 +80,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:id="@+id/linearLayout6">
+        android:id="@+id/community_lookaround">
 
         <TextView
             android:layout_width="wrap_content"
@@ -89,12 +89,6 @@
             android:text="커뮤니티 구경하기"
             android:layout_marginLeft="100dp" />
     </LinearLayout>
-
-
-
-
-
-
 
 
 </RelativeLayout>
