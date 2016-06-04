@@ -4,6 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="slide">slide</string>
     <string name="exit">Exit</string>
+    <string name="empty">비었음</string>
 
 
     <string name="update_btn">수정</string>

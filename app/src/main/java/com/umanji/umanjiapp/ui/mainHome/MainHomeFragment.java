@@ -67,6 +67,11 @@ public class MainHomeFragment extends BaseFragment {
     protected LinearLayout mCreateCommunity;
 
 
+    protected RelativeLayout mMyCommunityOne;
+    protected RelativeLayout mMyCommunityTwo;
+    protected RelativeLayout mMyCommunityThree;
+
+
     public static MainHomeFragment newInstance(Bundle bundle) {
         MainHomeFragment fragment = new MainHomeFragment();
         fragment.setArguments(bundle);
@@ -97,6 +102,15 @@ public class MainHomeFragment extends BaseFragment {
 
         mCreateCommunity = (LinearLayout) view.findViewById(R.id.create_community);
         mCreateCommunity.setOnClickListener(this);
+
+        mMyCommunityOne = (RelativeLayout) view.findViewById(R.id.myCommunityOne);
+        mMyCommunityOne.setOnClickListener(this);
+
+        mMyCommunityTwo = (RelativeLayout) view.findViewById(R.id.myCommunityTwo);
+        mMyCommunityTwo.setOnClickListener(this);
+
+        mMyCommunityThree = (RelativeLayout) view.findViewById(R.id.myCommunityThree);
+        mMyCommunityThree.setOnClickListener(this);
 
     }
 
@@ -167,6 +181,28 @@ public class MainHomeFragment extends BaseFragment {
                 Intent lookInt = new Intent(mActivity, MainActivity.class);
                 startActivity(lookInt);
                 break;
+
+            case R.id.myCommunityOne:
+                mMyCommunityOne.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Toast.makeText(mActivity, "만든 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.myCommunityTwo:
+                mMyCommunityTwo.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Toast.makeText(mActivity, "나의 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.myCommunityThree:
+                mMyCommunityThree.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Toast.makeText(mActivity, "커뮤니티를 만들어 주세요", Toast.LENGTH_SHORT).show();
+                break;
+
 
         }
     }

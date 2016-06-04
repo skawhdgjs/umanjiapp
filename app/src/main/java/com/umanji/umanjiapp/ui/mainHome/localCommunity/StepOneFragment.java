@@ -458,19 +458,19 @@ public class StepOneFragment extends BaseFragment {
                     isBlock = false;
                 } else {
 
-                    mZoomLevelText.setText("" + (int) position.zoom);
+                    mZoomLevelText.setText("줌레벨 : " + (int) position.zoom +"    [15~21사이에 만들수 있음]");
 
                     int zoom = (int) position.zoom;
                     // isPoliticTouchable
 
                     if (isComplexCreatable(zoom)) {
-                        mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
+                        mInfoTextPanel.setText("이제부터 단체나 커뮤니티를 만들 수 있습니다");  // 15~17
                         mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
                         //mCreateSpotText.setVisibility(View.GONE);
 
                     } else if (isSpotCreatable(zoom)) {
                         //mCreateComplexText.setVisibility(View.GONE);
-                        mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
+                        mInfoTextPanel.setText("사무실이나 건물에 넣을 수 있어요 "); // 18~21
                         mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
 
                     } else if (isKeywordTouchable(zoom)) {

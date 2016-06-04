@@ -13,6 +13,7 @@
     <color name="main_home_text">#99333333</color>
     <color name="transparent_background">#33111111</color>
     <color name="local_expain_main">#0080dc</color>
+    <color name="empty">#fff</color>
 
 
 
