@@ -20,13 +20,32 @@ import com.umanji.umanjiapp.ui.BaseFragment;
 public class StepTwoFragment extends BaseFragment {
     private static final String TAG = "StepTwoFragment";
 
+    protected ChannelData mChannel;
+
     private ImageView mGoBackBtn;
     private TextView mSubmit;
+    private TextView mConsole;
+
+    protected String mTabType = "";
 
     public static StepTwoFragment newInstance(Bundle bundle) {
         StepTwoFragment fragment = new StepTwoFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            String jsonString = getArguments().getString("channel");
+            if (jsonString != null) {
+                mChannel = new ChannelData(jsonString);
+            }
+
+            mTabType = getArguments().getString("tabType");
+        }
     }
 
     @Override
@@ -48,6 +67,10 @@ public class StepTwoFragment extends BaseFragment {
         mSubmit = (TextView) view.findViewById(R.id.submit);
         mSubmit.setOnClickListener(this);
 
+        mConsole = (TextView) view.findViewById(R.id.console);
+
+        updateView();
+
     }
 
     @Override
@@ -61,6 +84,8 @@ public class StepTwoFragment extends BaseFragment {
         if(AuthHelper.isLogin(mActivity)) {
         }else {
         }
+
+        mConsole.setText(mChannel.getType()+" :: this is console answer...");
     }
 
     @Override

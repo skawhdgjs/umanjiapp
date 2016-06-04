@@ -61,11 +61,17 @@ public class StepOneFragment extends BaseFragment {
     private ImageView mGoBackBtn;
     private TextView mNext;
 
+    private TextView mZoomLevelText;
+    private TextView mInfoTextPanel;
+
+
 
     /****************************************************
      * Map
      ****************************************************/
     LatLng mCurrentMyPosition;
+
+    private int currentZoomLevel = 0;
 
     /****************************************************
      * Etc
@@ -74,12 +80,9 @@ public class StepOneFragment extends BaseFragment {
     private JSONArray mMarkers;
     private ChannelData mCurrentChannel;
     private ChannelData mSelectedChannel;
-    private ArrayList<ChannelData> mPosts;
 
 
     private boolean isBlock = false;
-    private boolean isLoading = false;
-    private int mPreFocusedItem = 0;
 
     private LatLng mLatLngByPoint = new LatLng(37.491361, 126.923978);
     private ChannelData mChannelByPoint;
@@ -136,6 +139,9 @@ public class StepOneFragment extends BaseFragment {
         mNext = (TextView) view.findViewById(R.id.next);
         mNext.setOnClickListener(this);
 
+        mZoomLevelText = (TextView) view.findViewById(R.id.mZoomLevelText);
+
+        mInfoTextPanel = (TextView) view.findViewById(R.id.mInfoTextPanel);
 
 
     }
@@ -235,10 +241,10 @@ public class StepOneFragment extends BaseFragment {
             mMap = ((MapFragment) mActivity.getFragmentManager().findFragmentById(R.id.mMapFragment))
                     .getMap();
 
-            int paddingInDp = 50;
+            int paddingInDp = 20;
 
             final float scale = getResources().getDisplayMetrics().density;
-            int paddingInPx = (int) (paddingInDp * scale + 0.5f);
+            int paddingInPx = (int) (paddingInDp * scale + 1f);
 
             mMap.setPadding(0, paddingInPx, 0, 0);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -304,6 +310,52 @@ public class StepOneFragment extends BaseFragment {
                 final int zoom = (int) mMap.getCameraPosition().zoom;
 
                 mLatLngByPoint = point;
+
+                if (zoom >= 15 && zoom <= 21) {
+
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("latitude", mLatLngByPoint.latitude);
+                        params.put("longitude", mLatLngByPoint.longitude);
+
+                        mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject object, AjaxStatus status) {
+                                mChannelByPoint = new ChannelData(object);
+
+                                if (TextUtils.isEmpty(mChannelByPoint.getId())) {
+                                    if (AuthHelper.isLogin(mActivity)) {
+                                        isBlock = true;
+
+                                        mMarkerByPoint = Helper.addNewMarkerToMap(mMap, mChannelByPoint);
+                                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
+
+                                        mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
+
+                                        if (isComplexCreatable(zoom)) {
+                                            showCreateComplexDialog();
+                                        } else if (isSpotCreatable(zoom)) {
+                                            showCreateSpotDialog();
+                                        }
+
+                                    } else {
+                                        Helper.startSigninActivity(mActivity, mCurrentMyPosition);
+                                    }
+
+                                } else {
+                                    if (isComplexCreatable(zoom)) {
+                                        startSpotActivity(mChannelByPoint, TYPE_LOCAL_COMPLEX);
+                                    } else if (isSpotCreatable(zoom)) {
+                                        startSpotActivity(mChannelByPoint, TYPE_LOCAL_SPOT);
+                                    }
+
+                                }
+                            }
+                        });
+                    } catch (JSONException e) {
+                        Log.e(TAG, "error " + e.toString());
+                    }
+                }
 
             }
         });
@@ -399,17 +451,44 @@ public class StepOneFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
+                currentZoomLevel = (int)position.zoom;
                 if(mMapIsTouched) return;
 
                 if (isBlock) {
                     isBlock = false;
                 } else {
 
+                    mZoomLevelText.setText("" + (int) position.zoom);
+
                     int zoom = (int) position.zoom;
+                    // isPoliticTouchable
+
+                    if (isComplexCreatable(zoom)) {
+                        mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
+                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
+                        //mCreateSpotText.setVisibility(View.GONE);
+
+                    } else if (isSpotCreatable(zoom)) {
+                        //mCreateComplexText.setVisibility(View.GONE);
+                        mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
+                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
+
+                    } else if (isKeywordTouchable(zoom)) {
+                        //mCreateComplexText.setVisibility(View.GONE);
+                        mInfoTextPanel.setText("아이콘을 터치하면 해당 키워드 커뮤니티로 이동합니다");
+                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
+
+                    } else {
+                        //mCreateComplexText.setVisibility(View.GONE);
+                        //mCreateSpotText.setVisibility(View.GONE);
+                        mInfoTextPanel.setText("");
+
+                    }
+
 
                     loadData();
-                }
 
+                }
             }
         });
 
@@ -420,6 +499,30 @@ public class StepOneFragment extends BaseFragment {
             }
         });
 
+    }
+
+    private static boolean isKeywordTouchable(int zoom) {
+        if (zoom >= 2 && zoom <= 7) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isComplexCreatable(int zoom) {
+        if (zoom >= 15 && zoom <= 17) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isSpotCreatable(int zoom) {
+        if (zoom >= 18) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void loadMainMarkers() {
@@ -482,8 +585,24 @@ public class StepOneFragment extends BaseFragment {
         mAlert.setPositiveButton(R.string.complex_create_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Helper.startCreateActivity(mActivity, mChannelByPoint, TYPE_COMPLEX);
-                dialog.cancel();
+                try {
+                    JSONObject params = mChannelByPoint.getAddressJSONObject();
+                    params.put("type", TYPE_LOCAL_SPOT);
+                    mApi.call(api_channels_createSpot, params, new AjaxCallback<JSONObject>() {
+                        @Override
+                        public void callback(String url, JSONObject object, AjaxStatus status) {
+                            mChannelByPoint = new ChannelData(object);
+                            if (mMarkerByPoint != null) mMarkerByPoint.remove();
+                            startSpotActivity(mChannelByPoint, TYPE_LOCAL_SPOT);
+                            mActivity.finish();
+
+                            EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
+                        }
+                    });
+                    dialog.cancel();
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error " + e.toString());
+                }
             }
         });
 
@@ -506,13 +625,13 @@ public class StepOneFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     JSONObject params = mChannelByPoint.getAddressJSONObject();
-                    params.put("type", TYPE_SPOT);
+                    params.put("type", TYPE_LOCAL_SPOT);
                     mApi.call(api_channels_createSpot, params, new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject object, AjaxStatus status) {
                             mChannelByPoint = new ChannelData(object);
                             if (mMarkerByPoint != null) mMarkerByPoint.remove();
-                            startSpotActivity(mChannelByPoint, TYPE_SPOT);
+                            startSpotActivity(mChannelByPoint, TYPE_LOCAL_SPOT);
 
                             EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
                         }
@@ -540,20 +659,26 @@ public class StepOneFragment extends BaseFragment {
     private void startSpotActivity(ChannelData channel, String type) {
         Intent intent = null;
 
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channel.getJsonObject().toString());
+        mActivity.finish();
+
         switch (type) {
-            case TYPE_SPOT:
-                intent = new Intent(getActivity(), SpotActivity.class);
+
+            case TYPE_LOCAL_SPOT:
+                intent = new Intent(getActivity(), StepTwoActivity.class);
+                bundle.putString("localType", "local_spot");
                 break;
-            case TYPE_COMPLEX:
-                intent = new Intent(getActivity(), ComplexActivity.class);
+            case TYPE_LOCAL_COMPLEX:
+                intent = new Intent(getActivity(), StepTwoActivity.class);
+                bundle.putString("localType", "local_complex");
                 break;
             default:
                 intent = new Intent(getActivity(), SpotActivity.class);
                 break;
         }
 
-        Bundle bundle = new Bundle();
-        bundle.putString("channel", channel.getJsonObject().toString());
+
         intent.putExtra("bundle", bundle);
         intent.putExtra("enterAnim", R.anim.zoom_out);
         intent.putExtra("exitAnim", R.anim.zoom_in);

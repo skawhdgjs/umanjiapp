@@ -9,7 +9,8 @@
         android:id="@+id/mMapFragment"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="370dp"
+        android:layout_alignParentBottom="true"
         tools:layout="@layout/activity_distribution" />
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -58,6 +59,9 @@
             android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
+
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,17 +75,55 @@
             android:layout_height="1dp"
             android:layout_alignParentTop="true"
             android:background="@color/gray" />
-        <TextView
-            android:id="@+id/content"
-            android:padding="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:text="this is text"
-            android:textColor="@color/gray_text"/>
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/content"
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="건물을 찾아서 클릭해 주세요."
+                android:textColor="@color/gray_text"/>
+
+            <TextView
+                android:layout_below="@+id/content"
+                android:id="@+id/content2"
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="줌으로 건물이 나올때까지 플러스를 눌러서 찾아주세요."
+                android:textColor="@color/gray_text"/>
+
+            <TextView
+                android:id="@+id/mZoomLevelText"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="zoomlevel"
+                android:textColor="@color/gray_text"/>
+
+            <TextView
+                android:id="@+id/mInfoTextPanel"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="안내"
+                android:textColor="@color/red"/>
+
+            <!--
+
+            -->
+
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/content"
+            android:layout_below="@+id/container"
             android:background="@color/gray" />
 
     </RelativeLayout>

@@ -59,6 +59,7 @@ import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 import com.umanji.umanjiapp.ui.keywordCommunity.KeywordCommunityActivity;
+import com.umanji.umanjiapp.ui.mainHome.localCommunity.StepTwoActivity;
 import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 import com.umanji.umanjiapp.ui.modal.map.MapActivity;
 
@@ -354,6 +355,7 @@ public final class Helper implements AppConfig {
             case TYPE_SPOT:
                 intent = new Intent(activity, SpotCreateActivity.class);
                 break;
+
         }
 
         intent.putExtra("bundle", bundle);
@@ -447,6 +449,14 @@ public final class Helper implements AppConfig {
                 intent = new Intent(activity, ProfileActivity.class);
             case TYPE_POST:
                 intent = new Intent(activity, ReplyActivity.class);
+                break;
+            case TYPE_LOCAL_SPOT:
+                intent = new Intent(activity, StepTwoActivity.class);
+                bundle.putString("localType", "local_spot");
+                break;
+            case TYPE_LOCAL_COMPLEX:
+                intent = new Intent(activity, StepTwoActivity.class);
+                bundle.putString("localType", "local_complex");
                 break;
         }
 

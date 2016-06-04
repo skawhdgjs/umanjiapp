@@ -136,6 +136,8 @@ public interface AppConfig {
     String TYPE_SPOT                    = "SPOT";
     String TYPE_SPOT_INNER              = "SPOT_INNER";
     String TYPE_COMPLEX                 = "COMPLEX";
+    String TYPE_LOCAL_SPOT              = "LOCAL_SPOT";
+    String TYPE_LOCAL_COMPLEX           = "LOCAL_COMPLEX";
 
     String TYPE_INFO_CENTER             = "INFO_CENTER";
     String TYPE_USER                    = "USER";

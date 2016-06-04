@@ -32,7 +32,7 @@
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="단체의 이름을 등록하면 완성됩니다."
+            android:text="제출하시면 완성됩니다."
             android:textColor="@color/main_home_text"
             android:textSize="18dp"
             android:layout_centerVertical="true"
@@ -72,6 +72,7 @@
             android:layout_alignParentStart="true" />
 
         <TextView
+            android:id="@+id/console"
             android:layout_width="wrap_content"
             android:padding="30dp"
             android:layout_height="300dp"
