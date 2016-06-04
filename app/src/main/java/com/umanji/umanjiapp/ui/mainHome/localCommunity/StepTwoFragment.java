@@ -2,10 +2,14 @@ package com.umanji.umanjiapp.ui.mainHome.localCommunity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,9 +19,16 @@ import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
-public class StepTwoFragment extends BaseFragment {
+public class StepTwoFragment extends BaseChannelCreateFragment {
     private static final String TAG = "StepTwoFragment";
 
     protected ChannelData mChannel;
@@ -27,6 +38,14 @@ public class StepTwoFragment extends BaseFragment {
     private TextView mConsole;
 
     protected String mTabType = "";
+
+    protected AutoCompleteTextView mKeywordName;
+    protected Button mAddKeywordBtn;
+
+    protected TextView mKeyword1;
+    protected TextView mKeyword2;
+
+    ArrayList<String> mKeywords = new ArrayList<>();
 
     public static StepTwoFragment newInstance(Bundle bundle) {
         StepTwoFragment fragment = new StepTwoFragment();
@@ -69,6 +88,16 @@ public class StepTwoFragment extends BaseFragment {
 
         mConsole = (TextView) view.findViewById(R.id.console);
 
+        mKeywordName = (AutoCompleteTextView) view.findViewById(R.id.keywordName);
+        mAddKeywordBtn = (Button) view.findViewById(R.id.addKeywordBtn);
+        mAddKeywordBtn.setOnClickListener(this);
+
+        mKeyword1 = (TextView) view.findViewById(R.id.keyword1);
+        mKeyword1.setOnClickListener(this);
+
+        mKeyword2 = (TextView) view.findViewById(R.id.keyword2);
+        mKeyword2.setOnClickListener(this);
+
         updateView();
 
     }
@@ -88,21 +117,29 @@ public class StepTwoFragment extends BaseFragment {
         mConsole.setText(mChannel.getType()+" :: this is console answer...");
     }
 
+
     @Override
-    public void onEvent(SuccessData event) {
-        super.onEvent(event);
+    protected void request() {
 
-        ChannelData channelData = new ChannelData(event.response);
+        try {
+            JSONObject params = mChannel.getAddressJSONObject();
+            params.put("parent", mChannel.getId());
+            params.put("parentType", mChannel.getType());
+            params.put("level", mChannel.getLevel());
+            params.put("name", mName.getText().toString());
+            params.put("type", TYPE_COMMUNITY);
 
-        switch (event.type) {
-            case api_channels_create:
 
-                break;
+            if(mKeywords.size() > 0) {
+                params.put("keywords", new JSONArray(mKeywords));
+            }
 
-            case EVENT_LOOK_AROUND:
-                mActivity.finish();
-                break;
+            mApi.call(api_channels_createCommunity, params);
+
+        }catch(JSONException e) {
+            Log.e("BaseChannelCreate", "error " + e.toString());
         }
+
     }
 
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
@@ -110,6 +147,42 @@ public class StepTwoFragment extends BaseFragment {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.addKeywordBtn:
+                if(TextUtils.isEmpty(mKeyword1.getText())) {
+                    mKeyword1.setText(mKeywordName.getText() + " [X]");
+                    mKeywords.add(mKeywordName.getText().toString());
+                } else if(TextUtils.isEmpty(mKeyword2.getText())){
+                    mKeyword2.setText(mKeywordName.getText() + " [X]");
+                    mKeywords.add(mKeywordName.getText().toString());
+                } else {
+                    Toast.makeText(mActivity, "키워드는 2개까지 입력 가능합니다.", Toast.LENGTH_SHORT).show();
+                }
+
+                mKeywordName.setText(null);
+                break;
+
+            case R.id.keyword1:
+                if(!TextUtils.isEmpty(mKeyword1.getText())) {
+                    if(!TextUtils.isEmpty(mKeyword2.getText())) {
+                        mKeyword1.setText(mKeyword2.getText());
+                        mKeywords.remove(0);
+                        mKeywords.remove(0);
+
+                        mKeywords.add(mKeyword2.getText().toString());
+                        mKeyword2.setText(null);
+                    }else {
+                        mKeyword1.setText(null);
+                        mKeywords.remove(0);
+                    }
+                }
+                break;
+            case R.id.keyword2:
+                if(!TextUtils.isEmpty(mKeyword2.getText())) {
+                    mKeyword2.setText(null);
+                    mKeywords.remove(1);
+                }
+                break;
 
             case R.id.goBackBtn:
                 mGoBackBtn.startAnimation(buttonClick);
@@ -129,4 +202,19 @@ public class StepTwoFragment extends BaseFragment {
 
         }
     }
+
+    @Override
+    public void onEvent(SuccessData event) {
+        super.onEvent(event);
+
+        ChannelData channelData = new ChannelData(event.response);
+
+        switch (event.type) {
+            case api_channels_createCommunity:
+                mActivity.finish();
+                break;
+
+        }
+    }
+
 }

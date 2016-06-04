@@ -50,43 +50,201 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
     </RelativeLayout>
 
     <!--
-    *** Image Layout
-    *** insert image
-    -->
+*** deletable
+
+-->
 
     <RelativeLayout
         android:layout_below="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
-
+<!--
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true" />-->
 
         <TextView
             android:id="@+id/console"
             android:layout_width="wrap_content"
-            android:padding="30dp"
-            android:layout_height="300dp"
-            android:text="this is text"/>
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp"
+            android:paddingLeft="30dp"
+            android:text="this is text"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ScrollView
+            android:id="@+id/createForm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="38dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <ImageView
+                        android:id="@+id/photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/empty_image" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:background="@color/gray_button"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/photoBtn"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_toLeftOf="@+id/gallaryBtn"
+                            android:layout_toStartOf="@+id/gallaryBtn"
+                            android:src="@drawable/icon_camera_png" />
+
+                        <ImageView
+                            android:id="@+id/gallaryBtn"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:src="@drawable/icon_picture_png" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="이름을 입력해주세요"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:padding="16dp"
+                        android:textSize="18dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1">
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.7">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/keywordName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="키워드 입력"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:padding="16dp"
+                            android:textSize="18dp" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/addKeywordBtn"
+                        style="?android:textAppearanceSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="추가"
+                        android:layout_weight="0.3"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/keywordPanel">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:id="@+id/keyword1"
+                        android:padding="10dp"
+                        android:layout_gravity="right" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:id="@+id/keyword2"
+                        android:padding="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="right" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
     </RelativeLayout>
-
-
-<!--
-*** select 1 of 2 options
+    <!--
+*** edit here
+*** insert infomation
 
 -->
-
-
-
 
 
 </RelativeLayout>
