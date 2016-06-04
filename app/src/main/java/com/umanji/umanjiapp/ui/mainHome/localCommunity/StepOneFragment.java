@@ -581,13 +581,13 @@ public class StepOneFragment extends BaseFragment {
 
     }
 
-    private void showCreateComplexDialog() {
-        mAlert.setPositiveButton(R.string.complex_create_btn, new DialogInterface.OnClickListener() {
+    private void showCreateSpotDialog() {
+        mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     JSONObject params = mChannelByPoint.getAddressJSONObject();
-                    params.put("type", TYPE_LOCAL_SPOT);
+                    params.put("type", TYPE_SPOT);
                     mApi.call(api_channels_createSpot, params, new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject object, AjaxStatus status) {
@@ -614,26 +614,28 @@ public class StepOneFragment extends BaseFragment {
             }
         });
 
-        mAlert.setTitle(R.string.complex_create_confirm);
+        mAlert.setTitle("단체를 만들 주소가 맞습니까?");
         mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
         mAlert.show();
     }
 
-    private void showCreateSpotDialog() {
-        mAlert.setPositiveButton(R.string.spot_create_btn, new DialogInterface.OnClickListener() {
+
+    private void showCreateComplexDialog() {
+        mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     JSONObject params = mChannelByPoint.getAddressJSONObject();
-                    params.put("type", TYPE_LOCAL_SPOT);
-                    mApi.call(api_channels_createSpot, params, new AjaxCallback<JSONObject>() {
+                    params.put("type", TYPE_COMPLEX);
+                    mApi.call(api_channels_createComplex, params, new AjaxCallback<JSONObject>() {
                         @Override
                         public void callback(String url, JSONObject object, AjaxStatus status) {
                             mChannelByPoint = new ChannelData(object);
                             if (mMarkerByPoint != null) mMarkerByPoint.remove();
-                            startSpotActivity(mChannelByPoint, TYPE_LOCAL_SPOT);
+                            startSpotActivity(mChannelByPoint, TYPE_LOCAL_COMPLEX);
+                            mActivity.finish();
 
-                            EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
+                            EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
                         }
                     });
                     dialog.cancel();
@@ -651,10 +653,11 @@ public class StepOneFragment extends BaseFragment {
             }
         });
 
-        mAlert.setTitle(R.string.spot_create_confirm);
+        mAlert.setTitle("단체를 만들 주소가 맞습니까?");
         mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
         mAlert.show();
     }
+
 
     private void startSpotActivity(ChannelData channel, String type) {
         Intent intent = null;
@@ -685,8 +688,6 @@ public class StepOneFragment extends BaseFragment {
 
         startActivity(intent);
     }
-
-
 
 
 
