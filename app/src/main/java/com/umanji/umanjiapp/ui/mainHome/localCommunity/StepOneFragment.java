@@ -51,7 +51,7 @@ import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
-public class StepOneFragment extends BaseChannelCreateFragment {
+public class StepOneFragment extends BaseFragment {
     private static final String TAG = "StepOneFragment";
 
     /****************************************************
@@ -82,6 +82,8 @@ public class StepOneFragment extends BaseChannelCreateFragment {
     private JSONArray mMarkers;
     private ChannelData mCurrentChannel;
     private ChannelData mSelectedChannel;
+
+    protected boolean mClicked = false;
 
 
     private boolean isBlock = false;
@@ -159,86 +161,6 @@ public class StepOneFragment extends BaseChannelCreateFragment {
 
     }
 
-    @Override
-    public void onEvent(SuccessData event) {
-        super.onEvent(event);
-
-        switch (event.type) {
-            case api_token_check:
-            case api_channels_createCommunity:
-            case api_channels_createComplex:
-            case api_channels_createSpot:
-            case api_channels_id_update:
-            case api_channels_id_delete:
-                mCurrentChannel = null;
-                mSelectedChannel = null;
-                loadData();
-                break;
-            case api_profile_id_update:
-                mUser = new ChannelData(event.response);
-                updateView();
-                break;
-            case api_noites_read:
-                break;
-
-            case api_channels_id_vote:
-            case api_channels_id_like:
-
-            case api_channels_id_unLike:
-
-            case EVENT_LOOK_AROUND:
-                ChannelData channelData = new ChannelData(event.response);
-                LatLng latLng = new LatLng(channelData.getLatitude(), channelData.getLongitude());
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
-                break;
-        }
-    }
-
-    public void onEvent(ErrorData event) {
-
-        switch (event.type) {
-            case TYPE_ERROR_AUTH:
-                Helper.startSigninActivity(mActivity, mCurrentMyPosition);
-                break;
-        }
-    }
-
-
-    @Override
-    protected void request() {
-
-        if(mClicked == true){
-            Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        try {
-            JSONObject params = mChannel.getAddressJSONObject();
-            if(getArguments().get("localType").equals("local_spot")){
-                params.put("level", mChannel.getLevel());
-            } else {
-                params.put("level", 15);
-            }
-            params.put("parent", mChannel.getId());
-            params.put("name", mName.getText().toString());
-            params.put("type", TYPE_SPOT_INNER);
-
-            if(mPhotoUri != null) {
-                ArrayList<String> photos = new ArrayList<>();
-                photos.add(mPhotoUri);
-                params.put("photos", new JSONArray(photos));
-                mPhotoUri = null;
-            }
-
-            mApi.call(api_channels_create, params);
-            mClicked = true;
-
-        }catch(JSONException e) {
-            Log.e("BaseChannelCreate", "error " + e.toString());
-        }
-
-    }
-
 
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
@@ -255,17 +177,6 @@ public class StepOneFragment extends BaseChannelCreateFragment {
                 mActivity.finish();
                 break;
 
-            case R.id.next:
-                mNext.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Intent nextInt = new Intent(mActivity, StepTwoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("channel", mChannel.getJsonObject().toString());
-                nextInt.putExtra("bundle", bundle);
-                startActivity(nextInt);
-                mActivity.finish();
-                break;
         }
     }
 
@@ -385,9 +296,9 @@ public class StepOneFragment extends BaseChannelCreateFragment {
 
                                 } else {
                                     if (isComplexCreatable(zoom)) {
-                                        startSpotActivity(mChannelByPoint, TYPE_LOCAL_COMPLEX);
+                                        startActivity(mChannelByPoint, TYPE_LOCAL_COMPLEX);
                                     } else if (isSpotCreatable(zoom)) {
-                                        startSpotActivity(mChannelByPoint, TYPE_LOCAL_SPOT);
+                                        startActivity(mChannelByPoint, TYPE_LOCAL_SPOT);
                                     }
 
                                 }
@@ -618,7 +529,7 @@ public class StepOneFragment extends BaseChannelCreateFragment {
         mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                try {
+                /*try {
                     JSONObject params = mChannelByPoint.getAddressJSONObject();
                     params.put("type", TYPE_SPOT);
                     mApi.call(api_channels_createSpot, params, new AjaxCallback<JSONObject>() {
@@ -629,13 +540,14 @@ public class StepOneFragment extends BaseChannelCreateFragment {
                             startSpotActivity(mChannelByPoint, TYPE_LOCAL_SPOT);
                             mActivity.finish();
 
-                            EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
+                            //EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
                         }
                     });
                     dialog.cancel();
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
-                }
+                }*/
+                request("SPOT");
             }
         });
 
@@ -657,7 +569,7 @@ public class StepOneFragment extends BaseChannelCreateFragment {
         mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                try {
+                /*try {
                     JSONObject params = mChannelByPoint.getAddressJSONObject();
                     params.put("type", TYPE_COMPLEX);
                     mApi.call(api_channels_createComplex, params, new AjaxCallback<JSONObject>() {
@@ -668,13 +580,14 @@ public class StepOneFragment extends BaseChannelCreateFragment {
                             startSpotActivity(mChannelByPoint, TYPE_LOCAL_COMPLEX);
                             mActivity.finish();
 
-                            EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
+                            //EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
                         }
                     });
                     dialog.cancel();
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
-                }
+                }*/
+                request("");
             }
         });
 
@@ -692,34 +605,104 @@ public class StepOneFragment extends BaseChannelCreateFragment {
     }
 
 
-    private void startSpotActivity(ChannelData channel, String type) {
-        Intent intent = null;
+    protected void request(String type) {
+
+        if(mClicked == true){
+            Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            JSONObject params = mChannelByPoint.getAddressJSONObject();
+            params.put("level", mChannelByPoint.getLevel());
+            params.put("parent", mChannelByPoint.getId());
+//            params.put("name", mName.getText().toString());
+            if(type.equals("SPOT")){
+                params.put("type", TYPE_SPOT);
+            } else {
+                params.put("type", TYPE_COMPLEX);
+            }
+
+
+            mApi.call(api_channels_create, params);
+            mActivity.finish();
+            startActivity(mChannelByPoint, TYPE_SPOT);
+            mClicked = true;
+
+        }catch(JSONException e) {
+            Log.e("BaseChannelCreate", "error " + e.toString());
+        }
+
+    }
+
+    @Override
+    public void onEvent(SuccessData event) {
+        super.onEvent(event);
+
+        switch (event.type) {
+            case api_token_check:
+            case api_channels_createCommunity:
+            case api_channels_createComplex:
+            case api_channels_createSpot:
+
+                break;
+
+            case api_channels_id_update:
+            case api_channels_id_delete:
+                mCurrentChannel = null;
+                mSelectedChannel = null;
+                loadData();
+                break;
+            case api_profile_id_update:
+                mUser = new ChannelData(event.response);
+                updateView();
+                break;
+            case api_noites_read:
+                break;
+
+            case EVENT_LOOK_AROUND:
+                ChannelData channelData = new ChannelData(event.response);
+                LatLng latLng = new LatLng(channelData.getLatitude(), channelData.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+                break;
+        }
+    }
+
+    public void onEvent(ErrorData event) {
+
+        switch (event.type) {
+            case TYPE_ERROR_AUTH:
+                Helper.startSigninActivity(mActivity, mCurrentMyPosition);
+                break;
+        }
+    }
+
+
+
+    private void startActivity(ChannelData channel, String type) {
+
+        Intent intent = new Intent(mActivity, StepTwoActivity.class);
 
         Bundle bundle = new Bundle();
         bundle.putString("channel", channel.getJsonObject().toString());
-        mActivity.finish();
 
         switch (type) {
 
-            case TYPE_LOCAL_SPOT:
-                intent = new Intent(getActivity(), StepTwoActivity.class);
+            case TYPE_SPOT:
                 bundle.putString("localType", "local_spot");
                 break;
-            case TYPE_LOCAL_COMPLEX:
-                intent = new Intent(getActivity(), StepTwoActivity.class);
+            case TYPE_COMPLEX:
                 bundle.putString("localType", "local_complex");
                 break;
-            default:
-                intent = new Intent(getActivity(), SpotActivity.class);
-                break;
-        }
 
+        }
 
         intent.putExtra("bundle", bundle);
         intent.putExtra("enterAnim", R.anim.zoom_out);
         intent.putExtra("exitAnim", R.anim.zoom_in);
 
         startActivity(intent);
+        mActivity.finish();
     }
 
     private class TouchableWrapper extends FrameLayout {
