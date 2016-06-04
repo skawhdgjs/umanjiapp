@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ import de.greenrobot.event.EventBus;
 public class ComplexUpdateFragment extends BaseChannelUpdateFragment {
     private static final String TAG = "ComplexUpdateFragment";
 
-    protected AutoCompleteTextView mKeywordName;
+    protected EditText mKeywordName;
     protected Button mAddKeywordBtn;
 
     protected LinearLayout mKeywordPanel;
@@ -56,7 +57,7 @@ public class ComplexUpdateFragment extends BaseChannelUpdateFragment {
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        mKeywordName = (AutoCompleteTextView) view.findViewById(R.id.keywordName);
+        mKeywordName = (EditText) view.findViewById(R.id.keywordName);
         mAddKeywordBtn = (Button) view.findViewById(R.id.addKeywordBtn);
         mAddKeywordBtn.setOnClickListener(this);
 

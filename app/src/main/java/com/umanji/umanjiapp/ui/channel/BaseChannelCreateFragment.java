@@ -99,8 +99,6 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
             mPhotoBtn.setOnClickListener(this);
             mGallaryBtn = (ImageView) view.findViewById(R.id.gallaryBtn);
             mGallaryBtn.setOnClickListener(this);
-        } else {
-            return;
         }
 
     }
