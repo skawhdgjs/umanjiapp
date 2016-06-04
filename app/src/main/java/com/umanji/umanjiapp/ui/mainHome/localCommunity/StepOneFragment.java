@@ -19,6 +19,7 @@ import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -37,6 +38,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.duty.DutyCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
@@ -49,7 +51,7 @@ import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
-public class StepOneFragment extends BaseFragment {
+public class StepOneFragment extends BaseChannelCreateFragment {
     private static final String TAG = "StepOneFragment";
 
     /****************************************************
@@ -202,6 +204,42 @@ public class StepOneFragment extends BaseFragment {
         }
     }
 
+
+    @Override
+    protected void request() {
+
+        if(mClicked == true){
+            Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            JSONObject params = mChannel.getAddressJSONObject();
+            if(getArguments().get("localType").equals("local_spot")){
+                params.put("level", mChannel.getLevel());
+            } else {
+                params.put("level", 15);
+            }
+            params.put("parent", mChannel.getId());
+            params.put("name", mName.getText().toString());
+            params.put("type", TYPE_SPOT_INNER);
+
+            if(mPhotoUri != null) {
+                ArrayList<String> photos = new ArrayList<>();
+                photos.add(mPhotoUri);
+                params.put("photos", new JSONArray(photos));
+                mPhotoUri = null;
+            }
+
+            mApi.call(api_channels_create, params);
+            mClicked = true;
+
+        }catch(JSONException e) {
+            Log.e("BaseChannelCreate", "error " + e.toString());
+        }
+
+    }
+
+
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
     @Override
@@ -222,6 +260,9 @@ public class StepOneFragment extends BaseFragment {
                 buttonClick.setDuration(500);
 
                 Intent nextInt = new Intent(mActivity, StepTwoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("channel", mChannel.getJsonObject().toString());
+                nextInt.putExtra("bundle", bundle);
                 startActivity(nextInt);
                 mActivity.finish();
                 break;
@@ -406,14 +447,6 @@ public class StepOneFragment extends BaseFragment {
                     } else {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
                     }
-
-                    // To modify HERE!!!
-                    //Helper.startActivity(mActivity, channelData);
-                    Intent i = new Intent(mActivity, DutyCreateActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("channel", channelData.getJsonObject().toString());
-                    i.putExtra("bundle", bundle);
-                    startActivity(i);
 
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
@@ -688,8 +721,6 @@ public class StepOneFragment extends BaseFragment {
 
         startActivity(intent);
     }
-
-
 
     private class TouchableWrapper extends FrameLayout {
         public TouchableWrapper(Context context) {

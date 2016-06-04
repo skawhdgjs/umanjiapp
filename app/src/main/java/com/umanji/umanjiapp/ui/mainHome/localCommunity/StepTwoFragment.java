@@ -1,15 +1,18 @@
 package com.umanji.umanjiapp.ui.mainHome.localCommunity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +26,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
+import com.umanji.umanjiapp.ui.channel.BaseChannelUpdateFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,7 +36,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-public class StepTwoFragment extends BaseChannelCreateFragment {
+public class StepTwoFragment extends BaseChannelUpdateFragment {
     private static final String TAG = "StepTwoFragment";
 
     protected ChannelData mChannel;
@@ -40,7 +44,7 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
     protected AutoCompleteTextView mName;
 
     private ImageView mGoBackBtn;
-    private TextView mSubmit;
+    private TextView mSubmitBtn2;
     private TextView mConsole;
 
     protected String mTabType = "";
@@ -94,8 +98,8 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
         mGoBackBtn = (ImageView) view.findViewById(R.id.goBackBtn);
         mGoBackBtn.setOnClickListener(this);
 
-        mSubmit = (TextView) view.findViewById(R.id.submitBtn2);
-        mSubmit.setOnClickListener(this);
+        mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
+        mSubmitBtn2.setOnClickListener(this);
 
         mConsole = (TextView) view.findViewById(R.id.console);
 
@@ -108,6 +112,8 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
 
         mKeyword2 = (TextView) view.findViewById(R.id.keyword2);
         mKeyword2.setOnClickListener(this);
+
+        mConsole.setText(mChannel.getType()+" :: this is console answer...");
 
         String channelType = getArguments().getString("whichAction");
 
@@ -134,7 +140,6 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
         }else {
         }
 
-        mConsole.setText(mChannel.getType()+" :: this is console answer...");
     }
 
 
@@ -143,6 +148,8 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
 
         try {
             JSONObject params = mChannel.getAddressJSONObject();
+            setChannelParams(params);
+
             params.put("parent", mChannel.getId());
             params.put("parentType", mChannel.getType());
             params.put("level", mChannel.getLevel());
@@ -160,6 +167,19 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
 
+    }
+
+    protected void setChannelParams(JSONObject params) throws JSONException {
+        mChannel.setAddressJSONObject(params);
+        params.put("id", mChannel.getId());
+        params.put("name", mName.getText().toString());
+
+        if(mPhotoUri != null) {
+            ArrayList<String> photos = new ArrayList<>();
+            photos.add(mPhotoUri);
+            params.put("photos", new JSONArray(photos));
+            mPhotoUri = null;
+        }
     }
 
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
@@ -223,9 +243,10 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
                 Helper.callGallery(this);
                 break;
 
-            case R.id.submit:
-                mSubmit.startAnimation(buttonClick);
+            case R.id.submitBtn2:
+                mSubmitBtn2.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
+
                 request();
                 Toast.makeText(mActivity, "submit", Toast.LENGTH_SHORT).show();
                 break;
@@ -302,6 +323,8 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
         }
 
     }
+
+
 
 
 }

@@ -146,7 +146,7 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
                 submit();
                 break;
             case R.id.submitBtn2:
-                mSubmitBtn2.setTextColor(Color.green(127));
+                //mSubmitBtn2.setTextColor(Color.green(127));
                 submit();
                 break;
             case R.id.photoBtn:
