@@ -145,11 +145,9 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
 
     @Override
     protected void request() {
-
         try {
             JSONObject params = mChannel.getAddressJSONObject();
-            setChannelParams(params);
-
+//            setChannelParams(params);
             params.put("parent", mChannel.getId());
             params.put("parentType", mChannel.getType());
             params.put("level", mChannel.getLevel());
@@ -186,7 +184,7 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
+//        super.onClick(v);
 
         switch (v.getId()) {
 
@@ -259,7 +257,7 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
     public void onEvent(SuccessData event) {
         super.onEvent(event);
 
-        ChannelData channelData = new ChannelData(event.response);
+//        ChannelData channelData = new ChannelData(event.response);
 
         switch (event.type) {
             case api_channels_createCommunity:

@@ -529,7 +529,7 @@ public class StepOneFragment extends BaseFragment {
         mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                /*try {
+                try {
                     JSONObject params = mChannelByPoint.getAddressJSONObject();
                     params.put("type", TYPE_SPOT);
                     mApi.call(api_channels_createSpot, params, new AjaxCallback<JSONObject>() {
@@ -537,17 +537,17 @@ public class StepOneFragment extends BaseFragment {
                         public void callback(String url, JSONObject object, AjaxStatus status) {
                             mChannelByPoint = new ChannelData(object);
                             if (mMarkerByPoint != null) mMarkerByPoint.remove();
-                            startSpotActivity(mChannelByPoint, TYPE_LOCAL_SPOT);
+                            startActivity(mChannelByPoint, TYPE_SPOT);  // startSpotActivity
                             mActivity.finish();
 
-                            //EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
+                            EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
                         }
                     });
                     dialog.cancel();
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
-                }*/
-                request("SPOT");
+                }
+                //request("SPOT");
             }
         });
 
@@ -577,7 +577,7 @@ public class StepOneFragment extends BaseFragment {
                         public void callback(String url, JSONObject object, AjaxStatus status) {
                             mChannelByPoint = new ChannelData(object);
                             if (mMarkerByPoint != null) mMarkerByPoint.remove();
-                            startSpotActivity(mChannelByPoint, TYPE_LOCAL_COMPLEX);
+                            startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
                             mActivity.finish();
 
                             //EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
@@ -587,7 +587,7 @@ public class StepOneFragment extends BaseFragment {
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
                 }*/
-                request("");
+                //request("");
             }
         });
 
@@ -605,7 +605,7 @@ public class StepOneFragment extends BaseFragment {
     }
 
 
-    protected void request(String type) {
+   /* protected void request(String type) {
 
         if(mClicked == true){
             Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
@@ -615,7 +615,7 @@ public class StepOneFragment extends BaseFragment {
             JSONObject params = mChannelByPoint.getAddressJSONObject();
             params.put("level", mChannelByPoint.getLevel());
             params.put("parent", mChannelByPoint.getId());
-//            params.put("name", mName.getText().toString());
+            params.put("name", mName.getText().toString());
             if(type.equals("SPOT")){
                 params.put("type", TYPE_SPOT);
             } else {
@@ -632,7 +632,7 @@ public class StepOneFragment extends BaseFragment {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
 
-    }
+    }*/
 
     @Override
     public void onEvent(SuccessData event) {
@@ -644,13 +644,12 @@ public class StepOneFragment extends BaseFragment {
             case api_channels_createComplex:
             case api_channels_createSpot:
 
-                break;
-
             case api_channels_id_update:
             case api_channels_id_delete:
                 mCurrentChannel = null;
                 mSelectedChannel = null;
-                loadData();
+                mActivity.finish();
+                Toast.makeText(mActivity,"Event occured", Toast.LENGTH_SHORT).show();
                 break;
             case api_profile_id_update:
                 mUser = new ChannelData(event.response);
