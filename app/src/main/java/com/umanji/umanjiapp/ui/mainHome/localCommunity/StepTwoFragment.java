@@ -147,10 +147,20 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
     protected void request() {
         try {
             JSONObject params = mChannel.getAddressJSONObject();
-//            setChannelParams(params);
+            String levelType = getArguments().getString("localType");
+            int mLevel = 18;
+            switch(levelType){
+                case "local_complex":
+                    mLevel = 15;
+                    break;
+                default:
+                    mLevel = 18;
+                    break;
+
+            }
             params.put("parent", mChannel.getId());
             params.put("parentType", mChannel.getType());
-            params.put("level", mChannel.getLevel());
+            params.put("level", mLevel);
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMMUNITY);
 

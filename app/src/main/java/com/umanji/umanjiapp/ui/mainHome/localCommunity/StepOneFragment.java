@@ -547,7 +547,6 @@ public class StepOneFragment extends BaseFragment {
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
                 }
-                //request("SPOT");
             }
         });
 
@@ -569,7 +568,7 @@ public class StepOneFragment extends BaseFragment {
         mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                /*try {
+                try {
                     JSONObject params = mChannelByPoint.getAddressJSONObject();
                     params.put("type", TYPE_COMPLEX);
                     mApi.call(api_channels_createComplex, params, new AjaxCallback<JSONObject>() {
@@ -577,17 +576,16 @@ public class StepOneFragment extends BaseFragment {
                         public void callback(String url, JSONObject object, AjaxStatus status) {
                             mChannelByPoint = new ChannelData(object);
                             if (mMarkerByPoint != null) mMarkerByPoint.remove();
-                            startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
+                            startActivity(mChannelByPoint, TYPE_COMPLEX);
                             mActivity.finish();
 
-                            //EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
+                            EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
                         }
                     });
                     dialog.cancel();
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
-                }*/
-                //request("");
+                }
             }
         });
 
@@ -603,36 +601,6 @@ public class StepOneFragment extends BaseFragment {
         mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
         mAlert.show();
     }
-
-
-   /* protected void request(String type) {
-
-        if(mClicked == true){
-            Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        try {
-            JSONObject params = mChannelByPoint.getAddressJSONObject();
-            params.put("level", mChannelByPoint.getLevel());
-            params.put("parent", mChannelByPoint.getId());
-            params.put("name", mName.getText().toString());
-            if(type.equals("SPOT")){
-                params.put("type", TYPE_SPOT);
-            } else {
-                params.put("type", TYPE_COMPLEX);
-            }
-
-
-            mApi.call(api_channels_create, params);
-            mActivity.finish();
-            startActivity(mChannelByPoint, TYPE_SPOT);
-            mClicked = true;
-
-        }catch(JSONException e) {
-            Log.e("BaseChannelCreate", "error " + e.toString());
-        }
-
-    }*/
 
     @Override
     public void onEvent(SuccessData event) {
