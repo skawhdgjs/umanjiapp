@@ -1,12 +1,8 @@
 package com.umanji.umanjiapp.ui.mainHome;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,48 +13,26 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
-import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.model.VoteData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
-import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
-import com.umanji.umanjiapp.ui.channel.advertise.AdsCreateActivity;
-import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
-import com.umanji.umanjiapp.ui.channel.post.reply.ReplyListAdapter;
-import com.umanji.umanjiapp.ui.channel.post.update.PostUpdateActivity;
 import com.umanji.umanjiapp.ui.main.MainActivity;
 import com.umanji.umanjiapp.ui.mainHome.localCommunity.CreateLocalCommunityActivity;
 import com.umanji.umanjiapp.ui.modal.WebViewActivity;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
 
 import de.greenrobot.event.EventBus;
 
-import static com.umanji.umanjiapp.helper.FileHelper.extractUrls;
-
-
 public class MainHomeFragment extends BaseFragment {
-    private static final String TAG = "ReplyFragment";
+    private static final String TAG = "MainHomeFragment";
 
     protected TextView mUmanji;
     protected TextView mName;
@@ -66,10 +40,15 @@ public class MainHomeFragment extends BaseFragment {
     protected LinearLayout mLookAround;
     protected LinearLayout mCreateCommunity;
 
+    protected TextView mCommunityCount;
 
     protected RelativeLayout mMyCommunityOne;
     protected RelativeLayout mMyCommunityTwo;
     protected RelativeLayout mMyCommunityThree;
+
+    JSONArray jsonArray;
+    String mNumber;
+    int num;
 
 
     public static MainHomeFragment newInstance(Bundle bundle) {
@@ -112,19 +91,55 @@ public class MainHomeFragment extends BaseFragment {
         mMyCommunityThree = (RelativeLayout) view.findViewById(R.id.myCommunityThree);
         mMyCommunityThree.setOnClickListener(this);
 
+        mCommunityCount = (TextView) view.findViewById(R.id.communityCount);
+        mCommunityCount.setText(mNumber);
+
+        loadData();
+
     }
 
     @Override
     public void loadData() {
+
+        try {
+            JSONObject params = new JSONObject();
+            params.put("level", 2);
+            params.put("type", TYPE_COMMUNITY);
+            params.put("sort", "point DESC");
+
+            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+
+                    if (status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    } else {
+                        try {
+                            jsonArray = object.getJSONArray("data");
+                            num = jsonArray.length();
+
+                            updateView();
+
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
 
     }
 
 
     @Override
     public void updateView() {
-        if(AuthHelper.isLogin(mActivity)) {
-        }else {
+        if (AuthHelper.isLogin(mActivity)) {
+        } else {
         }
+        mNumber=String.valueOf(num);
+        mCommunityCount.setText(mNumber);
     }
 
     @Override
@@ -138,8 +153,7 @@ public class MainHomeFragment extends BaseFragment {
 
                 break;
 
-            case EVENT_LOOK_AROUND:
-                mActivity.finish();
+            case api_channels_communities_find:
                 break;
         }
     }
