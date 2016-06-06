@@ -86,9 +86,6 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
         mName = (AutoCompleteTextView) view.findViewById(R.id.name);
         mPhoto = (ImageView) view.findViewById(R.id.photo);
 
-        mSubmitBtn = (Button) view.findViewById(R.id.submitBtn);
-        mSubmitBtn.setOnClickListener(this);
-
         mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
         mSubmitBtn2.setOnClickListener(this);
 

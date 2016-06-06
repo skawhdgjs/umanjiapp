@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.mainHome.localCommunity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,7 +37,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 
-public class StepTwoFragment extends BaseChannelUpdateFragment {
+public class StepTwoFragment extends BaseChannelCreateFragment {
     private static final String TAG = "StepTwoFragment";
 
     protected ChannelData mChannel;
@@ -48,9 +49,6 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
     private TextView mConsole;
 
     protected String mTabType = "";
-
-    protected ImageView mPhotoBtn;
-    protected ImageView mGallaryBtn;
 
     protected AutoCompleteTextView mKeywordName;
     protected Button mAddKeywordBtn;
@@ -92,6 +90,7 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
 
     @Override
     public void initWidgets(View view) {
+        super.initWidgets(view);
 
         mName = (AutoCompleteTextView) view.findViewById(R.id.name);
 
@@ -115,24 +114,12 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
 
         mConsole.setText(mChannel.getType()+" :: this is console answer...");
 
-        String channelType = getArguments().getString("whichAction");
-
-        if (channelType == null){
-            mPhotoBtn = (ImageView) view.findViewById(R.id.photoBtn);
-            mPhotoBtn.setOnClickListener(this);
-            mGallaryBtn = (ImageView) view.findViewById(R.id.gallaryBtn);
-            mGallaryBtn.setOnClickListener(this);
-        }
-
-        updateView();
-
     }
 
     @Override
     public void loadData() {
 
     }
-
 
     @Override
     public void updateView() {
@@ -142,34 +129,29 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
 
     }
 
-
     @Override
     protected void request() {
         try {
             JSONObject params = mChannel.getAddressJSONObject();
-            String levelType = getArguments().getString("localType");
-            int mLevel = 18;
-            switch(levelType){
-                case "local_complex":
-                    mLevel = 15;
-                    break;
-                default:
-                    mLevel = 18;
-                    break;
-
-            }
             params.put("parent", mChannel.getId());
             params.put("parentType", mChannel.getType());
-            params.put("level", mLevel);
+            params.put("level", mChannel.getLevel());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMMUNITY);
-
 
             if(mKeywords.size() > 0) {
                 params.put("keywords", new JSONArray(mKeywords));
             }
 
+            if(mPhotoUri != null) {
+                ArrayList<String> photos = new ArrayList<>();
+                photos.add(mPhotoUri);
+                params.put("photos", new JSONArray(photos));
+                mPhotoUri = null;
+            }
+
             mApi.call(api_channels_createCommunity, params);
+            mActivity.finish();
 
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
@@ -177,24 +159,10 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
 
     }
 
-    protected void setChannelParams(JSONObject params) throws JSONException {
-        mChannel.setAddressJSONObject(params);
-        params.put("id", mChannel.getId());
-        params.put("name", mName.getText().toString());
-
-        if(mPhotoUri != null) {
-            ArrayList<String> photos = new ArrayList<>();
-            photos.add(mPhotoUri);
-            params.put("photos", new JSONArray(photos));
-            mPhotoUri = null;
-        }
-    }
-
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
     @Override
     public void onClick(View v) {
-//        super.onClick(v);
 
         switch (v.getId()) {
 
@@ -262,77 +230,5 @@ public class StepTwoFragment extends BaseChannelUpdateFragment {
 
         }
     }
-
-    @Override
-    public void onEvent(SuccessData event) {
-        super.onEvent(event);
-
-//        ChannelData channelData = new ChannelData(event.response);
-
-        switch (event.type) {
-            case api_channels_createCommunity:
-                mActivity.finish();
-                break;
-
-            case api_photo:
-                mProgress.hide();
-
-                try{
-                    if(mResizedFile != null) {
-                        mResizedFile.delete();
-                        mResizedFile = null;
-                    }
-                    if(!TextUtils.isEmpty(mPhotoUri)) {
-                        mPhotoUri = null;
-                    }
-
-                    JSONObject data = event.response.getJSONObject("data");
-                    mPhotoUri = REST_S3_URL + data.optString("photo");
-
-                    // Galaxy S4 에서만 나타나는 현상 임시처리.
-                    if(mPhoto.getTag() == null) {
-                        Glide.with(mActivity)
-                                .load(mPhotoUri)
-                                .into(mPhoto);
-                    }
-                }catch(JSONException e) {
-                    Log.e("BaseChannelCreate", "error " + e.toString());
-                }
-                break;
-
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        if(resultCode == 0) return;
-
-        File file = null;
-        switch (requestCode) {
-            case CODE_CAMERA_ACTIVITY:
-                mProgress.show();
-
-                mFilePath = FileHelper.getString(mActivity, "tmpFilePath");
-                if(!TextUtils.isEmpty(mFilePath)) {
-                    file = new File(mFilePath);
-                    mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
-                    FileHelper.setString(mActivity, "tmpFilePath", null);
-                } else {
-                    Toast.makeText(mActivity, "사진정보를 가져오지 못했습니다. 다시한번 시도해 주세요.", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case CODE_GALLERY_ACTIVITY:
-                mProgress.show();
-
-                file = FileHelper.getFileFromUri(mActivity, intent.getData());
-                mResizedFile = Helper.imageUploadAndDisplay(mActivity, mApi, file, mResizedFile, mPhoto, false);
-                break;
-        }
-
-    }
-
-
-
 
 }

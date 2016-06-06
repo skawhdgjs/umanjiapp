@@ -223,7 +223,7 @@ public class StepOneFragment extends BaseFragment {
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(mCurrentMyPosition)
-                            .zoom(13)
+                            .zoom(15)
                             .bearing(90)
                             .tilt(40)
                             .build();
@@ -235,7 +235,7 @@ public class StepOneFragment extends BaseFragment {
 
             LatLng latLng = new LatLng(latitude, longitude);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
         }
 
         initMapEvents();
@@ -570,6 +570,7 @@ public class StepOneFragment extends BaseFragment {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     JSONObject params = mChannelByPoint.getAddressJSONObject();
+                    params.put("level", LEVEL_COMPLEX);
                     params.put("type", TYPE_COMPLEX);
                     mApi.call(api_channels_createComplex, params, new AjaxCallback<JSONObject>() {
                         @Override
@@ -577,7 +578,7 @@ public class StepOneFragment extends BaseFragment {
                             mChannelByPoint = new ChannelData(object);
                             if (mMarkerByPoint != null) mMarkerByPoint.remove();
                             startActivity(mChannelByPoint, TYPE_COMPLEX);
-                            mActivity.finish();
+//                            mActivity.finish();
 
                             EventBus.getDefault().post(new SuccessData(api_channels_createComplex, object));
                         }
