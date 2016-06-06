@@ -40,12 +40,12 @@
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="단체의 장소를 결정합니다."
+            android:text="step 1 : 단체의 장소를 결정합니다"
             android:textColor="@color/main_home_text"
             android:textSize="18dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
-        <TextView
+        <!--<TextView
             android:id="@+id/next"
             android:layout_marginRight="5dp"
             android:padding="10dp"
@@ -56,7 +56,7 @@
             android:textSize="18dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true" />-->
 
     </RelativeLayout>
 
@@ -81,24 +81,33 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/content"
-
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="건물을 찾아서 클릭해 주세요."
-                android:textColor="@color/gray_text"/>
-
+                android:layout_height="wrap_content"
+                android:lines="2"
+                android:text="1. 단체의 위치를 찾습니다. \n    화면을 두번 연속 터치하면 확대됩니다."
+                android:textColor="@color/gray_text"
+                android:layout_marginBottom="20dp"/>
             <TextView
                 android:layout_below="@+id/content"
                 android:id="@+id/content2"
-
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="줌으로 건물이 나올때까지 플러스를 눌러서 찾아주세요."
-                android:textColor="@color/gray_text"/>
+                android:layout_height="wrap_content"
+                android:text="2. 대략적인 위치를 정하시고 나중에 수정할 수 있습니다."
+                android:textColor="@color/gray_text"
+                android:layout_marginBottom="20dp"/>
+            <TextView
+                android:layout_below="@+id/content2"
+                android:id="@+id/content3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. 단체위치를 한번 터치하고 확인을 누르시면 다음 단계로 넘어갑니다."
+                android:textColor="@color/gray_text"
+                android:layout_marginBottom="20dp"/>
 
             <TextView
                 android:id="@+id/mZoomLevelText"
@@ -110,9 +119,10 @@
             <TextView
                 android:id="@+id/mInfoTextPanel"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:text="안내"
-                android:textColor="@color/red"/>
+                android:textColor="@color/red"
+                android:layout_marginBottom="20dp"/>
 
             <!--
 

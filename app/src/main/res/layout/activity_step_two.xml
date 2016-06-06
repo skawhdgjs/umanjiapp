@@ -48,7 +48,7 @@
             android:textSize="18dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"/>
 
         <View
             android:layout_width="match_parent"
@@ -161,7 +161,7 @@
                         android:id="@+id/name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="이름을 입력해주세요"
+                        android:hint="단체 이름을 입력해주세요"
                         android:inputType="text"
                         android:maxLines="1"
                         android:singleLine="true"

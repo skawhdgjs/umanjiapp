@@ -61,7 +61,6 @@ public class StepOneFragment extends BaseFragment {
     private GoogleMap mMap;
 
     private ImageView mGoBackBtn;
-    private TextView mNext;
 
     private TextView mZoomLevelText;
     private TextView mInfoTextPanel;
@@ -139,9 +138,6 @@ public class StepOneFragment extends BaseFragment {
 
         mGoBackBtn = (ImageView) view.findViewById(R.id.goBackBtn);
         mGoBackBtn.setOnClickListener(this);
-
-        mNext = (TextView) view.findViewById(R.id.next);
-        mNext.setOnClickListener(this);
 
         mZoomLevelText = (TextView) view.findViewById(R.id.mZoomLevelText);
 

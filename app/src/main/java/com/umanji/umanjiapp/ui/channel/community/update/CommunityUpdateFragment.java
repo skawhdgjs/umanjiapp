@@ -35,10 +35,6 @@ import de.greenrobot.event.EventBus;
 public class CommunityUpdateFragment extends BaseChannelUpdateFragment {
     private static final String TAG = "CommunityUpdateFragment";
 
-    private EditText mFloor;
-    private CheckBox mBasementCheckBox;
-    private boolean isBasement = false;
-
 
     protected EditText mKeywordName;
     protected Button mAddKeywordBtn;
@@ -96,7 +92,6 @@ public class CommunityUpdateFragment extends BaseChannelUpdateFragment {
         try {
             JSONObject params = new JSONObject();
             setChannelParams(params);
-            setSpotDesc(params);
 
             params.put("keywords", new JSONArray(mKeywords));
 
@@ -107,24 +102,6 @@ public class CommunityUpdateFragment extends BaseChannelUpdateFragment {
         }
     }
 
-    protected void setSpotDesc(JSONObject params) throws JSONException {
-        String floor = mFloor.getText().toString();
-        if(TextUtils.isEmpty(mFloor.getText().toString())){
-            floor = "1";
-            //return;
-        }
-
-        int floorNum = Integer.parseInt(floor);
-
-        if(isBasement) {
-            floorNum = floorNum * -1;
-        }
-
-
-        JSONObject descParams = new JSONObject();
-        descParams.put("floor", floorNum);
-        params.put("desc", descParams);
-    }
 
     @Override
     public void updateView() {

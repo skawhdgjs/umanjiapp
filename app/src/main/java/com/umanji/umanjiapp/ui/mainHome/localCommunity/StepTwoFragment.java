@@ -2,9 +2,12 @@ package com.umanji.umanjiapp.ui.mainHome.localCommunity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -57,6 +60,8 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
     protected TextView mKeyword2;
 
     ArrayList<String> mKeywords = new ArrayList<>();
+
+    protected boolean isReady = false;
 
     public static StepTwoFragment newInstance(Bundle bundle) {
         StepTwoFragment fragment = new StepTwoFragment();
@@ -114,6 +119,33 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
 
         mConsole.setText(mChannel.getType()+" :: this is console answer...");
 
+        mName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                isReady = true;
+                if (mName.getText().toString().length() == 0) {
+                    mSubmitBtn2.setTextColor(Color.parseColor("#fff"));
+                } else {
+                    mSubmitBtn2.setTextColor(Color.parseColor("#ff0000"));
+                }
+                enableSubmitIfReady();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+    }
+
+    public void enableSubmitIfReady() {
+
+        boolean isReady =mName.getText().toString().length()>1;
+        mSubmitBtn2.setEnabled(isReady);
     }
 
     @Override
