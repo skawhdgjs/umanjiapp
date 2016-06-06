@@ -292,9 +292,9 @@ public class StepOneFragment extends BaseFragment {
 
                                 } else {
                                     if (isComplexCreatable(zoom)) {
-                                        startActivity(mChannelByPoint, TYPE_LOCAL_COMPLEX);
+                                        startActivity(mChannelByPoint, TYPE_COMPLEX);
                                     } else if (isSpotCreatable(zoom)) {
-                                        startActivity(mChannelByPoint, TYPE_LOCAL_SPOT);
+                                        startActivity(mChannelByPoint, TYPE_SPOT);
                                     }
 
                                 }

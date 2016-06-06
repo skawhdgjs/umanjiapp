@@ -48,7 +48,8 @@
             android:textSize="18dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:visibility="gone"/>
 
         <View
             android:layout_width="match_parent"

@@ -124,9 +124,9 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
             public void afterTextChanged(Editable arg0) {
                 isReady = true;
                 if (mName.getText().toString().length() == 0) {
-                    mSubmitBtn2.setTextColor(Color.parseColor("#fff"));
+                    mSubmitBtn2.setVisibility(View.GONE);
                 } else {
-                    mSubmitBtn2.setTextColor(Color.parseColor("#ff0000"));
+                    mSubmitBtn2.setVisibility(View.VISIBLE);
                 }
                 enableSubmitIfReady();
             }
