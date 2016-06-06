@@ -29,6 +29,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import de.greenrobot.event.EventBus;
 
 public class MainHomeFragment extends BaseFragment {
@@ -47,8 +50,7 @@ public class MainHomeFragment extends BaseFragment {
     protected RelativeLayout mMyCommunityThree;
 
     JSONArray jsonArray;
-    String mNumber;
-    int num;
+    int num=0;
 
 
     public static MainHomeFragment newInstance(Bundle bundle) {
@@ -92,8 +94,6 @@ public class MainHomeFragment extends BaseFragment {
         mMyCommunityThree.setOnClickListener(this);
 
         mCommunityCount = (TextView) view.findViewById(R.id.communityCount);
-        mCommunityCount.setText(mNumber);
-
         loadData();
 
     }
@@ -116,7 +116,7 @@ public class MainHomeFragment extends BaseFragment {
                     } else {
                         try {
                             jsonArray = object.getJSONArray("data");
-                            num = jsonArray.length();
+                            num = jsonArray.length() + 10000000;
 
                             updateView();
 
@@ -138,8 +138,9 @@ public class MainHomeFragment extends BaseFragment {
         if (AuthHelper.isLogin(mActivity)) {
         } else {
         }
-        mNumber=String.valueOf(num);
-        mCommunityCount.setText(mNumber);
+
+        String strNumber = NumberFormat.getNumberInstance().format(num);
+        mCommunityCount.setText(strNumber);
     }
 
     @Override
