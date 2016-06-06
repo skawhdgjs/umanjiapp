@@ -116,7 +116,7 @@ public class MainHomeFragment extends BaseFragment {
                     } else {
                         try {
                             jsonArray = object.getJSONArray("data");
-                            num = jsonArray.length() + 10000000;
+                            num = jsonArray.length();
 
                             updateView();
 
