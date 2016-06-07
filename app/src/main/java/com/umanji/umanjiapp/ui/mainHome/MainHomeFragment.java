@@ -36,10 +36,12 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.main.MainActivity;
 import com.umanji.umanjiapp.ui.mainHome.localCommunity.CreateLocalCommunityActivity;
 import com.umanji.umanjiapp.ui.modal.WebViewActivity;
+import com.umanji.umanjiapp.ui.modal.map.update_address.MapUpdateAddressActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -446,10 +448,17 @@ public class MainHomeFragment extends BaseFragment {
 
                 if(mMyCommunityChannelOne != null){
                     Intent defaultInt;
-                    defaultInt = new Intent(getActivity(), MainActivity.class);
+                    defaultInt = new Intent(getActivity(), CommunityActivity.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mMyCommunityChannelOne.getJsonObject().toString());
+                    bundle.putString("iamFrom", "home");
+
+                    defaultInt.putExtra("bundle", bundle);
+
                     startActivity(defaultInt);
 
-                    Helper.startActivity(mActivity, mMyCommunityChannelOne);
+//                    Helper.startActivity(mActivity, mMyCommunityChannelOne);
                 } else {
                     Toast.makeText(mActivity, "만든 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
                 }
@@ -480,7 +489,7 @@ public class MainHomeFragment extends BaseFragment {
                     Intent defaultInt;
                     defaultInt = new Intent(getActivity(), MainActivity.class);
                     startActivity(defaultInt);
-                    
+
                     Helper.startActivity(mActivity, mMyCommunityChannelThree);
                 } else {
                     Toast.makeText(mActivity, "커뮤니티를 만들어 주세요", Toast.LENGTH_SHORT).show();

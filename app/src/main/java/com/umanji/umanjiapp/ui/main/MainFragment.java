@@ -743,12 +743,38 @@ public class MainFragment extends BaseFragment {
 
             mCurrentMyPosition = new LatLng(latitude, longitude);
 
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(mCurrentMyPosition)
-                    .zoom(7)
-                    .bearing(90)
-                    .tilt(40)
-                    .build();
+            String answer = getArguments().getString("iamFrom");
+            CameraPosition cameraPosition;
+
+            ChannelData homeChannel = null;
+            if (getArguments() != null) {
+                String jsonString = getArguments().getString("channel");
+                if (jsonString != null) {
+                    homeChannel = new ChannelData(jsonString);
+                }
+            }
+
+            if (answer != null){    // from home
+
+                latitude = homeChannel.getLatitude();
+                longitude = homeChannel.getLongitude();
+
+                cameraPosition = new CameraPosition.Builder()
+                        .target(mCurrentMyPosition)
+                        .zoom(18)
+                        .bearing(90)
+                        .tilt(40)
+                        .build();
+            } else {
+                cameraPosition = new CameraPosition.Builder()
+                        .target(mCurrentMyPosition)
+                        .zoom(7)
+                        .bearing(90)
+                        .tilt(40)
+                        .build();
+            }
+
+
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         } catch (SecurityException e) {
@@ -757,7 +783,13 @@ public class MainFragment extends BaseFragment {
 
         LatLng latLng = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(7), 2000, null);
+
+        String answer = getArguments().getString("iamFrom");
+        if (answer != null){
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);   // home
+        } else {
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(7), 2000, null);
+        }
     }
 
     /****************************************************
