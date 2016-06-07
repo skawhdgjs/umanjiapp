@@ -42,7 +42,7 @@
                 android:layout_marginTop="2dp"
                 android:id="@+id/relativeLayout3">
 
-                <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <!--<com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/mAvatarImageBtn"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
@@ -52,7 +52,20 @@
                     app:riv_border_color="@color/colorPrimary"
                     app:riv_border_width="1px"
                     app:riv_corner_radius="5dp"
-                    app:riv_oval="false" />
+                    app:riv_oval="false" />-->
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/homeBtn"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_home"
+                    app:riv_border_color="@color/colorPrimary"
+                    app:riv_border_width="1px"
+                    app:riv_corner_radius="33dp"
+                    app:riv_oval="false"/>
 
                 <TextView
                     android:id="@+id/search"
@@ -61,8 +74,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@+id/mAvatarImageBtn"
-                    android:layout_toRightOf="@+id/mAvatarImageBtn"
+                    android:layout_toEndOf="@+id/homeBtn"
+                    android:layout_toRightOf="@+id/homeBtn"
                     android:background="@drawable/shadow"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
@@ -90,22 +103,6 @@
 
             </RelativeLayout>
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/homeBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_home"
-                app:riv_border_color="@color/colorPrimary"
-                app:riv_border_width="1px"
-                app:riv_corner_radius="33dp"
-                app:riv_oval="false"
-                android:layout_below="@+id/ads_image"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="55dp"/>
 
             <TextView
                 android:id="@+id/mZoomLevelText"

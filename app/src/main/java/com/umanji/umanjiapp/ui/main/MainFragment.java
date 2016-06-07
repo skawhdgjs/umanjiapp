@@ -92,7 +92,7 @@ public class MainFragment extends BaseFragment {
 
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private LinearLayout mHeaderPanel;
-    private RoundedImageView mAvatarImageBtn;
+//    private RoundedImageView mAvatarImageBtn;
     private Button mNotyCountBtn;
 
     private RoundedImageView mZoomBtn;
@@ -226,13 +226,13 @@ public class MainFragment extends BaseFragment {
             mChannelIdForPush = getArguments().getString("id");
         }
 
-        Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
+        /*Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
         t.setScreenName("MainActivity");
-        t.send(new HitBuilders.AppViewBuilder().build());
+        t.send(new HitBuilders.AppViewBuilder().build());*/
 
     }
 
-    @Override
+    /*@Override
     public void onStart() {
         super.onStart();
 
@@ -243,7 +243,7 @@ public class MainFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         GoogleAnalytics.getInstance(mActivity).reportActivityStop(mActivity);
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -251,11 +251,11 @@ public class MainFragment extends BaseFragment {
 
         initMainListView(mView);
 
-        if (AuthHelper.isLogin(mActivity)) {
+        /*if (AuthHelper.isLogin(mActivity)) {
             loginByToken();
         } else {
             updateView();
-        }
+        }*/
 
         initWidgets(mView);
 
@@ -381,8 +381,8 @@ public class MainFragment extends BaseFragment {
         mZoomBtn.setTag(ZOOM_IN);
         mZoomBtn.setOnClickListener(this);
 
-        mAvatarImageBtn = (RoundedImageView) view.findViewById(R.id.mAvatarImageBtn);
-        mAvatarImageBtn.setOnClickListener(this);
+//        mAvatarImageBtn = (RoundedImageView) view.findViewById(R.id.mAvatarImageBtn);
+//        mAvatarImageBtn.setOnClickListener(this);
 
         mNotyCountBtn = (Button) view.findViewById(R.id.mNotyCount);
         mNotyCountBtn.setOnClickListener(this);
@@ -468,7 +468,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void updateView() {
-        if (AuthHelper.isLogin(mActivity)) {
+        /*if (AuthHelper.isLogin(mActivity)) {
             mAvatarImageBtn.setVisibility(View.VISIBLE);
             String userPhoto = mUser.getPhoto();
             if (!TextUtils.isEmpty(userPhoto)) {
@@ -491,7 +491,7 @@ public class MainFragment extends BaseFragment {
                     .animate(R.anim.abc_fade_in)
                     .override(40, 40)
                     .into(mAvatarImageBtn);
-        }
+        }*/
     }
 
     @Override
@@ -499,7 +499,7 @@ public class MainFragment extends BaseFragment {
         super.onEvent(event);
 
         switch (event.type) {
-            case api_token_check:
+            /*case api_token_check:
             case api_signin:
             case api_signup:
                 AuthData auth = new AuthData(event.response);
@@ -509,7 +509,7 @@ public class MainFragment extends BaseFragment {
 
             case api_logout:
                 logout();
-                break;
+                break;*/
             case api_channels_createCommunity:
             case api_channels_createComplex:
             case api_channels_createSpot:
@@ -547,14 +547,14 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    public void onEvent(ErrorData event) {
+    /*public void onEvent(ErrorData event) {
 
         switch (event.type) {
             case TYPE_ERROR_AUTH:
                 Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 break;
         }
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -611,7 +611,7 @@ public class MainFragment extends BaseFragment {
                 break;
 
             case R.id.mNotyCount:
-            case R.id.mAvatarImageBtn:
+            /*case R.id.mAvatarImageBtn:
                 if (AuthHelper.isLogin(mActivity) && mUser != null) {
                     Intent intent = new Intent(mActivity, ProfileActivity.class);
                     Bundle bundle = new Bundle();
@@ -628,7 +628,7 @@ public class MainFragment extends BaseFragment {
                 } else {
                     Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 }
-                break;
+                break;*/
 
             case R.id.ads_image:
                 Intent webIntent = new Intent(mActivity, WebViewActivity.class);
@@ -1321,7 +1321,7 @@ public class MainFragment extends BaseFragment {
         mProgress.hide();
     }
 
-    private void loginByToken() {
+    /*private void loginByToken() {
         try {
             JSONObject params = new JSONObject();
             params.put("access_token", AuthHelper.getToken(mActivity));
@@ -1337,9 +1337,9 @@ public class MainFragment extends BaseFragment {
             Log.e(TAG, "error " + e.toString());
         }
 
-    }
+    }*/
 
-    private void login(AuthData auth) {
+    /*private void login(AuthData auth) {
         if (checkPlayServices()) {
             Intent intent = new Intent(mActivity, GcmRegistrationIntentService.class);
             mActivity.startService(intent);
@@ -1356,7 +1356,7 @@ public class MainFragment extends BaseFragment {
         AuthHelper.logout(mActivity);
 
         updateView();
-    }
+    }*/
 
     private static boolean isKeywordTouchable(int zoom) {
         if (zoom >= 2 && zoom <= 7) {
@@ -1625,11 +1625,11 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    private int getNewNoticeCount() {
+   /* private int getNewNoticeCount() {
         return Integer.parseInt(mNotyCountBtn.getText().toString());
-    }
+    }*/
 
-    private boolean checkPlayServices() {
+    /*private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
@@ -1641,7 +1641,7 @@ public class MainFragment extends BaseFragment {
             return false;
         }
         return true;
-    }
+    }*/
 
     private class TouchableWrapper extends FrameLayout {
         public TouchableWrapper(Context context) {
