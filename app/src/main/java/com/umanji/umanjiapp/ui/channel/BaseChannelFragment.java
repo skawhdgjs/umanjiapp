@@ -29,6 +29,7 @@ import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
+import com.umanji.umanjiapp.ui.main.MainActivity;
 import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
 import org.json.JSONException;
@@ -375,7 +376,18 @@ public abstract class BaseChannelFragment extends BaseFragment {
                 break;
 
             case R.id.lookAround:
-                EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                String answer = getArguments().getString("iamFrom");
+                String lookChannel = getArguments().getString("channel");
+                if(answer != null){  //from home
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", lookChannel);
+                    bundle.putString("iamFrom", "home");
+                    Intent intent = new Intent(mActivity, MainActivity.class);
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+                } else {
+                    EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                }
                 break;
 
             case R.id.infoButton:

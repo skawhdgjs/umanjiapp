@@ -170,7 +170,7 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
         try {
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
-            params.put("parentType", mChannel.getType());
+//            params.put("parentType", mChannel.getParent().getType());
             params.put("level", mChannel.getLevel());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMMUNITY);
@@ -188,7 +188,7 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
 
             mApi.call(api_channels_createCommunity, params);
             mActivity.finish();
-            startActivity(mChannel);
+            Helper.startActivity(mActivity, mChannel, TAB_COMMUNITIES);
 
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
@@ -197,9 +197,6 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
     }
 
     private void startActivity(ChannelData channel) {
-        Intent defaultInt;
-        defaultInt = new Intent(getActivity(), MainActivity.class);
-        startActivity(defaultInt);
 
         Intent intent = null;
         intent = new Intent(getActivity(), CommunityActivity.class);

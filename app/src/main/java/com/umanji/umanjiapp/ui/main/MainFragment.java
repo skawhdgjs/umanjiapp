@@ -789,7 +789,7 @@ public class MainFragment extends BaseFragment {
         } else {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(7), 2000, null);
         }
-           
+
     }
 
     /****************************************************
