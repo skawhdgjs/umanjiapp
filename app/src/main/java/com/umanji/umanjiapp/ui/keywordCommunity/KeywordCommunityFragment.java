@@ -633,7 +633,7 @@ public class KeywordCommunityFragment extends BaseFragment {
             mMap = ((MapFragment) mActivity.getFragmentManager().findFragmentById(R.id.mMapFragment))
                     .getMap();
 
-            int paddingInDp = 50;
+            int paddingInDp = 100;
 
             final float scale = getResources().getDisplayMetrics().density;
             int paddingInPx = (int) (paddingInDp * scale + 0.5f);

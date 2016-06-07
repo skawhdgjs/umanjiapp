@@ -370,7 +370,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tabs_height"
                     android:layout_gravity="bottom"
-                    app:tabMode="scrollable" />
+                    />
+
+                <View
+                    android:layout_below="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_soft"
+                    android:layout_gravity="bottom"/>
+
+                <!--app:tabMode="scrollable"-->
 
 
 

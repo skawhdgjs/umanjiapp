@@ -327,6 +327,8 @@
 
                     </RelativeLayout>
 
+
+
                 </FrameLayout>
 
 
@@ -337,6 +339,7 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tabs"
                     style="@style/AppTheme.TabStyle"
@@ -344,6 +347,14 @@
                     android:layout_height="@dimen/tabs_height"
                     android:layout_gravity="bottom"
                     app:tabMode="scrollable" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray_soft"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_horizontal|bottom" />
 
 
             </android.support.design.widget.CollapsingToolbarLayout>
