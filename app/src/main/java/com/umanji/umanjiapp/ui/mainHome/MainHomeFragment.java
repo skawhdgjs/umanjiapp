@@ -219,8 +219,6 @@ public class MainHomeFragment extends BaseFragment {
                             }
                             Toast.makeText(mActivity, "called Community", Toast.LENGTH_SHORT).show();
 
-                            updateView();
-
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }
@@ -299,6 +297,12 @@ public class MainHomeFragment extends BaseFragment {
 
     @Override
     public void updateView() {
+        mMyCommunityChannelOne = null;
+        mMyCommunityChannelTwo = null;
+        mMyCommunityChannelThree = null;
+        mEmpty1.setVisibility(View.VISIBLE);
+        mEmpty2.setVisibility(View.VISIBLE);
+        mEmpty3.setVisibility(View.VISIBLE);
 
         String strNumber = NumberFormat.getNumberInstance().format(num);
         mCommunityCount.setText(strNumber);
@@ -328,6 +332,8 @@ public class MainHomeFragment extends BaseFragment {
                     .into(mUserPhoto);*/
             mUserPhoto.setImageResource(R.drawable.icon_user_person);
         }
+
+        loadCommunity();
     }
 
     public void loginupdateView() {
