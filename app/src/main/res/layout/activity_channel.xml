@@ -345,6 +345,7 @@
                     android:layout_gravity="bottom"
                     app:tabMode="scrollable" />
 
+
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 

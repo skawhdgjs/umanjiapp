@@ -9,7 +9,7 @@
         android:id="@+id/mMapFragment"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
+        android:layout_height="340dp"
         android:layout_alignParentBottom="true"
         tools:layout="@layout/activity_distribution" />
 

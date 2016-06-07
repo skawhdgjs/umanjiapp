@@ -31,6 +31,10 @@ import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 import com.umanji.umanjiapp.ui.channel.BaseChannelUpdateFragment;
+import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
+import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
+import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
+import com.umanji.umanjiapp.ui.main.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -184,11 +188,29 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
 
             mApi.call(api_channels_createCommunity, params);
             mActivity.finish();
+            startActivity(mChannel);
 
         }catch(JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
 
+    }
+
+    private void startActivity(ChannelData channel) {
+        Intent defaultInt;
+        defaultInt = new Intent(getActivity(), MainActivity.class);
+        startActivity(defaultInt);
+
+        Intent intent = null;
+        intent = new Intent(getActivity(), CommunityActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channel.getJsonObject().toString());
+        intent.putExtra("bundle", bundle);
+        intent.putExtra("enterAnim", R.anim.zoom_out);
+        intent.putExtra("exitAnim", R.anim.zoom_in);
+
+        startActivity(intent);
     }
 
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
