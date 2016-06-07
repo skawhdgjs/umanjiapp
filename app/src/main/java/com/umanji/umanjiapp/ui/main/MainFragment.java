@@ -743,7 +743,7 @@ public class MainFragment extends BaseFragment {
 
             mCurrentMyPosition = new LatLng(latitude, longitude);
 
-            String answer = getArguments().getString("iamFrom");
+
             CameraPosition cameraPosition;
 
             ChannelData homeChannel = null;
@@ -754,7 +754,7 @@ public class MainFragment extends BaseFragment {
                 }
             }
 
-            if (answer != null){    // from home
+            if (getArguments() != null){    // from home  getArguments().getString("iamFrom") != null
 
                 latitude = homeChannel.getLatitude();
                 longitude = homeChannel.getLongitude();
@@ -784,12 +784,12 @@ public class MainFragment extends BaseFragment {
         LatLng latLng = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        String answer = getArguments().getString("iamFrom");
-        if (answer != null){
+        if (getArguments() != null){
             mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);   // home
         } else {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(7), 2000, null);
         }
+           
     }
 
     /****************************************************
