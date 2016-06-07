@@ -224,6 +224,7 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/hobby1"/>
                 <TextView
+                    android:id="@+id/empty1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/empty"
@@ -244,6 +245,7 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/hobby2"/>
                 <TextView
+                    android:id="@+id/empty2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/empty"
@@ -264,6 +266,7 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/hobby3"/>
                 <TextView
+                    android:id="@+id/empty3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/empty"

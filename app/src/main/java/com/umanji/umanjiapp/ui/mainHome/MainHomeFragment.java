@@ -44,9 +44,11 @@ import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import de.greenrobot.event.EventBus;
@@ -66,6 +68,15 @@ public class MainHomeFragment extends BaseFragment {
     protected RelativeLayout mMyCommunityOne;
     protected RelativeLayout mMyCommunityTwo;
     protected RelativeLayout mMyCommunityThree;
+
+    protected ChannelData mMyCommunityChannelOne;
+    protected ChannelData mMyCommunityChannelTwo;
+    protected ChannelData mMyCommunityChannelThree;
+
+    protected TextView mEmpty1;
+    protected TextView mEmpty2;
+    protected TextView mEmpty3;
+
 
     private Button mNotyCountBtn;
 
@@ -158,8 +169,70 @@ public class MainHomeFragment extends BaseFragment {
         mMyCommunityThree.setOnClickListener(this);
 
         mCommunityCount = (TextView) view.findViewById(R.id.communityCount);
+
+        mEmpty1 = (TextView) view.findViewById(R.id.empty1);
+        mEmpty2 = (TextView) view.findViewById(R.id.empty2);
+        mEmpty3 = (TextView) view.findViewById(R.id.empty3);
+
         loadData();
 
+
+    }
+
+    private void loadCommunity() {
+
+        try {
+            JSONObject params = new JSONObject();
+            params.put("level", 2);
+            params.put("sort", "point DESC");
+            params.put("owner", mUser.getOwner());
+            params.put("type", TYPE_COMMUNITY);
+
+            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+
+                    if(status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    }else {
+                        try {
+                            ArrayList<ChannelData> channels;
+                            JSONArray jsonArray = object.getJSONArray("data");
+                            for(int idx = 0; idx < 3; idx++) {
+                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                ChannelData doc = new ChannelData(jsonDoc);
+                                switch(idx){
+                                    case 0:
+                                        mMyCommunityChannelOne = doc;
+                                        mEmpty1.setVisibility(View.GONE);
+                                        break;
+                                    case 1:
+                                        mMyCommunityChannelTwo = doc;
+                                        mEmpty2.setVisibility(View.GONE);
+                                        break;
+                                    case 2:
+                                        mMyCommunityChannelThree = doc;
+                                        mEmpty3.setVisibility(View.GONE);
+                                        break;
+                                }
+
+                            }
+                            Toast.makeText(mActivity, "called Community", Toast.LENGTH_SHORT).show();
+
+                            updateView();
+
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+
+                    }
+                }
+            });
+        } catch(JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+
+        return;
     }
 
     @Override
@@ -179,6 +252,7 @@ public class MainHomeFragment extends BaseFragment {
                     if (TextUtils.isEmpty(mChannelByPoint.getId())) {
                         if (AuthHelper.isLogin(mActivity)) {
 
+                            loadCommunity();
                         } else {
                             //Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                         }
@@ -368,21 +442,36 @@ public class MainHomeFragment extends BaseFragment {
                 mMyCommunityOne.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
-                Toast.makeText(mActivity, "만든 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
+                if(mMyCommunityChannelOne != null){
+                    Helper.startActivity(mActivity, mMyCommunityChannelOne);
+                } else {
+                    Toast.makeText(mActivity, "만든 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
 
             case R.id.myCommunityTwo:
                 mMyCommunityTwo.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
-                Toast.makeText(mActivity, "나의 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
+                if(mMyCommunityChannelTwo != null){
+                    Helper.startActivity(mActivity, mMyCommunityChannelTwo);
+                } else {
+                    Toast.makeText(mActivity, "나의 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
 
             case R.id.myCommunityThree:
                 mMyCommunityThree.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
-                Toast.makeText(mActivity, "커뮤니티를 만들어 주세요", Toast.LENGTH_SHORT).show();
+                if(mMyCommunityChannelThree != null){
+                    Helper.startActivity(mActivity, mMyCommunityChannelThree);
+                } else {
+                    Toast.makeText(mActivity, "커뮤니티를 만들어 주세요", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
 
             case R.id.mAvatarImageBtn:
