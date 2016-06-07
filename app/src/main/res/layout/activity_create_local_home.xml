@@ -72,15 +72,28 @@
         android:id="@+id/textView13" />
 
     <TextView
+        android:id="@+id/findPerson"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="장소에 커뮤니티를 만들면 좋아요"
+        android:text="관심사가 같은 사람을 찾아보세요"
         android:textSize="20dp"
         android:textStyle="bold"
         android:textColor="@color/white"
         android:layout_below="@+id/textView13"
         android:layout_alignLeft="@+id/textView13"
         android:layout_alignStart="@+id/textView13"
+        android:layout_marginTop="34dp" />
+    <TextView
+        android:id="@+id/createAgit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="모임을 위해 만남의 중심될 장소를 지정해 주세요"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_below="@+id/findPerson"
+        android:layout_alignLeft="@+id/findPerson"
+        android:layout_alignStart="@+id/findPerson"
         android:layout_marginTop="34dp" />
 
     <Button
@@ -89,7 +102,9 @@
         android:layout_height="wrap_content"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
-        android:text="커뮤니티 만들기"
+        android:text="모임 장소 만들기"
+        android:textSize="16dp"
+        android:background="@color/white"
         android:layout_above="@+id/footer"
         android:layout_centerHorizontal="true" />
 

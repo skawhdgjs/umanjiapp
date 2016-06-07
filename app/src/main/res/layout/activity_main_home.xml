@@ -172,7 +172,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lines="2"
-                android:text="나와 비슷한 생각을 갖은 사람을 모임을 만들어 찾아보세요"
+                android:text="나와 비슷한 생각을 갖은 사람을 관심사를 만들어 찾아보세요"
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 android:shadowColor="#000"
@@ -194,7 +194,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="나의 모임 바로가기"
+                android:text="나의 관심사 바로가기"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:shadowColor="#000"
@@ -316,13 +316,13 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/icon_commnity_create"
-                android:layout_marginLeft="100dp"/>
+                android:layout_marginLeft="80dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="커뮤니티 만들기"
+                android:text="관심사 같은 사람 찾기"
                 android:textColor="@color/main_home_text" />
         </LinearLayout>
 
@@ -350,13 +350,13 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:src="@drawable/icon_magnifing"
-                android:layout_marginLeft="100dp"/>
+                android:layout_marginLeft="90dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="커뮤니티 구경하기"
+                android:text="세상 구경하기"
                 android:textColor="@color/main_home_text" />
         </LinearLayout>
 

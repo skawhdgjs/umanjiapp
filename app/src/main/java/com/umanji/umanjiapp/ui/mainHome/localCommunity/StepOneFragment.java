@@ -66,7 +66,6 @@ public class StepOneFragment extends BaseFragment {
     private TextView mInfoTextPanel;
 
 
-
     /****************************************************
      * Map
      ****************************************************/
@@ -398,7 +397,7 @@ public class StepOneFragment extends BaseFragment {
                     isBlock = false;
                 } else {
 
-                    mZoomLevelText.setText("줌레벨 : " + (int) position.zoom +"    [15~21사이에 만들수 있음]");
+                    mZoomLevelText.setText("" + (int) position.zoom);
 
                     int zoom = (int) position.zoom;
                     // isPoliticTouchable

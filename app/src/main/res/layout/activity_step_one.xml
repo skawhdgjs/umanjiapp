@@ -9,9 +9,24 @@
         android:id="@+id/mMapFragment"
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="340dp"
+        android:layout_height="350dp"
         android:layout_alignParentBottom="true"
         tools:layout="@layout/activity_distribution" />
+
+    <TextView
+        android:id="@+id/mZoomLevelText"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:gravity="center"
+        android:background="@drawable/btn_label"
+        android:text="12"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_below="@+id/relativeLayout7"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp" />
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -40,7 +55,7 @@
             android:id="@+id/headerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="step 1 : 단체의 장소를 결정합니다"
+            android:text="step 1 : 자주 모일 장소를 정합니다"
             android:textColor="@color/main_home_text"
             android:textSize="18dp"
             android:layout_centerVertical="true"
@@ -68,7 +83,8 @@
         android:background="@color/white"
         android:layout_below="@+id/relativeLayout6"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/relativeLayout7">
 
         <View
             android:layout_width="match_parent"
@@ -84,12 +100,38 @@
             android:layout_marginRight="20dp"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="20dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/current_button"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" : 현재위치로 이동"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/zoom_text"
+                    android:layout_marginLeft="30dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" : 현재 줌레벨 표시"/>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lines="2"
-                android:text="1. 단체의 위치를 찾습니다. \n    화면을 두번 연속 터치하면 확대됩니다."
+                android:text="1. 화면을 연속 두번 터치하면 확대됩니다."
                 android:textColor="@color/gray_text"
                 android:layout_marginBottom="20dp"/>
             <TextView
@@ -97,7 +139,7 @@
                 android:id="@+id/content2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2. 대략적인 위치를 정하시고 나중에 수정할 수 있습니다."
+                android:text="2. 한번 터치하면 장소를 지정할 수 있습니다."
                 android:textColor="@color/gray_text"
                 android:layout_marginBottom="20dp"/>
             <TextView
@@ -105,24 +147,33 @@
                 android:id="@+id/content3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="3. 단체위치를 한번 터치하고 확인을 누르시면 다음 단계로 넘어갑니다."
+                android:text="3. 주소확인 화면이 나오면 확인을 눌러 다음단계로 넘어갑니다."
                 android:textColor="@color/gray_text"
                 android:layout_marginBottom="20dp"/>
 
-            <TextView
-                android:id="@+id/mZoomLevelText"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="zoomlevel"
-                android:textColor="@color/gray_text"/>
-
-            <TextView
-                android:id="@+id/mInfoTextPanel"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="안내"
-                android:textColor="@color/red"
-                android:layout_marginBottom="20dp"/>
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="안내 : "
+                    android:textColor="@color/red"
+                    />
+
+                <TextView
+                    android:id="@+id/mInfoTextPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="참고해 주세요"
+                    android:textColor="@color/red"
+                    />
+
+            </LinearLayout>
+
+
 
             <!--
 
