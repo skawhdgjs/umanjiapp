@@ -60,9 +60,6 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
         mHeaderTitle = (TextView) view.findViewById(R.id.headerTitle);
         mHeaderTitle.setText("커뮤니티 생성");
 
-        mSubmitBtn.setText("커뮤니티 생성");
-
-
         mKeywordName = (AutoCompleteTextView) view.findViewById(R.id.keywordName);
         mAddKeywordBtn = (Button) view.findViewById(R.id.addKeywordBtn);
         mAddKeywordBtn.setOnClickListener(this);

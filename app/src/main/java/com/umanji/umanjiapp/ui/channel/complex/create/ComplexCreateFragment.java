@@ -59,8 +59,6 @@ public class ComplexCreateFragment extends BaseChannelCreateFragment {
     public void initWidgets(View view) {
         super.initWidgets(view);
 
-        mSubmitBtn.setText("복합단지 생성");
-
         mKeywordName = (AutoCompleteTextView) view.findViewById(R.id.keywordName);
         mAddKeywordBtn = (Button) view.findViewById(R.id.addKeywordBtn);
         mAddKeywordBtn.setOnClickListener(this);

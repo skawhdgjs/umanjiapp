@@ -1272,7 +1272,7 @@ public class MainFragment extends BaseFragment {
 
     private void loadMoreMainPosts() {
         isLoading = true;
-        mProgress.show();
+//        mProgress.show();
 
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);

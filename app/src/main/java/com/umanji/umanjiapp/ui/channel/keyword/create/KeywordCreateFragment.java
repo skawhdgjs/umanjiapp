@@ -47,7 +47,6 @@ public class KeywordCreateFragment extends BaseChannelCreateFragment {
         mHeaderTitle = (TextView) view.findViewById(R.id.headerTitle);
         mHeaderTitle.setText("키워드 설정");
 
-        mSubmitBtn.setText("키워드 생성");
     }
 
     @Override

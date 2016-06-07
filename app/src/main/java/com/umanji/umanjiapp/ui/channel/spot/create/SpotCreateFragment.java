@@ -88,9 +88,6 @@ public class SpotCreateFragment extends BaseChannelCreateFragment {
             }
         });
 
-        mSubmitBtn.setText("스팟 생성");
-
-
         mKeywordName = (EditText) view.findViewById(R.id.keywordName);
         mAddKeywordBtn = (Button) view.findViewById(R.id.addKeywordBtn);
         mAddKeywordBtn.setOnClickListener(this);

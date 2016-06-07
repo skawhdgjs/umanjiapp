@@ -88,7 +88,6 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
         tv = (TextView) view.findViewById(R.id.bundleTest);
         tv.setText(c);
 
-        mSubmitBtn.setText("임명 제출");
     }
 
     @Override
