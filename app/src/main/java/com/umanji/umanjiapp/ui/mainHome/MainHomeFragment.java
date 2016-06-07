@@ -115,6 +115,12 @@ public class MainHomeFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         GoogleAnalytics.getInstance(mActivity).reportActivityStop(mActivity);
@@ -122,11 +128,7 @@ public class MainHomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
         return super.onCreateView(inflater, container, savedInstanceState);
-
-
     }
 
     @Override
@@ -177,60 +179,6 @@ public class MainHomeFragment extends BaseFragment {
         loadData();
 
 
-    }
-
-    private void loadCommunity() {
-
-        try {
-            JSONObject params = new JSONObject();
-            params.put("level", 2);
-            params.put("sort", "point DESC");
-            params.put("owner", mUser.getOwner());
-            params.put("type", TYPE_COMMUNITY);
-
-            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-
-                    if(status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    }else {
-                        try {
-                            ArrayList<ChannelData> channels;
-                            JSONArray jsonArray = object.getJSONArray("data");
-                            for(int idx = 0; idx < 3; idx++) {
-                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                ChannelData doc = new ChannelData(jsonDoc);
-                                switch(idx){
-                                    case 0:
-                                        mMyCommunityChannelOne = doc;
-                                        mEmpty1.setVisibility(View.GONE);
-                                        break;
-                                    case 1:
-                                        mMyCommunityChannelTwo = doc;
-                                        mEmpty2.setVisibility(View.GONE);
-                                        break;
-                                    case 2:
-                                        mMyCommunityChannelThree = doc;
-                                        mEmpty3.setVisibility(View.GONE);
-                                        break;
-                                }
-
-                            }
-                            Toast.makeText(mActivity, "called Community", Toast.LENGTH_SHORT).show();
-
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error " + e.toString());
-                        }
-
-                    }
-                }
-            });
-        } catch(JSONException e) {
-            Log.e(TAG, "error " + e.toString());
-        }
-
-        return;
     }
 
     @Override
@@ -294,7 +242,6 @@ public class MainHomeFragment extends BaseFragment {
 
     }
 
-
     @Override
     public void updateView() {
         mMyCommunityChannelOne = null;
@@ -336,9 +283,58 @@ public class MainHomeFragment extends BaseFragment {
         loadCommunity();
     }
 
-    public void loginupdateView() {
+    private void loadCommunity() {
 
+        try {
+            JSONObject params = new JSONObject();
+//            params.put("level", 2);
+            params.put("sort", "point DESC");
+            params.put("owner", mUser.getId());
+            params.put("type", TYPE_COMMUNITY);
+
+            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+
+                    if(status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    }else {
+                        try {
+                            ArrayList<ChannelData> channels;
+                            JSONArray jsonArray = object.getJSONArray("data");
+                            for(int idx = 0; idx < 3; idx++) {
+                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                ChannelData doc = new ChannelData(jsonDoc);
+                                switch(idx){
+                                    case 0:
+                                        mMyCommunityChannelOne = doc;
+                                        mEmpty1.setVisibility(View.GONE);
+                                        break;
+                                    case 1:
+                                        mMyCommunityChannelTwo = doc;
+                                        mEmpty2.setVisibility(View.GONE);
+                                        break;
+                                    case 2:
+                                        mMyCommunityChannelThree = doc;
+                                        mEmpty3.setVisibility(View.GONE);
+                                        break;
+                                }
+
+                            }
+                            Toast.makeText(mActivity, "called Community", Toast.LENGTH_SHORT).show();
+
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+
+                    }
+                }
+            });
+        } catch(JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
     }
+
 
     @Override
     public void onEvent(SuccessData event) {
@@ -449,6 +445,10 @@ public class MainHomeFragment extends BaseFragment {
                 buttonClick.setDuration(500);
 
                 if(mMyCommunityChannelOne != null){
+                    Intent defaultInt;
+                    defaultInt = new Intent(getActivity(), MainActivity.class);
+                    startActivity(defaultInt);
+
                     Helper.startActivity(mActivity, mMyCommunityChannelOne);
                 } else {
                     Toast.makeText(mActivity, "만든 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
@@ -461,6 +461,10 @@ public class MainHomeFragment extends BaseFragment {
                 buttonClick.setDuration(500);
 
                 if(mMyCommunityChannelTwo != null){
+                    Intent defaultInt;
+                    defaultInt = new Intent(getActivity(), MainActivity.class);
+                    startActivity(defaultInt);
+
                     Helper.startActivity(mActivity, mMyCommunityChannelTwo);
                 } else {
                     Toast.makeText(mActivity, "나의 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
@@ -473,6 +477,10 @@ public class MainHomeFragment extends BaseFragment {
                 buttonClick.setDuration(500);
 
                 if(mMyCommunityChannelThree != null){
+                    Intent defaultInt;
+                    defaultInt = new Intent(getActivity(), MainActivity.class);
+                    startActivity(defaultInt);
+                    
                     Helper.startActivity(mActivity, mMyCommunityChannelThree);
                 } else {
                     Toast.makeText(mActivity, "커뮤니티를 만들어 주세요", Toast.LENGTH_SHORT).show();
