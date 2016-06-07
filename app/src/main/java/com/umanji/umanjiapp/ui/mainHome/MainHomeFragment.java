@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
@@ -39,6 +40,7 @@ import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.main.MainActivity;
 import com.umanji.umanjiapp.ui.mainHome.localCommunity.CreateLocalCommunityActivity;
 import com.umanji.umanjiapp.ui.modal.WebViewActivity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,7 +73,7 @@ public class MainHomeFragment extends BaseFragment {
 
     private ChannelData mChannelByPoint;
     LatLng mCurrentMyPosition;
-    int num=0;
+    int num = 0;
 
 
     public static MainHomeFragment newInstance(Bundle bundle) {
@@ -109,7 +111,6 @@ public class MainHomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 
 
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -191,8 +192,11 @@ public class MainHomeFragment extends BaseFragment {
             JSONObject params = new JSONObject();
             params.put("level", 2);
             params.put("type", TYPE_COMMUNITY);
-            params.put("sort", "point DESC");
+            params.put("limit", 1000);
+//            params.put("sort", "point DESC");
 
+//            api_channels_communities_find
+//            api_channels_communities_num
             mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
@@ -459,9 +463,6 @@ public class MainHomeFragment extends BaseFragment {
         }
         return true;
     }
-
-
-
 
 
 }

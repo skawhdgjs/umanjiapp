@@ -44,6 +44,7 @@ public interface AppConfig {
     String api_logout                   = "DELETE /logout";
     String api_signup                   = "POST /signup";
 
+    String api_channels_communities_num = "GET  /channels";
     String api_channels_getByPoint      = "GET  /channels/point";
     String api_channels_createSpot      = "POST /channels/spot";
     String api_channels_createComplex   = "POST /channels/complex";
