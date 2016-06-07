@@ -226,7 +226,6 @@ public class MainHomeFragment extends BaseFragment {
     @Override
     public void updateView() {
 
-
         String strNumber = NumberFormat.getNumberInstance().format(num);
         mCommunityCount.setText(strNumber);
 

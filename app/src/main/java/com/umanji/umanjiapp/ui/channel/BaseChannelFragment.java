@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -34,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
@@ -508,7 +510,13 @@ public abstract class BaseChannelFragment extends BaseFragment {
     }
 
     protected void setPoint(Activity activity, ChannelData channelData) {
-        mPoint.setText(channelData.getPoint() + "");
+
+        int userPoint = channelData.getPoint();
+        String strNumber = NumberFormat.getNumberInstance().format(userPoint);
+        mPoint.setText(strNumber);
+        mPoint.setTextColor(Color.parseColor("#ffcc00"));
+
+        //mPoint.setText(channelData.getPoint() + "");
     }
 
     /*protected void setLevel(Activity activity, ChannelData channelData) {

@@ -560,7 +560,8 @@ public class MainFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.homeBtn:
-                Helper.startActivity(mActivity, mHomeChannel);
+                mActivity.finish();
+//                Helper.startActivity(mActivity, mHomeChannel);
                 break;
 
             case R.id.environment:
