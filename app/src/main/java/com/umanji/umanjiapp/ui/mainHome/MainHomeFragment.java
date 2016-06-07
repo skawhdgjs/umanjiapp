@@ -249,7 +249,7 @@ public class MainHomeFragment extends BaseFragment {
                     .animate(R.anim.abc_fade_in)
                     .override(40, 40)
                     .into(mUserPhoto);*/
-            mUserPhoto.setImageResource(R.drawable.icon_user_ghost);
+            mUserPhoto.setImageResource(R.drawable.icon_user_person);
         }
     }
 
