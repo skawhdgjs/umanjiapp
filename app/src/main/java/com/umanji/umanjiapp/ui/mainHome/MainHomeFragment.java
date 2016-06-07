@@ -458,7 +458,6 @@ public class MainHomeFragment extends BaseFragment {
 
                     startActivity(defaultInt);
 
-//                    Helper.startActivity(mActivity, mMyCommunityChannelOne);
                 } else {
                     Toast.makeText(mActivity, "만든 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
                 }
@@ -471,10 +470,15 @@ public class MainHomeFragment extends BaseFragment {
 
                 if(mMyCommunityChannelTwo != null){
                     Intent defaultInt;
-                    defaultInt = new Intent(getActivity(), MainActivity.class);
-                    startActivity(defaultInt);
+                    defaultInt = new Intent(getActivity(), CommunityActivity.class);
 
-                    Helper.startActivity(mActivity, mMyCommunityChannelTwo);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mMyCommunityChannelTwo.getJsonObject().toString());
+                    bundle.putString("iamFrom", "home");
+
+                    defaultInt.putExtra("bundle", bundle);
+
+                    startActivity(defaultInt);
                 } else {
                     Toast.makeText(mActivity, "나의 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
                 }
@@ -487,10 +491,15 @@ public class MainHomeFragment extends BaseFragment {
 
                 if(mMyCommunityChannelThree != null){
                     Intent defaultInt;
-                    defaultInt = new Intent(getActivity(), MainActivity.class);
-                    startActivity(defaultInt);
+                    defaultInt = new Intent(getActivity(), CommunityActivity.class);
 
-                    Helper.startActivity(mActivity, mMyCommunityChannelThree);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mMyCommunityChannelThree.getJsonObject().toString());
+                    bundle.putString("iamFrom", "home");
+
+                    defaultInt.putExtra("bundle", bundle);
+
+                    startActivity(defaultInt);
                 } else {
                     Toast.makeText(mActivity, "커뮤니티를 만들어 주세요", Toast.LENGTH_SHORT).show();
                 }
