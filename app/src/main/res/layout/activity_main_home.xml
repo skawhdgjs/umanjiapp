@@ -300,7 +300,7 @@
             android:layout_above="@+id/create_community"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@color/gray" />
+            android:background="@color/gray_soft" />
 
         <LinearLayout
             android:id="@+id/create_community"
@@ -335,7 +335,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/community_lookaround"
-            android:background="@color/gray" />
+            android:background="@color/gray_soft" />
 
         <LinearLayout
             android:id="@+id/community_lookaround"

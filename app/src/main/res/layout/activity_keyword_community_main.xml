@@ -86,7 +86,7 @@
                 android:layout_above="@+id/ads_image"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/gray" />
+                android:background="@color/gray_soft" />
 
             <ImageView
                 android:id="@+id/ads_image"
