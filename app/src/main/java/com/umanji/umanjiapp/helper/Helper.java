@@ -296,23 +296,24 @@ public final class Helper implements AppConfig {
             name = "어떤곳";
         }
 
-        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
-        if (subLinks != null && subLinks.size() > 0) {
-            if (TextUtils.equals(subLinks.get(0).getName(), "약국")) {
+//        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
+        String[] communityKeyword = channelData.getKeywords();
+        if (communityKeyword != null && communityKeyword.length > 0) {
+            if (TextUtils.equals(communityKeyword[0], "모텔")) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.coffee_spot))
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-            } else if (TextUtils.equals(subLinks.get(0).getName(), "술집")) {
+            } else if (TextUtils.equals(communityKeyword[0], "술집")) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.drink_spot))
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-            } else if (TextUtils.equals(subLinks.get(0).getName(), "음식점")) {
+            } else if (TextUtils.equals(communityKeyword[0], "음식점")) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))

@@ -212,8 +212,10 @@ public class StepOneFragment extends BaseFragment {
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
 
-        double latitude = 37.642443934398;
-        double longitude = 126.977429352700;
+        double latitude = 37.498039;
+        double longitude = 126.9220201;
+
+//      참새어린이공원  37.498039  126.9220201   / 대한민국 정보센터 37.642443934398   126.977429352700
 
         try {
 
@@ -405,6 +407,7 @@ public class StepOneFragment extends BaseFragment {
                     } else {
                         channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
                     }
+                    Helper.startActivity(mActivity, channelData);
 
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());

@@ -132,11 +132,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/current_button"
-                    android:layout_marginLeft="30dp"/>
+                    android:layout_marginLeft="10dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" : 현재위치로 이동 버튼"/>
+                    android:text=" : 현재 나의 위치로 이동 버튼"/>
 
 
             </LinearLayout>
