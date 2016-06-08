@@ -79,7 +79,7 @@ import java.util.Random;
 import de.greenrobot.event.EventBus;
 
 public final class Helper implements AppConfig {
-    private static final String TAG      = "Helper";
+    private static final String TAG = "Helper";
 
     public static boolean isInVisibleResion(GoogleMap map, LatLng point) {
         VisibleRegion visibleRegion = map.getProjection().getVisibleRegion();
@@ -91,9 +91,9 @@ public final class Helper implements AppConfig {
         double minLongitude = nearLeft.longitude;
         double maxLongitude = farRight.longitude;
 
-        if( point.latitude > minLatitude && point.latitude <= maxLatitude && point.longitude > minLongitude && point.longitude <= maxLongitude){
+        if (point.latitude > minLatitude && point.latitude <= maxLatitude && point.longitude > minLongitude && point.longitude <= maxLongitude) {
             return true;
-        }else {
+        } else {
             return false;
         }
 
@@ -108,7 +108,7 @@ public final class Helper implements AppConfig {
     public static boolean isAuthError(Activity activity) {
 
         boolean isAuthError = !AuthHelper.isLogin(activity);
-        if(isAuthError) {
+        if (isAuthError) {
             GoogleMap map = ((MapFragment) activity.getFragmentManager().findFragmentById(R.id.mMapFragment))
                     .getMap();
 
@@ -116,8 +116,8 @@ public final class Helper implements AppConfig {
             double longitude = 0.0f;
             Bundle bundle = new Bundle();
 
-            if(map != null) {
-                latitude =  map.getMyLocation().getLatitude();
+            if (map != null) {
+                latitude = map.getMyLocation().getLatitude();
                 longitude = map.getMyLocation().getLongitude();
                 bundle.putDouble("latitude", latitude);
                 bundle.putDouble("longitude", longitude);
@@ -133,7 +133,7 @@ public final class Helper implements AppConfig {
 
         LatLng tmpPoint;
         int zoom = (int) map.getCameraPosition().zoom;
-        switch(zoom){
+        switch (zoom) {
             case 14:
                 tmpPoint = new LatLng(point.latitude - 0.0006, point.longitude);
                 break;
@@ -176,13 +176,13 @@ public final class Helper implements AppConfig {
         LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
         Marker marker;
         String name = channelData.getName();
-        if(TextUtils.isEmpty(name)) {
+        if (TextUtils.isEmpty(name)) {
             name = "어떤곳";
         }
 
         ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
-        if(subLinks != null && subLinks.size() > 0) {
-            if(TextUtils.equals(subLinks.get(0).getName(), "커피샵")) {
+        if (subLinks != null && subLinks.size() > 0) {
+            if (TextUtils.equals(subLinks.get(0).getName(), "커피샵")) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
@@ -190,7 +190,7 @@ public final class Helper implements AppConfig {
                         .draggable(isDraggable)
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-            } else if(TextUtils.equals(subLinks.get(0).getName(), "술집")) {
+            } else if (TextUtils.equals(subLinks.get(0).getName(), "술집")) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
@@ -198,7 +198,7 @@ public final class Helper implements AppConfig {
                         .draggable(isDraggable)
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-            } else if(TextUtils.equals(subLinks.get(0).getName(), "음식점")) {
+            } else if (TextUtils.equals(subLinks.get(0).getName(), "음식점")) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
@@ -266,9 +266,9 @@ public final class Helper implements AppConfig {
 
                 default:
 
-                    if(TextUtils.isEmpty(channelData.getName())) {
+                    if (TextUtils.isEmpty(channelData.getName())) {
                         ArrayList<SubLinkData> inSpots = channelData.getSubLinks(TYPE_SPOT_INNER);
-                        if(inSpots != null && inSpots.size() > 0) {
+                        if (inSpots != null && inSpots.size() > 0) {
                             name = inSpots.get(0).getName();
                         }
                     }
@@ -287,6 +287,60 @@ public final class Helper implements AppConfig {
 
         return marker;
     }
+
+    public static Marker addMarkerToMapOnStepOne(GoogleMap map, ChannelData channelData, int index) {
+        LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
+        Marker marker = null;
+        String name = channelData.getName();
+        if (TextUtils.isEmpty(name)) {
+            name = "어떤곳";
+        }
+
+        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
+        if (subLinks != null && subLinks.size() > 0) {
+            if (TextUtils.equals(subLinks.get(0).getName(), "약국")) {
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(name)
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.coffee_spot))
+                        .alpha(0.8f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+            } else if (TextUtils.equals(subLinks.get(0).getName(), "술집")) {
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(name)
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.drink_spot))
+                        .alpha(0.8f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+            } else if (TextUtils.equals(subLinks.get(0).getName(), "음식점")) {
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(name)
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.food_spot))
+                        .alpha(0.8f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+            } else {
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(name)
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.food_spot))
+                        .alpha(0.8f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+            }
+
+        } /*else {
+            marker = map.addMarker(new MarkerOptions().position(point)
+                    .title(name)
+                    .snippet(String.valueOf(index))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi))
+                    .alpha(0.8f)  // default 1.0
+                    .anchor(0.45f, 1.0f));
+
+        }*/
+
+        return marker;
+    }
+
     public static Marker addMarkerToMap(GoogleMap map, ChannelData channelData, int index) {
         return addMarkerToMap(map, channelData, index, false);
     }
@@ -300,7 +354,7 @@ public final class Helper implements AppConfig {
         Intent intent = new Intent(activity, SigninActivity.class);
         Bundle bundle = new Bundle();
 
-        if(position != null) {
+        if (position != null) {
             bundle.putDouble("latitude", position.latitude);
             bundle.putDouble("longitude", position.longitude);
         }
@@ -386,7 +440,7 @@ public final class Helper implements AppConfig {
                 break;
         }
 
-        if(intent != null) {
+        if (intent != null) {
             intent.putExtra("bundle", bundle);
             activity.startActivity(intent);
         }
@@ -463,24 +517,25 @@ public final class Helper implements AppConfig {
         intent.putExtra("bundle", bundle);
         activity.startActivity(intent);
     }
+
     public static void startActivity(Activity activity, ChannelData channelData) {
         startActivity(activity, channelData, TAB_POSTS);
     }
 
     public static String getShortenString(String str) {
 
-        if(str.length() > 10) {
+        if (str.length() > 10) {
             return str.substring(0, 10) + "..";
-        }else {
+        } else {
             return str;
         }
     }
 
     public static String getShortenString(String str, int size) {
 
-        if(str.length() > size) {
+        if (str.length() > size) {
             return str.substring(0, size) + "..";
-        }else {
+        } else {
             return str;
         }
     }
@@ -503,7 +558,7 @@ public final class Helper implements AppConfig {
             params.put("minLongitude", nearLeft.longitude);
             params.put("maxLongitude", farRight.longitude);
 
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
         return params;
@@ -527,7 +582,7 @@ public final class Helper implements AppConfig {
 
         // 폴더명 및 파일명
         String folderPath = path + File.separator + folderName;
-        String filePath = path + File.separator + folderName + File.separator +  fileName + ".jpg";
+        String filePath = path + File.separator + folderName + File.separator + fileName + ".jpg";
 
         // 저장 폴더 지정 및 폴더 생성
         File fileFolderPath = new File(folderPath);
@@ -557,7 +612,7 @@ public final class Helper implements AppConfig {
 
         // 폴더명 및 파일명
         String folderPath = path + File.separator + folderName;
-        String filePath = path + File.separator + folderName + File.separator +  fileName + ".jpg";
+        String filePath = path + File.separator + folderName + File.separator + fileName + ".jpg";
 
         // 저장 폴더 지정 및 폴더 생성
         File fileFolderPath = new File(folderPath);
@@ -571,7 +626,7 @@ public final class Helper implements AppConfig {
             bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
             fOut.flush();
             fOut.close();
-        }catch (IOException e) {
+        } catch (IOException e) {
             Log.e(TAG, "Error " + e.toString());
         }
 
@@ -597,10 +652,10 @@ public final class Helper implements AppConfig {
     public static String toPrettyDate(long timestamp) {
 
         long current = (new Date()).getTime();
-        long diff = (current - timestamp)/1000;
+        long diff = (current - timestamp) / 1000;
 
-        int	amount = 0;
-        String	what = "";
+        int amount = 0;
+        String what = "";
 
         /**
          * Second counts
@@ -611,47 +666,39 @@ public final class Helper implements AppConfig {
          * 31536000: year
          */
 
-        if(diff > 31536000) {
-            amount = (int)(diff/31536000);
+        if (diff > 31536000) {
+            amount = (int) (diff / 31536000);
             what = "year";
-        }
-        else if(diff > 31536000) {
-            amount = (int)(diff/31536000);
+        } else if (diff > 31536000) {
+            amount = (int) (diff / 31536000);
             what = "month";
-        }
-        else if(diff > 604800) {
-            amount = (int)(diff/604800);
+        } else if (diff > 604800) {
+            amount = (int) (diff / 604800);
             what = "week";
-        }
-        else if(diff > 86400) {
-            amount = (int)(diff/86400);
+        } else if (diff > 86400) {
+            amount = (int) (diff / 86400);
             what = "day";
-        }
-        else if(diff > 3600) {
-            amount = (int)(diff/3600);
+        } else if (diff > 3600) {
+            amount = (int) (diff / 3600);
             what = "hour";
-        }
-        else if(diff > 60) {
-            amount = (int)(diff/60);
+        } else if (diff > 60) {
+            amount = (int) (diff / 60);
             what = "minute";
-        }
-        else {
-            amount = (int)diff;
+        } else {
+            amount = (int) diff;
             what = "second";
-            if(amount < 6) {
+            if (amount < 6) {
                 return "Just now";
             }
         }
 
-        if(amount == 1) {
-            if(what.equals("day")) {
+        if (amount == 1) {
+            if (what.equals("day")) {
                 return "Yesterday";
-            }
-            else if(what.equals("week") || what.equals("month") || what.equals("year")) {
+            } else if (what.equals("week") || what.equals("month") || what.equals("year")) {
                 return "Last " + what;
             }
-        }
-        else {
+        } else {
             what += "s";
         }
 
@@ -692,9 +739,9 @@ public final class Helper implements AppConfig {
 
             int scaledWidth;
             int scaledHeight;
-            if(sourceImageWidth > scaledImageLimit) {
+            if (sourceImageWidth > scaledImageLimit) {
                 scaledWidth = scaledImageLimit;
-                scaledHeight = (int)((float)scaledWidth * ((float)sourceImageHeight/(float)sourceImageWidth));
+                scaledHeight = (int) ((float) scaledWidth * ((float) sourceImageHeight / (float) sourceImageWidth));
 
             } else {
                 scaledWidth = sourceImageWidth;
@@ -715,7 +762,7 @@ public final class Helper implements AppConfig {
             resizedFile = new File(activity.getCacheDir() + "/" + file.getName());
             boolean result = resizedFile.createNewFile();
             FileOutputStream output = null;
-            if(result == true) {
+            if (result == true) {
                 output = new FileOutputStream(resizedFile);
                 photo.compress(Bitmap.CompressFormat.JPEG, 100, output);
                 output.close();
@@ -730,12 +777,12 @@ public final class Helper implements AppConfig {
             int deviceWidth = metrics.widthPixels;
             float rate;
             int height;
-            if( angle == 90 || angle == 270) {
-                rate = (float)deviceWidth / (float)scaledHeight;
-                height = (int)(scaledWidth * rate);
+            if (angle == 90 || angle == 270) {
+                rate = (float) deviceWidth / (float) scaledHeight;
+                height = (int) (scaledWidth * rate);
             } else {
-                rate = (float)deviceWidth / (float)scaledWidth;
-                height = (int)(scaledHeight * rate);
+                rate = (float) deviceWidth / (float) scaledWidth;
+                height = (int) (scaledHeight * rate);
             }
 
             Glide.with(activity)
@@ -743,11 +790,11 @@ public final class Helper implements AppConfig {
                     .into(photoView);
             photoView.setTag("done");
 
-            if(!isFixedHeight) {
+            if (!isFixedHeight) {
                 photoView.getLayoutParams().height = height;
             }
 
-        } catch(IOException e) {
+        } catch (IOException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
 
@@ -767,6 +814,7 @@ public final class Helper implements AppConfig {
     public static boolean isEmailValid(String email) {
         return email.contains("@");
     }
+
     public static boolean isPasswordValid(String password) {
         return password.length() > 4;
     }
