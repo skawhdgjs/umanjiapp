@@ -119,7 +119,7 @@ public class MainHomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadData();
+//        loadData();
     }
 
     @Override
@@ -144,7 +144,7 @@ public class MainHomeFragment extends BaseFragment {
         if (AuthHelper.isLogin(mActivity)) {
             loginByToken();
         } else {
-            //updateView();
+
         }
 
         mUmanji = (TextView) view.findViewById(R.id.umanji);
@@ -179,69 +179,6 @@ public class MainHomeFragment extends BaseFragment {
         mEmpty3 = (TextView) view.findViewById(R.id.empty3);
 
         loadData();
-
-
-    }
-
-    @Override
-    public void loadData() {
-
-        try {
-
-            JSONObject paramsD = new JSONObject();
-            paramsD.put("latitude", mCurrentMyPosition.latitude);
-            paramsD.put("longitude", mCurrentMyPosition.longitude);
-
-            mApi.call(api_channels_getByPoint, paramsD, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    mChannelByPoint = new ChannelData(object);
-
-                    if (TextUtils.isEmpty(mChannelByPoint.getId())) {
-                        if (AuthHelper.isLogin(mActivity)) {
-
-                            loadCommunity();
-                        } else {
-                            //Helper.startSigninActivity(mActivity, mCurrentMyPosition);
-                        }
-
-                    } else {
-
-                    }
-                }
-            });
-
-            JSONObject params = new JSONObject();
-            params.put("level", 2);
-            params.put("type", TYPE_COMMUNITY);
-            params.put("limit", 1000);
-//            params.put("sort", "point DESC");
-
-//            api_channels_communities_find
-//            api_channels_communities_num
-            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-
-                    if (status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    } else {
-                        try {
-                            jsonArray = object.getJSONArray("data");
-                            num = jsonArray.length();
-
-                            updateView();
-
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error " + e.toString());
-                        }
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            Log.e(TAG, "error " + e.toString());
-        }
-
     }
 
     @Override
@@ -252,9 +189,6 @@ public class MainHomeFragment extends BaseFragment {
         mEmpty1.setVisibility(View.VISIBLE);
         mEmpty2.setVisibility(View.VISIBLE);
         mEmpty3.setVisibility(View.VISIBLE);
-
-        String strNumber = NumberFormat.getNumberInstance().format(num);
-        mCommunityCount.setText(strNumber);
 
         if (AuthHelper.isLogin(mActivity)) {
             mUserPhoto.setVisibility(View.VISIBLE);
@@ -282,8 +216,68 @@ public class MainHomeFragment extends BaseFragment {
             mUserPhoto.setImageResource(R.drawable.icon_user_person);
         }
 
-        loadCommunity();
+        if (AuthHelper.isLogin(mActivity)) {
+
+            loadCommunity();
+        } else {
+            //Helper.startSigninActivity(mActivity, mCurrentMyPosition);
+        }
+
     }
+
+
+    @Override
+    public void loadData() {
+
+        try {
+
+            JSONObject paramsD = new JSONObject();
+            paramsD.put("latitude", mCurrentMyPosition.latitude);
+            paramsD.put("longitude", mCurrentMyPosition.longitude);
+
+            mApi.call(api_channels_getByPoint, paramsD, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    mChannelByPoint = new ChannelData(object);
+
+                }
+            });
+
+            JSONObject params = new JSONObject();
+            params.put("level", 2);
+            params.put("type", TYPE_COMMUNITY);
+            params.put("limit", 1000);
+//            params.put("sort", "point DESC");
+
+//            api_channels_communities_find
+//            api_channels_communities_num
+            mApi.call(api_channels_communities_find, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+
+                    if (status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    } else {
+                        try {
+                            jsonArray = object.getJSONArray("data");
+                            num = jsonArray.length();
+
+                            String strNumber = NumberFormat.getNumberInstance().format(num);
+                            mCommunityCount.setText(strNumber);
+
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+                    }
+                }
+            });
+
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+
+    }
+
 
     private void loadCommunity() {
 
