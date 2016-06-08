@@ -426,12 +426,12 @@ public class StepOneFragment extends BaseFragment {
                                 break;
 
                             case 18:
-                                mInfoTextPanel.setText("쉽지는 않지만 여러분의 장소로 선택하실 건물이 있습니다");
+                                mInfoTextPanel.setText("여러분의 장소로 선택하실 건물을 찾아보세요");
                                 mInfoTextPanel.setTextColor(Color.parseColor("#0099ff"));
                                 break;
 
                             case 19:
-                                mInfoTextPanel.setText("한 번 터치하시면 주소가 보입니다. 맞으시면 확인을 그렇지 않으면 취소를 누르세요");
+                                mInfoTextPanel.setText("건물을 한 번 터치하시면 주소가 보입니다. 맞으시면 확인을 그렇지 않으면 취소를 누르세요");
                                 mInfoTextPanel.setTextColor(Color.parseColor("#0099ff"));
                                 break;
 
@@ -578,7 +578,7 @@ public class StepOneFragment extends BaseFragment {
             }
         });
 
-        mAlert.setTitle("단체를 만들 주소가 맞습니까?");
+        mAlert.setTitle("찾으신 곳의 주소가 맞습니까?");
         mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
         mAlert.show();
     }
