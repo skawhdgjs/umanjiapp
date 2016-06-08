@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
+import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
@@ -81,6 +82,7 @@ public class StepOneFragment extends BaseFragment {
     private JSONArray mMarkers;
     private ChannelData mCurrentChannel;
     private ChannelData mSelectedChannel;
+    private ChannelData mClickedChannel;
 
     protected boolean mClicked = false;
 
@@ -199,43 +201,86 @@ public class StepOneFragment extends BaseFragment {
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.setMyLocationEnabled(true);
 
-
-            LocationManager locationManager = (LocationManager) mActivity.getSystemService(mActivity.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            String provider = locationManager.getBestProvider(criteria, true);
-
-            double latitude = 37.491361;
-            double longitude = 126.923978;
-
-            try {
-                Location location = locationManager.getLastKnownLocation(provider);
-
-                if (location != null) {
-
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-
-                    mCurrentMyPosition = new LatLng(latitude, longitude);
-
-                    CameraPosition cameraPosition = new CameraPosition.Builder()
-                            .target(mCurrentMyPosition)
-                            .zoom(15)
-                            .bearing(90)
-                            .tilt(40)
-                            .build();
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                }
-            } catch (SecurityException e) {
-                Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
-            }
-
-            LatLng latLng = new LatLng(latitude, longitude);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+            initMyLocation();
         }
 
         initMapEvents();
     }
+
+    protected void initMyLocation() {
+        LocationManager locationManager = (LocationManager) mActivity.getSystemService(mActivity.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+
+        double latitude = 37.642443934398;
+        double longitude = 126.977429352700;
+
+        try {
+
+            String isFirst = FileHelper.getString(mActivity, "isFirst");
+            Location location = null;
+            if (TextUtils.isEmpty(isFirst)) {
+                FileHelper.setString(mActivity, "isFirst", "checked");
+            } else {
+                location = locationManager.getLastKnownLocation(provider);
+            }
+
+            if (location != null) {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
+
+            mCurrentMyPosition = new LatLng(latitude, longitude);
+
+
+            CameraPosition cameraPosition;
+
+            ChannelData homeChannel = null;
+            if (getArguments() != null) {
+                String jsonString = getArguments().getString("channel");
+                if (jsonString != null) {
+                    homeChannel = new ChannelData(jsonString);
+                }
+            }
+
+            if (getArguments() != null){    // from home  getArguments().getString("iamFrom") != null
+
+                latitude = homeChannel.getLatitude();
+                longitude = homeChannel.getLongitude();
+
+                cameraPosition = new CameraPosition.Builder()
+                        .target(mCurrentMyPosition)
+                        .zoom(18)
+                        .bearing(90)
+                        .tilt(40)
+                        .build();
+            } else {                                            // when start from home
+                cameraPosition = new CameraPosition.Builder()
+                        .target(mCurrentMyPosition)
+                        .zoom(18)
+                        .bearing(90)
+                        .tilt(40)
+                        .build();
+            }
+
+
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+        } catch (SecurityException e) {
+            Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
+        }
+
+        LatLng latLng = new LatLng(latitude, longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+
+        if (getArguments() != null){
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);   // home
+        } else {
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);    // when start from home
+        }
+
+    }
+
 
 
     /****************************************************
@@ -331,7 +376,13 @@ public class StepOneFragment extends BaseFragment {
 
                 try {
                     String idx = marker.getSnippet();
-                    mSelectedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
+
+                    if (TextUtils.equals(idx, String.valueOf(MARKER_INDEX_CLICKED))) {
+                        mClickedChannel = mSelectedChannel;
+                    } else {
+                        mClickedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
+                    }
+
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
                 }
@@ -457,45 +508,13 @@ public class StepOneFragment extends BaseFragment {
 
     }
 
-    private static boolean isKeywordTouchable(int zoom) {
-        if (zoom >= 2 && zoom <= 7) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isNot(int zoom) {
-        if (zoom >= 2 && zoom <= 14) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isComplexCreatable(int zoom) {
-        if (zoom >= 15 && zoom <= 17) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isSpotCreatable(int zoom) {
-        if (zoom >= 18) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private void loadMainMarkers() {
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("zoom", (int) mMap.getCameraPosition().zoom);
             params.put("limit", 100);
             params.put("sort", "point DESC");
-            mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
+            mApi.call(api_main_findMarkers, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     addChannelsToMap(json);
@@ -524,18 +543,27 @@ public class StepOneFragment extends BaseFragment {
                 }
             }
 
-            if (mSelectedChannel != null) {
-                if (Helper.isInVisibleResion(mMap, new LatLng(mSelectedChannel.getLatitude(), mSelectedChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mSelectedChannel, MARKER_INDEX_CLICKED);
+            if (mClickedChannel != null) {
+                if (Helper.isInVisibleResion(mMap, new LatLng(mClickedChannel.getLatitude(), mClickedChannel.getLongitude()))) {
+                    mFocusedMarker = Helper.addMarkerToMap(mMap, mClickedChannel, MARKER_INDEX_CLICKED);
+                    mSelectedChannel = mClickedChannel;
                 } else {
                     mSelectedChannel = null;
+                    mClickedChannel = null;
                 }
             }
 
             if (mMarkers != null) {
                 for (; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMap(mMap, channelData, idx);
+
+                    if (mCurrentChannel != null && !TextUtils.equals(mCurrentChannel.getId(), channelData.getId())) {
+                        Helper.addMarkerToMap(mMap, channelData, idx);
+                    } else if (mSelectedChannel != null && !TextUtils.equals(mSelectedChannel.getId(), channelData.getId())) {
+                        Helper.addMarkerToMap(mMap, channelData, idx);
+                    } else {
+                        Helper.addMarkerToMap(mMap, channelData, idx);
+                    }
                 }
             }
 
@@ -544,6 +572,8 @@ public class StepOneFragment extends BaseFragment {
         }
 
     }
+
+//    ***
 
     private void showCreateSpotDialog() {
         mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -583,7 +613,6 @@ public class StepOneFragment extends BaseFragment {
         mAlert.show();
     }
 
-
     private void showCreateComplexDialog() {
         mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
@@ -622,6 +651,33 @@ public class StepOneFragment extends BaseFragment {
         mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
         mAlert.show();
     }
+
+    private void startActivity(ChannelData channel, String type) {
+
+        Intent intent = new Intent(mActivity, StepTwoActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", channel.getJsonObject().toString());
+
+        switch (type) {
+
+            case TYPE_SPOT:
+                bundle.putString("localType", "local_spot");
+                break;
+            case TYPE_COMPLEX:
+                bundle.putString("localType", "local_complex");
+                break;
+
+        }
+
+        intent.putExtra("bundle", bundle);
+        intent.putExtra("enterAnim", R.anim.zoom_out);
+        intent.putExtra("exitAnim", R.anim.zoom_in);
+
+        startActivity(intent);
+        mActivity.finish();
+    }
+
 
     @Override
     public void onEvent(SuccessData event) {
@@ -665,34 +721,6 @@ public class StepOneFragment extends BaseFragment {
         }
     }
 
-
-
-    private void startActivity(ChannelData channel, String type) {
-
-        Intent intent = new Intent(mActivity, StepTwoActivity.class);
-
-        Bundle bundle = new Bundle();
-        bundle.putString("channel", channel.getJsonObject().toString());
-
-        switch (type) {
-
-            case TYPE_SPOT:
-                bundle.putString("localType", "local_spot");
-                break;
-            case TYPE_COMPLEX:
-                bundle.putString("localType", "local_complex");
-                break;
-
-        }
-
-        intent.putExtra("bundle", bundle);
-        intent.putExtra("enterAnim", R.anim.zoom_out);
-        intent.putExtra("exitAnim", R.anim.zoom_in);
-
-        startActivity(intent);
-        mActivity.finish();
-    }
-
     private class TouchableWrapper extends FrameLayout {
         public TouchableWrapper(Context context) {
             super(context);
@@ -711,6 +739,38 @@ public class StepOneFragment extends BaseFragment {
             }
 
             return super.dispatchTouchEvent(ev);
+        }
+    }
+
+    private static boolean isKeywordTouchable(int zoom) {
+        if (zoom >= 2 && zoom <= 7) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isNot(int zoom) {
+        if (zoom >= 2 && zoom <= 14) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isComplexCreatable(int zoom) {
+        if (zoom >= 15 && zoom <= 17) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isSpotCreatable(int zoom) {
+        if (zoom >= 18) {
+            return true;
+        } else {
+            return false;
         }
     }
 

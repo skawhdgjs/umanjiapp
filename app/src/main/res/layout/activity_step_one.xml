@@ -25,8 +25,8 @@
         android:layout_below="@+id/relativeLayout7"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp" />
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp" />
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
