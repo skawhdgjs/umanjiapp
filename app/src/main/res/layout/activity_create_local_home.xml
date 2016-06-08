@@ -102,7 +102,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
-        android:text="모임 장소 만들기"
+        android:text="중심지 장소 만들기"
         android:textSize="16dp"
         android:background="@color/white"
         android:layout_above="@+id/footer"
