@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -402,28 +403,44 @@ public class StepOneFragment extends BaseFragment {
                     int zoom = (int) position.zoom;
                     // isPoliticTouchable
 
-                    if (isComplexCreatable(zoom)) {
-                        mInfoTextPanel.setText("이제부터 단체나 커뮤니티를 만들 수 있습니다");  // 15~17
+                    if (isNot(zoom)) {
+                        mInfoTextPanel.setText("지금의 줌레벨에서는 장소를 만들수 없습니다");  // 15~17
                         mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
                         //mCreateSpotText.setVisibility(View.GONE);
-
-                    } else if (isSpotCreatable(zoom)) {
-                        //mCreateComplexText.setVisibility(View.GONE);
-                        mInfoTextPanel.setText("사무실이나 건물에 넣을 수 있어요 "); // 18~21
-                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
-
-                    } else if (isKeywordTouchable(zoom)) {
-                        //mCreateComplexText.setVisibility(View.GONE);
-                        mInfoTextPanel.setText("아이콘을 터치하면 해당 키워드 커뮤니티로 이동합니다");
-                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
 
                     } else {
-                        //mCreateComplexText.setVisibility(View.GONE);
-                        //mCreateSpotText.setVisibility(View.GONE);
-                        mInfoTextPanel.setText("");
+                        switch(zoom){
+                            case 15:
+                                mInfoTextPanel.setText("축구장과 같은 넓은 장소를 만들수 있습니다 ");
+                                mInfoTextPanel.setTextColor(Color.parseColor("#0099ff"));
+                                break;
 
+                            case 16:
+                                mInfoTextPanel.setText("아직도 장소가 넓습니다. 실내공간을 선택할 경우 좀 더 아래로 가세요");
+                                mInfoTextPanel.setTextColor(Color.parseColor("#0099ff"));
+                                break;
+
+                            case 17:
+                                mInfoTextPanel.setText("이제 건물들이 보이기 시작합니다");
+                                mInfoTextPanel.setTextColor(Color.parseColor("#0099ff"));
+                                break;
+
+                            case 18:
+                                mInfoTextPanel.setText("쉽지는 않지만 여러분의 장소로 선택하실 건물이 있습니다");
+                                mInfoTextPanel.setTextColor(Color.parseColor("#0099ff"));
+                                break;
+
+                            case 19:
+                                mInfoTextPanel.setText("한 번 터치하시면 주소가 보입니다. 맞으시면 확인을 그렇지 않으면 취소를 누르세요");
+                                mInfoTextPanel.setTextColor(Color.parseColor("#0099ff"));
+                                break;
+
+                            case 20:
+                                mInfoTextPanel.setText("확인을 누르시면 다음 단계로 이동합니다");
+                                mInfoTextPanel.setTextColor(Color.parseColor("#0099ff"));
+                                break;
+                        }
                     }
-
 
                     loadData();
 
@@ -442,6 +459,14 @@ public class StepOneFragment extends BaseFragment {
 
     private static boolean isKeywordTouchable(int zoom) {
         if (zoom >= 2 && zoom <= 7) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isNot(int zoom) {
+        if (zoom >= 2 && zoom <= 14) {
             return true;
         } else {
             return false;

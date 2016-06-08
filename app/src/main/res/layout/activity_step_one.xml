@@ -107,23 +107,37 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="20dp">
 
-                <ImageView
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/current_button"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" : 현재위치로 이동"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/zoom_text"
-                    android:layout_marginLeft="30dp" />
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/zoom_ex"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="18"
+                        android:textColor="@color/white"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" : 현재 줌레벨 표시"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/current_button"
+                    android:layout_marginLeft="30dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" : 현재위치로 이동 버튼"/>
+
 
             </LinearLayout>
 

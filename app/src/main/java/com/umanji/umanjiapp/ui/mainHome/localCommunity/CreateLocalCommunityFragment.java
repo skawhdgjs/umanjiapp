@@ -92,6 +92,9 @@ public class CreateLocalCommunityFragment extends BaseFragment {
 
 
             case R.id.createLocalBtn:
+                mCreateLocalBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(100);
+
                 Intent mInt = new Intent(mActivity, StepOneActivity.class);
                 startActivity(mInt);
                 mActivity.finish();
