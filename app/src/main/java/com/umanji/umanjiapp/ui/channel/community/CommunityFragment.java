@@ -268,22 +268,6 @@ public class CommunityFragment extends BaseChannelFragment {
                 }
                 break;*/
 
-            case R.id.lookAround:
-
-                String answer = getArguments().getString("iamFrom");
-                String lookChannel = getArguments().getString("channel");
-                if(answer != null){  //from home
-                    Bundle bundle = new Bundle();
-                    bundle.putString("channel", lookChannel);
-                    bundle.putString("iamFrom", "home");
-                    Intent intent = new Intent(mActivity, MainActivity.class);
-                    intent.putExtra("bundle", bundle);
-                    startActivity(intent);
-                } else {
-                    EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
-                }
-                break;
-
             case R.id.lookLink:
                 Helper.startKeywordMapActivity(mActivity, mChannel);
                 break;
