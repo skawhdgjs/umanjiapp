@@ -87,6 +87,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import android.graphics.Color;
 
 import de.greenrobot.event.EventBus;
 
@@ -300,94 +301,39 @@ public final class Helper implements AppConfig {
         return marker;
     }
 
+    public static int myColor(int argb) {
+        return Color.rgb(
+                Color.red(argb),
+                Color.green(argb),
+                Color.blue(argb)
+        );
+    }
+
     public static Marker addMarkerToMapOnStepOne(GoogleMap map, ChannelData channelData, int index, Activity activity) {
 
         LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
         Marker marker = null;
 
-        /* To make custom marker
-        * There are about 2 more libs.
-        * 1. IconGenerator  // Google Map Util.
-        * 2. To make 'BitmapDescriptor getTextMarker' function
-        * 3. Best way to make custom marker is Own make bitmap marker!
-        * */
-
-
         IconGenerator tc = new IconGenerator(activity);
-        Bitmap bmp = tc.makeIcon("hello");
-        tc.setColor(Color.parseColor("#ffff33"));       // yellow : ffff33
-
-
-/*
-        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
-        Bitmap bmp = Bitmap.createBitmap(80, 80, conf);     // marker size
-        Canvas canvas1 = new Canvas(bmp);
-
-// paint defines the text color, stroke width and size
-        Paint color = new Paint();
-        color.setTextSize(26);
-        color.setColor(Color.BLACK);
-        color.setFakeBoldText(true);
-
-// modify canvas
-        canvas1.drawBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_launcher), 100,10, color);
-        canvas1.drawText("Set Text Here", 0, 0, color);                 // string , Left, Top, color
-
-        */
+        tc.setColor(Color.parseColor("#ffff33"));           // background color yellow : ffff33
+        tc.setTextAppearance(R.style.iconGenText);          // text design
+        Bitmap bmp = tc.makeIcon();
 
         String name = channelData.getName();
         if (TextUtils.isEmpty(name)) {
             name = "어떤곳";
         }
 
-//        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
         String[] communityKeyword = channelData.getKeywords();
         if (communityKeyword != null && communityKeyword.length > 0) {
-          /*  if (TextUtils.equals(communityKeyword[0], "모텔")) {
-
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
-//                        .icon(BitmapDescriptorFactory.fromBitmap(bmp))
-                        .icon(BitmapDescriptorFactory.fromBitmap(bmp= tc.makeIcon(communityKeyword[0])))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bmp=tc.makeIcon(communityKeyword[0])))
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-            } else if (TextUtils.equals(communityKeyword[0], "술집")) {
-                marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(name)
-                        .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.drink_spot))
-                        .alpha(0.8f)  // default 1.0
-                        .anchor(0.45f, 1.0f));
-            } else if (TextUtils.equals(communityKeyword[0], "음식점")) {
-                marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(name)
-                        .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.food_spot))
-                        .alpha(0.8f)  // default 1.0
-                        .anchor(0.45f, 1.0f));
-            } else {*/
 
-                marker = map.addMarker(new MarkerOptions().position(point)
-                        .title(name)
-                        .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromBitmap(bmp= tc.makeIcon(communityKeyword[0])))
-//                        .icon(BitmapDescriptorFactory.fromBitmap(bmp))
-//                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.food_spot))
-                        .alpha(0.8f)  // default 1.0
-                        .anchor(0.45f, 1.0f));
-//            }
-
-        } /*else {
-            marker = map.addMarker(new MarkerOptions().position(point)
-                    .title(name)
-                    .snippet(String.valueOf(index))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi))
-                    .alpha(0.8f)  // default 1.0
-                    .anchor(0.45f, 1.0f));
-
-        }*/
-
+        }
         return marker;
     }
 
@@ -888,4 +834,24 @@ public final class Helper implements AppConfig {
             }
         }, 3000);
     }
+
+
+/*****  custom marker
+ *
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        Bitmap bmp = Bitmap.createBitmap(80, 80, conf);     // marker size
+        Canvas canvas1 = new Canvas(bmp);
+
+// paint defines the text color, stroke width and size
+        Paint color = new Paint();
+        color.setTextSize(26);
+        color.setColor(Color.BLACK);
+        color.setFakeBoldText(true);
+
+// modify canvas
+        canvas1.drawBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_launcher), 100,10, color);
+        canvas1.drawText("Set Text Here", 0, 0, color);                 // string , Left, Top, color
+
+*/
+
 }

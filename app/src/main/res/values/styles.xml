@@ -28,6 +28,11 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="iconGenText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#ff0000</item>
+    </style>
+
 
     <!--
     colorPrimaryDark
