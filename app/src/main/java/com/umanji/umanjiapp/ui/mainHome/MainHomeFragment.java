@@ -354,6 +354,11 @@ public class MainHomeFragment extends BaseFragment {
                 else logout();
                 break;
 
+            case api_noites_read:
+                mNotyCountBtn.setVisibility(View.GONE);
+                mNotyCountBtn.setText("0");
+                break;
+
             case api_logout:
                 logout();
                 break;
@@ -453,7 +458,7 @@ public class MainHomeFragment extends BaseFragment {
                     startActivity(defaultInt);
 
                 } else {
-                    Toast.makeText(mActivity, "만든 커뮤니티가 없습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mActivity, "만든 아지트가 없습니다", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -500,6 +505,7 @@ public class MainHomeFragment extends BaseFragment {
 
                 break;
 
+            case R.id.mNotyCount:
             case R.id.mAvatarImageBtn:
                 if (AuthHelper.isLogin(mActivity) && mUser != null) {
                     Intent intent = new Intent(mActivity, ProfileActivity.class);
@@ -520,6 +526,29 @@ public class MainHomeFragment extends BaseFragment {
                 break;
 
 
+        }
+    }
+
+    private void loadNewNoties() {
+        try {
+            JSONObject params = new JSONObject();
+            params.put("read", false);
+            mApi.call(api_noites_new_count, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    super.callback(url, object, status);
+                    int notyCount = object.optInt("data");
+                    if (notyCount > 0) {
+                        mNotyCountBtn.setVisibility(View.VISIBLE);
+                        mNotyCountBtn.setText(String.valueOf(notyCount));
+                    } else {
+                        mNotyCountBtn.setVisibility(View.GONE);
+                        mNotyCountBtn.setText("0");
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "Error " + e.toString());
         }
     }
 

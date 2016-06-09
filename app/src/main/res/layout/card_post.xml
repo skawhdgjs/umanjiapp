@@ -179,7 +179,7 @@
             android:layout_alignRight="@+id/replyBtn"
             android:layout_below="@+id/name"
             android:background="@drawable/default_btn_transparent"
-            android:paddingBottom="20dp"
+            android:paddingBottom="5dp"
             android:paddingTop="20dp">
 
             <TextView
@@ -188,33 +188,43 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="5dp"
-                android:text="활동포인트 1000 p"
+                android:text="가치생산 100 p"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="12dp" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toEndOf="@+id/point"
                 android:layout_toRightOf="@+id/point"
                 android:text="댓글"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="12dp" />
+                android:textSize="10dp" />
 
             <TextView
                 android:id="@+id/replyCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_toEndOf="@+id/textView6"
                 android:layout_toRightOf="@+id/textView6"
-                android:text="10 개"
+                android:text="10"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textSize="12dp" />
+                android:textSize="10dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@+id/textView6"
+                android:layout_toRightOf="@+id/replyCount"
+                android:text="   개"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textSize="10dp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -231,16 +241,17 @@
             android:background="@color/gray" />
 
         <LinearLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <LinearLayout
                 android:id="@+id/likeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -252,7 +263,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
+                    android:paddingLeft="10dp"
                     android:paddingRight="16dp"
                     android:text="공익적인 글"
                     android:textColor="@color/gray_text"
@@ -265,8 +276,9 @@
                 android:id="@+id/replyBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:layout_width="20dp"

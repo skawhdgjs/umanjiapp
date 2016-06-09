@@ -612,7 +612,6 @@ public class MainFragment extends BaseFragment {
                 break;
 
             case R.id.mNotyCount:
-            /*case R.id.mAvatarImageBtn:
                 if (AuthHelper.isLogin(mActivity) && mUser != null) {
                     Intent intent = new Intent(mActivity, ProfileActivity.class);
                     Bundle bundle = new Bundle();
@@ -626,10 +625,10 @@ public class MainFragment extends BaseFragment {
 
                     intent.putExtra("bundle", bundle);
                     startActivity(intent);
-                } else {
+                }  else {
                     Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 }
-                break;*/
+                break;
 
             case R.id.ads_image:
                 Intent webIntent = new Intent(mActivity, WebViewActivity.class);
@@ -663,6 +662,9 @@ public class MainFragment extends BaseFragment {
         }
     }
 
+    private int getNewNoticeCount() {
+        return Integer.parseInt(mNotyCountBtn.getText().toString());
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -1658,11 +1660,7 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-   /* private int getNewNoticeCount() {
-        return Integer.parseInt(mNotyCountBtn.getText().toString());
-    }*/
-
-    /*private boolean checkPlayServices() {
+    private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);
         if (resultCode != ConnectionResult.SUCCESS) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
@@ -1674,7 +1672,7 @@ public class MainFragment extends BaseFragment {
             return false;
         }
         return true;
-    }*/
+    }
 
     private class TouchableWrapper extends FrameLayout {
         public TouchableWrapper(Context context) {

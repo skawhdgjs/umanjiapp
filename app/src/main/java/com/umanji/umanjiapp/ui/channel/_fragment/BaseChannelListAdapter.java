@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.channel._fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -154,7 +155,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
     }
 
     protected void setPoint(final ViewHolder holder, ChannelData channelData) {
-        holder.point.setText("활동포인트 " + channelData.getPoint());
+        holder.point.setText("가치생산 " + channelData.getPoint());
     }
 
     protected void setName(final ViewHolder holder, final ChannelData channelData) {
@@ -211,7 +212,13 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             if(TextUtils.isEmpty(parentChannelData.getName())) {
                 holder.parentName.setText("이름없음");
             }else {
-                holder.parentName.setText(Helper.getShortenString(parentChannelData.getName()));
+                if(parentChannelData.getType().equals(TYPE_POST)){
+                    holder.parentName.setTypeface(null,Typeface.NORMAL);;
+                    holder.parentName.setText("댓글");                                                    // 댓글인 경우
+                } else {
+                    holder.parentName.setText(Helper.getShortenString(parentChannelData.getName()));    // 일반적인 장소 정보센터
+                }
+
             }
 
             holder.parentName.setOnClickListener(new View.OnClickListener() {
@@ -438,7 +445,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                         typeName = "커뮤니티";
                         break;
                     case TYPE_KEYWORD_COMMUNITY:
-                        typeName = "연합단체";
+                        typeName = "관심주제어";        // 연합단체 > 관심주제어
                         break;
                     case TYPE_INFO_CENTER:
                         typeName = "정보센터";
@@ -478,9 +485,10 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
     protected void setActionPanel(final ViewHolder holder, final ChannelData channelData) {
         ArrayList<SubLinkData> replySubLinks = channelData.getSubLinks(TYPE_POST);
         if(replySubLinks != null && replySubLinks.size() > 0) {
-            holder.replyCount.setText("" + replySubLinks.size() + " 개");
+            holder.replyCount.setTypeface(null, Typeface.BOLD);
+            holder.replyCount.setText("" + replySubLinks.size());
         }else {
-            holder.replyCount.setText("0 개");
+            holder.replyCount.setText("0");
         }
 
         holder.actionPanel.setOnClickListener(new View.OnClickListener() {
@@ -526,7 +534,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                     EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
                                 } else {
                                     ChannelData parentData = new ChannelData(json);
-                                    holder.point.setText("활동포인트 " + parentData.getPoint());
+                                    holder.point.setText("가치생산 " + parentData.getPoint());   //활동포인트 > 가치생산
                                     holder.likeBtn.setTag(null);
 //                                    holder.likeBtn.setBackgroundResource(R.drawable.default_btn_grey_radius);
 
@@ -548,7 +556,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
                                 } else {
                                     ChannelData channelData = new ChannelData(json);
                                     ChannelData parentData = channelData.getParent();
-                                    holder.point.setText("활동포인트 " + parentData.getPoint());
+                                    holder.point.setText("가치생산 " + parentData.getPoint());
                                     String actionId = parentData.getActionId(TYPE_LIKE, AuthHelper.getUserId(mActivity));
                                     holder.likeBtn.setTag(actionId);
 //                                    holder.likeBtn.setBackgroundResource(R.drawable.default2_btn_radius);
