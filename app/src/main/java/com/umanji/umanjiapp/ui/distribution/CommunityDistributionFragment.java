@@ -424,7 +424,7 @@ public class CommunityDistributionFragment extends BaseFragment {
             if (mMarkers != null) {
                 for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMap(mMap, channelData.getParent(), idx);
+                    Helper.addMarkerToMap(mMap, channelData.getParent(), idx, mActivity);
                 }
             }
 

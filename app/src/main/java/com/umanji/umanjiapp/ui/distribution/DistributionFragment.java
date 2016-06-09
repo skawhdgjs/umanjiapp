@@ -418,7 +418,7 @@ public class DistributionFragment extends BaseFragment {
 
             if (mCurrentChannel != null) {
                 if (Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
+                    mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST, mActivity);
                 } else {
                     mCurrentChannel = null;
                 }
@@ -426,7 +426,7 @@ public class DistributionFragment extends BaseFragment {
 
             if (mSelectedChannel != null) {
                 if (Helper.isInVisibleResion(mMap, new LatLng(mSelectedChannel.getLatitude(), mSelectedChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mSelectedChannel, MARKER_INDEX_CLICKED);
+                    mFocusedMarker = Helper.addMarkerToMap(mMap, mSelectedChannel, MARKER_INDEX_CLICKED, mActivity);
                 } else {
                     mSelectedChannel = null;
                 }
@@ -435,7 +435,7 @@ public class DistributionFragment extends BaseFragment {
             if (mMarkers != null) {
                 for (; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMap(mMap, channelData, idx);
+                    Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
                 }
             }
 

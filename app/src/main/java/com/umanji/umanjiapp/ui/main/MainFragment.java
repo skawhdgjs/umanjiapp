@@ -1461,7 +1461,7 @@ public class MainFragment extends BaseFragment {
 
             if (mCurrentChannel != null) {
                 if (Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
+                    mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST, mActivity);
                 } else {
                     mCurrentChannel = null;
                 }
@@ -1469,7 +1469,7 @@ public class MainFragment extends BaseFragment {
 
             if (mClickedChannel != null) {
                 if (Helper.isInVisibleResion(mMap, new LatLng(mClickedChannel.getLatitude(), mClickedChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mClickedChannel, MARKER_INDEX_CLICKED);
+                    mFocusedMarker = Helper.addMarkerToMap(mMap, mClickedChannel, MARKER_INDEX_CLICKED, mActivity);
                     mSelectedChannel = mClickedChannel;
                 } else {
                     mSelectedChannel = null;
@@ -1482,11 +1482,11 @@ public class MainFragment extends BaseFragment {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
 
                     if (mCurrentChannel != null && !TextUtils.equals(mCurrentChannel.getId(), channelData.getId())) {
-                        Helper.addMarkerToMap(mMap, channelData, idx);
+                        Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
                     } else if (mSelectedChannel != null && !TextUtils.equals(mSelectedChannel.getId(), channelData.getId())) {
-                        Helper.addMarkerToMap(mMap, channelData, idx);
+                        Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
                     } else {
-                        Helper.addMarkerToMap(mMap, channelData, idx);
+                        Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
                     }
                 }
             }
@@ -1612,7 +1612,7 @@ public class MainFragment extends BaseFragment {
                         }
 
                         mMap.animateCamera(CameraUpdateFactory.newLatLng(mPointByPost), 500, null);
-                        mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
+                        mFocusedMarker = Helper.addMarkerToMap(mMap, mCurrentChannel, MARKER_INDEX_BY_POST, mActivity);
                     }
 
                     if (!isLoading) {

@@ -1159,7 +1159,7 @@ public class KeywordCommunityFragment extends BaseFragment {
             if (mMarkers != null) {
                 for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMap(mMap, channelData, idx);
+                    Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
                 }
             }
 

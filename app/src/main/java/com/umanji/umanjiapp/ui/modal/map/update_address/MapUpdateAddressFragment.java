@@ -147,7 +147,7 @@ public class MapUpdateAddressFragment extends BaseFragment {
                     .build();
 
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            Helper.addMarkerToMap(mMap, mChannel, 0, true);
+            Helper.addMarkerToMap(mMap, mChannel, 0, mActivity, true);
 
         }catch (SecurityException e) {
             Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());

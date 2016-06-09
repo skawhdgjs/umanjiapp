@@ -50,7 +50,7 @@ public class MapFragment extends BaseFragment {
 
 
     /****************************************************
-     *  View
+     * View
      ****************************************************/
     private GoogleMap mMap;
     private LatLng mLatLng;
@@ -62,7 +62,6 @@ public class MapFragment extends BaseFragment {
 
     private boolean isBlock = false;
     private boolean isLoading = false;
-
 
 
     boolean mMapIsTouched = false;
@@ -80,10 +79,10 @@ public class MapFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             mMapType = getArguments().getString("mapType");
             String jsonString = getArguments().getString("channel");
-            if(jsonString != null) {
+            if (jsonString != null) {
                 mChannel = new ChannelData(jsonString);
             }
         }
@@ -126,7 +125,7 @@ public class MapFragment extends BaseFragment {
                     addChannelsToMap(json);
                 }
             });
-        }catch (JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
     }
@@ -138,23 +137,23 @@ public class MapFragment extends BaseFragment {
 
 
     /****************************************************
-     *  Event Bus
+     * Event Bus
      ****************************************************/
 
-    public void onEvent(SuccessData event){
+    public void onEvent(SuccessData event) {
 
     }
 
     private void initMap() {
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity.getBaseContext());
 
-        if(status!= ConnectionResult.SUCCESS){
+        if (status != ConnectionResult.SUCCESS) {
 
             int requestCode = 10;
             Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, mActivity, requestCode);
             dialog.show();
 
-        }else {
+        } else {
             mMap = ((com.google.android.gms.maps.MapFragment) mActivity.getFragmentManager().findFragmentById(R.id.mMapFragment))
                     .getMap();
 
@@ -183,7 +182,7 @@ public class MapFragment extends BaseFragment {
 
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-        }catch (SecurityException e) {
+        } catch (SecurityException e) {
             Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
         }
 
@@ -246,9 +245,9 @@ public class MapFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
-                if(mMapIsTouched) return;
+                if (mMapIsTouched) return;
 
-                if(!isLoading) loadData();
+                if (!isLoading) loadData();
             }
         });
     }
@@ -257,20 +256,18 @@ public class MapFragment extends BaseFragment {
         try {
             mMap.clear();
             mMarkers = jsonObject.getJSONArray("data");
-            if(mMarkers != null) {
-                for(int idx = 0; idx < mMarkers.length() ; idx ++ ) {
+            if (mMarkers != null) {
+                for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMap(mMap, channelData, idx);
+                    Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
                 }
             }
 
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
 
     }
-
-
 
 
     private class TouchableWrapper extends FrameLayout {
