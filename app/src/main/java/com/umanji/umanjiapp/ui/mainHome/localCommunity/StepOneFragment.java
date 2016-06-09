@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.mainHome.localCommunity;
 
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -137,6 +138,8 @@ public class StepOneFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+
+        mAlert = new AlertDialog.Builder(mActivity);
 
         mGoBackBtn = (ImageView) view.findViewById(R.id.goBackBtn);
         mGoBackBtn.setOnClickListener(this);
@@ -366,6 +369,9 @@ public class StepOneFragment extends BaseFragment {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 isBlock = true;
+
+                goToSpotDialog();
+                /*
                 LatLng latLng = marker.getPosition();
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng), 500, null);
@@ -375,7 +381,7 @@ public class StepOneFragment extends BaseFragment {
                 } else {
                     marker.showInfoWindow();
                 }
-
+*/
                 try {
                     String idx = marker.getSnippet();
 
@@ -583,7 +589,26 @@ public class StepOneFragment extends BaseFragment {
 
     }
 
-//    ***
+    private void goToSpotDialog() {
+        mAlert.setPositiveButton("네", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Helper.startActivity(mActivity, mClickedChannel, TYPE_COMMUNITY);
+                dialog.cancel();
+            }
+        });
+
+        mAlert.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        mAlert.setTitle("이곳 커뮤니티를 둘러보시겠습니까?");
+//        mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
+        mAlert.show();
+    }
 
     private void showCreateSpotDialog() {
         mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
