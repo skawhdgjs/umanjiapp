@@ -36,10 +36,11 @@
             android:textColor="#FFFFFF"
             android:textSize="10dp"
             android:visibility="gone"
-            android:layout_alignBaseline="@+id/textView7"
-            android:layout_alignBottom="@+id/textView7"
-            android:layout_toRightOf="@+id/userPhoto"
-            android:layout_toEndOf="@+id/userPhoto" />
+            android:layout_alignTop="@+id/userPhoto"
+            android:layout_alignLeft="@+id/userPhoto"
+            android:layout_alignStart="@+id/userPhoto"
+            android:layout_marginLeft="29dp"
+            android:layout_marginStart="29dp" />
 
         <!--<com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/mAvatarImageBtn"

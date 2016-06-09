@@ -324,12 +324,13 @@ public final class Helper implements AppConfig {
             name = "어떤곳";
         }
 
-        String[] communityKeyword = channelData.getKeywords();
-        if (communityKeyword != null && communityKeyword.length > 0) {
+        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_COMMUNITY);
+//        String[] communityKeyword = channelData.getKeywords();                      //키워드로 검색
+        if (subLinks != null && subLinks.size() > 0) {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromBitmap(bmp=tc.makeIcon(communityKeyword[0])))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bmp=tc.makeIcon(subLinks.get(0).getName())))
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
 
