@@ -314,11 +314,11 @@ public final class Helper implements AppConfig {
 
 
         IconGenerator tc = new IconGenerator(activity);
-//        Bitmap bmp = tc.makeIcon("hello");
+        Bitmap bmp = tc.makeIcon("hello");
         tc.setColor(Color.parseColor("#ffff33"));       // yellow : ffff33
 
 
-
+/*
         Bitmap.Config conf = Bitmap.Config.ARGB_8888;
         Bitmap bmp = Bitmap.createBitmap(80, 80, conf);     // marker size
         Canvas canvas1 = new Canvas(bmp);
@@ -333,6 +333,8 @@ public final class Helper implements AppConfig {
         canvas1.drawBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_launcher), 100,10, color);
         canvas1.drawText("Set Text Here", 0, 0, color);                 // string , Left, Top, color
 
+        */
+
         String name = channelData.getName();
         if (TextUtils.isEmpty(name)) {
             name = "어떤곳";
@@ -341,8 +343,8 @@ public final class Helper implements AppConfig {
 //        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_KEYWORD);
         String[] communityKeyword = channelData.getKeywords();
         if (communityKeyword != null && communityKeyword.length > 0) {
-            if (TextUtils.equals(communityKeyword[0], "모텔")) {
-                canvas1.drawText(communityKeyword[0], 30, 60, color);    // string , Left, Top, color
+          /*  if (TextUtils.equals(communityKeyword[0], "모텔")) {
+
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
@@ -364,8 +366,8 @@ public final class Helper implements AppConfig {
                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.food_spot))
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-            } else {
-                canvas1.drawText(communityKeyword[0], 30, 60, color);
+            } else {*/
+
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
@@ -374,7 +376,7 @@ public final class Helper implements AppConfig {
 //                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.food_spot))
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
-            }
+//            }
 
         } /*else {
             marker = map.addMarker(new MarkerOptions().position(point)
