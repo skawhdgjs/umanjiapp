@@ -27,7 +27,7 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="가상이 아닌 실제 공간 커뮤니티"
+            android:text="동네 커뮤니티"
             android:layout_marginBottom="3dp"
             android:textSize="16dp"
             android:textColor="@color/white"
