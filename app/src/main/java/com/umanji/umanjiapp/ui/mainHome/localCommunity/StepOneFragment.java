@@ -429,10 +429,15 @@ public class StepOneFragment extends BaseFragment {
                 TextView name = (TextView) view.findViewById(R.id.wiSpotName);
                 name.setText(marker.getTitle());
 
+//                ImageView img = (ImageView) view.findViewById(R.id.img);
+//                Picasso.with(mActivity).load(YOUR_IMAGE_URL).into(img);
+//                img.setBackground(yourDrawable);
+
                 return view;
 
             }
         });
+
 
 
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
@@ -537,11 +542,12 @@ public class StepOneFragment extends BaseFragment {
 
             mMarkers = jsonObject.getJSONArray("data");
 
+
             int idx = 0;
 
             if (mCurrentChannel != null) {
                 if (Helper.isInVisibleResion(mMap, new LatLng(mCurrentChannel.getLatitude(), mCurrentChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMapOnStepOne(mMap, mCurrentChannel, MARKER_INDEX_BY_POST);
+                    mFocusedMarker = Helper.addMarkerToMapOnStepOne(mMap, mCurrentChannel, MARKER_INDEX_BY_POST, mActivity);
                 } else {
                     mCurrentChannel = null;
                 }
@@ -549,7 +555,7 @@ public class StepOneFragment extends BaseFragment {
 
             if (mClickedChannel != null) {
                 if (Helper.isInVisibleResion(mMap, new LatLng(mClickedChannel.getLatitude(), mClickedChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMapOnStepOne(mMap, mClickedChannel, MARKER_INDEX_CLICKED);
+                    mFocusedMarker = Helper.addMarkerToMapOnStepOne(mMap, mClickedChannel, MARKER_INDEX_CLICKED, mActivity);
                     mSelectedChannel = mClickedChannel;
                 } else {
                     mSelectedChannel = null;
@@ -562,11 +568,11 @@ public class StepOneFragment extends BaseFragment {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
 
                     if (mCurrentChannel != null && !TextUtils.equals(mCurrentChannel.getId(), channelData.getId())) {
-                        Helper.addMarkerToMapOnStepOne(mMap, channelData, idx);
+                        Helper.addMarkerToMapOnStepOne(mMap, channelData, idx, mActivity);
                     } else if (mSelectedChannel != null && !TextUtils.equals(mSelectedChannel.getId(), channelData.getId())) {
-                        Helper.addMarkerToMapOnStepOne(mMap, channelData, idx);
+                        Helper.addMarkerToMapOnStepOne(mMap, channelData, idx, mActivity);
                     } else {
-                        Helper.addMarkerToMapOnStepOne(mMap, channelData, idx);
+                        Helper.addMarkerToMapOnStepOne(mMap, channelData, idx, mActivity);
                     }
                 }
             }

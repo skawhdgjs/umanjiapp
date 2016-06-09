@@ -40,6 +40,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:8.3.0'
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'com.google.android.gms:play-services-analytics:8.3.0'
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
 
 
     /***********************************************

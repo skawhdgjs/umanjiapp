@@ -5,7 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.NinePatch;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -15,7 +23,9 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -32,11 +42,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
+import com.google.maps.android.ui.IconGenerator;
 import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -288,9 +300,39 @@ public final class Helper implements AppConfig {
         return marker;
     }
 
-    public static Marker addMarkerToMapOnStepOne(GoogleMap map, ChannelData channelData, int index) {
+    public static Marker addMarkerToMapOnStepOne(GoogleMap map, ChannelData channelData, int index, Activity activity) {
+
         LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
         Marker marker = null;
+
+        /* To make custom marker
+        * There are about 2 more libs.
+        * 1. IconGenerator  // Google Map Util.
+        * 2. To make 'BitmapDescriptor getTextMarker' function
+        * 3. Best way to make custom marker is Own make bitmap marker!
+        * */
+
+
+        IconGenerator tc = new IconGenerator(activity);
+//        Bitmap bmp = tc.makeIcon("hello");
+        tc.setColor(Color.parseColor("#ffff33"));       // yellow : ffff33
+
+
+
+        Bitmap.Config conf = Bitmap.Config.ARGB_8888;
+        Bitmap bmp = Bitmap.createBitmap(80, 80, conf);     // marker size
+        Canvas canvas1 = new Canvas(bmp);
+
+// paint defines the text color, stroke width and size
+        Paint color = new Paint();
+        color.setTextSize(26);
+        color.setColor(Color.BLACK);
+        color.setFakeBoldText(true);
+
+// modify canvas
+        canvas1.drawBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.ic_launcher), 100,10, color);
+        canvas1.drawText("Set Text Here", 0, 0, color);                 // string , Left, Top, color
+
         String name = channelData.getName();
         if (TextUtils.isEmpty(name)) {
             name = "어떤곳";
@@ -300,10 +342,12 @@ public final class Helper implements AppConfig {
         String[] communityKeyword = channelData.getKeywords();
         if (communityKeyword != null && communityKeyword.length > 0) {
             if (TextUtils.equals(communityKeyword[0], "모텔")) {
+                canvas1.drawText(communityKeyword[0], 30, 60, color);    // string , Left, Top, color
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.coffee_spot))
+//                        .icon(BitmapDescriptorFactory.fromBitmap(bmp))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bmp= tc.makeIcon(communityKeyword[0])))
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
             } else if (TextUtils.equals(communityKeyword[0], "술집")) {
@@ -321,10 +365,13 @@ public final class Helper implements AppConfig {
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
             } else {
+                canvas1.drawText(communityKeyword[0], 30, 60, color);
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.food_spot))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bmp= tc.makeIcon(communityKeyword[0])))
+//                        .icon(BitmapDescriptorFactory.fromBitmap(bmp))
+//                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.food_spot))
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
             }
