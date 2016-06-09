@@ -3,7 +3,6 @@ package com.umanji.umanjiapp.ui.mainHome.localCommunity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.umanji.umanjiapp.helper.DefaultFragment;
 import com.umanji.umanjiapp.ui.BaseActivity;
 
 
