@@ -171,7 +171,7 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
 //            params.put("parentType", mChannel.getParent().getType());
-            params.put("level", mChannel.getLevel());
+            params.put("level", 13);
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMMUNITY);
 
