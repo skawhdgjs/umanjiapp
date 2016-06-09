@@ -324,15 +324,32 @@ public final class Helper implements AppConfig {
             name = "어떤곳";
         }
 
+        int overOne = 0;
+        String strOverOne = null;
+
         ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_COMMUNITY);
 //        String[] communityKeyword = channelData.getKeywords();                      //키워드로 검색
         if (subLinks != null && subLinks.size() > 0) {
+            if(subLinks.size() > 1){
+                overOne = subLinks.size() - 1;
+                strOverOne = String.valueOf(overOne);
+
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(name)
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bmp=tc.makeIcon(subLinks.get(0).getName() + "외 " + strOverOne +"개")))
+                        .alpha(0.8f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+
+            } else {
                 marker = map.addMarker(new MarkerOptions().position(point)
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromBitmap(bmp=tc.makeIcon(subLinks.get(0).getName())))
                         .alpha(0.8f)  // default 1.0
                         .anchor(0.45f, 1.0f));
+            }
+
 
         }
         return marker;
