@@ -194,8 +194,9 @@ public class MainFragment extends BaseFragment {
     private int mPreFocusedItem = 0;
 
     private String mSlidingState = SLIDING_COLLAPSED;
+    //      참새어린이공원  37.498039  126.9220201   / 대한민국 정보센터 37.642443934398   126.977429352700
 
-    private LatLng mLatLngByPoint = new LatLng(37.642443934398, 126.977429352700);
+    private LatLng mLatLngByPoint = new LatLng(37.498039, 126.9220201);
     private ChannelData mChannelByPoint;
     private Marker mMarkerByPoint;
     private Marker mFocusedMarker;
@@ -222,8 +223,12 @@ public class MainFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        String fromHomeUser;
         if (getArguments() != null) {
-            mChannelIdForPush = getArguments().getString("id");
+            fromHomeUser = getArguments().getString("id");
+            if (fromHomeUser != null) {
+                mUser = new ChannelData(fromHomeUser);
+            }
         }
 
         /*Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
@@ -813,10 +818,12 @@ public class MainFragment extends BaseFragment {
 
                 final int zoom = (int) mMap.getCameraPosition().zoom;
 
-                if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
-                    int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
-                    Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다(" + POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
-                    return;
+                if(mUser != null){
+                    if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
+                        int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
+                        Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다(" + POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                 }
 
                 mLatLngByPoint = point;

@@ -99,8 +99,10 @@ public class MainHomeFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        double latitude = 37.642443934398;
-        double longitude = 126.977429352700;
+        //      참새어린이공원  37.498039  126.9220201   / 대한민국 정보센터 37.642443934398   126.977429352700
+
+        double latitude = 37.498039;
+        double longitude = 126.9220201;
 
         mCurrentMyPosition = new LatLng(latitude, longitude);
 
@@ -378,7 +380,9 @@ public class MainHomeFragment extends BaseFragment {
 
     @Override
     public void onClick(View v) {
+        Bundle bundle = new Bundle();
         switch (v.getId()) {
+
 
             case R.id.umanji:
                 mUmanji.startAnimation(buttonClick);
@@ -395,7 +399,6 @@ public class MainHomeFragment extends BaseFragment {
 
                 if (AuthHelper.isLogin(mActivity) && mUser != null) {
                     Intent intent = new Intent(mActivity, ProfileActivity.class);
-                    Bundle bundle = new Bundle();
                     bundle.putString("channel", mUser.getJsonObject().toString());
                     bundle.putInt("newNoticeCount", getNewNoticeCount());
                     if (getNewNoticeCount() > 0) {
@@ -417,7 +420,6 @@ public class MainHomeFragment extends BaseFragment {
 
                 if (AuthHelper.isLogin(mActivity) && mUser != null) {
                     Intent intent = new Intent(mActivity, CreateLocalCommunityActivity.class);
-                    Bundle bundle = new Bundle();
                     bundle.putString("channel", mUser.getJsonObject().toString());
                     bundle.putInt("newNoticeCount", getNewNoticeCount());
                     if (getNewNoticeCount() > 0) {
@@ -438,6 +440,13 @@ public class MainHomeFragment extends BaseFragment {
                 buttonClick.setDuration(500);
 
                 Intent lookInt = new Intent(mActivity, MainActivity.class);
+
+
+                if(mUser != null){
+                    bundle.putString("channel", mUser.getJsonObject().toString());
+                    lookInt.putExtra("bundle", bundle);
+                }
+
                 startActivity(lookInt);
                 break;
 
@@ -449,7 +458,6 @@ public class MainHomeFragment extends BaseFragment {
                     Intent defaultInt;
                     defaultInt = new Intent(getActivity(), CommunityActivity.class);
 
-                    Bundle bundle = new Bundle();
                     bundle.putString("channel", mMyCommunityChannelOne.getJsonObject().toString());
                     bundle.putString("iamFrom", "home");
 
@@ -471,7 +479,6 @@ public class MainHomeFragment extends BaseFragment {
                     Intent defaultInt;
                     defaultInt = new Intent(getActivity(), CommunityActivity.class);
 
-                    Bundle bundle = new Bundle();
                     bundle.putString("channel", mMyCommunityChannelTwo.getJsonObject().toString());
                     bundle.putString("iamFrom", "home");
 
@@ -492,7 +499,6 @@ public class MainHomeFragment extends BaseFragment {
                     Intent defaultInt;
                     defaultInt = new Intent(getActivity(), CommunityActivity.class);
 
-                    Bundle bundle = new Bundle();
                     bundle.putString("channel", mMyCommunityChannelThree.getJsonObject().toString());
                     bundle.putString("iamFrom", "home");
 
@@ -509,7 +515,6 @@ public class MainHomeFragment extends BaseFragment {
             case R.id.mAvatarImageBtn:
                 if (AuthHelper.isLogin(mActivity) && mUser != null) {
                     Intent intent = new Intent(mActivity, ProfileActivity.class);
-                    Bundle bundle = new Bundle();
                     bundle.putString("channel", mUser.getJsonObject().toString());
                     bundle.putInt("newNoticeCount", getNewNoticeCount());
                     if (getNewNoticeCount() > 0) {
