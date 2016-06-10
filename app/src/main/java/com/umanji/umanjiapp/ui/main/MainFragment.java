@@ -451,7 +451,9 @@ public class MainFragment extends BaseFragment {
 
         // Level 7
         mClimbImageView = (ImageView) view.findViewById(R.id.climb);
+//        mClimbImageView.setBackgroundColor(Color.parseColor("#11000000"));
         mGolfImageView = (ImageView) view.findViewById(R.id.golf);
+//        mGolfImageView.setBackgroundColor(Color.parseColor("#aa000000"));
 
         mClimbImageView.setOnClickListener(this);
         mGolfImageView.setOnClickListener(this);
