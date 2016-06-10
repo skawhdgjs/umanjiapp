@@ -245,10 +245,12 @@ public class MainHomeFragment extends BaseFragment {
                 }
             });
 
+            // 대한민국 정보센터 37.642443934398   126.977429352700
+
             JSONObject params = new JSONObject();
-            params.put("level", 2);
+//            params.put("level", 18);
             params.put("type", TYPE_COMMUNITY);
-            params.put("limit", 1000);
+            params.put("limit", 10000);
 //            params.put("sort", "point DESC");
 
 //            api_channels_communities_find
