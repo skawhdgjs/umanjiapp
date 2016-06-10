@@ -103,11 +103,15 @@ public class RoleListAdapter extends BaseChannelListAdapter {
             @Override
             public void onClick(View v) {
                 if(AuthHelper.isLoginUser(mActivity, mChannel.getId())) {
-                    Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
+
+                    Toast.makeText(mActivity, "역할 설명창으로 이동합니다.", Toast.LENGTH_LONG).show();
+                    Intent webIntent = new Intent(mActivity, WebViewActivity.class);
+                    mActivity.startActivity(webIntent);
+                    /*Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
                     Bundle roleBundle = new Bundle();
                     roleBundle.putString("channel", mChannel.getJsonObject().toString());
                     roleIntent.putExtra("bundle", roleBundle);
-                    mActivity.startActivity(roleIntent);
+                    mActivity.startActivity(roleIntent);*/
                 } else {
 
                     Toast.makeText(mActivity, "역할 설명창으로 이동합니다.", Toast.LENGTH_LONG).show();
