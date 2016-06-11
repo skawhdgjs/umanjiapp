@@ -192,8 +192,10 @@ public final class Helper implements AppConfig {
 
         IconGenerator tc = new IconGenerator(activity);
         tc.setColor(Color.parseColor("#ffff33"));           // background color yellow : ffff33
-        tc.setTextAppearance(R.style.iconGenText);          // text design
+        tc.setTextAppearance(R.style.keywordCommunityText);          // text design
         Bitmap bmp = tc.makeIcon();
+
+//        keywordCommunityText
 
         String name = channelData.getName();
         if (TextUtils.isEmpty(name)) {
@@ -312,7 +314,7 @@ public final class Helper implements AppConfig {
 
         IconGenerator tc = new IconGenerator(activity);
         tc.setColor(Color.parseColor("#ffff33"));           // background color yellow : ffff33
-        tc.setTextAppearance(R.style.iconGenText);          // text design
+        tc.setTextAppearance(R.style.keywordCommunityText);          // text design
         Bitmap bmp = tc.makeIcon();
 
         String name = channelData.getName();
@@ -350,6 +352,62 @@ public final class Helper implements AppConfig {
         }
         return marker;
     }
+
+    public static Marker addMarkerToMapOnKeyword(GoogleMap map, ChannelData channelData, int index, Activity activity) {
+        LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
+        Marker marker = null;
+
+        IconGenerator tc = new IconGenerator(activity);
+        tc.setColor(Color.parseColor("#ffff33"));           // background color yellow : ffff33
+        tc.setTextAppearance(R.style.keywordCommunityText);          // text design
+        Bitmap bmp = tc.makeIcon();
+
+        String name = channelData.getName();
+        if (TextUtils.isEmpty(name)) {
+            name = "어떤곳";
+        }
+
+        String spotKeyword = channelData.getName();
+
+
+        if(channelData.getType().equals(TYPE_COMMUNITY)){
+            marker = map.addMarker(new MarkerOptions().position(point)
+                    .title(name)
+                    .snippet(String.valueOf(index))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(spotKeyword)))
+                    .alpha(0.8f)  // default 1.0
+                    .anchor(0.45f, 1.0f));
+        } else if(channelData.getType().equals(TYPE_SPOT)){
+            tc.setTextAppearance(R.style.keywordSpotText);
+            marker = map.addMarker(new MarkerOptions().position(point)
+                    .title(name)
+                    .snippet(String.valueOf(index))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(spotKeyword)))
+                    .alpha(0.8f)  // default 1.0
+                    .anchor(0.45f, 1.0f));
+//            keywordSpotText
+
+        }
+
+
+
+        return marker;
+
+/*
+
+        else if(channelData.getKeywords() != null && channelData.getType().equals(TYPE_SPOT)){
+            marker = map.addMarker(new MarkerOptions().position(point)
+                    .title(name)
+                    .snippet(String.valueOf(index))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(spotKeyword)))
+                    .alpha(0.8f)  // default 1.0
+                    .anchor(0.45f, 1.0f));
+
+        }
+        */
+
+    }
+
 
     public static Marker addMarkerToMap(GoogleMap map, ChannelData channelData, int index, Activity activity) {
         return addMarkerToMap(map, channelData, index, activity, false);

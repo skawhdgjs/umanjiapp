@@ -1200,7 +1200,7 @@ public class MainFragment extends BaseFragment {
 
             try {
                 JSONObject params1 = new JSONObject();
-                params1.put("name", "산악");
+                params1.put("name", "등산");
 
                 mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
                     @Override

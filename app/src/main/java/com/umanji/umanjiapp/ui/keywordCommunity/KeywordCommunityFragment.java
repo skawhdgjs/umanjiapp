@@ -714,19 +714,18 @@ public class KeywordCommunityFragment extends BaseFragment {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 isBlock = true;
-                LatLng latLng = marker.getPosition();
-
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng), 500, null);
-
-                if (marker.isInfoWindowShown()) {
-                    marker.hideInfoWindow();
-                } else {
-                    marker.showInfoWindow();
-                }
 
                 try {
                     String idx = marker.getSnippet();
-                    mSelectedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
+
+                    if (TextUtils.equals(idx, String.valueOf(MARKER_INDEX_CLICKED))) {
+                        mClickedChannel = mSelectedChannel;
+                    } else {
+                        mClickedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
+                    }
+
+                    goToSpotDialog(mClickedChannel);
+
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
                 }
@@ -827,6 +826,43 @@ public class KeywordCommunityFragment extends BaseFragment {
             }
         });
 
+    }
+
+    private void goToSpotDialog(ChannelData typeChannel) {
+
+        mAlert.setPositiveButton("네", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Helper.startActivity(mActivity, mClickedChannel, TYPE_COMMUNITY);
+                dialog.cancel();
+            }
+        });
+
+        mAlert.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        switch(typeChannel.getType()){
+            case TYPE_SPOT:
+                mAlert.setTitle("이곳 장소를 둘러보시겠습니까?");
+                break;
+
+            case TYPE_COMMUNITY:
+                mAlert.setTitle("이곳 커뮤니티를 둘러보시겠습니까?");
+                break;
+
+            default:
+                mAlert.setTitle("이곳 커뮤니티를 둘러보시겠습니까?");
+                break;
+        }
+
+
+
+//        mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
+        mAlert.show();
     }
 
     private void updateCommunityBtn(final int zoom) {
@@ -1159,7 +1195,7 @@ public class KeywordCommunityFragment extends BaseFragment {
             if (mMarkers != null) {
                 for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
+                    Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
                 }
             }
 
