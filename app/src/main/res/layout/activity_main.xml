@@ -166,24 +166,61 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/environment"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/keyword_environment"/>
+                    android:layout_alignParentStart="true">
 
-                <ImageView
-                    android:id="@+id/energy"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    <ImageView
+                        android:id="@+id/environment"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/keyword_environment_jpg"
+                        android:background="@drawable/keyword_image"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="환경"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/keyword_energy" />
+                    android:layout_marginLeft="20dp">
+                    <ImageView
+                        android:id="@+id/energy"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/keyword_energy_jpg"
+                        android:background="@drawable/keyword_image"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="에너지"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:shadowColor="#000"
+                        android:shadowRadius="9.0"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -199,14 +236,32 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/spiritual"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/keyword_spiritual"/>
+                    android:layout_alignParentStart="true">
+
+                    <ImageView
+                        android:id="@+id/spiritual"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/keyword_spiritual_jpg"
+                        android:background="@drawable/keyword_image"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="철학"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -221,15 +276,32 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/history"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/keyword_history"/>
+                    android:layout_alignParentStart="true">
+
+                    <ImageView
+                        android:id="@+id/history"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/keyword_history_jpg"
+                        android:background="@drawable/keyword_image"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="역사"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -244,15 +316,32 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
-
-                <ImageView
-                    android:id="@+id/unity"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/keyword_unity"/>
+                    android:layout_alignParentStart="true">
+
+                    <ImageView
+                        android:id="@+id/unity"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/keyword_unity_jpg"
+                        android:background="@drawable/keyword_image"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="통일"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
 
             </LinearLayout>
 
@@ -267,27 +356,61 @@
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
 
-                <ImageView
-                    android:id="@+id/health"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    <ImageView
+                        android:id="@+id/health"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/keyword_health_jpg"
+                        android:background="@drawable/keyword_image"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="건강"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:src="@drawable/keyword_health" />
+                    android:layout_marginLeft="20dp">
+                    <ImageView
+                        android:id="@+id/politics"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/keyword_politics_jpg"
+                        android:background="@drawable/keyword_image"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="정치"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:shadowColor="#000"
+                        android:shadowRadius="9.0"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
 
-                <ImageView
-                    android:id="@+id/politics"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/keyword_politics" />
-
-
+                </RelativeLayout>
             </LinearLayout>
 
 

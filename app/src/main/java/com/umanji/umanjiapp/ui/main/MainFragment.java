@@ -585,24 +585,45 @@ public class MainFragment extends BaseFragment {
                 break;
 
             case R.id.environment:
+                mEnvironmentImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Helper.startKeywordMapActivity(mActivity, mEnvironmentChannel);
                 break;
             case R.id.energy:
+                mEnergyImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Helper.startKeywordMapActivity(mActivity, mEnergyChannel);
                 break;
             case R.id.spiritual:
+                mSpiritualImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Helper.startKeywordMapActivity(mActivity, mSpiritualChannel);
                 break;
             case R.id.history:
+                mHistoryImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Helper.startKeywordMapActivity(mActivity, mHistoryChannel);
                 break;
             case R.id.unity:
+                mUnityImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Helper.startKeywordMapActivity(mActivity, mUnityChannel);
                 break;
             case R.id.health:
+                mHealthImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Helper.startKeywordMapActivity(mActivity, mHealthChannel);
                 break;
             case R.id.politics:
+                mPoliticsImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Helper.startKeywordMapActivity(mActivity, mPoliticsChannel);
                 break;
             case R.id.climb:
