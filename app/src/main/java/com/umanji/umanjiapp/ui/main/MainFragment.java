@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -113,6 +114,7 @@ public class MainFragment extends BaseFragment {
     private LinearLayout mLauncherLevel5;
     private LinearLayout mLauncherLevel6;
     private LinearLayout mLauncherLevel7;
+    private LinearLayout mLauncherLevel8;
 
 
     // Level 2
@@ -149,6 +151,10 @@ public class MainFragment extends BaseFragment {
 
     private ImageView mClimbImageView;
     private ImageView mGolfImageView;
+    // Level 8
+    private ChannelData mEtcChannel;
+
+    private ImageView mEtcImageView;
 
 
     /****************************************************
@@ -421,6 +427,7 @@ public class MainFragment extends BaseFragment {
         mLauncherLevel5 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level5);
         mLauncherLevel6 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level6);
         mLauncherLevel7 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level7);
+        mLauncherLevel8 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level8);
 
 
         // Level 2
@@ -457,6 +464,10 @@ public class MainFragment extends BaseFragment {
 
         mClimbImageView.setOnClickListener(this);
         mGolfImageView.setOnClickListener(this);
+
+        // Level 8
+        mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
+        mEtcImageView.setOnClickListener(this);
 
     }
 
@@ -563,6 +574,8 @@ public class MainFragment extends BaseFragment {
         }
     }*/
 
+    private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -593,10 +606,24 @@ public class MainFragment extends BaseFragment {
                 Helper.startKeywordMapActivity(mActivity, mPoliticsChannel);
                 break;
             case R.id.climb:
+                mClimbImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Helper.startKeywordMapActivity(mActivity, mClimbChannel);
                 break;
             case R.id.golf:
+                mGolfImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
                 Helper.startKeywordMapActivity(mActivity, mGolfChannel);
+                break;
+            case R.id.keyword_etc:
+                mEtcImageView.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
+
+//                Helper.startKeywordMapActivity(mActivity, mGolfChannel);
                 break;
 
             case R.id.headerPanel:
@@ -1026,14 +1053,16 @@ public class MainFragment extends BaseFragment {
     }
 
     private void getKeywordCommunity(int zoom) {
+        mLauncherLevel2.setVisibility(View.GONE);
+        mLauncherLevel3.setVisibility(View.GONE);
+        mLauncherLevel4.setVisibility(View.GONE);
+        mLauncherLevel5.setVisibility(View.GONE);
+        mLauncherLevel6.setVisibility(View.GONE);
+        mLauncherLevel7.setVisibility(View.GONE);
+        mLauncherLevel8.setVisibility(View.GONE);
+
         if (zoom == 2) {
             mLauncherLevel2.setVisibility(View.VISIBLE);
-            mLauncherLevel3.setVisibility(View.GONE);
-            mLauncherLevel4.setVisibility(View.GONE);
-            mLauncherLevel5.setVisibility(View.GONE);
-            mLauncherLevel6.setVisibility(View.GONE);
-            mLauncherLevel7.setVisibility(View.GONE);
-
 
             try {
                 JSONObject params1 = new JSONObject();
@@ -1065,12 +1094,6 @@ public class MainFragment extends BaseFragment {
 
         } else if (zoom == 3) {
             mLauncherLevel3.setVisibility(View.VISIBLE);
-            mLauncherLevel2.setVisibility(View.GONE);
-            mLauncherLevel4.setVisibility(View.GONE);
-            mLauncherLevel5.setVisibility(View.GONE);
-            mLauncherLevel6.setVisibility(View.GONE);
-            mLauncherLevel7.setVisibility(View.GONE);
-
 
             try {
                 JSONObject params1 = new JSONObject();
@@ -1089,12 +1112,6 @@ public class MainFragment extends BaseFragment {
 
         } else if (zoom == 4) {
             mLauncherLevel4.setVisibility(View.VISIBLE);
-            mLauncherLevel2.setVisibility(View.GONE);
-            mLauncherLevel3.setVisibility(View.GONE);
-            mLauncherLevel5.setVisibility(View.GONE);
-            mLauncherLevel6.setVisibility(View.GONE);
-            mLauncherLevel7.setVisibility(View.GONE);
-
 
             try {
                 JSONObject params1 = new JSONObject();
@@ -1114,11 +1131,6 @@ public class MainFragment extends BaseFragment {
 
         } else if (zoom == 5) {
             mLauncherLevel5.setVisibility(View.VISIBLE);
-            mLauncherLevel2.setVisibility(View.GONE);
-            mLauncherLevel3.setVisibility(View.GONE);
-            mLauncherLevel4.setVisibility(View.GONE);
-            mLauncherLevel6.setVisibility(View.GONE);
-            mLauncherLevel7.setVisibility(View.GONE);
 
             try {
                 JSONObject params1 = new JSONObject();
@@ -1136,11 +1148,6 @@ public class MainFragment extends BaseFragment {
             }
         } else if (zoom == 6) {
             mLauncherLevel6.setVisibility(View.VISIBLE);
-            mLauncherLevel2.setVisibility(View.GONE);
-            mLauncherLevel3.setVisibility(View.GONE);
-            mLauncherLevel4.setVisibility(View.GONE);
-            mLauncherLevel5.setVisibility(View.GONE);
-            mLauncherLevel7.setVisibility(View.GONE);
 
             try {
                 JSONObject params1 = new JSONObject();
@@ -1169,11 +1176,6 @@ public class MainFragment extends BaseFragment {
             }
         } else if (zoom == 7) {
             mLauncherLevel7.setVisibility(View.VISIBLE);
-            mLauncherLevel2.setVisibility(View.GONE);
-            mLauncherLevel3.setVisibility(View.GONE);
-            mLauncherLevel4.setVisibility(View.GONE);
-            mLauncherLevel5.setVisibility(View.GONE);
-            mLauncherLevel6.setVisibility(View.GONE);
 
             try {
                 JSONObject params1 = new JSONObject();
@@ -1200,13 +1202,8 @@ public class MainFragment extends BaseFragment {
             } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
-        } else {
-            mLauncherLevel2.setVisibility(View.GONE);
-            mLauncherLevel3.setVisibility(View.GONE);
-            mLauncherLevel4.setVisibility(View.GONE);
-            mLauncherLevel5.setVisibility(View.GONE);
-            mLauncherLevel6.setVisibility(View.GONE);
-            mLauncherLevel7.setVisibility(View.GONE);
+        } else if(zoom == 8 || zoom >= 9){
+            mLauncherLevel8.setVisibility(View.VISIBLE);
         }
     }
 
