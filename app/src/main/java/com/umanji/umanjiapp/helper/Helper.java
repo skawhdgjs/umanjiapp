@@ -95,6 +95,61 @@ import de.greenrobot.event.EventBus;
 public final class Helper implements AppConfig {
     private static final String TAG = "Helper";
 
+    public static String dictionaryHasKeyword(String inputKeyword) {
+
+        String keyword = inputKeyword.replaceAll("\\s", "");
+        inputKeyword = inputKeyword.replaceAll("\\s", "");
+
+        String dictionary = "환경=공해, 미세먼지 /" +
+                "에너지=무한에너지, 풍력발전 /" +
+                "철학=이즈니스, isness /" +
+                "역사=한국사, 중국역사, 중국사, 일본역사, 고대사, 상고사 /" +
+                "통일=통일연구회, 통일연구소 /" +
+                "건강=병원, 약국, 한의원, 약방, 종합병원, 의원 /" +
+                "정치=더민주당, 새누리당, 정의당, 국민의당 /" +
+                "등산=산악, 산악회, 등반 /" +
+                "골프=골프장, 골프연습장, 스크린골프 /" +
+                "중국집=중화요리, 짱게집, 짱개집, 자장면, 짜장면, 짬뽕 /" +
+                "커피=커피샵, 커피전문점, 스타벅스, 탐앤탐스, 카페 /" +
+                "아이=유아, 어린이, 육아, 공동육아, 아기, 베이비 /" +
+                "창업=스타트업, startup /" +
+                "아파트=주상복합, 주상복합아파트, 빌라, 맨숀, 거주지 ";
+
+        // 연습장일경우 야구인지 골프인지 모른다
+
+        int position = 0;
+        int wordStart = 0;
+        int wordEnd = 0;
+
+        char checkChar;
+
+        if (dictionary.contains(inputKeyword)) {
+            position = dictionary.indexOf(inputKeyword);          // 입력한 단어의 위치
+
+            startLoop:
+            for (int idx = position; idx >= 0; idx--) {
+
+                checkChar = dictionary.charAt(idx);
+
+                if (checkChar == '/') {
+                    wordStart = idx + 1;       // 찾는 단어의 시작 위치
+                    if (wordStart != 0) {
+                        break startLoop;
+                    }
+                }
+
+            }
+
+            wordEnd = dictionary.indexOf("=", wordStart);       // 찾는 단어의 마지막 위치
+
+            keyword = dictionary.substring(wordStart, wordEnd); // 찾는 단어
+
+        }
+
+        return keyword;
+    }
+
+
     public static boolean isInVisibleResion(GoogleMap map, LatLng point) {
         VisibleRegion visibleRegion = map.getProjection().getVisibleRegion();
         LatLng farRight = visibleRegion.farRight;
@@ -370,14 +425,14 @@ public final class Helper implements AppConfig {
         String spotKeyword = channelData.getName();
 
 
-        if(channelData.getType().equals(TYPE_COMMUNITY)){
+        if (channelData.getType().equals(TYPE_COMMUNITY)) {
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
                     .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(spotKeyword)))
                     .alpha(0.8f)  // default 1.0
                     .anchor(0.45f, 1.0f));
-        } else if(channelData.getType().equals(TYPE_SPOT)){
+        } else if (channelData.getType().equals(TYPE_SPOT)) {
             tc.setTextAppearance(R.style.keywordSpotText);
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
@@ -388,7 +443,6 @@ public final class Helper implements AppConfig {
 //            keywordSpotText
 
         }
-
 
 
         return marker;
@@ -906,6 +960,7 @@ public final class Helper implements AppConfig {
             }
         }, 3000);
     }
+
 
 
 /*****  custom marker

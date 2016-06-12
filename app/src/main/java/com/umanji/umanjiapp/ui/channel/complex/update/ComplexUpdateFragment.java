@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelUpdateFragment;
@@ -137,11 +138,25 @@ public class ComplexUpdateFragment extends BaseChannelUpdateFragment {
             case R.id.addKeywordBtn:
                 if(TextUtils.isEmpty(mKeyword1.getText())) {
                     mKeywordPanel.setVisibility(View.VISIBLE);
-                    mKeyword1.setText(mKeywordName.getText() + " [X]");
-                    mKeywords.add(mKeywordName.getText().toString());
+
+                    String dictionaryKeyword;
+                    dictionaryKeyword = Helper.dictionaryHasKeyword(mKeywordName.getText().toString());
+
+                    mKeyword1.setText(dictionaryKeyword + " [X]");
+                    mKeywords.add(dictionaryKeyword);
+//
+//                    mKeyword1.setText(mKeywordName.getText() + " [X]");
+//                    mKeywords.add(mKeywordName.getText().toString());
                 } else if(TextUtils.isEmpty(mKeyword2.getText())){
-                    mKeyword2.setText(mKeywordName.getText() + " [X]");
-                    mKeywords.add(mKeywordName.getText().toString());
+
+                    String dictionaryKeyword2;
+                    dictionaryKeyword2 = Helper.dictionaryHasKeyword(mKeywordName.getText().toString());
+
+                    mKeyword2.setText(dictionaryKeyword2 + " [X]");
+                    mKeywords.add(dictionaryKeyword2);
+//
+//                    mKeyword2.setText(mKeywordName.getText() + " [X]");
+//                    mKeywords.add(mKeywordName.getText().toString());
                     updateView();
                 } else {
                     Toast.makeText(mActivity, "키워드는 2개까지 입력 가능합니다.", Toast.LENGTH_SHORT).show();
