@@ -167,7 +167,6 @@ public class ChannelData {
             params.put("locality", this.locality);
             params.put("thoroughfare", this.thoroughfare);
             params.put("featureName", this.featureName);
-            params.put("thoroughfare", this.thoroughfare);
             params.put("latitude", this.latitude);
             params.put("longitude", this.longitude);
 
