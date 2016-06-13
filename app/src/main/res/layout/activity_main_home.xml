@@ -178,8 +178,8 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/hobby1"
-                    android:background="@drawable/keyword_image"/>
+                    android:src="@drawable/hobby_empty"
+                    />
 
                 <TextView
                     android:id="@+id/empty1"
@@ -201,8 +201,8 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/hobby2"
-                    android:background="@drawable/keyword_image"/>
+                    android:src="@drawable/hobby_empty"
+                    />
                 
                 <TextView
                     android:id="@+id/empty2"
@@ -211,7 +211,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:text="@string/empty"
-                    android:textColor="@color/empty" />
+                    android:textColor="@color/empty"
+                     />
             </RelativeLayout>
 
             <RelativeLayout
@@ -224,8 +225,8 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/hobby3"
-                    android:background="@drawable/keyword_image"/>
+                    android:src="@drawable/hobby_empty"
+                    />
 
                 <TextView
                     android:id="@+id/empty3"
