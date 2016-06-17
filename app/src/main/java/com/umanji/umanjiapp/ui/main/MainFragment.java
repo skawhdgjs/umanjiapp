@@ -658,43 +658,43 @@ public class MainFragment extends BaseFragment {
                 case "Environment":
                     mEnvironmentImageView.startAnimation(buttonClick);
                     communityName = mEnvironmentChannel.getName();
-                    mLauncherLevel7.setVisibility(View.GONE);
+                    mLauncherLevel2.setVisibility(View.GONE);
                     initTabAdapter(mView, mEnvironmentChannel);
                     break;
                 case "Energy":
                     mEnergyImageView.startAnimation(buttonClick);
                     communityName = mEnergyChannel.getName();
-                    mLauncherLevel7.setVisibility(View.GONE);
+                    mLauncherLevel2.setVisibility(View.GONE);
                     initTabAdapter(mView, mEnergyChannel);
                     break;
                 case "Spiritual":
                     mSpiritualImageView.startAnimation(buttonClick);
                     communityName = mSpiritualChannel.getName();
-                    mLauncherLevel7.setVisibility(View.GONE);
+                    mLauncherLevel3.setVisibility(View.GONE);
                     initTabAdapter(mView, mSpiritualChannel);
                     break;
                 case "History":
                     mHistoryImageView.startAnimation(buttonClick);
                     communityName = mHistoryChannel.getName();
-                    mLauncherLevel7.setVisibility(View.GONE);
+                    mLauncherLevel4.setVisibility(View.GONE);
                     initTabAdapter(mView, mHistoryChannel);
                     break;
                 case "Unity":
                     mUnityImageView.startAnimation(buttonClick);
                     communityName = mUnityChannel.getName();
-                    mLauncherLevel7.setVisibility(View.GONE);
+                    mLauncherLevel5.setVisibility(View.GONE);
                     initTabAdapter(mView, mUnityChannel);
                     break;
                 case "Health":
                     mHealthImageView.startAnimation(buttonClick);
                     communityName = mHealthChannel.getName();
-                    mLauncherLevel7.setVisibility(View.GONE);
+                    mLauncherLevel6.setVisibility(View.GONE);
                     initTabAdapter(mView, mHealthChannel);
                     break;
                 case "Politics":
                     mPoliticsImageView.startAnimation(buttonClick);
                     communityName = mPoliticsChannel.getName();
-                    mLauncherLevel7.setVisibility(View.GONE);
+                    mLauncherLevel6.setVisibility(View.GONE);
                     initTabAdapter(mView, mPoliticsChannel);
                     break;
                 case "Climb":
@@ -724,10 +724,29 @@ public class MainFragment extends BaseFragment {
         switch (v.getId()) {
 
             case R.id.community_close_button:
-                Toast.makeText(mActivity, "do something", Toast.LENGTH_SHORT).show();
+                int zoom = (int) mMap.getCameraPosition().zoom;
+                switch(zoom){
+                    case 2:
+                        mLauncherLevel2.setVisibility(View.VISIBLE);
+                        break;
+                    case 3:
+                        mLauncherLevel3.setVisibility(View.VISIBLE);
+                        break;
+                    case 4:
+                        mLauncherLevel4.setVisibility(View.VISIBLE);
+                        break;
+                    case 5:
+                        mLauncherLevel5.setVisibility(View.VISIBLE);
+                        break;
+                    case 6:
+                        mLauncherLevel6.setVisibility(View.VISIBLE);
+                        break;
+                    case 7:
+                        mLauncherLevel7.setVisibility(View.VISIBLE);
+                        break;
+                }
                 mCommunityCloseBtn.setVisibility(View.GONE);
                 mToCommunityBtn.setVisibility(View.GONE);
-                mLauncherLevel7.setVisibility(View.VISIBLE);
                 mMainListContainer.setVisibility(View.VISIBLE);
                 mCommunityListContainer.setVisibility(View.GONE);
                 mHomeText.setText("HOME");
@@ -845,7 +864,7 @@ public class MainFragment extends BaseFragment {
                 break;
 
             case R.id.infoButton:
-                int zoom = (int) mMap.getCameraPosition().zoom;
+                zoom = (int) mMap.getCameraPosition().zoom;
 
                 Intent mwebInt = new Intent(mActivity, WebViewActivity.class);
                 switch (zoom) {
