@@ -28,20 +28,12 @@
                 tools:layout="@layout/activity_main" />
 
             <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/titleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="30dp"
-                    android:layout_height="40dp"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:id="@+id/relativeLayout8">
 
                 <ImageView
                     android:id="@+id/userPhoto"
@@ -56,21 +48,52 @@
                     android:visibility="visible" />
 
                 <LinearLayout
-                    android:id="@+id/linearLayout6"
+                    android:id="@+id/searchLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
                     android:layout_centerVertical="true"
-                    android:orientation="horizontal">
+                    android:layout_centerHorizontal="true">
+
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:gravity="center"
+                        android:text="umanji"
+                        android:textColor="@color/gray_text"
+                        android:textSize="16dp"
+                        android:layout_alignTop="@+id/titleLayout"
+                        android:layout_toRightOf="@+id/userPhoto"
+                        android:layout_toEndOf="@+id/userPhoto" />
+
+                    <TextView
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/search"
+                        android:layout_width="180dp"
+                        android:layout_height="35dp"
+                        android:text="search"
+                        android:textColor="@color/gray_text"
+                        android:background="@drawable/shadow"
+                        android:layout_toRightOf="@+id/logo"
+                        android:layout_toEndOf="@+id/logo"
+                        android:gravity="center_vertical|right"
+                        android:paddingLeft="10dp"
+                        android:textSize="14dp"
+                        android:visibility="visible"
+                        android:paddingRight="10dp" />
 
                     <TextView
                         android:id="@+id/mainTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:gravity="center"
-                        android:text="HOME"
+                        android:text="커뮤니티"
                         android:textColor="@color/gray_text"
-                        android:textSize="16dp" />
+                        android:textSize="16dp"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -84,18 +107,22 @@
                     android:src="@drawable/ic_ex_temp"
                     android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:text="umanji"
-                    android:textColor="@color/gray_text"
-                    android:textSize="16dp"
-                    android:layout_alignTop="@+id/linearLayout6"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="10dp"/>
+                <Button
+                    android:id="@+id/mNotyCount"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/default_btn_red_radius"
+                    android:shadowColor="#A8A8A8"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp"
+                    android:visibility="gone"
+                    android:layout_alignTop="@+id/userPhoto"
+                    android:layout_toRightOf="@+id/userPhoto"
+                    android:layout_toEndOf="@+id/userPhoto" />
 
             </RelativeLayout>
 
@@ -109,9 +136,11 @@
                 android:id="@+id/ads_image"
                 android:layout_width="400dp"
                 android:layout_height="53dp"
-                android:layout_below="@+id/titleLayout"
                 android:scaleType="fitXY"
-                android:src="@drawable/ads_umanji_guide" />
+                android:src="@drawable/ads_umanji_guide"
+                android:layout_below="@+id/relativeLayout8"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <RelativeLayout
                 android:id="@+id/relativeLayout3"
@@ -143,40 +172,8 @@
                     app:riv_border_color="@color/colorPrimary"
                     app:riv_border_width="1px"
                     app:riv_corner_radius="33dp"
-                    app:riv_oval="false" />
-
-                <TextView
-                    android:id="@+id/search"
-                    android:layout_width="180dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_toEndOf="@+id/homeBtn"
-                    android:layout_toRightOf="@+id/homeBtn"
-                    android:background="@drawable/shadow"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:text="search"
-                    android:textSize="14dp" />
-
-                <Button
-                    android:id="@+id/mNotyCount"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="-10dp"
-                    android:layout_toLeftOf="@+id/search"
-                    android:layout_toStartOf="@+id/search"
-                    android:background="@drawable/default_btn_red_radius"
-                    android:shadowColor="#A8A8A8"
-                    android:shadowDx="0"
-                    android:shadowDy="0"
-                    android:shadowRadius="5"
-                    android:text="0"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10dp"
-                    android:visibility="gone" />
+                    app:riv_oval="false"
+                    android:visibility="gone"/>
 
 
             </RelativeLayout>

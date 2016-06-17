@@ -88,34 +88,82 @@ public class MainFragment extends BaseFragment {
     private static final String TAG = "MainFragment";
 
     /****************************************************
-     * View
+     * Top View
      ****************************************************/
-    protected TextView mHomeText;
-    protected TextView mUmanji;
+    private ImageView mAvatarImageBtn;
+    private LinearLayout mSearchLayout;
+    private TextView mMainTitle;
+
+    private TextView mUmanji;
+    private TextView mSearch;
 
     private View mNoticePanel;
 
+    private ImageView mHomeBtn;
+    private ImageView mGuideImageView01;
+
+    /****************************************************
+     * Map
+     ****************************************************/
     private GoogleMap mMap;
 
     private PostListAdapter mAdapter;
-
-    private SlidingUpPanelLayout mSlidingUpPanelLayout;
-    private LinearLayout mHeaderPanel;
-    private ImageView mAvatarImageBtn;
-    private Button mNotyCountBtn;
-
     private RoundedImageView mZoomBtn;
 
     private TextView mZoomLevelText;
     private TextView mInfoTextPanel;
+    private LatLng mCurrentMyPosition;
+    private LatLng mLatLngByPoint = new LatLng(37.498039, 126.9220201);
+    private int currentZoomLevel = 0;
+    //      참새어린이공원  37.498039  126.9220201   / 대한민국 정보센터 37.642443934398   126.977429352700
 
+    private static final String[] LOCATION_PERMS = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
 
-    private ImageView mGuideImageView01;
+    private static final String[] PERMS = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.INTERNET,
+    };
 
-    private ImageView mHomeBtn;
-    private ChannelData mHomeChannel;
+    private static final int INITIAL_REQUEST = 10;
+    private static final int PERMS_REQUEST = INITIAL_REQUEST + 2;
 
+    /****************************************************
+     * Footer View
+     ****************************************************/
+    private SlidingUpPanelLayout mSlidingUpPanelLayout;
+    private LinearLayout mHeaderPanel;
+    private Button mNotyCountBtn;
     private ImageView mPanelArrowImage;
+
+    /****************************************************
+     * Post and Community Posts
+     ****************************************************/
+    private LinearLayout mMainListContainer;
+    private LinearLayout mCommunityListContainer;
+
+    /****************************************************
+     * PageViewer
+     ****************************************************/
+    protected ChannelData mChannel;
+
+    protected BaseTabAdapter mCommunityAdapter;
+
+    protected ViewPager mViewPager;
+    protected TabLayout mTabLayout;
+    private String mTabType = "";
+    protected int mCurrentTapPosition = 0;
+
+    /****************************************************
+     * View
+     ****************************************************/
+    private ChannelData mHomeChannel;
 
     private ImageView mInfoButton;
     private LinearLayout mLauncherLevel2;
@@ -126,7 +174,6 @@ public class MainFragment extends BaseFragment {
     private LinearLayout mLauncherLevel7;
     private LinearLayout mLauncherLevel8;
 
-
     // Level 2
     private ChannelData mEnvironmentChannel;
     private ChannelData mEnergyChannel;
@@ -135,18 +182,14 @@ public class MainFragment extends BaseFragment {
     private ImageView mEnergyImageView;
     // Level 3
     private ChannelData mSpiritualChannel;
-
     private ImageView mSpiritualImageView;
-
 
     // Level 4
     private ChannelData mHistoryChannel;
-
     private ImageView mHistoryImageView;
 
     // Level 5
     private ChannelData mUnityChannel;
-
     private ImageView mUnityImageView;
 
     // Level 6
@@ -167,58 +210,10 @@ public class MainFragment extends BaseFragment {
     private ImageView mEtcImageView;
 
     /****************************************************
-     * Post and Community Posts
-     ****************************************************/
-    private LinearLayout mMainListContainer;
-    private LinearLayout mCommunityListContainer;
-
-
-    /****************************************************
-     * PageViewer
-     ****************************************************/
-
-    protected ChannelData mChannel;
-    protected ChannelData mChannel2;
-    protected ChannelData mChannel3;
-
-    protected BaseTabAdapter mCommunityAdapter;
-
-    protected ViewPager mViewPager;
-    protected TabLayout mTabLayout;
-    private String mTabType = "";
-    protected int mCurrentTapPosition = 0;
-
-
-    /****************************************************
-     * Map
-     ****************************************************/
-    LatLng mCurrentMyPosition;
-    private int currentZoomLevel = 0;
-
-    private static final String[] LOCATION_PERMS = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    };
-
-    private static final String[] PERMS = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA,
-            Manifest.permission.INTERNET,
-    };
-
-    private static final int INITIAL_REQUEST = 10;
-    private static final int PERMS_REQUEST = INITIAL_REQUEST + 2;
-
-    /****************************************************
      * Controler
      ****************************************************/
-
     private Button mToCommunityBtn;
     private String communityName;
-    ;
 
     private boolean isCommunityMode;
     private ImageView mCommunityCloseBtn;
@@ -236,20 +231,14 @@ public class MainFragment extends BaseFragment {
     private ChannelData mAdChannel;
     private ChannelData mAddressChannel;
 
-
-//    private ChannelData mCommunityChannel;
-
     private ArrayList<ChannelData> mPosts;
-
 
     private boolean isBlock = false;
     private boolean isLoading = false;
     private int mPreFocusedItem = 0;
 
     private String mSlidingState = SLIDING_COLLAPSED;
-    //      참새어린이공원  37.498039  126.9220201   / 대한민국 정보센터 37.642443934398   126.977429352700
 
-    private LatLng mLatLngByPoint = new LatLng(37.498039, 126.9220201);
     private ChannelData mChannelByPoint;
     private Marker mMarkerByPoint;
     private Marker mFocusedMarker;
@@ -258,9 +247,6 @@ public class MainFragment extends BaseFragment {
     private String mChannelIdForPush;
     private ImageView mAdsImage;
     private LinearLayout mlayout;
-
-    TextView searchBtn;
-
 
     boolean mMapIsTouched = false;
     View mView;
@@ -429,8 +415,14 @@ public class MainFragment extends BaseFragment {
     @Override
     public void initWidgets(View view) {
 
-        mUmanji = (TextView) view.findViewById(R.id.umanji);
-        mHomeText = (TextView) view.findViewById(R.id.mainTitle);
+        mUmanji = (TextView) view.findViewById(R.id.logo);
+        mUmanji.setOnClickListener(this);
+
+        mMainTitle = (TextView) view.findViewById(R.id.mainTitle);
+        mSearchLayout = (LinearLayout) view.findViewById(R.id.searchLayout);
+
+        mSearch = (TextView) view.findViewById(R.id.search);
+        mSearch.setOnClickListener(this);
         mNoticePanel = view.findViewById(R.id.noticePanel);
 
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanelLayout);
@@ -455,9 +447,6 @@ public class MainFragment extends BaseFragment {
         mNotyCountBtn.setText("0");
 
         mAlert = new AlertDialog.Builder(mActivity);
-
-        searchBtn = (TextView) view.findViewById(R.id.search);
-        searchBtn.setOnClickListener(this);
 
         mZoomLevelText = (TextView) view.findViewById(R.id.mZoomLevelText);
 
@@ -652,9 +641,9 @@ public class MainFragment extends BaseFragment {
 
         String keywordGroup = "Environment, Energy, Spiritual, History, Unity, Health, Politics, Climb, Golf";
 
-        if (keywordGroup.contains(extractName)){
+        if (keywordGroup.contains(extractName)) {
             Toast.makeText(mActivity, "good", Toast.LENGTH_SHORT).show();
-            switch(extractName){
+            switch (extractName) {
                 case "Environment":
                     mEnvironmentImageView.startAnimation(buttonClick);
                     communityName = mEnvironmentChannel.getName();
@@ -712,11 +701,12 @@ public class MainFragment extends BaseFragment {
             }
 
             isCommunityMode = true;
-            mHomeText.setText("커뮤니티");
+            mMainTitle.setVisibility(View.VISIBLE);
             mCommunityCloseBtn.setVisibility(View.VISIBLE);
             mToCommunityBtn.setVisibility(View.VISIBLE);
             mMainListContainer.setVisibility(View.GONE);
             mCommunityListContainer.setVisibility(View.VISIBLE);
+            mSearchLayout.setVisibility(View.GONE);
             buttonClick.setDuration(500);
             loadCommunityMarkers(communityName);
         }
@@ -725,7 +715,7 @@ public class MainFragment extends BaseFragment {
 
             case R.id.community_close_button:
                 int zoom = (int) mMap.getCameraPosition().zoom;
-                switch(zoom){
+                switch (zoom) {
                     case 2:
                         mLauncherLevel2.setVisibility(View.VISIBLE);
                         break;
@@ -745,23 +735,22 @@ public class MainFragment extends BaseFragment {
                         mLauncherLevel7.setVisibility(View.VISIBLE);
                         break;
                 }
-                mCommunityCloseBtn.setVisibility(View.GONE);
-                mToCommunityBtn.setVisibility(View.GONE);
-                mMainListContainer.setVisibility(View.VISIBLE);
-                mCommunityListContainer.setVisibility(View.GONE);
-                mHomeText.setText("HOME");
+                mCommunityCloseBtn.setVisibility(View.GONE);        // 오른쪽 닫기 버튼
+                mToCommunityBtn.setVisibility(View.GONE);           // 커뮤니티 정보센터 바로가기
+                mCommunityListContainer.setVisibility(View.GONE);   // 커뮤니티 포스트 Tab
+                mMainTitle.setVisibility(View.GONE);                // Title의 '커뮤니티'
+                mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
+                mSearchLayout.setVisibility(View.VISIBLE);          // search bar
                 isCommunityMode = false;
                 loadData();
                 break;
 
-
-
-            case R.id.umanji:
+            case R.id.logo:
                 mUmanji.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
                 Intent webInt = new Intent(mActivity, WebViewActivity.class);
-                webInt.putExtra("url", "http://blog.naver.com/mothcar/220720111996");
+                webInt.putExtra("url", "http://umanji.com/2016/06/17/manual0001/");
                 mActivity.startActivity(webInt);
                 break;
 
