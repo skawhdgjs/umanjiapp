@@ -450,14 +450,14 @@ public final class Helper implements AppConfig {
             name = "어떤곳";
         }
 
-        String spotKeyword = channelData.getName();
+        String keyword = channelData.getName();
 
 
         if (channelData.getType().equals(TYPE_COMMUNITY)) {
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
-                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(spotKeyword)))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
                     .alpha(0.8f)  // default 1.0
                     .anchor(0.45f, 1.0f));
         } else if (channelData.getType().equals(TYPE_SPOT)) {
@@ -465,7 +465,7 @@ public final class Helper implements AppConfig {
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
-                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(spotKeyword)))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
                     .alpha(0.8f)  // default 1.0
                     .anchor(0.45f, 1.0f));
 //            keywordSpotText
@@ -481,7 +481,7 @@ public final class Helper implements AppConfig {
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
-                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(spotKeyword)))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
                     .alpha(0.8f)  // default 1.0
                     .anchor(0.45f, 1.0f));
 

@@ -99,6 +99,21 @@
             android:textAppearance="?attr/textAppearanceListItem"
             android:textColor="@color/text" />
 
+        <TextView
+            android:id="@+id/keyword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="17dp"
+            android:autoLink="all"
+            android:text="#키워드"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:textSize="10dp"
+            android:textColor="@color/text"
+            android:visibility="gone"/>
+
+
         <ImageView
             android:id="@+id/photo"
             android:layout_width="wrap_content"

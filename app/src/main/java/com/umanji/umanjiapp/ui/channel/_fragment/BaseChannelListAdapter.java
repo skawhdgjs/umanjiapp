@@ -778,7 +778,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             replyBtn        = (LinearLayout) view.findViewById(R.id.replyBtn);
 
 
-            keyword         = (TextView) view.findViewById(R.id.spotKeyword);
+            keyword         = (TextView) view.findViewById(R.id.keyword);
             floor           = (TextView) view.findViewById(R.id.floor);
             floorEmpty      = (TextView) view.findViewById(R.id.emptyFloor);
 
