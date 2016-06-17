@@ -149,6 +149,33 @@ public final class Helper implements AppConfig {
         return keyword;
     }
 
+    public static String extractKeyword(String statement){
+        String inputStr = statement;
+
+        int howlong = inputStr.length();
+
+        char aaa;
+        int startStr = 0;
+
+        startLoop:
+        for (int idx = 0;  idx < howlong; idx++) {
+
+            aaa = inputStr.charAt(idx);
+
+            if(aaa == '/'){
+                startStr = idx+1;
+                break startLoop;
+            }
+        }
+        String preStr = inputStr.substring(startStr, howlong);
+
+        String answer = preStr.substring(0,1);
+        answer = answer.toUpperCase();
+        answer += preStr.substring(1);
+
+        return answer;
+    }
+
 
     public static boolean isInVisibleResion(GoogleMap map, LatLng point) {
         VisibleRegion visibleRegion = map.getProjection().getVisibleRegion();

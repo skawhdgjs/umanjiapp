@@ -210,11 +210,11 @@ public class MainHomeFragment extends BaseFragment {
                         .into(mUserPhoto);
             }
         } else {
-            /*Glide.with(mActivity)
+            Glide.with(mActivity)
                     .load(R.drawable.login)
                     .animate(R.anim.abc_fade_in)
                     .override(40, 40)
-                    .into(mUserPhoto);*/
+                    .into(mUserPhoto);
             mUserPhoto.setImageResource(R.drawable.icon_user_person);
         }
 
@@ -222,7 +222,7 @@ public class MainHomeFragment extends BaseFragment {
 
             loadCommunity();
         } else {
-            //Helper.startSigninActivity(mActivity, mCurrentMyPosition);
+            Helper.startSigninActivity(mActivity, mCurrentMyPosition);
         }
 
     }

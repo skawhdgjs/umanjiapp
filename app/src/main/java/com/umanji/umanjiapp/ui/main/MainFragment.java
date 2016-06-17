@@ -16,7 +16,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -62,7 +64,10 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
@@ -85,6 +90,9 @@ public class MainFragment extends BaseFragment {
     /****************************************************
      * View
      ****************************************************/
+    protected TextView mHomeText;
+    protected TextView mUmanji;
+
     private View mNoticePanel;
 
     private GoogleMap mMap;
@@ -93,7 +101,7 @@ public class MainFragment extends BaseFragment {
 
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private LinearLayout mHeaderPanel;
-//    private RoundedImageView mAvatarImageBtn;
+    private ImageView mAvatarImageBtn;
     private Button mNotyCountBtn;
 
     private RoundedImageView mZoomBtn;
@@ -106,6 +114,8 @@ public class MainFragment extends BaseFragment {
 
     private ImageView mHomeBtn;
     private ChannelData mHomeChannel;
+
+    private ImageView mPanelArrowImage;
 
     private ImageView mInfoButton;
     private LinearLayout mLauncherLevel2;
@@ -156,6 +166,28 @@ public class MainFragment extends BaseFragment {
 
     private ImageView mEtcImageView;
 
+    /****************************************************
+     * Post and Community Posts
+     ****************************************************/
+    private LinearLayout mMainListContainer;
+    private LinearLayout mCommunityListContainer;
+
+
+    /****************************************************
+     * PageViewer
+     ****************************************************/
+
+    protected ChannelData mChannel;
+    protected ChannelData mChannel2;
+    protected ChannelData mChannel3;
+
+    protected BaseTabAdapter mCommunityAdapter;
+
+    protected ViewPager mViewPager;
+    protected TabLayout mTabLayout;
+    private String mTabType = "";
+    protected int mCurrentTapPosition = 0;
+
 
     /****************************************************
      * Map
@@ -180,6 +212,17 @@ public class MainFragment extends BaseFragment {
     private static final int INITIAL_REQUEST = 10;
     private static final int PERMS_REQUEST = INITIAL_REQUEST + 2;
 
+    /****************************************************
+     * Controler
+     ****************************************************/
+
+    private Button mToCommunityBtn;
+    private String communityName;
+    ;
+
+    private boolean isCommunityMode;
+    private ImageView mCommunityCloseBtn;
+
 
     /****************************************************
      * Etc
@@ -191,6 +234,10 @@ public class MainFragment extends BaseFragment {
     private ChannelData mSelectedChannel;
     private ChannelData mClickedChannel;
     private ChannelData mAdChannel;
+    private ChannelData mAddressChannel;
+
+
+//    private ChannelData mCommunityChannel;
 
     private ArrayList<ChannelData> mPosts;
 
@@ -235,15 +282,21 @@ public class MainFragment extends BaseFragment {
             if (fromHomeUser != null) {
                 mUser = new ChannelData(fromHomeUser);
             }
+            String jsonString = getArguments().getString("channel");
+            if (jsonString != null) {
+                mChannel = new ChannelData(jsonString);
+            }
+
+            mTabType = getArguments().getString("tabType");
         }
 
-        /*Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
+        Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
         t.setScreenName("MainActivity");
-        t.send(new HitBuilders.AppViewBuilder().build());*/
+        t.send(new HitBuilders.AppViewBuilder().build());
 
     }
 
-    /*@Override
+    @Override
     public void onStart() {
         super.onStart();
 
@@ -254,7 +307,7 @@ public class MainFragment extends BaseFragment {
     public void onStop() {
         super.onStop();
         GoogleAnalytics.getInstance(mActivity).reportActivityStop(mActivity);
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -262,13 +315,14 @@ public class MainFragment extends BaseFragment {
 
         initMainListView(mView);
 
-        /*if (AuthHelper.isLogin(mActivity)) {
+        if (AuthHelper.isLogin(mActivity)) {
             loginByToken();
         } else {
             updateView();
-        }*/
+        }
 
         initWidgets(mView);
+
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
@@ -297,13 +351,13 @@ public class MainFragment extends BaseFragment {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 JSONObject data = json;
-                if(json.optJSONObject("data") != null) {
+                if (json.optJSONObject("data") != null) {
                     data = json.optJSONObject("data");
                 }
 
                 int version = data.optInt("value");
 
-                if(APP_VERSION < version) {
+                if (APP_VERSION < version) {
                     new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("신규 기능 업데이트")
                             .setContentText("마켓에서 새로운 버젼을 다운받아 주세요.")
@@ -324,8 +378,6 @@ public class MainFragment extends BaseFragment {
                 }
             }
         });
-
-
 
         mTouchView = new TouchableWrapper(getActivity());
         mTouchView.addView(mView);
@@ -376,10 +428,13 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+
+        mUmanji = (TextView) view.findViewById(R.id.umanji);
+        mHomeText = (TextView) view.findViewById(R.id.mainTitle);
         mNoticePanel = view.findViewById(R.id.noticePanel);
 
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanelLayout);
-        mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 150));
+        mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 48));
         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
         mSlidingUpPanelLayout.setMinFlingVelocity(DEFAULT_MIN_FLING_VELOCITY);
 
@@ -392,8 +447,8 @@ public class MainFragment extends BaseFragment {
         mZoomBtn.setTag(ZOOM_IN);
         mZoomBtn.setOnClickListener(this);
 
-//        mAvatarImageBtn = (RoundedImageView) view.findViewById(R.id.mAvatarImageBtn);
-//        mAvatarImageBtn.setOnClickListener(this);
+        mAvatarImageBtn = (ImageView) view.findViewById(R.id.userPhoto);
+        mAvatarImageBtn.setOnClickListener(this);
 
         mNotyCountBtn = (Button) view.findViewById(R.id.mNotyCount);
         mNotyCountBtn.setOnClickListener(this);
@@ -420,6 +475,14 @@ public class MainFragment extends BaseFragment {
         mInfoButton = (ImageView) view.findViewById(R.id.infoButton);
         mInfoButton.setOnClickListener(this);
 
+        mToCommunityBtn = (Button) view.findViewById(R.id.toCommunityBtn);
+
+        mPanelArrowImage = (ImageView) view.findViewById(R.id.panel_arrow);
+        mCommunityCloseBtn = (ImageView) view.findViewById(R.id.community_close_button);
+        mCommunityCloseBtn.setOnClickListener(this);
+
+        mMainListContainer = (LinearLayout) view.findViewById(R.id.mainListContainer);
+        mCommunityListContainer = (LinearLayout) view.findViewById(R.id.communityListContainer);
 
         mLauncherLevel2 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level2);
         mLauncherLevel3 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level3);
@@ -469,6 +532,8 @@ public class MainFragment extends BaseFragment {
         mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
         mEtcImageView.setOnClickListener(this);
 
+//        if(isCommunityMode){ }   //community
+
     }
 
 
@@ -486,7 +551,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     public void updateView() {
-        /*if (AuthHelper.isLogin(mActivity)) {
+        if (AuthHelper.isLogin(mActivity)) {
             mAvatarImageBtn.setVisibility(View.VISIBLE);
             String userPhoto = mUser.getPhoto();
             if (!TextUtils.isEmpty(userPhoto)) {
@@ -505,11 +570,11 @@ public class MainFragment extends BaseFragment {
             }
         } else {
             Glide.with(mActivity)
-                    .load(R.drawable.login)
+                    .load(R.drawable.icon_user_person)
                     .animate(R.anim.abc_fade_in)
                     .override(40, 40)
                     .into(mAvatarImageBtn);
-        }*/
+        }
     }
 
     @Override
@@ -517,7 +582,7 @@ public class MainFragment extends BaseFragment {
         super.onEvent(event);
 
         switch (event.type) {
-            /*case api_token_check:
+            case api_token_check:
             case api_signin:
             case api_signup:
                 AuthData auth = new AuthData(event.response);
@@ -527,7 +592,7 @@ public class MainFragment extends BaseFragment {
 
             case api_logout:
                 logout();
-                break;*/
+                break;
             case api_channels_createCommunity:
             case api_channels_createComplex:
             case api_channels_createSpot:
@@ -565,79 +630,148 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    /*public void onEvent(ErrorData event) {
+    public void onEvent(ErrorData event) {
 
         switch (event.type) {
             case TYPE_ERROR_AUTH:
                 Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 break;
         }
-    }*/
+    }
 
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
     @Override
     public void onClick(View v) {
+        Bundle bundle = new Bundle();
+
+        String tempName = getResources().getResourceName(v.getId());
+        // com.umanji.umanjiapp:id/climb
+
+        String extractName = Helper.extractKeyword(tempName);
+
+        String keywordGroup = "Environment, Energy, Spiritual, History, Unity, Health, Politics, Climb, Golf";
+
+        if (keywordGroup.contains(extractName)){
+            Toast.makeText(mActivity, "good", Toast.LENGTH_SHORT).show();
+            switch(extractName){
+                case "Environment":
+                    mEnvironmentImageView.startAnimation(buttonClick);
+                    communityName = mEnvironmentChannel.getName();
+                    mLauncherLevel7.setVisibility(View.GONE);
+                    initTabAdapter(mView, mEnvironmentChannel);
+                    break;
+                case "Energy":
+                    mEnergyImageView.startAnimation(buttonClick);
+                    communityName = mEnergyChannel.getName();
+                    mLauncherLevel7.setVisibility(View.GONE);
+                    initTabAdapter(mView, mEnergyChannel);
+                    break;
+                case "Spiritual":
+                    mSpiritualImageView.startAnimation(buttonClick);
+                    communityName = mSpiritualChannel.getName();
+                    mLauncherLevel7.setVisibility(View.GONE);
+                    initTabAdapter(mView, mSpiritualChannel);
+                    break;
+                case "History":
+                    mHistoryImageView.startAnimation(buttonClick);
+                    communityName = mHistoryChannel.getName();
+                    mLauncherLevel7.setVisibility(View.GONE);
+                    initTabAdapter(mView, mHistoryChannel);
+                    break;
+                case "Unity":
+                    mUnityImageView.startAnimation(buttonClick);
+                    communityName = mUnityChannel.getName();
+                    mLauncherLevel7.setVisibility(View.GONE);
+                    initTabAdapter(mView, mUnityChannel);
+                    break;
+                case "Health":
+                    mHealthImageView.startAnimation(buttonClick);
+                    communityName = mHealthChannel.getName();
+                    mLauncherLevel7.setVisibility(View.GONE);
+                    initTabAdapter(mView, mHealthChannel);
+                    break;
+                case "Politics":
+                    mPoliticsImageView.startAnimation(buttonClick);
+                    communityName = mPoliticsChannel.getName();
+                    mLauncherLevel7.setVisibility(View.GONE);
+                    initTabAdapter(mView, mPoliticsChannel);
+                    break;
+                case "Climb":
+                    mClimbImageView.startAnimation(buttonClick);
+                    communityName = mClimbChannel.getName();         // 등산
+                    mLauncherLevel7.setVisibility(View.GONE);
+                    initTabAdapter(mView, mClimbChannel);
+                    break;
+                case "Golf":
+                    mGolfImageView.startAnimation(buttonClick);
+                    communityName = mGolfChannel.getName();
+                    mLauncherLevel7.setVisibility(View.GONE);
+                    initTabAdapter(mView, mGolfChannel);
+                    break;
+            }
+
+            isCommunityMode = true;
+            mHomeText.setText("커뮤니티");
+            mCommunityCloseBtn.setVisibility(View.VISIBLE);
+            mToCommunityBtn.setVisibility(View.VISIBLE);
+            mMainListContainer.setVisibility(View.GONE);
+            mCommunityListContainer.setVisibility(View.VISIBLE);
+            buttonClick.setDuration(500);
+            loadCommunityMarkers(communityName);
+        }
+
         switch (v.getId()) {
+
+            case R.id.community_close_button:
+                Toast.makeText(mActivity, "do something", Toast.LENGTH_SHORT).show();
+                mCommunityCloseBtn.setVisibility(View.GONE);
+                mToCommunityBtn.setVisibility(View.GONE);
+                mLauncherLevel7.setVisibility(View.VISIBLE);
+                mMainListContainer.setVisibility(View.VISIBLE);
+                mCommunityListContainer.setVisibility(View.GONE);
+                mHomeText.setText("HOME");
+                isCommunityMode = false;
+                loadData();
+                break;
+
+
+
+            case R.id.umanji:
+                mUmanji.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Intent webInt = new Intent(mActivity, WebViewActivity.class);
+                webInt.putExtra("url", "http://blog.naver.com/mothcar/220720111996");
+                mActivity.startActivity(webInt);
+                break;
+
+            case R.id.userPhoto:
+                mAvatarImageBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                if (AuthHelper.isLogin(mActivity) && mUser != null) {
+                    Intent intent = new Intent(mActivity, ProfileActivity.class);
+                    bundle.putString("channel", mUser.getJsonObject().toString());
+                    bundle.putInt("newNoticeCount", getNewNoticeCount());
+                    if (getNewNoticeCount() > 0) {
+                        bundle.putString("tabType", TAB_NOTIES);
+                    } else {
+                        bundle.putString("tabType", TAB_SPOTS);
+                    }
+
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+                } else {
+                    Helper.startSigninActivity(mActivity, mCurrentMyPosition);
+                }
+                break;
+
             case R.id.homeBtn:
                 mActivity.finish();
-//                Helper.startActivity(mActivity, mHomeChannel);
+                Helper.startActivity(mActivity, mHomeChannel);
                 break;
 
-            case R.id.environment:
-                mEnvironmentImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Helper.startKeywordMapActivity(mActivity, mEnvironmentChannel);
-                break;
-            case R.id.energy:
-                mEnergyImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Helper.startKeywordMapActivity(mActivity, mEnergyChannel);
-                break;
-            case R.id.spiritual:
-                mSpiritualImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Helper.startKeywordMapActivity(mActivity, mSpiritualChannel);
-                break;
-            case R.id.history:
-                mHistoryImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Helper.startKeywordMapActivity(mActivity, mHistoryChannel);
-                break;
-            case R.id.unity:
-                mUnityImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Helper.startKeywordMapActivity(mActivity, mUnityChannel);
-                break;
-            case R.id.health:
-                mHealthImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Helper.startKeywordMapActivity(mActivity, mHealthChannel);
-                break;
-            case R.id.politics:
-                mPoliticsImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Helper.startKeywordMapActivity(mActivity, mPoliticsChannel);
-                break;
-            case R.id.climb:
-                mClimbImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Helper.startKeywordMapActivity(mActivity, mClimbChannel);
-                break;
-            case R.id.golf:
-                mGolfImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Helper.startKeywordMapActivity(mActivity, mGolfChannel);
-                break;
             case R.id.keyword_etc:
                 mEtcImageView.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
@@ -648,6 +782,7 @@ public class MainFragment extends BaseFragment {
                 break;
 
             case R.id.headerPanel:
+                /*
                 if (TextUtils.equals(mSlidingState, SLIDING_COLLAPSED)) {
                     mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
                     mSlidingState = SLIDING_ANCHORED;
@@ -655,6 +790,25 @@ public class MainFragment extends BaseFragment {
                 } else if (TextUtils.equals(mSlidingState, SLIDING_ANCHORED)) {
                     mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                     mSlidingState = SLIDING_COLLAPSED;
+*/
+
+                if (TextUtils.equals(mSlidingState, SLIDING_COLLAPSED)) {
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    mSlidingState = SLIDING_EXPANDED;
+                    mPanelArrowImage.setImageResource(R.drawable.ic_arrow_down);
+
+                } else if (TextUtils.equals(mSlidingState, SLIDING_EXPANDED)) {
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    mSlidingState = SLIDING_COLLAPSED;
+                    mPanelArrowImage.setImageResource(R.drawable.ic_arrow_up);
+                    /*
+                    *
+                    * EXPANDED,
+                    * COLLAPSED,    oo
+                    * ANCHORED,     oo
+                    * HIDDEN,
+                    * DRAGGING
+                    * */
                 }
 
                 break;
@@ -669,7 +823,7 @@ public class MainFragment extends BaseFragment {
             case R.id.mNotyCount:
                 if (AuthHelper.isLogin(mActivity) && mUser != null) {
                     Intent intent = new Intent(mActivity, ProfileActivity.class);
-                    Bundle bundle = new Bundle();
+//                    Bundle bundle = new Bundle();
                     bundle.putString("channel", mUser.getJsonObject().toString());
                     bundle.putInt("newNoticeCount", getNewNoticeCount());
                     if (getNewNoticeCount() > 0) {
@@ -680,7 +834,7 @@ public class MainFragment extends BaseFragment {
 
                     intent.putExtra("bundle", bundle);
                     startActivity(intent);
-                }  else {
+                } else {
                     Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 }
                 break;
@@ -693,19 +847,19 @@ public class MainFragment extends BaseFragment {
             case R.id.infoButton:
                 int zoom = (int) mMap.getCameraPosition().zoom;
 
-                Intent webInt = new Intent(mActivity, WebViewActivity.class);
+                Intent mwebInt = new Intent(mActivity, WebViewActivity.class);
                 switch (zoom) {
                     case 15:
-                        webInt.putExtra("url", "http://blog.naver.com/mothcar/220715838911"); // 복합단지 설명
+                        mwebInt.putExtra("url", "http://blog.naver.com/mothcar/220715838911"); // 복합단지 설명
                         break;
                     default:
-                        webInt.putExtra("url", "http://blog.naver.com/mothcar/220720111996");  // 일반 사용설명
+                        mwebInt.putExtra("url", "http://blog.naver.com/mothcar/220720111996");  // 일반 사용설명
                 }
                 // 일반 사용설명 : http://blog.naver.com/mothcar/220720111996
                 // 키워드 설명  : http://blog.naver.com/mothcar/220715638989
                 // http://blog.naver.com/mothcar/220715638989
 
-                mActivity.startActivity(webInt);
+                mActivity.startActivity(mwebInt);
                 break;
 
 
@@ -715,6 +869,42 @@ public class MainFragment extends BaseFragment {
 
 
         }
+    }
+
+    private void loadCommunityMarkers(String communityName) {
+        try {
+            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+            params.put("keywords", communityName);
+
+            mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    addCommunityToMap(json);
+//                    mCommunityChannel = new ChannelData(json);
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "Error " + e.toString());
+        }
+    }
+
+    private void addCommunityToMap(JSONObject jsonObject) {
+        try {
+            mMap.clear();
+
+            mMarkers = jsonObject.getJSONArray("data");
+
+            if (mMarkers != null) {
+                for (int idx = 0; idx < mMarkers.length(); idx++) {
+                    ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
+                    Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
+                }
+            }
+
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+
     }
 
     private int getNewNoticeCount() {
@@ -739,7 +929,7 @@ public class MainFragment extends BaseFragment {
     private boolean hasPermission(String perm) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
-        }else if(PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm)){
+        } else if (PackageManager.PERMISSION_GRANTED == mActivity.checkSelfPermission(perm)) {
             return true;
         }
 
@@ -759,7 +949,7 @@ public class MainFragment extends BaseFragment {
             mMap = ((MapFragment) mActivity.getFragmentManager().findFragmentById(R.id.mMapFragment))
                     .getMap();
 
-            int paddingInDp = 50;
+            int paddingInDp = 100;
 
             final float scale = getResources().getDisplayMetrics().density;
             int paddingInPx = (int) (paddingInDp * scale + 0.5f);
@@ -811,7 +1001,7 @@ public class MainFragment extends BaseFragment {
                 }
             }
 
-            if (getArguments() != null){    // from home  getArguments().getString("iamFrom") != null
+            if (getArguments() != null) {    // from home  getArguments().getString("iamFrom") != null
 
                 latitude = homeChannel.getLatitude();
                 longitude = homeChannel.getLongitude();
@@ -841,7 +1031,7 @@ public class MainFragment extends BaseFragment {
         LatLng latLng = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        if (getArguments() != null){
+        if (getArguments() != null) {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);   // home
         } else {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(7), 2000, null);
@@ -868,7 +1058,7 @@ public class MainFragment extends BaseFragment {
 
                 final int zoom = (int) mMap.getCameraPosition().zoom;
 
-                if(mUser != null){
+                if (mUser != null) {
                     if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
                         int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
                         Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다(" + POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
@@ -1015,54 +1205,105 @@ public class MainFragment extends BaseFragment {
             }
         });
 
+
+        /*
+        *
+        *
+        *
+        *
+
+        *
+        *
+        * */
+
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
-                currentZoomLevel = (int)position.zoom;
-                if(mMapIsTouched) return;
+                if (isCommunityMode) {    //community
 
-                if (isBlock) {
-                    isBlock = false;
-                } else {
+                    if (mMapIsTouched) return;
 
-                    mZoomLevelText.setText("" + (int) position.zoom);
-
-                    int zoom = (int) position.zoom;
-                    // isPoliticTouchable
-
-                    if (isComplexCreatable(zoom)) {
-                        mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
-                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.yellow));
-                        //mCreateSpotText.setVisibility(View.GONE);
-                        mZoomBtn.setImageResource(R.drawable.zoom_in);
-                        mZoomBtn.setTag(ZOOM_IN);
-                    } else if (isSpotCreatable(zoom)) {
-                        //mCreateComplexText.setVisibility(View.GONE);
-                        mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
-                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.white));
-                        mZoomBtn.setImageResource(R.drawable.zoom_out);
-                        mZoomBtn.setTag(ZOOM_OUT);
-                    } else if (isKeywordTouchable(zoom)) {
-                        //mCreateComplexText.setVisibility(View.GONE);
-                        mInfoTextPanel.setText("아이콘을 터치하면 해당 키워드 커뮤니티로 이동합니다");
-                        mInfoTextPanel.setTextColor(getResources().getColor(R.color.white));
-                        mZoomBtn.setImageResource(R.drawable.zoom_out);
-                        mZoomBtn.setTag(ZOOM_OUT);
+                    if (isBlock) {
+                        isBlock = false;
                     } else {
-                        //mCreateComplexText.setVisibility(View.GONE);
-                        //mCreateSpotText.setVisibility(View.GONE);
-                        mInfoTextPanel.setText("");
-                        mZoomBtn.setImageResource(R.drawable.zoom_in);
-                        mZoomBtn.setTag(ZOOM_IN);
+
+                        mZoomLevelText.setText("" + (int) position.zoom);
+
+                        int zoom = (int) position.zoom;
+                        // isPoliticTouchable
+
+                        if (isComplexCreatable(zoom)) {
+                            mZoomBtn.setImageResource(R.drawable.zoom_in);
+                            mZoomBtn.setTag(ZOOM_IN);
+                        } else if (isSpotCreatable(zoom)) {
+
+                            mZoomBtn.setImageResource(R.drawable.zoom_out);
+                            mZoomBtn.setTag(ZOOM_OUT);
+                        } else if (isPoliticTouchable(zoom)) {
+                            mZoomBtn.setImageResource(R.drawable.zoom_out);
+                            mZoomBtn.setTag(ZOOM_OUT);
+                        } else {
+                            mZoomBtn.setImageResource(R.drawable.zoom_in);
+                            mZoomBtn.setTag(ZOOM_IN);
+                        }
+
+                        updateCommunityBtn(zoom);
+                        loadCommunityMarkers(communityName);
+                    }
+                } else {                  // start main
+
+                    currentZoomLevel = (int) position.zoom;
+                    if (mMapIsTouched) return;
+
+                    if (isBlock) {
+                        isBlock = false;
+                    } else {
+
+                        mZoomLevelText.setText("" + (int) position.zoom);
+
+                        int zoom = (int) position.zoom;
+                        // isPoliticTouchable
+
+                        if (isComplexCreatable(zoom)) {
+                            mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
+                            mInfoTextPanel.setTextColor(getResources().getColor(R.color.gray_text));
+                            mInfoTextPanel.setTextSize(15);
+                            //mCreateSpotText.setVisibility(View.GONE);
+                            mZoomBtn.setImageResource(R.drawable.zoom_in);
+                            mZoomBtn.setTag(ZOOM_IN);
+                        } else if (isSpotCreatable(zoom)) {
+                            //mCreateComplexText.setVisibility(View.GONE);
+                            mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
+                            mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
+                            mInfoTextPanel.setTextSize(15);
+                            mZoomBtn.setImageResource(R.drawable.zoom_out);
+                            mZoomBtn.setTag(ZOOM_OUT);
+                        } else if (isKeywordTouchable(zoom)) {
+                            //mCreateComplexText.setVisibility(View.GONE);
+                            mInfoTextPanel.setText("지역 소식");
+                            mInfoTextPanel.setTextSize(20);
+                            mInfoTextPanel.setTextColor(getResources().getColor(R.color.gray_text));
+                            mZoomBtn.setImageResource(R.drawable.zoom_out);
+                            mZoomBtn.setTag(ZOOM_OUT);
+                        } else {
+                            //mCreateComplexText.setVisibility(View.GONE);
+                            //mCreateSpotText.setVisibility(View.GONE);
+                            mInfoTextPanel.setText("");
+                            mZoomBtn.setImageResource(R.drawable.zoom_in);
+                            mZoomBtn.setTag(ZOOM_IN);
+                        }
+
+                        getKeywordCommunity(zoom);
+
+                        loadData();
+
                     }
 
-                    getKeywordCommunity(zoom);
-
-                    loadData();
-
                 }
+
             }
         });
+
 
         mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
@@ -1072,6 +1313,179 @@ public class MainFragment extends BaseFragment {
         });
 
     }
+
+    protected void initTabAdapter(View view, ChannelData fetchChannel) {
+        mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);
+        mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        mCommunityAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
+
+        addFragmentToTabAdapter(mCommunityAdapter, fetchChannel);
+
+        mViewPager.setAdapter(mCommunityAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+//        setTabSelect();
+
+        onTabSelected(mTabLayout);
+    }
+
+    protected void setTabSelect() {
+        TabLayout.Tab tab;
+        switch (mTabType) {
+            case TAB_POSTS:
+                tab = mTabLayout.getTabAt(0);
+                break;
+            case TAB_MEMBERS:
+                tab = mTabLayout.getTabAt(1);
+                break;
+            case TAB_COMMUNITIES:
+                tab = mTabLayout.getTabAt(2);
+                break;
+            case TAB_ABOUT:
+                tab = mTabLayout.getTabAt(3);
+                break;
+            default:
+                tab = mTabLayout.getTabAt(0);
+                break;
+        }
+
+        tab.select();
+    }
+
+    protected void onTabSelected(TabLayout tabLayout) {
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager) {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                super.onTabSelected(tab);
+                mCurrentTapPosition = tab.getPosition();
+
+                /*switch (mCurrentTapPosition) {
+                    case 0:
+                        mFab.setImageResource(R.drawable.ic_discuss);
+                        if (AuthHelper.isLogin(mActivity)) {
+                            mFab.setVisibility(View.VISIBLE);
+                        }
+                        break;
+                    case 1: case 2: case 3: case 4:
+                        mFab.setVisibility(View.GONE);
+                        break;
+
+                }*/
+
+            }
+        });
+    }
+
+
+    protected void addFragmentToTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("channel", thisChannel.getJsonObject().toString());
+        adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
+        adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
+        /*
+        if (mChannel2.getJsonObject().toString()!= null){
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("channel", mChannel2.getJsonObject().toString());
+            adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
+            adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
+        }
+
+        if (mChannel3.getJsonObject().toString()!= null){
+            Bundle bundle3 = new Bundle();
+            bundle3.putString("channel", mChannel3.getJsonObject().toString());
+            adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
+            adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
+        }*/
+
+    }
+
+    private void updateCommunityBtn(final int zoom) {
+        if (mCurrentMyPosition != null) {
+            mToCommunityBtn.setVisibility(View.VISIBLE);
+
+            try {
+                JSONObject params = new JSONObject();
+                params.put("latitude", mCurrentMyPosition.latitude);
+                params.put("longitude", mCurrentMyPosition.longitude);
+
+                mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mAddressChannel = new ChannelData(json);
+
+                        mToCommunityBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    JSONObject params = new JSONObject();
+                                    params.put("name", communityName);
+
+
+                                    if (zoom < 8) {
+                                        params.put("countryCode", mAddressChannel.getCountryCode());
+                                        params.put("level", 2);
+                                    } else if (zoom < 12) {
+                                        params.put("countryCode", mAddressChannel.getCountryCode());
+                                        params.put("adminArea", mAddressChannel.getAdminArea());
+
+                                        params.put("level", 8);
+                                    } else if (zoom < 14) {
+                                        params.put("countryCode", mAddressChannel.getCountryCode());
+                                        params.put("adminArea", mAddressChannel.getAdminArea());
+                                        params.put("locality", mAddressChannel.getLocality());
+                                        params.put("level", 12);
+                                    } else {
+                                        params.put("countryCode", mAddressChannel.getCountryCode());
+                                        params.put("adminArea", mAddressChannel.getAdminArea());
+                                        params.put("locality", mAddressChannel.getLocality());
+                                        params.put("thoroughfare", mAddressChannel.getThoroughfare());
+                                        params.put("level", 14);
+                                    }
+
+                                    mApi.call(api_findCommunity, params, new AjaxCallback<JSONObject>() {
+                                        @Override
+                                        public void callback(String url, JSONObject json, AjaxStatus status) {
+                                            ChannelData channelData = new ChannelData(json);
+                                            if (TextUtils.isEmpty(channelData.getId())) {
+                                                Toast.makeText(mActivity, "지역내에 단체가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Helper.startActivity(mActivity, channelData);
+                                            }
+                                        }
+                                    });
+
+                                } catch (JSONException e) {
+                                    Log.e(TAG, "error " + e.toString());
+                                }
+                            }
+                        });
+                    }
+                });
+
+
+                String communityBtnName = communityName;
+
+                if (zoom < 8) { // 대한민국
+                    mToCommunityBtn.setText("국가단위 " + communityBtnName + " 단체");
+                } else if (zoom < 12) { // 도시단위
+                    mToCommunityBtn.setText("도시단위 " + communityBtnName + " 단체");
+                } else if (zoom < 14) { // 구군단위
+                    mToCommunityBtn.setText("구군단위 " + communityBtnName + " 단체");
+                } else { //동단위
+                    mToCommunityBtn.setText("동단위 " + communityBtnName + " 단체");
+                }
+
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
+        } else {
+            mToCommunityBtn.setVisibility(View.GONE);
+        }
+
+    }
+
 
     private void getKeywordCommunity(int zoom) {
         mLauncherLevel2.setVisibility(View.GONE);
@@ -1223,7 +1637,7 @@ public class MainFragment extends BaseFragment {
             } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
-        } else if(zoom == 8 || zoom >= 9){
+        } else if (zoom == 8 || zoom >= 9) {
             mLauncherLevel8.setVisibility(View.VISIBLE);
         }
     }
@@ -1383,7 +1797,7 @@ public class MainFragment extends BaseFragment {
         mProgress.hide();
     }
 
-    /*private void loginByToken() {
+    private void loginByToken() {
         try {
             JSONObject params = new JSONObject();
             params.put("access_token", AuthHelper.getToken(mActivity));
@@ -1399,9 +1813,9 @@ public class MainFragment extends BaseFragment {
             Log.e(TAG, "error " + e.toString());
         }
 
-    }*/
+    }
 
-    /*private void login(AuthData auth) {
+    private void login(AuthData auth) {
         if (checkPlayServices()) {
             Intent intent = new Intent(mActivity, GcmRegistrationIntentService.class);
             mActivity.startService(intent);
@@ -1418,10 +1832,18 @@ public class MainFragment extends BaseFragment {
         AuthHelper.logout(mActivity);
 
         updateView();
-    }*/
+    }
 
     private static boolean isKeywordTouchable(int zoom) {
         if (zoom >= 2 && zoom <= 7) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isPoliticTouchable(int zoom) {
+        if (zoom >= 6 && zoom <= 7) {
             return true;
         } else {
             return false;
