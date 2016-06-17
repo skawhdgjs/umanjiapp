@@ -252,6 +252,11 @@ public class MainFragment extends BaseFragment {
     View mView;
     TouchableWrapper mTouchView;
 
+    /****************************************************
+     * from other Activity
+     ****************************************************/
+    private String fromkeyword;
+
     public static MainFragment newInstance(Bundle bundle) {
         MainFragment fragment = new MainFragment();
         fragment.setArguments(bundle);
@@ -273,8 +278,17 @@ public class MainFragment extends BaseFragment {
                 mChannel = new ChannelData(jsonString);
             }
 
+            if(getArguments().getString("type")!= null){
+                isCommunityMode = true;
+
+                communityName = mChannel.getName();
+
+            }
+
             mTabType = getArguments().getString("tabType");
         }
+
+//        isCommunityMode
 
         Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
         t.setScreenName("MainActivity");
@@ -521,7 +535,25 @@ public class MainFragment extends BaseFragment {
         mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
         mEtcImageView.setOnClickListener(this);
 
-//        if(isCommunityMode){ }   //community
+       if(isCommunityMode){
+           try {
+               JSONObject params1 = new JSONObject();
+               params1.put("name", communityName);
+
+
+               mApi.call(api_keyword_findChannels, params1, new AjaxCallback<JSONObject>() {
+                   @Override
+                   public void callback(String url, JSONObject json, AjaxStatus status) {
+                       mChannel = new ChannelData(json);
+                       initTabAdapter(mView, mChannel);
+                   }
+               });
+
+
+           } catch (JSONException e) {
+               Log.e(TAG, "error " + e.toString());
+           }
+       }   //community
 
     }
 

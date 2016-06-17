@@ -71,6 +71,7 @@ import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 import com.umanji.umanjiapp.ui.keywordCommunity.KeywordCommunityActivity;
+import com.umanji.umanjiapp.ui.main.MainActivity;
 import com.umanji.umanjiapp.ui.mainHome.localCommunity.StepTwoActivity;
 import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 import com.umanji.umanjiapp.ui.modal.map.MapActivity;
@@ -600,8 +601,10 @@ public final class Helper implements AppConfig {
         Bundle bundle = new Bundle();
         bundle.putString("channel", channelData.getJsonObject().toString());
         bundle.putString("tabType", TAB_POSTS);
+        bundle.putString("type", "keywordCommunity");
 
-        intent = new Intent(activity, KeywordCommunityActivity.class);
+//        intent = new Intent(activity, KeywordCommunityActivity.class);
+        intent = new Intent(activity, MainActivity.class);
         intent.putExtra("enterAnim", R.anim.zoom_out);
         intent.putExtra("exitAnim", R.anim.zoom_in);
 

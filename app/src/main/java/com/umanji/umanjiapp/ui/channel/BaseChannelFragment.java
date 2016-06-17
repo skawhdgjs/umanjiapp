@@ -568,6 +568,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
                                 @Override
                                 public void onClick(View v) {
                                     Helper.startKeywordMapActivity(mActivity, channelData1);
+
+
                                 }
                             });
                         }
