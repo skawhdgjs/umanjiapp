@@ -49,5 +49,23 @@ public class PostListAdapter extends BaseChannelListAdapter {
         setActionPanel(holder, channelData);
         setCreatedAt(holder, channelData);
         setParentType(holder, channelData.getParent());
+        setKeywords(holder, channelData);
+    }
+
+    protected void setKeywords(final ViewHolder holder, ChannelData channelData) {
+        String [] keywords = channelData.getKeywords();
+
+
+        if(keywords != null && keywords.length > 0) {
+            String keyword = "";
+            for(int idx=0; idx < keywords.length; idx++) {
+                keyword = keyword + "#" + keywords[idx] + " ";
+            }
+            holder.keyword.setText(keyword);
+            holder.keyword.setVisibility(View.VISIBLE);
+        }else {
+            holder.keyword.setText("키워드 없음");
+            holder.keyword.setVisibility(View.GONE);
+        }
     }
 }
