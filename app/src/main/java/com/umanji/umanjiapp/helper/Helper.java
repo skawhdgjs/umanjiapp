@@ -601,7 +601,7 @@ public final class Helper implements AppConfig {
         Bundle bundle = new Bundle();
         bundle.putString("channel", channelData.getJsonObject().toString());
         bundle.putString("tabType", TAB_POSTS);
-        bundle.putString("type", "keywordCommunity");
+        bundle.putString("type", "keywordCommunityMode");
 
 //        intent = new Intent(activity, KeywordCommunityActivity.class);
         intent = new Intent(activity, MainActivity.class);

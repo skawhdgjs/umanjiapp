@@ -533,27 +533,6 @@ public class MainFragment extends BaseFragment {
         // Level 8
         mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
         mEtcImageView.setOnClickListener(this);
-
-        if (isCommunityMode) {
-            try {
-                JSONObject params1 = new JSONObject();
-                params1.put("name", communityName);
-
-
-                mApi.call(api_keyword_findChannels, params1, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mChannel = new ChannelData(json);
-                        initTabAdapter(mView, mChannel);
-                    }
-                });
-
-
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-        }   //community
-
     }
 
 
@@ -594,6 +573,44 @@ public class MainFragment extends BaseFragment {
                     .animate(R.anim.abc_fade_in)
                     .override(40, 40)
                     .into(mAvatarImageBtn);
+        }
+
+        /*
+        *
+        *  Keyword community Mode
+        *
+        * */
+
+        if (isCommunityMode) {
+            try {
+                JSONObject params1 = new JSONObject();
+                params1.put("name", communityName);
+
+                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mChannel = new ChannelData(json);
+                        initTabAdapter(mView, mChannel);
+                    }
+                });
+
+
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
+
+            communityName = mChannel.getName();
+
+            mMainTitle.setVisibility(View.VISIBLE);
+            mCommunityCloseBtn.setVisibility(View.VISIBLE);
+            mToCommunityBtn.setVisibility(View.VISIBLE);
+            mMainListContainer.setVisibility(View.GONE);
+            mCommunityListContainer.setVisibility(View.VISIBLE);
+            mSearchLayout.setVisibility(View.GONE);
+//            loadCommunityMarkers(communityName);
+
+
         }
     }
 
