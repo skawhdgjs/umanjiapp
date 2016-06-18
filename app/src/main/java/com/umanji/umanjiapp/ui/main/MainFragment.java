@@ -278,11 +278,10 @@ public class MainFragment extends BaseFragment {
                 mChannel = new ChannelData(jsonString);
             }
 
-            if(getArguments().getString("type")!= null){
+            if (getArguments().getString("type") != null) {
                 isCommunityMode = true;
 
                 communityName = mChannel.getName();
-
             }
 
             mTabType = getArguments().getString("tabType");
@@ -535,25 +534,25 @@ public class MainFragment extends BaseFragment {
         mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
         mEtcImageView.setOnClickListener(this);
 
-       if(isCommunityMode){
-           try {
-               JSONObject params1 = new JSONObject();
-               params1.put("name", communityName);
+        if (isCommunityMode) {
+            try {
+                JSONObject params1 = new JSONObject();
+                params1.put("name", communityName);
 
 
-               mApi.call(api_keyword_findChannels, params1, new AjaxCallback<JSONObject>() {
-                   @Override
-                   public void callback(String url, JSONObject json, AjaxStatus status) {
-                       mChannel = new ChannelData(json);
-                       initTabAdapter(mView, mChannel);
-                   }
-               });
+                mApi.call(api_keyword_findChannels, params1, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        mChannel = new ChannelData(json);
+                        initTabAdapter(mView, mChannel);
+                    }
+                });
 
 
-           } catch (JSONException e) {
-               Log.e(TAG, "error " + e.toString());
-           }
-       }   //community
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+        }   //community
 
     }
 
@@ -674,6 +673,7 @@ public class MainFragment extends BaseFragment {
         String keywordGroup = "Environment, Energy, Spiritual, History, Unity, Health, Politics, Climb, Golf";
 
         if (keywordGroup.contains(extractName)) {
+            int zoom = (int) mMap.getCameraPosition().zoom;
             Toast.makeText(mActivity, "good", Toast.LENGTH_SHORT).show();
             switch (extractName) {
                 case "Environment":
@@ -740,6 +740,7 @@ public class MainFragment extends BaseFragment {
             mCommunityListContainer.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
             buttonClick.setDuration(500);
+            updateCommunityBtn(zoom);
             loadCommunityMarkers(communityName);
         }
 
