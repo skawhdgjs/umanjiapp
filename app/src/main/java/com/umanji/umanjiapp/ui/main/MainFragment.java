@@ -8,14 +8,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -23,7 +21,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -1004,8 +1001,7 @@ public class MainFragment extends BaseFragment {
             dialog.show();
 
         } else {
-            mMap = ((MapFragment) mActivity.getFragmentManager().findFragmentById(R.id.mMapFragment))
-                    .getMap();
+            mMap = ((MapFragment) mActivity.getFragmentManager().findFragmentById(R.id.mMapFragment)).getMap();
 
             int paddingInDp = 100;
 
@@ -1165,6 +1161,41 @@ public class MainFragment extends BaseFragment {
                                     }
 
                                 }
+                            }
+                        });
+                    } catch (JSONException e) {
+                        Log.e(TAG, "error " + e.toString());
+                    }
+                } else if(zoom >=2 && zoom <=9){        // zoom >=2 && zoom <=12
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("latitude", mLatLngByPoint.latitude);
+                        params.put("longitude", mLatLngByPoint.longitude);
+
+                        mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject object, AjaxStatus status) {
+                                mChannelByPoint = new ChannelData(object);
+                                String division = "levelFirst";
+                                showJumpDialog(division);
+                            }
+                        });
+                    } catch (JSONException e) {
+                        Log.e(TAG, "error " + e.toString());
+                    }
+
+                } else {                    // zoom >=12 && zoom <=14
+                    try {
+                        JSONObject params = new JSONObject();
+                        params.put("latitude", mLatLngByPoint.latitude);
+                        params.put("longitude", mLatLngByPoint.longitude);
+
+                        mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                            @Override
+                            public void callback(String url, JSONObject object, AjaxStatus status) {
+                                mChannelByPoint = new ChannelData(object);
+                                String division = "levelSecond";
+                                showJumpDialog(division);
                             }
                         });
                     } catch (JSONException e) {
@@ -2002,6 +2033,56 @@ public class MainFragment extends BaseFragment {
             Log.e(TAG, "error " + e.toString());
         }
 
+    }
+
+    private void showJumpDialog(String division) {
+
+        if (division.equals("levelFirst")){
+
+            mAlert.setTitle("아래로 이동합니다");
+            mAlert.setMessage(Helper.getShortAddress(mChannelByPoint));
+            mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (TextUtils.isEmpty(mChannelByPoint.getId())) {
+
+                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
+                    }
+                    else {
+                    }
+                    dialog.cancel();
+                }
+            });
+
+        } else {
+            mAlert.setTitle("아래로 이동합니다");
+            mAlert.setMessage(Helper.getMiddleAddress(mChannelByPoint));
+            mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (TextUtils.isEmpty(mChannelByPoint.getId())) {
+
+                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                    }
+                    else {
+                    }
+                    dialog.cancel();
+                }
+            });
+        }
+
+        mAlert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        mAlert.show();
     }
 
     private void showCreateComplexDialog() {

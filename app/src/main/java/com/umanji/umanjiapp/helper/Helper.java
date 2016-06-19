@@ -696,6 +696,14 @@ public final class Helper implements AppConfig {
         return channelData.getCountryName() + " " + channelData.getAdminArea() + " " + channelData.getLocality() + " " + channelData.getThoroughfare() + " " + channelData.getFeatureName();
     }
 
+    public static String getMiddleAddress(ChannelData channelData) {
+        return channelData.getCountryName() + " " + channelData.getAdminArea() + " " + channelData.getLocality() + " " + channelData.getThoroughfare();
+    }
+
+    public static String getShortAddress(ChannelData channelData) {
+        return channelData.getCountryName() + " " + channelData.getAdminArea() + " " + channelData.getLocality();
+    }
+
     public static JSONObject getZoomMinMaxLatLngParams(GoogleMap map) {
         VisibleRegion visibleRegion = map.getProjection().getVisibleRegion();
         LatLng farRight = visibleRegion.farRight;
