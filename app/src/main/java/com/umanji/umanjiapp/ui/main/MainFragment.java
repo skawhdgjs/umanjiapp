@@ -661,6 +661,8 @@ public class MainFragment extends BaseFragment {
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
                 break;
+
+            case api_channels_getByPoint:
         }
     }
 
@@ -1102,6 +1104,8 @@ public class MainFragment extends BaseFragment {
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
+
+                mProgress.show();
 
                 if (mFocusedMarker != null) {
                     mFocusedMarker.remove();
@@ -2036,6 +2040,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void showJumpDialog(String division) {
+        mProgress.hide();
 
         if (division.equals("levelFirst")){
 
@@ -2086,6 +2091,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void showCreateComplexDialog() {
+        mProgress.hide();
         mAlert.setPositiveButton(R.string.complex_create_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -2108,6 +2114,8 @@ public class MainFragment extends BaseFragment {
     }
 
     private void showCreateSpotDialog() {
+        mProgress.hide();
+
         mAlert.setPositiveButton(R.string.spot_create_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

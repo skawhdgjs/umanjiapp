@@ -64,8 +64,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
 
         mProgress = new ProgressDialog(getActivity());
-        mProgress.setMessage("Loading, please wait");
-        mProgress.setTitle("Connecting server");
+        mProgress.setMessage("잠시만 기다려주세요...");
+//        mProgress.setTitle("Connecting server");
         mProgress.setCancelable(true);
 
         mAlert = new AlertDialog.Builder(mActivity);
