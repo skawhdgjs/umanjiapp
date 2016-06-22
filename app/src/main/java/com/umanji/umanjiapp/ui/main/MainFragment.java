@@ -966,6 +966,59 @@ public class MainFragment extends BaseFragment {
         }
     }
 
+    /*
+                        *
+                        * 외부링크 리스트 : link list
+                        *
+                        * 우만지 일반 설명 :   http://umanji.com/2016/06/17/manual0001/
+                        * 레벨별 입력 :       http://umanji.com/2016/06/22/input_level_explain/ ‎
+                        * 복합단지 설명 :     http://blog.naver.com/mothcar/220715838911
+                        * 일반 설명 : http://blog.naver.com/mothcar/220720111996
+                        *
+                        * */
+
+    private void showComplexCreateDialog() {
+
+        final Dialog dialog = new Dialog(mActivity);
+        dialog.setContentView(R.layout.custom_dialog);
+        TextView title = (TextView) dialog.findViewById(android.R.id.title);
+        title.setText("사용 설명");
+//        title.setBackgroundResource(R.drawable.gradient);
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER); // this is required to bring it to center.
+        title.setTextSize(22);
+
+        TextView text = (TextView) dialog.findViewById(R.id.content);
+        final TextView tutorial = (TextView) dialog.findViewById(R.id.tutorial);
+
+        text.setText("복합단지는 10,000포인트 이상부터 생성 가능합니다");
+
+        tutorial.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                tutorial.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Intent webInt = new Intent(mActivity, WebViewActivity.class);
+                webInt.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/ ");
+                mActivity.startActivity(webInt);
+            }
+        });
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
+
     private void showTutorialDialog(String division) {
 
         final Dialog dialog = new Dialog(mActivity);
@@ -1202,49 +1255,8 @@ public class MainFragment extends BaseFragment {
                 if (mUser != null) {
                     if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
                         int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
-                        Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다(" + POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
 
-                        final Dialog dialog = new Dialog(mActivity);
-                        dialog.setContentView(R.layout.custom_dialog);
-                        dialog.setTitle("!!! 사용법을 확인하시겠습니까? ");
-
-                        TextView text = (TextView) dialog.findViewById(R.id.text);
-                        text.setText("복합단지는 시민계급부터 생성 가능합니다");
-                        ImageView image = (ImageView) dialog.findViewById(R.id.dialogImage);
-                        image.setImageResource(R.drawable.info);
-                        image.setOnClickListener(new View.OnClickListener(){
-
-                            @Override
-                            public void onClick(View v) {
-                                mUmanji.startAnimation(buttonClick);
-                                buttonClick.setDuration(500);
-
-                                Intent webInt = new Intent(mActivity, WebViewActivity.class);
-                                webInt.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/ ");
-                                mActivity.startActivity(webInt);
-                            }
-                        });
-
-                        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                        // if button is clicked, close the custom dialog
-                        dialogButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        dialog.show();
-
-                        /*
-                        *
-                        * 외부링크 리스트 : link list
-                        *
-                        * 우만지 일반 설명 :   http://umanji.com/2016/06/17/manual0001/
-                        * 레벨별 입력 :       http://umanji.com/2016/06/22/input_level_explain/ ‎
-                        * 복합단지 설명 :     http://blog.naver.com/mothcar/220715838911
-                        * 일반 설명 : http://blog.naver.com/mothcar/220720111996
-                        * */
+                        showComplexCreateDialog();
 
                         mProgress.hide();
                         return;
@@ -1254,6 +1266,8 @@ public class MainFragment extends BaseFragment {
                 mLatLngByPoint = point;
 
                 if (zoom >= 15 && zoom <= 21) {
+                    mProgress.setMessage("장소를 만드실 곳의 주소를 찾고 있습니다...");
+                    mProgress.show();
 
                     try {
                         JSONObject params = new JSONObject();
