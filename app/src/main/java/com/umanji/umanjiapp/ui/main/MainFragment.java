@@ -4,8 +4,6 @@ package com.umanji.umanjiapp.ui.main;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +14,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -24,7 +21,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,7 +31,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -118,7 +113,7 @@ public class MainFragment extends BaseFragment {
     private ImageView mInterior;
     private String mInteriorStatus = "비활성화";
     private ImageView mTowerCrane;
-    private String mTowerCraneStatus= "비활성화";
+    private String mTowerCraneStatus = "비활성화";
 
     private Marker mDraggableMarker;
 
@@ -966,10 +961,63 @@ public class MainFragment extends BaseFragment {
         }
     }
 
+    /*
+                        *
+                        * 외부링크 리스트 : link list
+                        *
+                        * 우만지 일반 설명 :   http://umanji.com/2016/06/17/manual0001/
+                        * 레벨별 입력 :       http://umanji.com/2016/06/22/input_level_explain/ ‎
+                        * 복합단지 설명 :     http://blog.naver.com/mothcar/220715838911
+                        * 일반 설명 : http://blog.naver.com/mothcar/220720111996
+                        *
+                        * */
+
+    private void showComplexTutorialDialog() {
+
+        final Dialog dialog = new Dialog(mActivity);
+        dialog.setContentView(R.layout.dialog_complex_alert);
+        TextView title = (TextView) dialog.findViewById(android.R.id.title);
+        title.setText("사용 설명");
+//        title.setBackgroundResource(R.drawable.gradient);
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER); // this is required to bring it to center.
+        title.setTextSize(22);
+
+        TextView text = (TextView) dialog.findViewById(R.id.content);
+        final TextView tutorial = (TextView) dialog.findViewById(R.id.tutorial);
+
+        text.setText("복합단지는 10,000포인트 이상부터 생성 가능합니다");
+
+        tutorial.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                tutorial.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Intent webInt = new Intent(mActivity, WebViewActivity.class);
+                webInt.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/ ");
+                mActivity.startActivity(webInt);
+            }
+        });
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
+
     private void showTutorialDialog(String division) {
 
         final Dialog dialog = new Dialog(mActivity);
-        dialog.setContentView(R.layout.create_tutorial_dialog);
+        dialog.setContentView(R.layout.dialog_create_tutorial);
         TextView title = (TextView) dialog.findViewById(android.R.id.title);
         title.setText("생성 사용 설명");
 //        title.setBackgroundResource(R.drawable.gradient);
@@ -979,7 +1027,7 @@ public class MainFragment extends BaseFragment {
 
         Button okBtn = (Button) dialog.findViewById(R.id.dialogOK);
 
-        if (division.equals("interior")){
+        if (division.equals("interior")) {
             TextView mMoveMessage = (TextView) dialog.findViewById(R.id.contents);
             mMoveMessage.setText("줌레벨 18에서 21단계까지는 일반 건물과 상점과 같은 장소를 만드실 수 있고 그 곳에 커뮤니티를 만드실 수 있습니다");
 
@@ -992,7 +1040,7 @@ public class MainFragment extends BaseFragment {
                 }
             });
 
-        } else if(division.equals("towerCrane")){
+        } else if (division.equals("towerCrane")) {
             TextView mMoveMessage = (TextView) dialog.findViewById(R.id.contents);
             mMoveMessage.setText("줌레벨 15에서 17단계까지는 대학교, 공원, 골프장과 같은 넓은 장소를 만드실 수 있습니다");
             okBtn.setOnClickListener(new View.OnClickListener() {
@@ -1004,7 +1052,8 @@ public class MainFragment extends BaseFragment {
                 }
             });
 
-        } else {}
+        } else {
+        }
 
         dialog.show();
 
@@ -1202,49 +1251,8 @@ public class MainFragment extends BaseFragment {
                 if (mUser != null) {
                     if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
                         int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
-                        Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다(" + POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
 
-                        final Dialog dialog = new Dialog(mActivity);
-                        dialog.setContentView(R.layout.custom_dialog);
-                        dialog.setTitle("!!! 사용법을 확인하시겠습니까? ");
-
-                        TextView text = (TextView) dialog.findViewById(R.id.text);
-                        text.setText("복합단지는 시민계급부터 생성 가능합니다");
-                        ImageView image = (ImageView) dialog.findViewById(R.id.dialogImage);
-                        image.setImageResource(R.drawable.info);
-                        image.setOnClickListener(new View.OnClickListener(){
-
-                            @Override
-                            public void onClick(View v) {
-                                mUmanji.startAnimation(buttonClick);
-                                buttonClick.setDuration(500);
-
-                                Intent webInt = new Intent(mActivity, WebViewActivity.class);
-                                webInt.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/ ");
-                                mActivity.startActivity(webInt);
-                            }
-                        });
-
-                        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                        // if button is clicked, close the custom dialog
-                        dialogButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                        dialog.show();
-
-                        /*
-                        *
-                        * 외부링크 리스트 : link list
-                        *
-                        * 우만지 일반 설명 :   http://umanji.com/2016/06/17/manual0001/
-                        * 레벨별 입력 :       http://umanji.com/2016/06/22/input_level_explain/ ‎
-                        * 복합단지 설명 :     http://blog.naver.com/mothcar/220715838911
-                        * 일반 설명 : http://blog.naver.com/mothcar/220720111996
-                        * */
+                        showComplexTutorialDialog();
 
                         mProgress.hide();
                         return;
@@ -1254,6 +1262,8 @@ public class MainFragment extends BaseFragment {
                 mLatLngByPoint = point;
 
                 if (zoom >= 15 && zoom <= 21) {
+                    mProgress.setMessage("장소를 만드실 곳의 주소를 찾고 있습니다...");
+                    mProgress.show();
 
                     try {
                         JSONObject params = new JSONObject();
@@ -1300,7 +1310,7 @@ public class MainFragment extends BaseFragment {
                     } catch (JSONException e) {
                         Log.e(TAG, "error " + e.toString());
                     }
-                } else if(zoom >=2 && zoom <=9){        // zoom >=2 && zoom <=12
+                } else if (zoom >= 2 && zoom <= 9) {        // zoom >=2 && zoom <=12
                     try {
                         JSONObject params = new JSONObject();
                         params.put("latitude", mLatLngByPoint.latitude);
@@ -1368,7 +1378,7 @@ public class MainFragment extends BaseFragment {
                     if (TextUtils.equals(idx, String.valueOf(MARKER_INDEX_CLICKED))) {
                         mClickedChannel = mSelectedChannel;
                     } else {
-                        if(mClickedChannel != null){
+                        if (mClickedChannel != null) {
                             mClickedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
                         } else {
                         }
@@ -1398,14 +1408,13 @@ public class MainFragment extends BaseFragment {
                         channelData = mSelectedChannel;
                         Helper.startActivity(mActivity, channelData);
                     } else {
-                        if(marker.isDraggable()){
+                        if (marker.isDraggable()) {
                             marker.hideInfoWindow();
                         } else {
                             channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
                             Helper.startActivity(mActivity, channelData);
                         }
                     }
-
 
 
                 } catch (JSONException e) {
@@ -1564,7 +1573,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    protected void iconDrag(Double lat, Double lon){      //paul
+    protected void iconDrag(Double lat, Double lon) {      //paul
 
 //        LatLng fetchLatLon = new LatLng(lat, lon);
 //        mDraggableMarker = mMap.addMarker(new MarkerOptions().position(fetchLatLon)
@@ -2292,11 +2301,11 @@ public class MainFragment extends BaseFragment {
             mMap.clear();
 
             fetchLat = (Double) params.get("minLatitude") + 0.001;  // 세로
-            fetchLon = (Double) params.get("minLongitude")+ 0.002;  // 가로
+            fetchLon = (Double) params.get("minLongitude") + 0.002;  // 가로
 
 
             int zoom = (int) mMap.getCameraPosition().zoom;
-            if(zoom >= 15 ){
+            if (zoom >= 15) {
 //                iconDrag(fetchLat, fetchLon);
             } else {
 
@@ -2348,7 +2357,7 @@ public class MainFragment extends BaseFragment {
         mProgress.hide();
 
         final Dialog dialog = new Dialog(mActivity);
-        dialog.setContentView(R.layout.move_dialog);
+        dialog.setContentView(R.layout.dialog_zoom_changed);
         TextView title = (TextView) dialog.findViewById(android.R.id.title);
         title.setText("아래로 이동합니다");
 //        title.setBackgroundResource(R.drawable.gradient);
@@ -2363,7 +2372,7 @@ public class MainFragment extends BaseFragment {
         Button cancelBtn = (Button) dialog.findViewById(R.id.moveDialogCancel);
 
 
-        if (division.equals("levelFirst")){
+        if (division.equals("levelFirst")) {
 
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -2373,8 +2382,7 @@ public class MainFragment extends BaseFragment {
                         LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
-                    }
-                    else {
+                    } else {
                     }
                     dialog.cancel();
 
@@ -2391,8 +2399,7 @@ public class MainFragment extends BaseFragment {
                         LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
                         mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-                    }
-                    else {
+                    } else {
                     }
                     dialog.cancel();
 
@@ -2413,33 +2420,70 @@ public class MainFragment extends BaseFragment {
 
     private void showCreateComplexDialog() {
         mProgress.hide();
-        mAlert.setPositiveButton(R.string.complex_create_btn, new DialogInterface.OnClickListener() {
+
+        final Dialog dialog = new Dialog(mActivity);
+        dialog.setContentView(R.layout.dialog_create_complex);
+        TextView title = (TextView) dialog.findViewById(android.R.id.title);
+        title.setText("선택");
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(22);
+
+        TextView text = (TextView) dialog.findViewById(R.id.address);
+        text.setText(Helper.getShortAddress(mChannelByPoint));
+
+        Button btnCreate = (Button) dialog.findViewById(R.id.create);
+        Button btnFootPrint = (Button) dialog.findViewById(R.id.footPrint);
+        Button btnCancel = (Button) dialog.findViewById(R.id.cancel);
+        btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 Helper.startCreateActivity(mActivity, mChannelByPoint, TYPE_COMPLEX);
-                dialog.cancel();
+                dialog.dismiss();
             }
         });
 
-        mAlert.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+        btnFootPrint.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                Toast.makeText(mActivity, "Foot Print", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 mMarkerByPoint.remove();
                 dialog.cancel();
             }
         });
 
-        mAlert.setTitle(R.string.complex_create_confirm);
-        mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
-        mAlert.show();
+        dialog.show();
+
     }
 
     private void showCreateSpotDialog() {
         mProgress.hide();
 
-        mAlert.setPositiveButton(R.string.spot_create_btn, new DialogInterface.OnClickListener() {
+        final Dialog dialog = new Dialog(mActivity);
+        dialog.setContentView(R.layout.dialog_create_spot);
+        TextView title = (TextView) dialog.findViewById(android.R.id.title);
+        title.setText("선택");
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(22);
+
+        TextView text = (TextView) dialog.findViewById(R.id.address);
+        text.setText(Helper.getFullAddress(mChannelByPoint));
+
+        Button btnCreate = (Button) dialog.findViewById(R.id.create);
+        Button btnFootPrint = (Button) dialog.findViewById(R.id.footPrint);
+        Button btnCancel = (Button) dialog.findViewById(R.id.cancel);
+        btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                mProgress.show();
                 try {
                     JSONObject params = mChannelByPoint.getAddressJSONObject();
                     params.put("type", TYPE_SPOT);
@@ -2457,20 +2501,28 @@ public class MainFragment extends BaseFragment {
                 } catch (JSONException e) {
                     Log.e(TAG, "Error " + e.toString());
                 }
+                dialog.dismiss();
             }
         });
 
-        mAlert.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+        btnFootPrint.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                Toast.makeText(mActivity, "Foot Print", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 mMarkerByPoint.remove();
                 dialog.cancel();
             }
         });
 
-        mAlert.setTitle(R.string.spot_create_confirm);
-        mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
-        mAlert.show();
+        dialog.show();
+
     }
 
     private void startSpotActivity(ChannelData channel, String type) {
@@ -2576,8 +2628,6 @@ public class MainFragment extends BaseFragment {
             Log.e(TAG, "Error " + e.toString());
         }
     }
-
-
 
 
     private boolean checkPlayServices() {

@@ -39,6 +39,8 @@ public class SpotFragment extends BaseChannelFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
+        mProgress.hide();
+        
         if(TextUtils.isEmpty(mChannel.getName())) {
             TabLayout.Tab tab = mTabLayout.getTabAt(2);
             tab.select();
