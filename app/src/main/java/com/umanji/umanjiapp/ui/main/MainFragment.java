@@ -4,6 +4,8 @@ package com.umanji.umanjiapp.ui.main;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -21,6 +24,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +35,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,9 +51,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.umanji.umanjiapp.R;
@@ -107,6 +115,13 @@ public class MainFragment extends BaseFragment {
     private PostListAdapter mAdapter;
     private RoundedImageView mZoomBtn;
 
+    private ImageView mInterior;
+    private String mInteriorStatus = "비활성화";
+    private ImageView mTowerCrane;
+    private String mTowerCraneStatus= "비활성화";
+
+    private Marker mDraggableMarker;
+
     private TextView mZoomLevelText;
     private TextView mInfoTextPanel;
     private LatLng mCurrentMyPosition;
@@ -134,6 +149,8 @@ public class MainFragment extends BaseFragment {
     /****************************************************
      * Footer View
      ****************************************************/
+    private android.widget.RelativeLayout.LayoutParams layoutParams;
+
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private LinearLayout mHeaderPanel;
     private Button mNotyCountBtn;
@@ -431,6 +448,11 @@ public class MainFragment extends BaseFragment {
         mMainTitle = (TextView) view.findViewById(R.id.mainTitle);
         mSearchLayout = (LinearLayout) view.findViewById(R.id.searchLayout);
 
+        mInterior = (ImageView) view.findViewById(R.id.interior);
+        mInterior.setOnClickListener(this);
+        mTowerCrane = (ImageView) view.findViewById(R.id.towerCrane);
+        mTowerCrane.setOnClickListener(this);
+
         mSearch = (TextView) view.findViewById(R.id.search);
         mSearch.setOnClickListener(this);
         mNoticePanel = view.findViewById(R.id.noticePanel);
@@ -439,7 +461,6 @@ public class MainFragment extends BaseFragment {
         mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 48));
         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
         mSlidingUpPanelLayout.setMinFlingVelocity(DEFAULT_MIN_FLING_VELOCITY);
-
 
         mHeaderPanel = (LinearLayout) view.findViewById(R.id.headerPanel);
         mHeaderPanel.setOnClickListener(this);
@@ -678,7 +699,7 @@ public class MainFragment extends BaseFragment {
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) {  // paulclick
         Bundle bundle = new Bundle();
 
         String tempName = getResources().getResourceName(v.getId());
@@ -912,9 +933,6 @@ public class MainFragment extends BaseFragment {
                     default:
                         mwebInt.putExtra("url", "http://blog.naver.com/mothcar/220720111996");  // 일반 사용설명
                 }
-                // 일반 사용설명 : http://blog.naver.com/mothcar/220720111996
-                // 키워드 설명  : http://blog.naver.com/mothcar/220715638989
-                // http://blog.naver.com/mothcar/220715638989
 
                 mActivity.startActivity(mwebInt);
                 break;
@@ -923,6 +941,27 @@ public class MainFragment extends BaseFragment {
             case R.id.search:
                 Intent searchIntent = new Intent(mActivity, SearchActivity.class);
                 startActivity(searchIntent);
+                break;
+
+            case R.id.interior:
+                mInterior.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                Toast.makeText(mActivity, mInteriorStatus, Toast.LENGTH_SHORT).show();
+
+                Intent interiorWebView = new Intent(mActivity, WebViewActivity.class);
+                interiorWebView.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/");
+                mActivity.startActivity(interiorWebView);
+                break;
+
+            case R.id.towerCrane:
+                mTowerCrane.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
+                Intent towerCraneWebView = new Intent(mActivity, WebViewActivity.class);
+                towerCraneWebView.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/");
+                mActivity.startActivity(towerCraneWebView);
+                break;
+
 
 
         }
@@ -1105,6 +1144,7 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onMapClick(LatLng point) {
 
+                mProgress.setMessage("확대하실 곳의 주소를 찾고 있습니다...");
                 mProgress.show();
 
                 if (mFocusedMarker != null) {
@@ -1120,6 +1160,50 @@ public class MainFragment extends BaseFragment {
                     if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
                         int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
                         Toast.makeText(mActivity, "복합단지 생성을 위한 포인트가 부족합니다(" + POINT_CREATE_COMPLEX + "이상부터 가능)" + ". 줌레벨 18에서 스팟을 먼저 생성해 보세요. ^^", Toast.LENGTH_LONG).show();
+
+                        final Dialog dialog = new Dialog(mActivity);
+                        dialog.setContentView(R.layout.custom_dialog);
+                        dialog.setTitle("!!! 사용법을 확인하시겠습니까? ");
+
+                        TextView text = (TextView) dialog.findViewById(R.id.text);
+                        text.setText("복합단지는 시민계급부터 생성 가능합니다");
+                        ImageView image = (ImageView) dialog.findViewById(R.id.dialogImage);
+                        image.setImageResource(R.drawable.info);
+                        image.setOnClickListener(new View.OnClickListener(){
+
+                            @Override
+                            public void onClick(View v) {
+                                mUmanji.startAnimation(buttonClick);
+                                buttonClick.setDuration(500);
+
+                                Intent webInt = new Intent(mActivity, WebViewActivity.class);
+                                webInt.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/ ");
+                                mActivity.startActivity(webInt);
+                            }
+                        });
+
+                        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                        // if button is clicked, close the custom dialog
+                        dialogButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+                        dialog.show();
+
+                        /*
+                        *
+                        * 외부링크 리스트 : link list
+                        *
+                        * 우만지 일반 설명 :   http://umanji.com/2016/06/17/manual0001/
+                        * 레벨별 입력 :       http://umanji.com/2016/06/22/input_level_explain/ ‎
+                        * 복합단지 설명 :     http://blog.naver.com/mothcar/220715838911
+                        * 일반 설명 : http://blog.naver.com/mothcar/220720111996
+                        * */
+
+                        mProgress.hide();
                         return;
                     }
                 }
@@ -1155,13 +1239,16 @@ public class MainFragment extends BaseFragment {
 
                                     } else {
                                         Helper.startSigninActivity(mActivity, mCurrentMyPosition);
+                                        mProgress.hide();
                                     }
 
                                 } else {
                                     if (isComplexCreatable(zoom)) {
                                         startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
+                                        mProgress.hide();
                                     } else if (isSpotCreatable(zoom)) {
                                         startSpotActivity(mChannelByPoint, TYPE_SPOT);
+                                        mProgress.hide();
                                     }
 
                                 }
@@ -1189,6 +1276,7 @@ public class MainFragment extends BaseFragment {
                     }
 
                 } else {                    // zoom >=12 && zoom <=14
+
                     try {
                         JSONObject params = new JSONObject();
                         params.put("latitude", mLatLngByPoint.latitude);
@@ -1237,7 +1325,12 @@ public class MainFragment extends BaseFragment {
                     if (TextUtils.equals(idx, String.valueOf(MARKER_INDEX_CLICKED))) {
                         mClickedChannel = mSelectedChannel;
                     } else {
-                        mClickedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
+                        if(mClickedChannel != null){
+                            mClickedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
+                        } else {
+                        }
+
+
                     }
 
                 } catch (JSONException e) {
@@ -1253,17 +1346,24 @@ public class MainFragment extends BaseFragment {
             public void onInfoWindowClick(Marker marker) {
                 String index = marker.getSnippet();
 
-                ChannelData channelData;
+                ChannelData channelData = null;
                 try {
                     if (TextUtils.equals(index, String.valueOf(MARKER_INDEX_BY_POST))) {
                         channelData = mCurrentChannel.getParent();
+                        Helper.startActivity(mActivity, channelData);
                     } else if (TextUtils.equals(index, String.valueOf(MARKER_INDEX_CLICKED))) {
                         channelData = mSelectedChannel;
+                        Helper.startActivity(mActivity, channelData);
                     } else {
-                        channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
+                        if(marker.isDraggable()){
+                            marker.hideInfoWindow();
+                        } else {
+                            channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
+                            Helper.startActivity(mActivity, channelData);
+                        }
                     }
 
-                    Helper.startActivity(mActivity, channelData);
+
 
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
@@ -1297,17 +1397,6 @@ public class MainFragment extends BaseFragment {
                 Log.d(TAG, "onMapLoaded: ");
             }
         });
-
-
-        /*
-        *
-        *
-        *
-        *
-
-        *
-        *
-        * */
 
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
@@ -1358,20 +1447,38 @@ public class MainFragment extends BaseFragment {
                         // isPoliticTouchable
 
                         if (isComplexCreatable(zoom)) {
-                            mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
+                            mInterior.setVisibility(View.VISIBLE);
+                            mTowerCrane.setVisibility(View.VISIBLE);
+                            mInterior.setImageResource(R.drawable.interior_black);
+                            mTowerCrane.setImageResource(R.drawable.tower_crane);
+                            mInteriorStatus = "비활성화";
+                            mTowerCraneStatus = "복합장소 활성화";
+//                            Toast.makeText(mActivity,"장소를 터치하면 거대/복합단지(장소)를 만들 수 있음", Toast.LENGTH_SHORT).show();
+
+//                            mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
                             mInfoTextPanel.setTextColor(getResources().getColor(R.color.gray_text));
                             mInfoTextPanel.setTextSize(15);
                             //mCreateSpotText.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                         } else if (isSpotCreatable(zoom)) {
+                            mInterior.setVisibility(View.VISIBLE);
+                            mTowerCrane.setVisibility(View.VISIBLE);
+                            mInterior.setImageResource(R.drawable.interior);
+                            mTowerCrane.setImageResource(R.drawable.tower_crane_black);
+                            mInteriorStatus = "장소 활성화";
+                            mTowerCraneStatus = "비활성화";
+//                            Toast.makeText(mActivity,"장소를 터치하면 빌딩이나 장소를 만들 수 있음", Toast.LENGTH_SHORT).show();
                             //mCreateComplexText.setVisibility(View.GONE);
-                            mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
+//                            mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
                             mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
                             mInfoTextPanel.setTextSize(15);
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else if (isKeywordTouchable(zoom)) {
+
+                            mInterior.setVisibility(View.GONE);
+                            mTowerCrane.setVisibility(View.GONE);
                             //mCreateComplexText.setVisibility(View.GONE);
                             mInfoTextPanel.setText("지역 소식");
                             mInfoTextPanel.setTextSize(20);
@@ -1379,6 +1486,13 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else {
+                            mInterior.setVisibility(View.GONE);
+                            mTowerCrane.setVisibility(View.GONE);
+                            /*
+                            mInterior.setImageResource(R.drawable.interior_black);
+                            mTowerCrane.setImageResource(R.drawable.tower_crane_black);
+                            mInteriorStatus = "비활성화";
+                            mTowerCraneStatus = "비활성화";*/
                             //mCreateComplexText.setVisibility(View.GONE);
                             //mCreateSpotText.setVisibility(View.GONE);
                             mInfoTextPanel.setText("");
@@ -1404,6 +1518,137 @@ public class MainFragment extends BaseFragment {
                 mCurrentMyPosition = new LatLng(location.getLatitude(), location.getLongitude());
             }
         });
+
+    }
+
+    protected void iconDrag(Double lat, Double lon){      //paul
+
+        LatLng fetchLatLon = new LatLng(lat, lon);
+        mDraggableMarker = mMap.addMarker(new MarkerOptions().position(fetchLatLon)
+                .title("Draggable Marker")
+                .snippet("Long press and move the marker if needed.")
+                .draggable(true)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_construct))
+                .alpha(1));  // 1 : show  0 : invisible
+
+        mDraggableMarker.hideInfoWindow();
+//        mDraggableMarker.setVisible(false);
+
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+
+            @Override
+            public void onMarkerDrag(Marker arg0) {
+//                TODO Auto-generated method stub
+//                Log.d("Marker", "Dragging");
+
+//                Toast.makeText(mActivity, "Dragging", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker arg0) {
+                // TODO Auto-generated method stub
+                LatLng markerLocation = mDraggableMarker.getPosition();
+                Toast.makeText(mActivity, markerLocation.toString(), Toast.LENGTH_LONG).show();
+                Log.d("Marker", "finished");
+            }
+
+            @Override
+            public void onMarkerDragStart(Marker arg0) {
+                // TODO Auto-generated method stub
+                Log.d("Marker", "Started");
+                Toast.makeText(mActivity, "Started", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+/*
+
+        mConstructor.setVisibility(View.VISIBLE);
+
+        mConstructor.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipData.Item item = new ClipData.Item((CharSequence)v.getTag());
+                String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
+
+                ClipData dragData = new ClipData(v.getTag().toString(),mimeTypes, item);
+                View.DragShadowBuilder myShadow = new View.DragShadowBuilder(mConstructor);
+
+                v.startDrag(dragData,myShadow,null,0);
+                return true;
+            }
+        });
+
+        mConstructor.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                switch(event.getAction())
+                {
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        layoutParams = (RelativeLayout.LayoutParams)v.getLayoutParams();
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_STARTED");
+
+                        // Do nothing
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENTERED:
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENTERED");
+                        int x_cord = (int) event.getX();
+                        int y_cord = (int) event.getY();
+                        break;
+
+                    case DragEvent.ACTION_DRAG_EXITED :
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_EXITED");
+                        x_cord = (int) event.getX();
+                        y_cord = (int) event.getY();
+                        layoutParams.leftMargin = x_cord;
+                        layoutParams.topMargin = y_cord;
+                        v.setLayoutParams(layoutParams);
+                        break;
+
+                    case DragEvent.ACTION_DRAG_LOCATION  :
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_LOCATION");
+                        x_cord = (int) event.getX();
+                        y_cord = (int) event.getY();
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENDED   :
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENDED");
+
+                        // Do nothing
+                        break;
+
+                    case DragEvent.ACTION_DROP:
+                        Log.d(msg, "ACTION_DROP event");
+
+                        // Do nothing
+                        break;
+                    default: break;
+                }
+                return true;
+            }
+        });
+
+        mConstructor.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    ClipData data = ClipData.newPlainText("111", "222");
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(mConstructor);
+
+                    mConstructor.startDrag(data, shadowBuilder, mConstructor, 0);
+//                    mConstructor.setVisibility(View.INVISIBLE);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        });
+*/
+
 
     }
 
@@ -1962,6 +2207,8 @@ public class MainFragment extends BaseFragment {
 
     private void loadMainMarkers() {
         //mProgress.show();
+
+
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("zoom", (int) mMap.getCameraPosition().zoom);
@@ -1994,8 +2241,23 @@ public class MainFragment extends BaseFragment {
 
 
     private void addChannelsToMap(JSONObject jsonObject) {
+        Double fetchLat;
+        Double fetchLon;
+        JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+
         try {
             mMap.clear();
+
+            fetchLat = (Double) params.get("minLatitude") + 0.001;  // 세로
+            fetchLon = (Double) params.get("minLongitude")+ 0.002;  // 가로
+
+
+            int zoom = (int) mMap.getCameraPosition().zoom;
+            if(zoom >= 15 ){
+//                iconDrag(fetchLat, fetchLon);
+            } else {
+
+            }
 
             mMarkers = jsonObject.getJSONArray("data");
 
@@ -2042,13 +2304,27 @@ public class MainFragment extends BaseFragment {
     private void showJumpDialog(String division) {
         mProgress.hide();
 
+        final Dialog dialog = new Dialog(mActivity);
+        dialog.setContentView(R.layout.move_dialog);
+        TextView title = (TextView) dialog.findViewById(android.R.id.title);
+        title.setText("아래로 이동합니다");
+//        title.setBackgroundResource(R.drawable.gradient);
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER); // this is required to bring it to center.
+        title.setTextSize(22);
+
+        TextView mMoveMessage = (TextView) dialog.findViewById(R.id.address);
+        mMoveMessage.setText(Helper.getShortAddress(mChannelByPoint));
+
+        Button okBtn = (Button) dialog.findViewById(R.id.moveDialogOK);
+        Button cancelBtn = (Button) dialog.findViewById(R.id.moveDialogCancel);
+
+
         if (division.equals("levelFirst")){
 
-            mAlert.setTitle("아래로 이동합니다");
-            mAlert.setMessage(Helper.getShortAddress(mChannelByPoint));
-            mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View v) {
                     if (TextUtils.isEmpty(mChannelByPoint.getId())) {
 
                         LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
@@ -2058,15 +2334,15 @@ public class MainFragment extends BaseFragment {
                     else {
                     }
                     dialog.cancel();
+
                 }
             });
 
         } else {
-            mAlert.setTitle("아래로 이동합니다");
-            mAlert.setMessage(Helper.getMiddleAddress(mChannelByPoint));
-            mAlert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+            okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(View v) {
                     if (TextUtils.isEmpty(mChannelByPoint.getId())) {
 
                         LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
@@ -2076,18 +2352,36 @@ public class MainFragment extends BaseFragment {
                     else {
                     }
                     dialog.cancel();
+
                 }
             });
-        }
 
-        mAlert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+        }
+/*
+
+        TextView title = new TextView(mActivity);
+        title.setText(alertTitle);
+        title.setBackgroundResource(R.drawable.gradient);
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER); // this is required to bring it to center.
+        title.setTextSize(22);
+        mAlert.getDialog().setCustomTitle(title);
+
+
+        TextView titleView = (TextView)mAlert.findViewById(android.R.id.title);
+        titleView.setGravity(Gravity.CENTER);
+        TextView messageView = (TextView)dialog.findViewById(android.R.id.message);
+        messageView.setGravity(Gravity.CENTER);
+*/
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 dialog.cancel();
             }
         });
 
-        mAlert.show();
+        dialog.show();
     }
 
     private void showCreateComplexDialog() {
@@ -2255,6 +2549,9 @@ public class MainFragment extends BaseFragment {
             Log.e(TAG, "Error " + e.toString());
         }
     }
+
+
+
 
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);

@@ -1,7 +1,9 @@
 package com.umanji.umanjiapp.ui.main;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.umanji.umanjiapp.ui.BaseActivity;
 
@@ -22,5 +24,26 @@ public class MainActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
+    }
+
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "한번 더 누르시면 우만지 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

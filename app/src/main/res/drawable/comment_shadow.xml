@@ -25,7 +25,7 @@
         android:top="6dp"
         android:right="0dp"
         android:left="0dp"
-        android:bottom="0dp">
+        android:bottom="6dp"> <!--  main에서 아래 '지역소식 Tab'에 아래에 shadow를 주려고 하는데 안됨 -->
         <shape
             android:shape="rectangle">
             <solid android:color="@android:color/white"/>

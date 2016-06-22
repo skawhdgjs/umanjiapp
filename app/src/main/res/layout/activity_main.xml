@@ -622,6 +622,28 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/interior"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/interior_black"
+                android:layout_above="@+id/towerCrane"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="20dp"
+                android:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/towerCrane"
+                android:src="@drawable/tower_crane_black"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:visibility="visible"/>
+
 
         </RelativeLayout>
 
@@ -683,6 +705,11 @@
 
 
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/headerPanel"
+                    android:background="@drawable/comment_shadow" />
 
                 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:tools="http://schemas.android.com/tools"
