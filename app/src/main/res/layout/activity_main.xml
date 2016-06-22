@@ -629,7 +629,7 @@
                 android:src="@drawable/interior_black"
                 android:layout_above="@+id/towerCrane"
                 android:layout_marginLeft="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:visibility="visible"/>
 
             <ImageView

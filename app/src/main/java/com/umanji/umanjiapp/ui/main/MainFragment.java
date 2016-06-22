@@ -947,24 +947,67 @@ public class MainFragment extends BaseFragment {
                 mInterior.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
                 Toast.makeText(mActivity, mInteriorStatus, Toast.LENGTH_SHORT).show();
+                String division = "interior";
+                showTutorialDialog(division);
 
-                Intent interiorWebView = new Intent(mActivity, WebViewActivity.class);
-                interiorWebView.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/");
-                mActivity.startActivity(interiorWebView);
+
                 break;
 
             case R.id.towerCrane:
                 mTowerCrane.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
                 Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
-                Intent towerCraneWebView = new Intent(mActivity, WebViewActivity.class);
-                towerCraneWebView.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/");
-                mActivity.startActivity(towerCraneWebView);
+
+                String division2 = "towerCrane";
+                showTutorialDialog(division2);
+
                 break;
 
-
-
         }
+    }
+
+    private void showTutorialDialog(String division) {
+
+        final Dialog dialog = new Dialog(mActivity);
+        dialog.setContentView(R.layout.create_tutorial_dialog);
+        TextView title = (TextView) dialog.findViewById(android.R.id.title);
+        title.setText("생성 사용 설명");
+//        title.setBackgroundResource(R.drawable.gradient);
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER); // this is required to bring it to center.
+        title.setTextSize(22);
+
+        Button okBtn = (Button) dialog.findViewById(R.id.dialogOK);
+
+        if (division.equals("interior")){
+            TextView mMoveMessage = (TextView) dialog.findViewById(R.id.contents);
+            mMoveMessage.setText("줌레벨 18에서 21단계까지는 일반 건물과 상점과 같은 장소를 만드실 수 있고 그 곳에 커뮤니티를 만드실 수 있습니다");
+
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.cancel();
+
+                }
+            });
+
+        } else if(division.equals("towerCrane")){
+            TextView mMoveMessage = (TextView) dialog.findViewById(R.id.contents);
+            mMoveMessage.setText("줌레벨 15에서 17단계까지는 대학교, 공원, 골프장과 같은 넓은 장소를 만드실 수 있습니다");
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.cancel();
+
+                }
+            });
+
+        } else {}
+
+        dialog.show();
+
     }
 
     private void loadCommunityMarkers(String communityName) {
@@ -2357,22 +2400,6 @@ public class MainFragment extends BaseFragment {
             });
 
         }
-/*
-
-        TextView title = new TextView(mActivity);
-        title.setText(alertTitle);
-        title.setBackgroundResource(R.drawable.gradient);
-        title.setPadding(10, 10, 10, 10);
-        title.setGravity(Gravity.CENTER); // this is required to bring it to center.
-        title.setTextSize(22);
-        mAlert.getDialog().setCustomTitle(title);
-
-
-        TextView titleView = (TextView)mAlert.findViewById(android.R.id.title);
-        titleView.setGravity(Gravity.CENTER);
-        TextView messageView = (TextView)dialog.findViewById(android.R.id.message);
-        messageView.setGravity(Gravity.CENTER);
-*/
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
