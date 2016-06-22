@@ -1615,13 +1615,13 @@ public class MainFragment extends BaseFragment {
 
     protected void iconDrag(Double lat, Double lon) {      //paul
 
-        LatLng fetchLatLon = new LatLng(lat, lon);
-        mDraggableMarker = mMap.addMarker(new MarkerOptions().position(fetchLatLon)
-                .title("Draggable Marker")
-                .snippet("Long press and move the marker if needed.")
-                .draggable(true)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_construct))
-                .alpha(1));  // 1 : show  0 : invisible
+//        LatLng fetchLatLon = new LatLng(lat, lon);
+//        mDraggableMarker = mMap.addMarker(new MarkerOptions().position(fetchLatLon)
+//                .title("Draggable Marker")
+//                .snippet("Long press and move the marker if needed.")
+//                .draggable(true)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_construct))
+//                .alpha(1));  // 1 : show  0 : invisible
 
         mDraggableMarker.hideInfoWindow();
 //        mDraggableMarker.setVisible(false);
