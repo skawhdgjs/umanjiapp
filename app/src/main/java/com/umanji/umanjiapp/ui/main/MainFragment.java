@@ -114,6 +114,9 @@ public class MainFragment extends BaseFragment {
     private String mInteriorStatus = "비활성화";
     private ImageView mTowerCrane;
     private String mTowerCraneStatus = "비활성화";
+    private ImageView mEye;
+    private ImageView mSay;
+
 
     private Marker mDraggableMarker;
 
@@ -447,6 +450,10 @@ public class MainFragment extends BaseFragment {
         mInterior.setOnClickListener(this);
         mTowerCrane = (ImageView) view.findViewById(R.id.towerCrane);
         mTowerCrane.setOnClickListener(this);
+        mSay = (ImageView) view.findViewById(R.id.say);
+        mSay.setOnClickListener(this);
+        mEye = (ImageView) view.findViewById(R.id.eye);
+        mEye.setOnClickListener(this);
 
         mSearch = (TextView) view.findViewById(R.id.search);
         mSearch.setOnClickListener(this);
@@ -944,18 +951,30 @@ public class MainFragment extends BaseFragment {
                 Toast.makeText(mActivity, mInteriorStatus, Toast.LENGTH_SHORT).show();
                 String division = "interior";
                 showTutorialDialog(division);
-
-
                 break;
 
             case R.id.towerCrane:
                 mTowerCrane.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
                 Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
-
                 String division2 = "towerCrane";
                 showTutorialDialog(division2);
+                break;
 
+            case R.id.say:
+                mSay.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
+                String division3 = "say";
+                showTutorialDialog(division3);
+                break;
+
+            case R.id.eye:
+                mEye.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
+                String division4 = "eye";
+                showTutorialDialog(division4);
                 break;
 
         }
@@ -1019,7 +1038,7 @@ public class MainFragment extends BaseFragment {
         final Dialog dialog = new Dialog(mActivity);
         dialog.setContentView(R.layout.dialog_create_tutorial);
         TextView title = (TextView) dialog.findViewById(android.R.id.title);
-        title.setText("생성 사용 설명");
+        title.setText("활동에 대한 사용설명");
 //        title.setBackgroundResource(R.drawable.gradient);
         title.setPadding(10, 10, 10, 10);
         title.setGravity(Gravity.CENTER); // this is required to bring it to center.
@@ -1027,8 +1046,9 @@ public class MainFragment extends BaseFragment {
 
         Button okBtn = (Button) dialog.findViewById(R.id.dialogOK);
 
+        TextView mMoveMessage = (TextView) dialog.findViewById(R.id.contents);
+
         if (division.equals("interior")) {
-            TextView mMoveMessage = (TextView) dialog.findViewById(R.id.contents);
             mMoveMessage.setText("줌레벨 18에서 21단계까지는 일반 건물과 상점과 같은 장소를 만드실 수 있고 그 곳에 커뮤니티를 만드실 수 있습니다");
 
             okBtn.setOnClickListener(new View.OnClickListener() {
@@ -1041,7 +1061,6 @@ public class MainFragment extends BaseFragment {
             });
 
         } else if (division.equals("towerCrane")) {
-            TextView mMoveMessage = (TextView) dialog.findViewById(R.id.contents);
             mMoveMessage.setText("줌레벨 15에서 17단계까지는 대학교, 공원, 골프장과 같은 넓은 장소를 만드실 수 있습니다");
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1052,7 +1071,26 @@ public class MainFragment extends BaseFragment {
                 }
             });
 
+        } else if (division.equals("say")){
+            mMoveMessage.setText("말하기 : 지역과 커뮤니티에서 표현해보세요");
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.cancel();
+
+                }
+            });
         } else {
+            mMoveMessage.setText("구경하기 : 지역과 건물에서의 커뮤니티를 자유롭게 여행하세요");
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.cancel();
+
+                }
+            });
         }
 
         dialog.show();
@@ -1470,7 +1508,6 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                         } else if (isSpotCreatable(zoom)) {
-
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else if (isPoliticTouchable(zoom)) {
@@ -1499,6 +1536,7 @@ public class MainFragment extends BaseFragment {
                         // isPoliticTouchable
 
                         if (isComplexCreatable(zoom)) {
+                            mSay.setImageResource(R.drawable.say);
                             mInterior.setVisibility(View.VISIBLE);
                             mTowerCrane.setVisibility(View.VISIBLE);
                             mInterior.setImageResource(R.drawable.interior_black);
@@ -1514,6 +1552,7 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                         } else if (isSpotCreatable(zoom)) {
+                            mSay.setImageResource(R.drawable.say);
                             mInterior.setVisibility(View.VISIBLE);
                             mTowerCrane.setVisibility(View.VISIBLE);
                             mInterior.setImageResource(R.drawable.interior);
@@ -1528,7 +1567,7 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else if (isKeywordTouchable(zoom)) {
-
+                            mSay.setImageResource(R.drawable.say_black);
                             mInterior.setVisibility(View.GONE);
                             mTowerCrane.setVisibility(View.GONE);
                             //mCreateComplexText.setVisibility(View.GONE);
@@ -1538,6 +1577,7 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else {
+                            mSay.setImageResource(R.drawable.say_black);
                             mInterior.setVisibility(View.GONE);
                             mTowerCrane.setVisibility(View.GONE);
                             /*
