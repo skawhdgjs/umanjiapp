@@ -28,8 +28,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -59,6 +62,7 @@ import com.umanji.umanjiapp.analytics.ApplicationController;
 import com.umanji.umanjiapp.gcm.GcmRegistrationIntentService;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
+import com.umanji.umanjiapp.helper.GridAdapter;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -80,6 +84,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -1088,11 +1093,26 @@ public class MainFragment extends BaseFragment {
     private void showCommunityPanel(){
 //        paul communitypanel
 
+
         final Dialog dialog = new Dialog(mActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_community_panel);
 
 //        mGotoSpot = (LinearLayout) dialog.findViewById(R.id.gotoSpot);
+        GridView gridView = (GridView)dialog.findViewById(R.id.gridView1);
+
+        String [] mList = {"ass", "bbb", "ccc"};
+
+// gridView1
+        gridView.setAdapter(new GridAdapter(getActivity(), mList));
+        gridView.setNumColumns(5);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // do something here
+                Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         dialog.show();
 
