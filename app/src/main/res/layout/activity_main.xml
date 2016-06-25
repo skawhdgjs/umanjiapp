@@ -21,19 +21,19 @@
             android:orientation="vertical">
 
             <fragment
-                android:id="@+id/mMapFragment"
-                android:name="com.google.android.gms.maps.MapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout="@layout/activity_main" />
+            android:id="@+id/mMapFragment"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/activity_main" />
 
             <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/relativeLayout8"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                android:id="@+id/relativeLayout8">
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
                 <ImageView
                     android:id="@+id/userPhoto"
@@ -51,39 +51,39 @@
                     android:id="@+id/searchLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true">
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:id="@+id/logo"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:layout_alignTop="@+id/titleLayout"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toEndOf="@+id/userPhoto"
+                        android:layout_toRightOf="@+id/userPhoto"
                         android:gravity="center"
                         android:text="umanji"
                         android:textColor="@color/gray_text"
-                        android:textSize="16dp"
-                        android:layout_alignTop="@+id/titleLayout"
-                        android:layout_toRightOf="@+id/userPhoto"
-                        android:layout_toEndOf="@+id/userPhoto" />
+                        android:textSize="16dp" />
 
                     <TextView
-                        android:layout_marginLeft="10dp"
                         android:id="@+id/search"
                         android:layout_width="180dp"
                         android:layout_height="35dp"
-                        android:text="search"
-                        android:textColor="@color/gray_text"
-                        android:background="@drawable/shadow"
-                        android:layout_toRightOf="@+id/logo"
+                        android:layout_marginLeft="10dp"
                         android:layout_toEndOf="@+id/logo"
+                        android:layout_toRightOf="@+id/logo"
+                        android:background="@drawable/shadow"
                         android:gravity="center_vertical|right"
                         android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="search"
+                        android:textColor="@color/gray_text"
                         android:textSize="14dp"
-                        android:visibility="visible"
-                        android:paddingRight="10dp" />
+                        android:visibility="visible" />
 
                     <TextView
                         android:id="@+id/mainTitle"
@@ -93,7 +93,7 @@
                         android:text="커뮤니티"
                         android:textColor="@color/gray_text"
                         android:textSize="16dp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                 </LinearLayout>
 
@@ -111,6 +111,9 @@
                     android:id="@+id/mNotyCount"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_alignTop="@+id/userPhoto"
+                    android:layout_toEndOf="@+id/userPhoto"
+                    android:layout_toRightOf="@+id/userPhoto"
                     android:background="@drawable/default_btn_red_radius"
                     android:shadowColor="#A8A8A8"
                     android:shadowDx="0"
@@ -119,10 +122,7 @@
                     android:text="0"
                     android:textColor="#FFFFFF"
                     android:textSize="10dp"
-                    android:visibility="gone"
-                    android:layout_alignTop="@+id/userPhoto"
-                    android:layout_toRightOf="@+id/userPhoto"
-                    android:layout_toEndOf="@+id/userPhoto" />
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -136,11 +136,129 @@
                 android:id="@+id/ads_image"
                 android:layout_width="400dp"
                 android:layout_height="53dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ads_umanji_guide"
-                android:layout_below="@+id/relativeLayout8"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/relativeLayout8"
+                android:scaleType="fitXY"
+                android:src="@drawable/ads_umanji_guide" />
+
+            <!--
+            ***************
+
+            ***************
+            -->
+
+            <LinearLayout
+                android:id="@+id/communityGotoPanel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ads_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp">
+
+                    <ImageView
+                        android:id="@+id/communityCountry"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/community_country_black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:text="국가단체"
+                        android:textColor="@color/white"
+                        android:textSize="13dp"
+                        android:textStyle="bold"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp">
+                    <ImageView
+                        android:id="@+id/communityAdmin"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/community_admin_black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:text="시도단체"
+                        android:textColor="@color/white"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp">
+                    <ImageView
+                        android:id="@+id/communityLocality"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/community_local_black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:text="구군단체"
+                        android:textColor="@color/white"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp">
+
+                    <ImageView
+                        android:id="@+id/communityThorough"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/community_thorough_black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:shadowColor="#000"
+                        android:shadowRadius="7.0"
+                        android:text="면동단체"
+                        android:textColor="@color/white"
+                        android:textSize="13dp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/relativeLayout3"
@@ -169,11 +287,11 @@
                     android:layout_marginTop="10dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/icon_home"
+                    android:visibility="gone"
                     app:riv_border_color="@color/colorPrimary"
                     app:riv_border_width="1px"
                     app:riv_corner_radius="33dp"
-                    app:riv_oval="false"
-                    android:visibility="gone"/>
+                    app:riv_oval="false" />
 
 
             </RelativeLayout>
@@ -626,41 +744,41 @@
                 android:id="@+id/interior"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/interior_black"
                 android:layout_above="@+id/towerCrane"
-                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
-                android:visibility="visible"/>
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/interior_black"
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/towerCrane"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/tower_crane_black"
                 android:layout_above="@+id/say"
-                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
-                android:visibility="visible"/>
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/tower_crane_black"
+                android:visibility="visible" />
 
             <ImageView
                 android:id="@+id/say"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/say_black"
                 android:layout_above="@+id/eye"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:src="@drawable/say_black" />
 
             <ImageView
                 android:id="@+id/eye"
-                android:src="@drawable/eye"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="30dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/eye" />
 
 
         </RelativeLayout>
@@ -723,6 +841,7 @@
 
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -788,7 +907,7 @@
                         android:id="@+id/viewPaper"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
                 </android.support.design.widget.CoordinatorLayout>

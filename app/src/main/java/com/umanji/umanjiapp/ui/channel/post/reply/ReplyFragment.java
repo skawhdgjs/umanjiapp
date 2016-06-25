@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel.post.reply;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,10 +10,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -36,6 +39,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.channel.advertise.AdsCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.post.update.PostUpdateActivity;
+import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,6 +79,12 @@ public class ReplyFragment extends BaseChannelListFragment {
     protected LinearLayout mSurveyPanel;
 
     protected RelativeLayout mFab;
+
+    protected LinearLayout mGotoSpot;
+    protected LinearLayout mAdvertise;
+    protected LinearLayout mAbuse;
+    protected LinearLayout mEdit;
+    protected LinearLayout mCancel;
 
 
     public static ReplyFragment newInstance(Bundle bundle) {
@@ -139,7 +149,6 @@ public class ReplyFragment extends BaseChannelListFragment {
 
         mOptionBtn = (ImageView) view.findViewById(R.id.optionAlert);
         mOptionBtn.setOnClickListener(this);
-
 
         setName(mActivity, mChannel, "내용없음");
         setUserPhoto(mActivity, mChannel.getOwner());
@@ -532,44 +541,94 @@ public class ReplyFragment extends BaseChannelListFragment {
 
     }
 
-    private void showOptionAlert() {
-        final CharSequence[] items = {
-                "위치 살펴보기 :  이 글이 쓰여진 장소로 이동합니다. 화면이 닫힙니다.", "홍보하기", "신고", "수정"
-        };
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        //builder.setTitle("Make your selection");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                // Do something with the selection
-                switch(item){
-                    case 0:
-                        EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
-                        break;
-                    case 1:
-                        Bundle adsBundle = new Bundle();
-                        adsBundle.putString("channel", mChannel.getJsonObject().toString());
-                        adsBundle.putString("whichAction", "nothing");
-                        Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
-                        adsIntent.putExtra("bundle", adsBundle);
-                        startActivity(adsIntent);
-                        break;
-                    case 2:
-                        Toast.makeText(mActivity, "준비중입니다...", Toast.LENGTH_SHORT).show();
-                        break;
-                    case 3:
-                        Intent editIntent = new Intent(mActivity, PostUpdateActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("channel", mChannel.getJsonObject().toString());
-                        editIntent.putExtra("bundle", bundle);
-                        startActivity(editIntent);
-                        Toast.makeText(mActivity, "수정하세요.", Toast.LENGTH_SHORT).show();
-                        break;
+    private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
-                }
+    private void showOptionAlert() {
+        final Dialog dialog = new Dialog(mActivity);
+        dialog.setContentView(R.layout.dialog_post_option);
+
+        mGotoSpot = (LinearLayout) dialog.findViewById(R.id.gotoSpot);
+
+        mAdvertise = (LinearLayout) dialog.findViewById(R.id.advertise);
+        mAbuse = (LinearLayout) dialog.findViewById(R.id.abuse);
+        mEdit = (LinearLayout) dialog.findViewById(R.id.edit);
+        mCancel = (LinearLayout) dialog.findViewById(R.id.cancel);
+
+        TextView title = (TextView) dialog.findViewById(android.R.id.title);
+        title.setText("선택");
+//        title.setBackgroundResource(R.drawable.gradient);
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER); // this is required to bring it to center.
+        title.setTextSize(22);
+
+
+        mGotoSpot.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                dialog.dismiss();
             }
         });
-        AlertDialog alert = builder.create();
-        alert.show();
+        mGotoSpot.startAnimation(buttonClick);
+        buttonClick.setDuration(500);
+
+
+        mAdvertise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle adsBundle = new Bundle();
+                adsBundle.putString("channel", mChannel.getJsonObject().toString());
+                adsBundle.putString("whichAction", "nothing");
+                Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
+                adsIntent.putExtra("bundle", adsBundle);
+                startActivity(adsIntent);
+                dialog.dismiss();
+            }
+        });
+        mAdvertise.startAnimation(buttonClick);
+        buttonClick.setDuration(500);
+
+
+        mAbuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mActivity, "준비중입니다...", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        mAbuse.startAnimation(buttonClick);
+        buttonClick.setDuration(500);
+
+
+        mEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editIntent = new Intent(mActivity, PostUpdateActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("channel", mChannel.getJsonObject().toString());
+                editIntent.putExtra("bundle", bundle);
+                startActivity(editIntent);
+                Toast.makeText(mActivity, "수정하세요.", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        mEdit.startAnimation(buttonClick);
+        buttonClick.setDuration(500);
+
+
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                dialog.dismiss();
+            }
+        });
+        mCancel.startAnimation(buttonClick);
+        buttonClick.setDuration(500);
+
+        dialog.show();
+
     }
 
     @Override
@@ -613,8 +672,6 @@ public class ReplyFragment extends BaseChannelListFragment {
                 break;
         }
     }
-
-    private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
     @Override
     public void onClick(View v) {

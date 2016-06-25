@@ -175,6 +175,12 @@ public class MainFragment extends BaseFragment {
     /****************************************************
      * View
      ****************************************************/
+    private LinearLayout mCommunityGoToPanel;
+    private ImageView mCommunityCountryBtn;
+    private ImageView mCommunityAdminBtn;
+    private ImageView mCommunityLocalityBtn;
+    private ImageView mCommunityThoroughBtn;
+
     private ChannelData mHomeChannel;
 
     private ImageView mInfoButton;
@@ -293,7 +299,12 @@ public class MainFragment extends BaseFragment {
             if (getArguments().getString("type") != null) {
                 isCommunityMode = true;
 
-                communityName = mChannel.getName();
+                if(mChannel == null){
+
+                } else {
+                    communityName = mChannel.getName();
+
+                }
             }
 
             mTabType = getArguments().getString("tabType");
@@ -445,6 +456,16 @@ public class MainFragment extends BaseFragment {
 
         mMainTitle = (TextView) view.findViewById(R.id.mainTitle);
         mSearchLayout = (LinearLayout) view.findViewById(R.id.searchLayout);
+
+        mCommunityGoToPanel = (LinearLayout) view.findViewById(R.id.communityGotoPanel);
+        mCommunityCountryBtn = (ImageView) view.findViewById(R.id.communityCountry);
+        mCommunityCountryBtn.setOnClickListener(this);
+        mCommunityAdminBtn = (ImageView) view.findViewById(R.id.communityAdmin);
+        mCommunityAdminBtn.setOnClickListener(this);
+        mCommunityLocalityBtn = (ImageView) view.findViewById(R.id.communityLocality);
+        mCommunityLocalityBtn.setOnClickListener(this);
+        mCommunityThoroughBtn = (ImageView) view.findViewById(R.id.communityThorough);
+        mCommunityThoroughBtn.setOnClickListener(this);
 
         mInterior = (ImageView) view.findViewById(R.id.interior);
         mInterior.setOnClickListener(this);
@@ -624,7 +645,8 @@ public class MainFragment extends BaseFragment {
 
             mMainTitle.setVisibility(View.VISIBLE);
             mCommunityCloseBtn.setVisibility(View.VISIBLE);
-            mToCommunityBtn.setVisibility(View.VISIBLE);
+//            mToCommunityBtn.setVisibility(View.VISIBLE);
+            mCommunityGoToPanel.setVisibility(View.VISIBLE);
             mMainListContainer.setVisibility(View.GONE);
             mCommunityListContainer.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
@@ -774,7 +796,8 @@ public class MainFragment extends BaseFragment {
             isCommunityMode = true;
             mMainTitle.setVisibility(View.VISIBLE);
             mCommunityCloseBtn.setVisibility(View.VISIBLE);
-            mToCommunityBtn.setVisibility(View.VISIBLE);
+//            mToCommunityBtn.setVisibility(View.VISIBLE);
+            mCommunityGoToPanel.setVisibility(View.VISIBLE);
             mMainListContainer.setVisibility(View.GONE);
             mCommunityListContainer.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
@@ -808,7 +831,8 @@ public class MainFragment extends BaseFragment {
                         break;
                 }
                 mCommunityCloseBtn.setVisibility(View.GONE);        // 오른쪽 닫기 버튼
-                mToCommunityBtn.setVisibility(View.GONE);           // 커뮤니티 정보센터 바로가기
+//                mToCommunityBtn.setVisibility(View.GONE);           // 커뮤니티 정보센터 바로가기
+                mCommunityGoToPanel.setVisibility(View.GONE);       // 커뮤니티 정보센터 바로가기 새로운 버전
                 mCommunityListContainer.setVisibility(View.GONE);   // 커뮤니티 포스트 Tab
                 mMainTitle.setVisibility(View.GONE);                // Title의 '커뮤니티'
                 mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
@@ -975,6 +999,31 @@ public class MainFragment extends BaseFragment {
                 Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
                 String division4 = "eye";
                 showTutorialDialog(division4);
+                break;
+
+            case R.id.communityCountry:
+                mCommunityCountryBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                Toast.makeText(mActivity, "country", Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.communityAdmin:
+                mCommunityAdminBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                Toast.makeText(mActivity, "admin", Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.communityLocality:
+                mCommunityLocalityBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                Toast.makeText(mActivity, "Locality", Toast.LENGTH_SHORT).show();
+
+                break;
+            case R.id.communityThorough:
+                mCommunityThoroughBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                Toast.makeText(mActivity, "Thorough", Toast.LENGTH_SHORT).show();
+
                 break;
 
         }
@@ -1228,6 +1277,11 @@ public class MainFragment extends BaseFragment {
 
             if (getArguments() != null) {    // from home  getArguments().getString("iamFrom") != null
 
+                if (homeChannel == null){
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                }
+
                 latitude = homeChannel.getLatitude();
                 longitude = homeChannel.getLongitude();
 
@@ -1240,7 +1294,7 @@ public class MainFragment extends BaseFragment {
             } else {
                 cameraPosition = new CameraPosition.Builder()
                         .target(mCurrentMyPosition)
-                        .zoom(7)
+                        .zoom(12)
                         .bearing(90)
                         .tilt(40)
                         .build();
@@ -1259,7 +1313,7 @@ public class MainFragment extends BaseFragment {
         if (getArguments() != null) {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);   // home
         } else {
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(7), 2000, null);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
         }
 
     }
@@ -1522,7 +1576,6 @@ public class MainFragment extends BaseFragment {
                         loadCommunityMarkers(communityName);
                     }
                 } else {                  // start main
-
                     currentZoomLevel = (int) position.zoom;
                     if (mMapIsTouched) return;
 
@@ -1832,7 +1885,8 @@ public class MainFragment extends BaseFragment {
 
     private void updateCommunityBtn(final int zoom) {
         if (mCurrentMyPosition != null) {
-            mToCommunityBtn.setVisibility(View.VISIBLE);
+//            mToCommunityBtn.setVisibility(View.VISIBLE);
+            mCommunityGoToPanel.setVisibility(View.VISIBLE);
 
             try {
                 JSONObject params = new JSONObject();
