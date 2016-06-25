@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/title"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="지역 커뮤니티"
+            android:textSize="15dp"
+            android:textColor="@color/gray_text"
+            android:gravity="center_horizontal" />
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_dim_soft" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/communityLocalPanel"
+        android:layout_below="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:id="@+id/communityCountry"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/community_country" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:text="국가단위"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp">
+            <ImageView
+                android:id="@+id/communityAdmin"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/community_admin" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:text="시도단위"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp">
+            <ImageView
+                android:id="@+id/communityLocality"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/community_local" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:text="구군단위"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:id="@+id/communityThorough"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/community_thorough" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:text="면동단위"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_dim_soft" />
+
+    <LinearLayout
+        android:id="@+id/titleMy"
+        android:layout_below="@id/communityLocalPanel"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="지역 커뮤니티"
+            android:textSize="15dp"
+            android:textColor="@color/gray_text"
+            android:gravity="center_horizontal" />
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_dim_soft" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/communityLocalPanel2"
+        android:layout_below="@id/titleMy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:id="@+id/communityCountry2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/community_country_black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:text="국가단위"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp">
+            <ImageView
+                android:id="@+id/communityAdmin2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/community_admin_black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:text="시도단위"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp">
+            <ImageView
+                android:id="@+id/communityLocality2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/community_local_black" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:text="구군단위"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:id="@+id/communityThorough2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/community_thorough_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:shadowColor="#000"
+                android:shadowRadius="7.0"
+                android:text="면동단위"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

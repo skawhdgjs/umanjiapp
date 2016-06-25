@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -723,7 +724,7 @@ public class MainFragment extends BaseFragment {
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
     @Override
-    public void onClick(View v) {  // paulclick
+    public void onClick(View v) {  // paul click
         Bundle bundle = new Bundle();
 
         String tempName = getResources().getResourceName(v.getId());
@@ -879,6 +880,8 @@ public class MainFragment extends BaseFragment {
             case R.id.keyword_etc:
                 mEtcImageView.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
+
+                showCommunityPanel();
 
                 Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
 
@@ -1077,6 +1080,19 @@ public class MainFragment extends BaseFragment {
                 dialog.dismiss();
             }
         });
+
+        dialog.show();
+
+    }
+
+    private void showCommunityPanel(){
+//        paul communitypanel
+
+        final Dialog dialog = new Dialog(mActivity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_community_panel);
+
+//        mGotoSpot = (LinearLayout) dialog.findViewById(R.id.gotoSpot);
 
         dialog.show();
 
@@ -1666,7 +1682,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    protected void iconDrag(Double lat, Double lon) {      //paul
+    protected void iconDrag(Double lat, Double lon) {
 
 //        LatLng fetchLatLon = new LatLng(lat, lon);
 //        mDraggableMarker = mMap.addMarker(new MarkerOptions().position(fetchLatLon)

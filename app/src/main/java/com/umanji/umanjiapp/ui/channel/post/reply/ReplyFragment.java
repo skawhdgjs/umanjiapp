@@ -14,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -545,6 +546,7 @@ public class ReplyFragment extends BaseChannelListFragment {
 
     private void showOptionAlert() {
         final Dialog dialog = new Dialog(mActivity);
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_post_option);
 
         mGotoSpot = (LinearLayout) dialog.findViewById(R.id.gotoSpot);
