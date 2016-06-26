@@ -1098,8 +1098,9 @@ public class MainFragment extends BaseFragment {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
 //            JSONObject params = new JSONObject();
             params.put("type", TYPE_COMMUNITY);
+            params.put("limit", 50);
 //            params.put("level", zoom);
-            //params.put("sort", "point DESC");
+            params.put("sort", "point DESC");
 
 
 //            api_channels_communities_num
@@ -1109,7 +1110,7 @@ public class MainFragment extends BaseFragment {
             mApi.call(api_channels_communities_num, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
-                    Fragment mFragment = null;
+
                     ArrayList<ChannelData> mList = new ArrayList<>();
                     if (status.getCode() == 500) {
                         EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
@@ -1138,7 +1139,7 @@ public class MainFragment extends BaseFragment {
                             GridView gridView = (GridView) dialog.findViewById(R.id.gridView1);
 
                             gridView.setAdapter(new GridAdapter(mActivity, mList));
-                            gridView.setNumColumns(5);
+                            gridView.setNumColumns(4);
                             gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

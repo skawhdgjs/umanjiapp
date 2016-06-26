@@ -10,8 +10,8 @@
 
         <ImageView
             android:id="@+id/grid_item_image"
-            android:layout_width="50px"
-            android:layout_height="50px"
+            android:layout_width="60px"
+            android:layout_height="60px"
             android:layout_marginRight="10px"
             android:src="@drawable/ic_launcher" >
         </ImageView>
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@+id/label"
             android:layout_marginTop="5px"
-            android:textSize="15px"
+            android:textSize="17px"
             android:textColor="@color/gray_text">
         </TextView>
 
