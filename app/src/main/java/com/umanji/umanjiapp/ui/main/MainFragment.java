@@ -301,7 +301,7 @@ public class MainFragment extends BaseFragment {
             if (getArguments().getString("type") != null) {
                 isCommunityMode = true;
 
-                if(mChannel == null){
+                if (mChannel == null) {
 
                 } else {
                     communityName = mChannel.getName();
@@ -743,7 +743,7 @@ public class MainFragment extends BaseFragment {
 
         if (keywordGroup.contains(extractName)) {
             int zoom = (int) mMap.getCameraPosition().zoom;
-            Toast.makeText(mActivity, "good", Toast.LENGTH_SHORT).show();
+
             switch (extractName) {
                 case "Environment":
                     mEnvironmentImageView.startAnimation(buttonClick);
@@ -1090,16 +1090,22 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void showCommunityPanel(){
-//        paul communitypanel
+    private void showCommunityPanel() {
+
+        final int zoom = (int) mMap.getCameraPosition().zoom;
 
         try {
-//            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            JSONObject params = new JSONObject();
-//            params.put("page", mAdapter.getCurrentPage());
+            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+//            JSONObject params = new JSONObject();
             params.put("type", TYPE_COMMUNITY);
+//            params.put("level", zoom);
             //params.put("sort", "point DESC");
 
+
+//            api_channels_communities_num
+//            api_findCommunity  :: Does'n work.
+//            api_main_findDistributions  :: all
+//            api_channels_get  :: need ID
             mApi.call(api_channels_communities_num, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
@@ -1120,37 +1126,30 @@ public class MainFragment extends BaseFragment {
 
                                     mList.add(doc);
 
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
-
-
                             }
 
+                            final Dialog dialog = new Dialog(mActivity);
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.setContentView(R.layout.dialog_community_panel);
 
-                                    final Dialog dialog = new Dialog(mActivity);
-                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                                    dialog.setContentView(R.layout.dialog_community_panel);
+                            GridView gridView = (GridView) dialog.findViewById(R.id.gridView1);
 
-//        mGotoSpot = (LinearLayout) dialog.findViewById(R.id.gotoSpot);
-                                    GridView gridView = (GridView)dialog.findViewById(R.id.gridView1);
+                            gridView.setAdapter(new GridAdapter(mActivity, mList));
+                            gridView.setNumColumns(5);
+                            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    ChannelData gridChannel = (ChannelData) parent.getItemAtPosition(position);
+                                    Helper.startActivity(mActivity, gridChannel);
 
-                                    gridView.setAdapter(new GridAdapter(mActivity, mList));
-                                    gridView.setNumColumns(5);
-                                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                        @Override
-                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                            // do something here
-                                            String answer = String.valueOf(position);
-                                            Toast.makeText(mActivity, answer, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                    dialog.dismiss();
+                                }
+                            });
 
-                                    dialog.show();
-
-
+                            dialog.show();
 
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
@@ -1170,7 +1169,6 @@ public class MainFragment extends BaseFragment {
         dialog.setContentView(R.layout.dialog_create_tutorial);
         TextView title = (TextView) dialog.findViewById(android.R.id.title);
         title.setText("활동에 대한 사용설명");
-//        title.setBackgroundResource(R.drawable.gradient);
         title.setPadding(10, 10, 10, 10);
         title.setGravity(Gravity.CENTER); // this is required to bring it to center.
         title.setTextSize(22);
@@ -1202,7 +1200,7 @@ public class MainFragment extends BaseFragment {
                 }
             });
 
-        } else if (division.equals("say")){
+        } else if (division.equals("say")) {
             mMoveMessage.setText("말하기 : 지역과 커뮤니티에서 표현해보세요");
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1359,7 +1357,7 @@ public class MainFragment extends BaseFragment {
 
             if (getArguments() != null) {    // from home  getArguments().getString("iamFrom") != null
 
-                if (homeChannel == null){
+                if (homeChannel == null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                 }

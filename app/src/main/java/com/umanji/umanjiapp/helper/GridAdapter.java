@@ -44,13 +44,7 @@ public class GridAdapter extends BaseAdapter {
 
     public GridAdapter(BaseActivity activity, ArrayList channelData) {
         this.mActivity = activity;
-//        this.mFragment = fragment;
-        this.mChannel = null;
-//        mChannels   = new ArrayList<ChannelData>();
         mChan = channelData;
-        mApi = new ApiHelper(activity);
-
-//        EventBus.getDefault().register(this);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -58,8 +52,6 @@ public class GridAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View gridView = inflater.inflate(R.layout.grid_item, null);
-
-
 
                 if (convertView == null) {
                 // set value into textview
@@ -84,7 +76,9 @@ public class GridAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        // TODO Auto-generated method stub
+        return mChan.get(position);
+//        return null;
     }
 
     @Override

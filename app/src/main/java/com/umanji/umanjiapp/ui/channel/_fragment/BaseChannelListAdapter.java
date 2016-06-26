@@ -111,7 +111,10 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
      ****************************************************/
 
     protected void setUserName(final ViewHolder holder, final ChannelData userData) {
-        holder.userName.setText(userData.getUserName());
+        if(userData.getUserName() != null){
+            holder.userName.setText(userData.getUserName());
+        }
+
         holder.userName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
