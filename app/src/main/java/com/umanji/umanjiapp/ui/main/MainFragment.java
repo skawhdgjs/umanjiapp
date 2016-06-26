@@ -5,7 +5,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
@@ -15,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -50,11 +49,9 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.umanji.umanjiapp.R;
@@ -84,7 +81,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -714,6 +710,12 @@ public class MainFragment extends BaseFragment {
                 break;
 
             case api_channels_getByPoint:
+                break;
+
+            case api_channels_communities_num:
+                Toast.makeText(mActivity, "done", Toast.LENGTH_SHORT).show();
+                // get do it getshow()... Grid view
+                break;
         }
     }
 
@@ -887,8 +889,6 @@ public class MainFragment extends BaseFragment {
                 buttonClick.setDuration(500);
 
                 showCommunityPanel();
-
-                Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
 
 //                Helper.startKeywordMapActivity(mActivity, mGolfChannel);
                 break;
@@ -1093,28 +1093,74 @@ public class MainFragment extends BaseFragment {
     private void showCommunityPanel(){
 //        paul communitypanel
 
+        try {
+//            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+            JSONObject params = new JSONObject();
+//            params.put("page", mAdapter.getCurrentPage());
+            params.put("type", TYPE_COMMUNITY);
+            //params.put("sort", "point DESC");
 
-        final Dialog dialog = new Dialog(mActivity);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_community_panel);
+            mApi.call(api_channels_communities_num, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    Fragment mFragment = null;
+                    ArrayList<ChannelData> mList = new ArrayList<>();
+                    if (status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    } else {
+                        try {
+                            JSONArray jsonArray = object.getJSONArray("data");
+
+                            for (int idx = 0; idx < jsonArray.length(); idx++) {
+                                JSONObject jsonDoc = null;
+
+                                try {
+                                    jsonDoc = jsonArray.getJSONObject(idx);
+                                    ChannelData doc = new ChannelData(jsonDoc);
+
+                                    mList.add(doc);
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
+
+                            }
+
+
+                                    final Dialog dialog = new Dialog(mActivity);
+                                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                                    dialog.setContentView(R.layout.dialog_community_panel);
 
 //        mGotoSpot = (LinearLayout) dialog.findViewById(R.id.gotoSpot);
-        GridView gridView = (GridView)dialog.findViewById(R.id.gridView1);
+                                    GridView gridView = (GridView)dialog.findViewById(R.id.gridView1);
 
-        String [] mList = {"ass", "bbb", "ccc"};
+                                    gridView.setAdapter(new GridAdapter(mActivity, mList));
+                                    gridView.setNumColumns(5);
+                                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            // do something here
+                                            String answer = String.valueOf(position);
+                                            Toast.makeText(mActivity, answer, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
 
-// gridView1
-        gridView.setAdapter(new GridAdapter(getActivity(), mList));
-        gridView.setNumColumns(5);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // do something here
-                Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
+                                    dialog.show();
 
-        dialog.show();
+
+
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "Error " + e.toString());
+        }
 
     }
 
