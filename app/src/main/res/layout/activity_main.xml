@@ -85,17 +85,43 @@
                         android:textSize="14dp"
                         android:visibility="visible" />
 
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/mainTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
                     <TextView
-                        android:id="@+id/mainTitle"
+                        android:id="@+id/keywordTitle"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="25dp"
+                        android:gravity="center"
+                        android:text="key"
+                        android:textColor="@color/gray_text"
+                        android:textSize="16dp"
+                        android:layout_alignTop="@+id/communityText"
+                        android:layout_toLeftOf="@+id/communityText"
+                        android:layout_toStartOf="@+id/communityText"
+                        android:layout_marginEnd="25dp" />
+
+                    <TextView
+                        android:id="@+id/communityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="커뮤니티"
                         android:textColor="@color/gray_text"
                         android:textSize="16dp"
-                        android:visibility="gone" />
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="125dp"
+                        android:layout_marginEnd="125dp" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <ImageView
                     android:id="@+id/community_close_button"

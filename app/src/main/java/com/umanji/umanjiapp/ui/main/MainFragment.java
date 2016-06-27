@@ -95,7 +95,8 @@ public class MainFragment extends BaseFragment {
      ****************************************************/
     private ImageView mAvatarImageBtn;
     private LinearLayout mSearchLayout;
-    private TextView mMainTitle;
+    private RelativeLayout mMainTitle;
+    private TextView mKeywordTitle;
 
     private TextView mUmanji;
     private TextView mSearch;
@@ -456,7 +457,8 @@ public class MainFragment extends BaseFragment {
         mUmanji = (TextView) view.findViewById(R.id.logo);
         mUmanji.setOnClickListener(this);
 
-        mMainTitle = (TextView) view.findViewById(R.id.mainTitle);
+        mMainTitle = (RelativeLayout) view.findViewById(R.id.mainTitle);
+        mKeywordTitle = (TextView) view.findViewById(R.id.keywordTitle);
         mSearchLayout = (LinearLayout) view.findViewById(R.id.searchLayout);
 
         mCommunityGoToPanel = (LinearLayout) view.findViewById(R.id.communityGotoPanel);
@@ -641,13 +643,15 @@ public class MainFragment extends BaseFragment {
 
             communityName = mChannel.getName();
 
-            mMainTitle.setVisibility(View.VISIBLE);
+
             mCommunityCloseBtn.setVisibility(View.VISIBLE);
 //            mToCommunityBtn.setVisibility(View.VISIBLE);
             mCommunityGoToPanel.setVisibility(View.VISIBLE);
             mMainListContainer.setVisibility(View.GONE);
             mCommunityListContainer.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
+            mMainTitle.setVisibility(View.VISIBLE);
+            mKeywordTitle.setText(communityName);
 //            loadCommunityMarkers(communityName);
             mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
 
@@ -1085,6 +1089,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void showCommunityPanel() {
+//                                paul doing
 
         final int zoom = (int) mMap.getCameraPosition().zoom;
 
@@ -1130,6 +1135,47 @@ public class MainFragment extends BaseFragment {
                             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                             dialog.setContentView(R.layout.dialog_community_panel);
 
+                            final ImageView mMyCommunityCountryBtn;
+                            mMyCommunityCountryBtn = (ImageView) dialog.findViewById(R.id.communityCountry);
+                            mMyCommunityCountryBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mMyCommunityCountryBtn.startAnimation(buttonClick);
+                                    buttonClick.setDuration(500);
+                                    Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            final ImageView mMyCommunityAdminBtn;
+                            mMyCommunityAdminBtn = (ImageView) dialog.findViewById(R.id.communityAdmin);
+                            mMyCommunityAdminBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mMyCommunityAdminBtn.startAnimation(buttonClick);
+                                    buttonClick.setDuration(500);
+                                    Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            final ImageView mMyCommunityLocalityBtn;
+                            mMyCommunityLocalityBtn = (ImageView) dialog.findViewById(R.id.communityLocality);
+                            mMyCommunityLocalityBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mMyCommunityLocalityBtn.startAnimation(buttonClick);
+                                    buttonClick.setDuration(500);
+                                    Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            final ImageView mMyCommunityThoroughBtn;
+                            mMyCommunityThoroughBtn = (ImageView) dialog.findViewById(R.id.communityThorough);
+                            mMyCommunityThoroughBtn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mMyCommunityThoroughBtn.startAnimation(buttonClick);
+                                    buttonClick.setDuration(500);
+                                    Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                             GridView gridView = (GridView) dialog.findViewById(R.id.gridView1);
 
                             gridView.setAdapter(new GridAdapter(mActivity, mList));
@@ -1140,7 +1186,7 @@ public class MainFragment extends BaseFragment {
                                     ChannelData gridChannel = (ChannelData) parent.getItemAtPosition(position);
                                     Helper.startActivity(mActivity, gridChannel);
 
-                                    dialog.dismiss();
+//                                    dialog.dismiss();
                                 }
                             });
 
@@ -2171,7 +2217,6 @@ public class MainFragment extends BaseFragment {
                     } else {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
-//                                paul bottom
                             if (jsonArray.length() != 0) {
 //                                mlayout.setBackgroundResource(R.color.feed_bg);
                                 mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
