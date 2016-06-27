@@ -34,6 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -101,7 +102,6 @@ public class MainFragment extends BaseFragment {
 
     private View mNoticePanel;
 
-    private ImageView mHomeBtn;
     private ImageView mGuideImageView01;
 
     /****************************************************
@@ -152,7 +152,7 @@ public class MainFragment extends BaseFragment {
     private android.widget.RelativeLayout.LayoutParams layoutParams;
 
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
-    private LinearLayout mHeaderPanel;
+    private RelativeLayout mHeaderPanel;
     private Button mNotyCountBtn;
     private ImageView mPanelArrowImage;
 
@@ -235,7 +235,7 @@ public class MainFragment extends BaseFragment {
     private Button mToCommunityBtn;
     private String communityName;
 
-    private boolean isCommunityMode;
+    private boolean isKeywordCommunityMode;
     private ImageView mCommunityCloseBtn;
 
 
@@ -299,7 +299,7 @@ public class MainFragment extends BaseFragment {
             }
 
             if (getArguments().getString("type") != null) {
-                isCommunityMode = true;
+                isKeywordCommunityMode = true;
 
                 if (mChannel == null) {
 
@@ -312,7 +312,7 @@ public class MainFragment extends BaseFragment {
             mTabType = getArguments().getString("tabType");
         }
 
-//        isCommunityMode
+//        isKeywordCommunityMode
 
         Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
         t.setScreenName("MainActivity");
@@ -483,13 +483,12 @@ public class MainFragment extends BaseFragment {
         mNoticePanel = view.findViewById(R.id.noticePanel);
 
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanelLayout);
-        mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 48));
+        mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));  // before 48
         mSlidingUpPanelLayout.setAnchorPoint(0.7f);
         mSlidingUpPanelLayout.setMinFlingVelocity(DEFAULT_MIN_FLING_VELOCITY);
 
-        mHeaderPanel = (LinearLayout) view.findViewById(R.id.headerPanel);
+        mHeaderPanel = (RelativeLayout) view.findViewById(R.id.headerPanel);
         mHeaderPanel.setOnClickListener(this);
-
 
         mZoomBtn = (RoundedImageView) view.findViewById(R.id.mZoomBtn);
         mZoomBtn.setTag(ZOOM_IN);
@@ -513,9 +512,6 @@ public class MainFragment extends BaseFragment {
         mAdsImage.setOnClickListener(this);
 
         mlayout = (LinearLayout) view.findViewById(R.id.mainListContainer);
-
-        mHomeBtn = (ImageView) view.findViewById(R.id.homeBtn);
-        mHomeBtn.setOnClickListener(this);
 
         mInfoButton = (ImageView) view.findViewById(R.id.infoButton);
         mInfoButton.setOnClickListener(this);
@@ -621,10 +617,10 @@ public class MainFragment extends BaseFragment {
         /*
         *
         *  Keyword community Mode
-        *
+        *   paul panel
         * */
 
-        if (isCommunityMode) {
+        if (isKeywordCommunityMode) {
             try {
                 JSONObject params1 = new JSONObject();
                 params1.put("name", communityName);
@@ -653,6 +649,7 @@ public class MainFragment extends BaseFragment {
             mCommunityListContainer.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
 //            loadCommunityMarkers(communityName);
+            mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
 
 
         }
@@ -731,7 +728,7 @@ public class MainFragment extends BaseFragment {
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
     @Override
-    public void onClick(View v) {  // paul click
+    public void onClick(View v) {  // paul onclick
         Bundle bundle = new Bundle();
 
         String tempName = getResources().getResourceName(v.getId());
@@ -801,7 +798,7 @@ public class MainFragment extends BaseFragment {
                     break;
             }
 
-            isCommunityMode = true;
+            isKeywordCommunityMode = true;
             mMainTitle.setVisibility(View.VISIBLE);
             mCommunityCloseBtn.setVisibility(View.VISIBLE);
 //            mToCommunityBtn.setVisibility(View.VISIBLE);
@@ -845,7 +842,7 @@ public class MainFragment extends BaseFragment {
                 mMainTitle.setVisibility(View.GONE);                // Title의 '커뮤니티'
                 mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
                 mSearchLayout.setVisibility(View.VISIBLE);          // search bar
-                isCommunityMode = false;
+                isKeywordCommunityMode = false;
                 loadData();
                 break;
 
@@ -879,14 +876,11 @@ public class MainFragment extends BaseFragment {
                 }
                 break;
 
-            case R.id.homeBtn:
-                mActivity.finish();
-                Helper.startActivity(mActivity, mHomeChannel);
-                break;
-
             case R.id.keyword_etc:
                 mEtcImageView.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
+
+                mProgress.show();
 
                 showCommunityPanel();
 
@@ -1151,6 +1145,7 @@ public class MainFragment extends BaseFragment {
                             });
 
                             dialog.show();
+                            mProgress.hide();
 
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
@@ -1392,7 +1387,7 @@ public class MainFragment extends BaseFragment {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         if (getArguments() != null) {
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);   // home
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);   // home
         } else {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
         }
@@ -1476,7 +1471,6 @@ public class MainFragment extends BaseFragment {
                                         startSpotActivity(mChannelByPoint, TYPE_SPOT);
                                         mProgress.hide();
                                     }
-
                                 }
                             }
                         });
@@ -1520,10 +1514,8 @@ public class MainFragment extends BaseFragment {
                         Log.e(TAG, "error " + e.toString());
                     }
                 }
-
             }
         });
-
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -1555,8 +1547,6 @@ public class MainFragment extends BaseFragment {
                             mClickedChannel = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(idx)));
                         } else {
                         }
-
-
                     }
 
                 } catch (JSONException e) {
@@ -1626,7 +1616,7 @@ public class MainFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
-                if (isCommunityMode) {    //community
+                if (isKeywordCommunityMode) {    //community
 
                     if (mMapIsTouched) return;
 
@@ -1671,39 +1661,29 @@ public class MainFragment extends BaseFragment {
 
                         if (isComplexCreatable(zoom)) {
                             mSay.setImageResource(R.drawable.say);
-                            mInterior.setVisibility(View.VISIBLE);
-                            mTowerCrane.setVisibility(View.VISIBLE);
+//                            mInterior.setVisibility(View.VISIBLE);
+//                            mTowerCrane.setVisibility(View.VISIBLE);
                             mInterior.setImageResource(R.drawable.interior_black);
                             mTowerCrane.setImageResource(R.drawable.tower_crane);
-                            mInteriorStatus = "비활성화";
-                            mTowerCraneStatus = "복합장소 활성화";
-//                            Toast.makeText(mActivity,"장소를 터치하면 거대/복합단지(장소)를 만들 수 있음", Toast.LENGTH_SHORT).show();
-
-//                            mInfoTextPanel.setText("[Zoom 15~17] 지도을 터치하면 거대/복합단지(장소)를 만들수 있어요.");
-                            mInfoTextPanel.setTextColor(getResources().getColor(R.color.gray_text));
-                            mInfoTextPanel.setTextSize(15);
+//                            mInfoTextPanel.setTextColor(getResources().getColor(R.color.gray_text));
+//                            mInfoTextPanel.setTextSize(15);
                             //mCreateSpotText.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                         } else if (isSpotCreatable(zoom)) {
                             mSay.setImageResource(R.drawable.say);
-                            mInterior.setVisibility(View.VISIBLE);
-                            mTowerCrane.setVisibility(View.VISIBLE);
+//                            mInterior.setVisibility(View.VISIBLE);
+//                            mTowerCrane.setVisibility(View.VISIBLE);
                             mInterior.setImageResource(R.drawable.interior);
                             mTowerCrane.setImageResource(R.drawable.tower_crane_black);
-                            mInteriorStatus = "장소 활성화";
-                            mTowerCraneStatus = "비활성화";
-//                            Toast.makeText(mActivity,"장소를 터치하면 빌딩이나 장소를 만들 수 있음", Toast.LENGTH_SHORT).show();
-                            //mCreateComplexText.setVisibility(View.GONE);
-//                            mInfoTextPanel.setText("[Zoom 18~21] 지도을 터치하면 스팟(장소)을 만들거나 홍보를 할 수 있어요.");
                             mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
                             mInfoTextPanel.setTextSize(15);
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else if (isKeywordTouchable(zoom)) {
                             mSay.setImageResource(R.drawable.say_black);
-                            mInterior.setVisibility(View.GONE);
-                            mTowerCrane.setVisibility(View.GONE);
+//                            mInterior.setVisibility(View.GONE);
+//                            mTowerCrane.setVisibility(View.GONE);
                             //mCreateComplexText.setVisibility(View.GONE);
                             mInfoTextPanel.setText("지역 소식");
                             mInfoTextPanel.setTextSize(20);
@@ -1712,16 +1692,9 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else {
                             mSay.setImageResource(R.drawable.say_black);
-                            mInterior.setVisibility(View.GONE);
-                            mTowerCrane.setVisibility(View.GONE);
-                            /*
-                            mInterior.setImageResource(R.drawable.interior_black);
-                            mTowerCrane.setImageResource(R.drawable.tower_crane_black);
-                            mInteriorStatus = "비활성화";
-                            mTowerCraneStatus = "비활성화";*/
-                            //mCreateComplexText.setVisibility(View.GONE);
-                            //mCreateSpotText.setVisibility(View.GONE);
-                            mInfoTextPanel.setText("");
+//                            mInterior.setVisibility(View.GONE);
+//                            mTowerCrane.setVisibility(View.GONE);
+//                            mInfoTextPanel.setText("전체보기 : else");
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                         }
@@ -1744,137 +1717,6 @@ public class MainFragment extends BaseFragment {
                 mCurrentMyPosition = new LatLng(location.getLatitude(), location.getLongitude());
             }
         });
-
-    }
-
-    protected void iconDrag(Double lat, Double lon) {
-
-//        LatLng fetchLatLon = new LatLng(lat, lon);
-//        mDraggableMarker = mMap.addMarker(new MarkerOptions().position(fetchLatLon)
-//                .title("Draggable Marker")
-//                .snippet("Long press and move the marker if needed.")
-//                .draggable(true)
-//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_construct))
-//                .alpha(1));  // 1 : show  0 : invisible
-
-        mDraggableMarker.hideInfoWindow();
-//        mDraggableMarker.setVisible(false);
-
-        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-
-            @Override
-            public void onMarkerDrag(Marker arg0) {
-//                TODO Auto-generated method stub
-//                Log.d("Marker", "Dragging");
-
-//                Toast.makeText(mActivity, "Dragging", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onMarkerDragEnd(Marker arg0) {
-                // TODO Auto-generated method stub
-                LatLng markerLocation = mDraggableMarker.getPosition();
-                Toast.makeText(mActivity, markerLocation.toString(), Toast.LENGTH_LONG).show();
-                Log.d("Marker", "finished");
-            }
-
-            @Override
-            public void onMarkerDragStart(Marker arg0) {
-                // TODO Auto-generated method stub
-                Log.d("Marker", "Started");
-                Toast.makeText(mActivity, "Started", Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-
-/*
-
-        mConstructor.setVisibility(View.VISIBLE);
-
-        mConstructor.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                ClipData.Item item = new ClipData.Item((CharSequence)v.getTag());
-                String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
-
-                ClipData dragData = new ClipData(v.getTag().toString(),mimeTypes, item);
-                View.DragShadowBuilder myShadow = new View.DragShadowBuilder(mConstructor);
-
-                v.startDrag(dragData,myShadow,null,0);
-                return true;
-            }
-        });
-
-        mConstructor.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                switch(event.getAction())
-                {
-                    case DragEvent.ACTION_DRAG_STARTED:
-                        layoutParams = (RelativeLayout.LayoutParams)v.getLayoutParams();
-                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_STARTED");
-
-                        // Do nothing
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENTERED:
-                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENTERED");
-                        int x_cord = (int) event.getX();
-                        int y_cord = (int) event.getY();
-                        break;
-
-                    case DragEvent.ACTION_DRAG_EXITED :
-                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_EXITED");
-                        x_cord = (int) event.getX();
-                        y_cord = (int) event.getY();
-                        layoutParams.leftMargin = x_cord;
-                        layoutParams.topMargin = y_cord;
-                        v.setLayoutParams(layoutParams);
-                        break;
-
-                    case DragEvent.ACTION_DRAG_LOCATION  :
-                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_LOCATION");
-                        x_cord = (int) event.getX();
-                        y_cord = (int) event.getY();
-                        break;
-
-                    case DragEvent.ACTION_DRAG_ENDED   :
-                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENDED");
-
-                        // Do nothing
-                        break;
-
-                    case DragEvent.ACTION_DROP:
-                        Log.d(msg, "ACTION_DROP event");
-
-                        // Do nothing
-                        break;
-                    default: break;
-                }
-                return true;
-            }
-        });
-
-        mConstructor.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    ClipData data = ClipData.newPlainText("111", "222");
-                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(mConstructor);
-
-                    mConstructor.startDrag(data, shadowBuilder, mConstructor, 0);
-//                    mConstructor.setVisibility(View.INVISIBLE);
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        });
-*/
-
 
     }
 
@@ -2329,9 +2171,10 @@ public class MainFragment extends BaseFragment {
                     } else {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
-
+//                                paul bottom
                             if (jsonArray.length() != 0) {
-                                mlayout.setBackgroundResource(R.color.feed_bg);
+//                                mlayout.setBackgroundResource(R.color.feed_bg);
+                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
 
                                 for (int idx = 0; idx < jsonArray.length(); idx++) {
                                     JSONObject jsonDoc = jsonArray.getJSONObject(idx);
@@ -2343,7 +2186,9 @@ public class MainFragment extends BaseFragment {
                                 }
 
                             } else {
-                                mlayout.setBackgroundResource(R.drawable.empty_main_post);
+//                                mlayout.setBackgroundResource(R.drawable.empty_main_post);
+                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
+
                             }
 
                             isLoading = false;
