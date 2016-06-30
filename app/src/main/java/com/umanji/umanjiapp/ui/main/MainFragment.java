@@ -148,34 +148,6 @@ public class MainFragment extends BaseFragment {
     private static final int PERMS_REQUEST = INITIAL_REQUEST + 2;
 
     /****************************************************
-     * Footer View
-     ****************************************************/
-    private android.widget.RelativeLayout.LayoutParams layoutParams;
-
-    private SlidingUpPanelLayout mSlidingUpPanelLayout;
-    private RelativeLayout mHeaderPanel;
-    private Button mNotyCountBtn;
-    private ImageView mPanelArrowImage;
-
-    /****************************************************
-     * Post and Community Posts
-     ****************************************************/
-    private LinearLayout mMainListContainer;
-    private LinearLayout mCommunityListContainer;
-
-    /****************************************************
-     * PageViewer
-     ****************************************************/
-    protected ChannelData mChannel;
-
-    protected BaseTabAdapter mCommunityAdapter;
-
-    protected ViewPager mViewPager;
-    protected TabLayout mTabLayout;
-    private String mTabType = "";
-    protected int mCurrentTapPosition = 0;
-
-    /****************************************************
      * View
      ****************************************************/
     private LinearLayout mCommunityGoToPanel;
@@ -230,6 +202,38 @@ public class MainFragment extends BaseFragment {
 
     private ImageView mEtcImageView;
 
+    private ImageView mTalk;
+
+    /****************************************************
+     * Footer View
+     ****************************************************/
+    private android.widget.RelativeLayout.LayoutParams layoutParams;
+
+    private SlidingUpPanelLayout mSlidingUpPanelLayout;
+    private RelativeLayout mHeaderPanel;
+    private Button mNotyCountBtn;
+    private ImageView mPanelArrowImage;
+
+    /****************************************************
+     * Post and Community Posts
+     ****************************************************/
+    private LinearLayout mMainListContainer;
+    private LinearLayout mCommunityListContainer;
+
+    /****************************************************
+     * PageViewer
+     ****************************************************/
+    protected ChannelData mChannel;
+
+    protected BaseTabAdapter mCommunityAdapter;
+
+    protected ViewPager mViewPager;
+    protected TabLayout mTabLayout;
+    private String mTabType = "";
+    protected int mCurrentTapPosition = 0;
+
+
+
     /****************************************************
      * Controler
      ****************************************************/
@@ -270,6 +274,9 @@ public class MainFragment extends BaseFragment {
     private LinearLayout mlayout;
 
     boolean mMapIsTouched = false;
+    boolean mTalkFlag = false;
+    boolean mTalkExpanded = false;
+
     View mView;
     TouchableWrapper mTouchView;
 
@@ -574,6 +581,9 @@ public class MainFragment extends BaseFragment {
         // Level 8
         mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
         mEtcImageView.setOnClickListener(this);
+
+        mTalk = (ImageView) view.findViewById(R.id.talk);
+        mTalk.setOnClickListener(this);
     }
 
 
@@ -891,6 +901,21 @@ public class MainFragment extends BaseFragment {
 //                Helper.startKeywordMapActivity(mActivity, mGolfChannel);
                 break;
 
+            case R.id.talk:
+                mTalk.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                if (mTalkFlag){
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    mTalkExpanded = true;
+                    mTouchView.setEnabled(false);
+                } else {
+                    String divisionTalk = "talk";
+                    showTutorialDialog(divisionTalk);
+
+                }
+                break;
+
             case R.id.headerPanel:
                 /*
                 if (TextUtils.equals(mSlidingState, SLIDING_COLLAPSED)) {
@@ -1089,7 +1114,6 @@ public class MainFragment extends BaseFragment {
     }
 
     private void showCommunityPanel() {
-//                                paul doing
 
         final int zoom = (int) mMap.getCameraPosition().zoom;
 
@@ -1244,6 +1268,15 @@ public class MainFragment extends BaseFragment {
 
         } else if (division.equals("say")) {
             mMoveMessage.setText("말하기 : 지역과 커뮤니티에서 표현해보세요");
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.cancel();
+                }
+            });
+        } else if (division.equals("talk")) {
+            mMoveMessage.setText("이곳에 글을 쓴 사람이 아무도 없습니다");
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2219,7 +2252,12 @@ public class MainFragment extends BaseFragment {
                             JSONArray jsonArray = object.getJSONArray("data");
                             if (jsonArray.length() != 0) {
 //                                mlayout.setBackgroundResource(R.color.feed_bg);
-                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
+//                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
+//                                paul doing
+                                mTalkFlag= true;
+                                mTalk.setImageResource(R.drawable.button_kakao);
+//                                mTouchView.setEnabled(false);
+
 
                                 for (int idx = 0; idx < jsonArray.length(); idx++) {
                                     JSONObject jsonDoc = jsonArray.getJSONObject(idx);
@@ -2233,6 +2271,8 @@ public class MainFragment extends BaseFragment {
                             } else {
 //                                mlayout.setBackgroundResource(R.drawable.empty_main_post);
                                 mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
+                                mTalkFlag = false;
+                                mTalk.setImageResource(R.drawable.button_kakao_black);
 
                             }
 
