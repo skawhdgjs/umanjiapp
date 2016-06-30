@@ -70,6 +70,7 @@ import com.umanji.umanjiapp.ui.channel.profile.update.ProfileUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
+import com.umanji.umanjiapp.ui.channelInterface.ChannelInterfaceActivity;
 import com.umanji.umanjiapp.ui.keywordCommunity.KeywordCommunityActivity;
 import com.umanji.umanjiapp.ui.main.MainActivity;
 import com.umanji.umanjiapp.ui.mainHome.localCommunity.StepTwoActivity;
@@ -664,6 +665,11 @@ public final class Helper implements AppConfig {
             case TYPE_LOCAL_COMPLEX:
                 intent = new Intent(activity, StepTwoActivity.class);
                 bundle.putString("localType", "local_complex");
+                break;
+            case TYPE_INTERFACE:
+                intent = new Intent(activity, ChannelInterfaceActivity.class);
+                intent.putExtra("enterAnim", R.anim.zoom_out);
+                intent.putExtra("exitAnim", R.anim.zoom_in);
                 break;
         }
 
