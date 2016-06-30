@@ -51,12 +51,14 @@ public class ChannelInterfaceFragment extends InterfaceBaseFragment {
 
     @Override
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter) {
-        mChannel.setType(TYPE_INFO_CENTER);
-        mChannel.setLevel(2);
+//        mChannel.setType(TYPE_INFO_CENTER);
+//        mChannel.setLevel(2);
         Bundle bundle = new Bundle();
 
+        String data = getArguments().getString("data");
         bundle.putString("channel", mChannel.getJsonObject().toString());
         bundle.putString("type", "channelInterface");
+        bundle.putString("data", data);
         adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
         adapter.addFragment(MemberListFragment.newInstance(bundle), "시민");
         adapter.addFragment(KeywordListFragment.newInstance(bundle), "단체 : 커뮤니티");

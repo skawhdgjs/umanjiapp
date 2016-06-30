@@ -875,8 +875,20 @@ public class MainFragment extends BaseFragment {
 
                 if (mTalkFlag){
                     channelData = mHomeChannel;
-                    mHomeChannel.setType(TYPE_INTERFACE);
-                    Helper.startActivity(mActivity, channelData);
+                    channelData.setType(TYPE_INTERFACE);
+//                    Helper.startActivity(mActivity, channelData);
+
+                    Intent intent = null;
+                    Bundle talkBundle = new Bundle();
+                    talkBundle.putString("channel", channelData.getJsonObject().toString());
+//                    talkBundle.putString("type", "channelInterface");
+                    talkBundle.putString("tabType", "정보광장");
+                    talkBundle.putString("data", passingObject.toString());
+                    intent = new Intent(mActivity, ChannelInterfaceActivity.class);
+                    intent.putExtra("bundle", talkBundle);
+                    startActivity(intent);
+
+//                    passingObject
 
                     mTalkExpanded = true;
                     mTouchView.setEnabled(false);
@@ -1088,9 +1100,7 @@ public class MainFragment extends BaseFragment {
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     dialog.cancel();
-
                 }
             });
 
@@ -2174,7 +2184,7 @@ public class MainFragment extends BaseFragment {
             mApi.call(api_channels_findOne, params1, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
-//                    mHomeChannel = new ChannelData(json);
+                    mHomeChannel = new ChannelData(json);
                     //mHomeChannel.setType("INFO_CENTER");
                 }
             });
