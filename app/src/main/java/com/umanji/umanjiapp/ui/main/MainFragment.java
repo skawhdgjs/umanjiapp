@@ -1101,17 +1101,22 @@ public class MainFragment extends BaseFragment {
                 public void onClick(View v) {
 
                     dialog.cancel();
-
                 }
             });
-        } else {
+        } else if (division.equals("talk")) {
+            mMoveMessage.setText("이 지역에는 어떤 소식도 없습니다");
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.cancel();
+                }
+            });
+        }else {
             mMoveMessage.setText("구경하기 : 지역과 건물에서의 커뮤니티를 자유롭게 여행하세요");
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     dialog.cancel();
-
                 }
             });
         }

@@ -948,9 +948,7 @@
                 </android.support.design.widget.CoordinatorLayout>
             </LinearLayout>
 
-
         </LinearLayout>
-
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 

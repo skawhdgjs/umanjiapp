@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.ui.BaseActivity;
-import com.umanji.umanjiapp.ui.channel.spot.SpotFragment;
 
 
 public class ChannelInterfaceActivity extends BaseActivity {
@@ -18,12 +17,19 @@ public class ChannelInterfaceActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mEnterAnim = getIntent().getIntExtra("enterAnim", R.anim.slide_in_right);
-        mExitAnim = getIntent().getIntExtra("exitAnim", R.anim.slide_out_right);
+        this.overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up);
+    }
 
-        this.overridePendingTransition(mEnterAnim, R.anim.move_back);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.slide_in_up, R.anim.slide_out_up);
+    }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.slide_in_down, R.anim.slide_out_down);
     }
 
     protected Fragment createFragment() {
@@ -33,6 +39,6 @@ public class ChannelInterfaceActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
-        this.overridePendingTransition(R.anim.move_base, mExitAnim);
+        this.overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up);
     }
 }

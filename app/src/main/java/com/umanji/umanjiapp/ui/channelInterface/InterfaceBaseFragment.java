@@ -148,7 +148,7 @@ public abstract class InterfaceBaseFragment extends BaseFragment {
             mFab.setOnClickListener(this);
         }
 
-        mNameType = (TextView) view.findViewById(R.id.nameType);
+      /*  mNameType = (TextView) view.findViewById(R.id.nameType);
         switch (mChannel.getType()) {
             case TYPE_COMMUNITY:
                 mNameType.setText("커뮤니티 : ");
@@ -165,7 +165,7 @@ public abstract class InterfaceBaseFragment extends BaseFragment {
             case TYPE_SPOT_INNER:
                 mNameType.setText("내부공간 : ");
                 break;
-        }
+        }*/
 
         mCommentHint = (TextView) view.findViewById(R.id.comment_hint);
 
