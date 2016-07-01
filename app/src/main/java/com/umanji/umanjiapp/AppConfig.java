@@ -146,6 +146,7 @@ public interface AppConfig {
     String TYPE_COMMUNITY               = "COMMUNITY";
     String TYPE_KEYWORD_COMMUNITY       = "KEYWORD_COMMUNITY";
     String TYPE_KEYWORD                 = "KEYWORD";
+    String TYPE_INTERFACE               = "INTERFACE";
 
     String TYPE_NOTY                    = "NOTY";
     String TYPE_LIKE                    = "LIKE";

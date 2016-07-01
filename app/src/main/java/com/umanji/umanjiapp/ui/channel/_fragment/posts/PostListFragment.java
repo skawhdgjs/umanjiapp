@@ -62,58 +62,92 @@ public class PostListFragment extends BaseChannelListFragment {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
 
-        try {
-            JSONObject params = new JSONObject();
-            params.put("page", mAdapter.getCurrentPage()); // for paging
-            params.put("limit", 5);
-            params.put("type", TYPE_POST);
 
-            switch (mChannel.getType()) {
-                case TYPE_USER:
-                    params.put("owner", mChannel.getId());
-                    break;
-                default:
-                    params.put("parent", mChannel.getId());
-                    break;
+        String thisType = getArguments().getString("type");
+//        thisType.equals("channelInterface")
+
+        if(thisType != null){
+
+            try {
+                JSONObject jsonObj = new JSONObject(getArguments().getString("data"));
+                JSONArray jsonArray = jsonObj.getJSONArray("data");
+
+                if(jsonArray.length() != 0) {
+
+                    mlayout.setBackgroundResource(R.color.feed_bg);
+
+                    for(int idx = 0; idx < jsonArray.length(); idx++) {
+                        JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                        ChannelData doc = new ChannelData(jsonDoc);
+
+                        if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                            mAdapter.addBottom(doc);
+                        }
+                    }
+
+                    updateView();
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, "Error " + e.toString());
             }
 
 
-            mApi.call(api_channels_posts_find, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if(status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    }else {
-                        try {
-                            JSONArray jsonArray = object.getJSONArray("data");
+        } else {
+            try {
+                JSONObject params = new JSONObject();
+                params.put("page", mAdapter.getCurrentPage()); // for paging
+                params.put("limit", 5);
+                params.put("type", TYPE_POST);
 
-                            if(jsonArray.length() != 0) {
-
-                                mlayout.setBackgroundResource(R.color.feed_bg);
-
-                                for(int idx = 0; idx < jsonArray.length(); idx++) {
-                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                    ChannelData doc = new ChannelData(jsonDoc);
-
-                                    if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
-                                        mAdapter.addBottom(doc);
-                                    }
-                                }
-
-                                updateView();
-                            }
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error " + e.toString());
-                        }
-
-                        isLoading = false;
-                    }
+                switch (mChannel.getType()) {
+                    case TYPE_USER:
+                        params.put("owner", mChannel.getId());
+                        break;
+                    default:
+                        params.put("parent", mChannel.getId());
+                        break;
                 }
-            });
-            mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-        } catch(JSONException e) {
-            Log.e(TAG, "error " + e.toString());
+
+
+                mApi.call(api_channels_posts_find, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject object, AjaxStatus status) {
+                        if(status.getCode() == 500) {
+                            EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                        }else {
+                            try {
+                                JSONArray jsonArray = object.getJSONArray("data");
+
+                                if(jsonArray.length() != 0) {
+
+                                    mlayout.setBackgroundResource(R.color.feed_bg);
+
+                                    for(int idx = 0; idx < jsonArray.length(); idx++) {
+                                        JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                        ChannelData doc = new ChannelData(jsonDoc);
+
+                                        if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                            mAdapter.addBottom(doc);
+                                        }
+                                    }
+
+                                    updateView();
+                                }
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Error " + e.toString());
+                            }
+
+                            isLoading = false;
+                        }
+                    }
+                });
+                mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
         }
+
 
     }
 

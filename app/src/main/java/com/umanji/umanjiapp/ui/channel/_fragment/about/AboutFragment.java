@@ -52,6 +52,7 @@ public class AboutFragment extends BaseChannelListFragment {
     protected TextView mUpdatedDate;
 
     private AlertDialog.Builder mAlert;
+    boolean mType = false;
 
     public static AboutFragment newInstance(Bundle bundle) {
         AboutFragment fragment = new AboutFragment();
@@ -59,6 +60,10 @@ public class AboutFragment extends BaseChannelListFragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,20 +102,21 @@ public class AboutFragment extends BaseChannelListFragment {
         mName.setText(mChannel.getName());
 
         mRepresentKeyword = (LinearLayout) view.findViewById(R.id.representKeyword);
+
         mUpdatedDate = (TextView) view.findViewById(R.id.updatedDate);
         mUpdatedDate.setText(subDate());
 
         mKeywordName = (TextView) view.findViewById(R.id.keywordName);
         if (mChannel.getKeywords() != null) {
             mRepresentKeyword.setVisibility(View.VISIBLE);
-            String [] keywords = mChannel.getKeywords();
+            String[] keywords = mChannel.getKeywords();
             mKeywordName.setText(keywords[0]);
         }
 
         mAddress.setText(Helper.getFullAddress(mChannel));
     }
 
-    public String subDate(){
+    public String subDate() {
         String fullStr = mChannel.getUpdatedAt();
         String yearStr = fullStr.substring(0, 4);
         String monthStr = fullStr.substring(5, 7);
@@ -139,7 +145,7 @@ public class AboutFragment extends BaseChannelListFragment {
 
     private void setAddBtn(Activity activity, ChannelData channelData) {
 
-        if(TextUtils.equals(channelData.getType(), TYPE_INFO_CENTER)) {
+        if (TextUtils.equals(channelData.getType(), TYPE_INFO_CENTER)) {
             mEditChannelBtn.setVisibility(View.GONE);
         } else {
             mEditChannelBtn.setVisibility(View.VISIBLE);
@@ -150,17 +156,17 @@ public class AboutFragment extends BaseChannelListFragment {
         int loginUserLevel = Integer.parseInt(AuthHelper.getLevel(mActivity));
         switch (channelData.getType()) {
             case TYPE_SPOT:
-                if(loginUserLevel < channelData.getLevel()) {
+                if (loginUserLevel < channelData.getLevel()) {
                     mDeleteBtn.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     mDeleteBtn.setVisibility(View.GONE);
                 }
                 break;
             default:
-                if(loginUserLevel < channelData.getLevel() ||
+                if (loginUserLevel < channelData.getLevel() ||
                         channelData.isOwner(AuthHelper.getUserId(mActivity))) {
                     mDeleteBtn.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     mDeleteBtn.setVisibility(View.GONE);
                 }
                 break;
@@ -236,6 +242,7 @@ public class AboutFragment extends BaseChannelListFragment {
         intent.putExtra("bundle", bundle);
         activity.startActivity(intent);
     }
+
     private void showDeleteChannelDialog() {
         mAlert.setPositiveButton(R.string.delete_btn, new DialogInterface.OnClickListener() {
             @Override
