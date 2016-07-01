@@ -579,8 +579,8 @@ public class MainFragment extends BaseFragment {
         mGolfImageView.setOnClickListener(this);
 
         // Level 8
-        mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
-        mEtcImageView.setOnClickListener(this);
+//        mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
+//        mEtcImageView.setOnClickListener(this);
 
         mTalk = (ImageView) view.findViewById(R.id.talk);
         mTalk.setOnClickListener(this);
@@ -820,6 +820,7 @@ public class MainFragment extends BaseFragment {
             mMainListContainer.setVisibility(View.GONE);
             mCommunityListContainer.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
+            mLauncherLevel8.setVisibility(View.VISIBLE);
             buttonClick.setDuration(500);
             updateCommunityBtn(zoom);
             loadCommunityMarkers(communityName);
@@ -856,6 +857,7 @@ public class MainFragment extends BaseFragment {
                 mMainTitle.setVisibility(View.GONE);                // Title의 '커뮤니티'
                 mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
                 mSearchLayout.setVisibility(View.VISIBLE);          // search bar
+                mLauncherLevel8.setVisibility(View.GONE);           // talk 숨김
                 isKeywordCommunityMode = false;
                 loadData();
                 break;
@@ -889,6 +891,7 @@ public class MainFragment extends BaseFragment {
                     Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 }
                 break;
+/*
 
             case R.id.keyword_etc:
                 mEtcImageView.startAnimation(buttonClick);
@@ -897,9 +900,8 @@ public class MainFragment extends BaseFragment {
                 mProgress.show();
 
                 showCommunityPanel();
-
-//                Helper.startKeywordMapActivity(mActivity, mGolfChannel);
                 break;
+*/
 
             case R.id.talk:
                 mTalk.startAnimation(buttonClick);
@@ -909,7 +911,9 @@ public class MainFragment extends BaseFragment {
                     mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                     mTalkExpanded = true;
                     mTouchView.setEnabled(false);
-                } else {
+                } else if(isKeywordCommunityMode){
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                }else {
                     String divisionTalk = "talk";
                     showTutorialDialog(divisionTalk);
 
@@ -2253,7 +2257,6 @@ public class MainFragment extends BaseFragment {
                             if (jsonArray.length() != 0) {
 //                                mlayout.setBackgroundResource(R.color.feed_bg);
 //                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
-//                                paul doing
                                 mTalkFlag= true;
                                 mTalk.setImageResource(R.drawable.button_kakao);
 //                                mTouchView.setEnabled(false);
