@@ -62,9 +62,11 @@ public class PostListFragment extends BaseChannelListFragment {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
 
-        String thisType = getArguments().getString("type");
 
-        if(thisType.equals("channelInterface")){
+        String thisType = getArguments().getString("type");
+//        thisType.equals("channelInterface")
+
+        if(thisType != null){
 
             try {
                 JSONObject jsonObj = new JSONObject(getArguments().getString("data"));
