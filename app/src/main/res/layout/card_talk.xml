@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/talkCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:layout_marginBottom="1dp"
+    >
+
+    <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/userPhoto"
+        android:layout_width="@dimen/list_item_avatar_size"
+        android:layout_height="@dimen/list_item_avatar_size"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default_0"
+        app:riv_border_color="@color/colorPrimary"
+        app:riv_border_width="1px"
+        app:riv_corner_radius="5dp"
+        app:riv_oval="false"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="bruce"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textSize="14dp"
+        android:textColor="@color/black"
+        android:layout_alignTop="@+id/createdAt"
+        android:layout_toRightOf="@+id/userPhoto"
+        android:layout_toEndOf="@+id/userPhoto" />
+
+    <TextView
+        android:id="@+id/parentType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="종류"
+        android:textColor="@color/text"
+        android:textSize="12dp"
+        android:visibility="visible"
+        android:layout_alignTop="@+id/parentName"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/parentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="없음"
+        android:textColor="@color/text"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        android:layout_alignTop="@+id/createdAt"
+        android:layout_toRightOf="@+id/parentType"
+        android:layout_toEndOf="@+id/parentType"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="307dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="내용입니다."
+        android:textSize="12dp"
+        android:textColor="@color/gray_text"
+        android:layout_toRightOf="@+id/userPhoto"
+        android:layout_alignBottom="@+id/userPhoto" />
+
+    <TextView
+        android:id="@+id/createdAt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2015:11:05"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textColor="@color/gray_text"
+        android:textSize="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

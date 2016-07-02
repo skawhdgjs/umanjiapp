@@ -70,10 +70,12 @@ import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
+import com.umanji.umanjiapp.ui.channelInterface.TalkListFragment;
 import com.umanji.umanjiapp.ui.main.search.SearchActivity;
 import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
@@ -274,7 +276,7 @@ public class MainFragment extends BaseFragment {
     private LinearLayout mlayout;
 
     boolean mMapIsTouched = false;
-    boolean mTalkFlag = false;
+    boolean isTalkFlag = false;
     boolean mTalkExpanded = false;
 
     View mView;
@@ -596,6 +598,7 @@ public class MainFragment extends BaseFragment {
         loadMainMarkers();
         loadMainPosts();
         loadMainAds();
+        getTalkData();
 
     }
 
@@ -632,6 +635,7 @@ public class MainFragment extends BaseFragment {
         *   paul panel
         * */
 
+//        doing
         if (isKeywordCommunityMode) {
             try {
                 JSONObject params1 = new JSONObject();
@@ -664,9 +668,73 @@ public class MainFragment extends BaseFragment {
             mKeywordTitle.setText(communityName);
 //            loadCommunityMarkers(communityName);
             mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
-
-
         }
+
+// doing
+
+    }
+
+    private  void getTalkData() {
+        mMainListContainer.setVisibility(View.GONE);
+        mCommunityListContainer.setVisibility(View.VISIBLE);
+
+        try {
+            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+            params.put("page", mAdapter.getCurrentPage());
+            params.put("limit", 20);
+//            doing
+//            api_main_findPosts
+// api_channels_findPosts
+
+
+            mApi.call(api_channels_findPosts, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    if (status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    } else {
+                        try {
+                            JSONArray jsonArray = json.getJSONArray("data");
+                            if (jsonArray.length() != 0) {
+                                isTalkFlag= true;
+                                mTalk.setImageResource(R.drawable.button_kakao);
+
+                                mChannel = new ChannelData(json);
+                                initTabAdapter(mView, mChannel);
+/*
+
+                                    for (int idx = 0; idx < jsonArray.length(); idx++) {
+                                        JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                        ChannelData doc = new ChannelData(jsonDoc);
+
+                                        if (doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                            mAdapter.addBottom(doc);
+                                        }
+                                    }
+*/
+
+                            } else {
+                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
+                                isTalkFlag = false;
+                                mTalk.setImageResource(R.drawable.button_kakao_black);
+
+                            }
+
+                            isLoading = false;
+                            mAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+                    }
+                }
+            });
+
+
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+
+
     }
 
     @Override
@@ -907,7 +975,7 @@ public class MainFragment extends BaseFragment {
                 mTalk.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
-                if (mTalkFlag){
+                if (isTalkFlag){
                     mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                     mTalkExpanded = true;
                     mTouchView.setEnabled(false);
@@ -1867,11 +1935,18 @@ public class MainFragment extends BaseFragment {
 
 
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel) {
-
+// doing
         Bundle bundle = new Bundle();
         bundle.putString("channel", thisChannel.getJsonObject().toString());
-        adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
-        adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
+
+        if(isTalkFlag){
+            adapter.addFragment(TalkListFragment.newInstance(bundle), "talk");
+            adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "Community");
+        } else {
+            adapter.addFragment(PostListFragment.newInstance(bundle), "talk");
+            adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "Community");
+        }
+
         /*
         if (mChannel2.getJsonObject().toString()!= null){
             Bundle bundle2 = new Bundle();
@@ -2238,7 +2313,57 @@ public class MainFragment extends BaseFragment {
 
     private void loadMoreMainPosts() {
         isLoading = true;
-//        mProgress.show();
+        try {
+            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+            params.put("page", mAdapter.getCurrentPage());
+            params.put("limit", 5);
+            //params.put("sort", "point DESC");
+
+            mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    if (status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    } else {
+                        try {
+                            JSONArray jsonArray = object.getJSONArray("data");
+                            if (jsonArray.length() != 0) {
+                                isTalkFlag= true;
+                                mTalk.setImageResource(R.drawable.button_kakao);
+
+                                for (int idx = 0; idx < jsonArray.length(); idx++) {
+                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                    ChannelData doc = new ChannelData(jsonDoc);
+
+                                    if (doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                        mAdapter.addBottom(doc);
+                                    }
+                                }
+
+                            } else {
+                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
+                                isTalkFlag = false;
+                                mTalk.setImageResource(R.drawable.button_kakao_black);
+
+                            }
+
+                            isLoading = false;
+                            mAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "Error " + e.toString());
+        }
+
+
+
+
+/* original :: fetch normal post main
+
 
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
@@ -2257,7 +2382,7 @@ public class MainFragment extends BaseFragment {
                             if (jsonArray.length() != 0) {
 //                                mlayout.setBackgroundResource(R.color.feed_bg);
 //                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
-                                mTalkFlag= true;
+                                isTalkFlag= true;
                                 mTalk.setImageResource(R.drawable.button_kakao);
 //                                mTouchView.setEnabled(false);
 
@@ -2274,7 +2399,7 @@ public class MainFragment extends BaseFragment {
                             } else {
 //                                mlayout.setBackgroundResource(R.drawable.empty_main_post);
                                 mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
-                                mTalkFlag = false;
+                                isTalkFlag = false;
                                 mTalk.setImageResource(R.drawable.button_kakao_black);
 
                             }
@@ -2290,6 +2415,13 @@ public class MainFragment extends BaseFragment {
         } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
+
+
+*/
+
+
+
+
 
         mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
         mProgress.hide();

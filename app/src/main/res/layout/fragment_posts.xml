@@ -6,7 +6,7 @@
               android:layout_height="match_parent"
               android:gravity="center_horizontal"
               android:orientation="vertical"
-              android:background="@drawable/empty_state">
+              android:background="@color/feed_bg">
 
     <LinearLayout
         android:layout_width="match_parent"

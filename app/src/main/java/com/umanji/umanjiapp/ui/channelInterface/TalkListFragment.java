@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.channel._fragment.posts;
+package com.umanji.umanjiapp.ui.channelInterface;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -17,6 +16,7 @@ import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,12 +24,12 @@ import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
-public class PostListFragment extends BaseChannelListFragment {
+public class TalkListFragment extends BaseTalkListFragment {
     private static final String TAG = "PostListFragment";
     private LinearLayout mlayout;
 
-    public static PostListFragment newInstance(Bundle bundle) {
-        PostListFragment fragment = new PostListFragment();
+    public static TalkListFragment newInstance(Bundle bundle) {
+        TalkListFragment fragment = new TalkListFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -46,8 +46,8 @@ public class PostListFragment extends BaseChannelListFragment {
     }
 
     @Override
-    public BaseChannelListAdapter getListAdapter() {
-        return new PostListAdapter(mActivity, this, mChannel);
+    public BaseTalkListAdapter getListAdapter() {
+        return new TalkListAdapter(mActivity, this, mChannel);
     }
 
     @Override
@@ -62,6 +62,35 @@ public class PostListFragment extends BaseChannelListFragment {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
 
+
+        String thisType = getArguments().getString("channel");
+//        thisType.equals("channelInterface")
+
+        if(thisType != null){
+
+            try {
+                JSONObject jsonObj = new JSONObject(getArguments().getString("channel"));
+                JSONArray jsonArray = jsonObj.getJSONArray("data");
+
+                if(jsonArray.length() != 0) {
+
+                    for(int idx = 0; idx < jsonArray.length(); idx++) {
+                        JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                        ChannelData doc = new ChannelData(jsonDoc);
+
+                        if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                            mAdapter.addBottom(doc);
+                        }
+                    }
+
+                    updateView();
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, "Error " + e.toString());
+            }
+
+
+        } else {
             try {
                 JSONObject params = new JSONObject();
                 params.put("page", mAdapter.getCurrentPage()); // for paging
@@ -115,7 +144,7 @@ public class PostListFragment extends BaseChannelListFragment {
                 Log.e(TAG, "error " + e.toString());
             }
 
-
+        }
 
 
     }
@@ -139,7 +168,7 @@ public class PostListFragment extends BaseChannelListFragment {
                     mAdapter.addTop(channelData);
                     mAdapter.notifyDataSetChanged();
                 }
-                mlayout.setBackgroundResource(R.color.feed_bg);
+
                 break;
 
         }

@@ -903,7 +903,7 @@
                 android:id="@+id/communityListContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/empty_main_post"
+                android:background="@drawable/dark_bg"
                 android:clickable="true"
                 android:focusable="false"
                 android:orientation="vertical"
