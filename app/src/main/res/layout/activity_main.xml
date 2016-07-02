@@ -324,7 +324,7 @@
                 app:riv_corner_radius="5dp"
                 app:riv_oval="false" />
 
-            <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <!--<com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/infoButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -338,7 +338,7 @@
                 app:riv_border_color="@color/colorPrimary"
                 app:riv_border_width="1px"
                 app:riv_corner_radius="15dp"
-                app:riv_oval="false" />
+                app:riv_oval="false" />-->
 
             <Button
                 android:id="@+id/toCommunityBtn"
@@ -729,7 +729,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/ads_image"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <ImageView
@@ -752,14 +752,15 @@
                     android:src="@drawable/tower_crane_black"
                     android:visibility="visible" />
 
-                <ImageView
+              <!--  <ImageView
                     android:id="@+id/say"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_above="@+id/eye"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/say_black" />
+                    android:src="@drawable/say_black" />-->
+<!--
 
                 <ImageView
                     android:id="@+id/eye"
@@ -771,6 +772,7 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/eye" />
+-->
 
 
             </LinearLayout>

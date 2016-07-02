@@ -13,7 +13,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 
 
 public class TalkListAdapter extends BaseTalkListAdapter {
-    private static final String TAG = "PostListAdapter";
+    private static final String TAG = "TalkListAdapter";
 
     public TalkListAdapter(BaseActivity activity, Fragment fragment) {
         super(activity, fragment);
