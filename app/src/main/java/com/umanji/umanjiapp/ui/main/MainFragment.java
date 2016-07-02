@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.main;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -13,8 +14,10 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -91,6 +95,8 @@ import de.greenrobot.event.EventBus;
 
 public class MainFragment extends BaseFragment {
     private static final String TAG = "MainFragment";
+    private final static String TAG_FRAGMENT = "TAG_FRAGMENT";
+
 
     /****************************************************
      * Top View
@@ -264,7 +270,7 @@ public class MainFragment extends BaseFragment {
     private boolean isLoading = false;
     private int mPreFocusedItem = 0;
 
-    private String mSlidingState = SLIDING_COLLAPSED;
+    public String mSlidingState = SLIDING_COLLAPSED;
 
     private ChannelData mChannelByPoint;
     private Marker mMarkerByPoint;
@@ -278,6 +284,7 @@ public class MainFragment extends BaseFragment {
     boolean mMapIsTouched = false;
     boolean isTalkFlag = false;
     boolean mTalkExpanded = false;
+    boolean touchedOnce = false;
 
     View mView;
     TouchableWrapper mTouchView;
@@ -412,6 +419,42 @@ public class MainFragment extends BaseFragment {
                 }
             }
         });
+
+//        onbackpress like
+
+        mView.setFocusableInTouchMode(true);
+        mView.requestFocus();
+        mView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+//                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                    if(mTalkExpanded) {
+                        allowBackPressed();
+                        return true;
+                    } else if(touchedOnce) {
+                        mActivity.finish();
+                        return true;
+                    } else {
+                        touchedOnce = true;
+                        Toast.makeText(mActivity, "한번 더 누르시면 우만지 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                touchedOnce = false;
+                            }
+                        }, 2000);
+                        return true;
+                    }
+
+                } else {
+                    return false;
+                }
+            }
+        });
+
+
 
         mTouchView = new TouchableWrapper(getActivity());
         mTouchView.addView(mView);
@@ -981,6 +1024,7 @@ public class MainFragment extends BaseFragment {
                     mTouchView.setEnabled(false);
                 } else if(isKeywordCommunityMode){
                     mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    mTalkExpanded = true;
                 }else {
                     String divisionTalk = "talk";
                     showTutorialDialog(divisionTalk);
@@ -1132,16 +1176,27 @@ public class MainFragment extends BaseFragment {
         }
     }
 
+
+
+    // onback
+    public void allowBackPressed() {
+        mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        mSlidingState = SLIDING_COLLAPSED;
+        mTalkExpanded = false;
+    }
+
+
     /*
-                        *
-                        * 외부링크 리스트 : link list
-                        *
-                        * 우만지 일반 설명 :   http://umanji.com/2016/06/17/manual0001/
-                        * 레벨별 입력 :       http://umanji.com/2016/06/22/input_level_explain/ ‎
-                        * 복합단지 설명 :     http://blog.naver.com/mothcar/220715838911
-                        * 일반 설명 : http://blog.naver.com/mothcar/220720111996
-                        *
-                        * */
+    *
+    * 외부링크 리스트 : link list
+    *
+    * 우만지 일반 설명 :   http://umanji.com/2016/06/17/manual0001/
+    * 레벨별 입력 :       http://umanji.com/2016/06/22/input_level_explain/ ‎
+    * 복합단지 설명 :     http://blog.naver.com/mothcar/220715838911
+    * 일반 설명 : http://blog.naver.com/mothcar/220720111996
+    *
+    * */
+
 
     private void showComplexTutorialDialog() {
 

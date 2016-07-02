@@ -3,8 +3,11 @@ package com.umanji.umanjiapp.ui.main;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.ui.BaseActivity;
 
 
@@ -26,12 +29,17 @@ public class MainActivity extends BaseActivity {
         super.finish();
     }
 
+
+    /*
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
+
+
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+
             return;
         }
 
@@ -42,8 +50,10 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
+*/
+
 }
