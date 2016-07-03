@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.channelInterface;
+package com.umanji.umanjiapp.ui.channel._fragment.talk;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +14,8 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
+import com.umanji.umanjiapp.ui.channel._fragment.BaseTalkListAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.BaseTalkListFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;

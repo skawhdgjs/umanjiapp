@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.channelInterface;
+package com.umanji.umanjiapp.ui.channel._fragment.talk;
 
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseActivity;
-import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.BaseTalkListAdapter;
 
 
 public class TalkListAdapter extends BaseTalkListAdapter {

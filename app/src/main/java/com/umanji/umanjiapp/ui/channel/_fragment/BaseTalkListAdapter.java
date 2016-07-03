@@ -1,38 +1,27 @@
-package com.umanji.umanjiapp.ui.channelInterface;
+package com.umanji.umanjiapp.ui.channel._fragment;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
-import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
-import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.model.VoteData;
 import com.umanji.umanjiapp.ui.BaseActivity;
-import com.umanji.umanjiapp.ui.channel.post.reply.ReplyActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,12 +32,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.TimeZone;
 
 import de.greenrobot.event.EventBus;
-
-import static com.umanji.umanjiapp.helper.FileHelper.extractUrls;
 
 
 public abstract class BaseTalkListAdapter extends RecyclerView.Adapter<BaseTalkListAdapter.ViewHolder> implements AppConfig {

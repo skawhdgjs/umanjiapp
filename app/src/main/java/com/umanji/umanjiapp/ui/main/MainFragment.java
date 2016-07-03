@@ -2,7 +2,6 @@ package com.umanji.umanjiapp.ui.main;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -16,8 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -75,13 +72,11 @@ import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
-import com.umanji.umanjiapp.ui.channelInterface.MyPageAdapter;
-import com.umanji.umanjiapp.ui.channelInterface.TalkListAdapter;
-import com.umanji.umanjiapp.ui.channelInterface.TalkListFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.talk.TalkListAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.talk.TalkListFragment;
 import com.umanji.umanjiapp.ui.main.search.SearchActivity;
 import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
@@ -294,15 +289,6 @@ public class MainFragment extends BaseFragment {
 
     View mView;
     TouchableWrapper mTouchView;
-
-
-    /****************************************************
-     * New Adapter
-     ****************************************************/
-    MyPageAdapter pageAdapter;
-
-
-
 
     /****************************************************
      * from other Activity

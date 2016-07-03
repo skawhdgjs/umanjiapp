@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.channelInterface;
+package com.umanji.umanjiapp.ui.channel._fragment;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +13,7 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.BaseTalkListAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
