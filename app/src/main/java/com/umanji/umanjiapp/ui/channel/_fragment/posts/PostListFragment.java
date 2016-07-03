@@ -61,53 +61,7 @@ public class PostListFragment extends BaseChannelListFragment {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
 
-        try {
-            JSONObject params = new JSONObject();
-            params.put("page", mAdapter.getCurrentPage()); // for paging
-            params.put("keywords", mChannel.getName());
-            params.put("limit", 5);
-            params.put("type", TYPE_POST);
 
-
-            mApi.call(api_channels_posts_find, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if(status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    }else {
-                        try {
-                            JSONArray jsonArray = object.getJSONArray("data");
-
-                            if(jsonArray.length() != 0) {
-
-                                mlayout.setBackgroundResource(R.color.feed_bg);
-
-                                for(int idx = 0; idx < jsonArray.length(); idx++) {
-                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                    ChannelData doc = new ChannelData(jsonDoc);
-
-                                    if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
-                                        mAdapter.addBottom(doc);
-                                    }
-                                }
-
-                                updateView();
-                            }
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error " + e.toString());
-                        }
-
-                        isLoading = false;
-                    }
-                }
-            });
-            mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-        } catch(JSONException e) {
-            Log.e(TAG, "error " + e.toString());
-        }
-
-
-/*
             try {
                 JSONObject params = new JSONObject();
                 params.put("page", mAdapter.getCurrentPage()); // for paging
@@ -160,6 +114,54 @@ public class PostListFragment extends BaseChannelListFragment {
             } catch(JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
+
+
+
+/*
+        try {
+            JSONObject params = new JSONObject();
+            params.put("page", mAdapter.getCurrentPage()); // for paging
+            params.put("keywords", mChannel.getName());
+            params.put("limit", 5);
+            params.put("type", TYPE_POST);
+
+
+            mApi.call(api_channels_posts_find, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    if(status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    }else {
+                        try {
+                            JSONArray jsonArray = object.getJSONArray("data");
+
+                            if(jsonArray.length() != 0) {
+
+                                mlayout.setBackgroundResource(R.color.feed_bg);
+
+                                for(int idx = 0; idx < jsonArray.length(); idx++) {
+                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                    ChannelData doc = new ChannelData(jsonDoc);
+
+                                    if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                        mAdapter.addBottom(doc);
+                                    }
+                                }
+
+                                updateView();
+                            }
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+
+                        isLoading = false;
+                    }
+                }
+            });
+            mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
+        } catch(JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
 */
 
 

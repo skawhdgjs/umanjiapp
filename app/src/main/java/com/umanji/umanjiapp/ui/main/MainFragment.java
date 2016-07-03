@@ -79,6 +79,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
+import com.umanji.umanjiapp.ui.channelInterface.MyPageAdapter;
 import com.umanji.umanjiapp.ui.channelInterface.TalkListAdapter;
 import com.umanji.umanjiapp.ui.channelInterface.TalkListFragment;
 import com.umanji.umanjiapp.ui.main.search.SearchActivity;
@@ -293,6 +294,13 @@ public class MainFragment extends BaseFragment {
 
     View mView;
     TouchableWrapper mTouchView;
+
+
+    /****************************************************
+     * New Adapter
+     ****************************************************/
+    MyPageAdapter pageAdapter;
+
 
 
 
