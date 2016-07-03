@@ -79,6 +79,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
+import com.umanji.umanjiapp.ui.channelInterface.TalkListAdapter;
 import com.umanji.umanjiapp.ui.channelInterface.TalkListFragment;
 import com.umanji.umanjiapp.ui.main.search.SearchActivity;
 import com.umanji.umanjiapp.ui.modal.WebViewActivity;
@@ -118,7 +119,6 @@ public class MainFragment extends BaseFragment {
      ****************************************************/
     private GoogleMap mMap;
 
-    private PostListAdapter mAdapter;
     private RoundedImageView mZoomBtn;
 
     private ImageView mInterior;
@@ -234,7 +234,11 @@ public class MainFragment extends BaseFragment {
     protected ChannelData mChannel;
 
     protected BaseTabAdapter mCommunityAdapter;
-    protected BaseTabAdapter mTalkAdapter;
+    protected BaseTabAdapter mBaseTalkAdapter;
+
+
+    private PostListAdapter mAdapter;
+    private TalkListAdapter mTalkAdapter;
 
     protected ViewPager mViewPager;
     protected TabLayout mTabLayout;
@@ -289,6 +293,8 @@ public class MainFragment extends BaseFragment {
 
     View mView;
     TouchableWrapper mTouchView;
+
+
 
     /****************************************************
      * from other Activity
@@ -355,7 +361,7 @@ public class MainFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = super.onCreateView(inflater, container, savedInstanceState);
 
-        initMainListView(mView);
+//        initMainListView(mView);
 
         if (AuthHelper.isLogin(mActivity)) {
             loginByToken();
@@ -648,7 +654,6 @@ public class MainFragment extends BaseFragment {
             isTalkMode = false;
         } else {
             isTalkMode = true;
-            getTalkData();
         }
 
     }
@@ -720,9 +725,6 @@ public class MainFragment extends BaseFragment {
 //            loadCommunityMarkers(communityName);
 //            mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
         }
-
-// doing
-
     }
 
     private void getTalkData() {
@@ -731,8 +733,8 @@ public class MainFragment extends BaseFragment {
 
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("page", mAdapter.getCurrentPage());
-            params.put("limit", 20);
+//            params.put("page", mBaseTalkAdapter.getCurrentPage());
+            params.put("limit", 5);
 //            doing
 //            api_main_findPosts
 // api_channels_findPosts
@@ -765,14 +767,14 @@ public class MainFragment extends BaseFragment {
 */
 
                             } else {
-                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
+//                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
                                 isTalkFlag = false;
                                 mTalk.setImageResource(R.drawable.button_kakao_black);
 
                             }
 
                             isLoading = false;
-                            mAdapter.notifyDataSetChanged();
+                            mBaseTalkAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }
@@ -1920,6 +1922,10 @@ public class MainFragment extends BaseFragment {
 
                     }
 
+                    if(isTalkMode){
+                        getTalkData();
+                    }
+
                 }
 
             }
@@ -1938,18 +1944,18 @@ public class MainFragment extends BaseFragment {
     protected void initTalkTabAdapter(View view, ChannelData fetchChannel) {
         mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);
         mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        mTalkAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
+        mBaseTalkAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
 
-        addFragmentToTalkTabAdapter(mTalkAdapter, fetchChannel);
+        addFragmentToTalkTabAdapter(mBaseTalkAdapter, fetchChannel);
 
-        mViewPager.setAdapter(mTalkAdapter);
+        mViewPager.setAdapter(mBaseTalkAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
 //        setTabSelect();
 
         onTabSelected(mTabLayout);
     }
-
+// doing
     protected void initTabAdapter(View view, ChannelData fetchChannel) {
         mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);
         mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
@@ -2013,18 +2019,19 @@ public class MainFragment extends BaseFragment {
     }
 
     protected void addFragmentToTalkTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel) {
-        Bundle bundle = new Bundle();
-        bundle.putString("channel", thisChannel.getJsonObject().toString());
-        bundle.putString("division", "talk");
+        Bundle talkBundle = new Bundle();
+        talkBundle.putString("channel", thisChannel.getJsonObject().toString());
+        talkBundle.putString("division", "talk");
 
-        adapter.addFragment(TalkListFragment.newInstance(bundle), "talk");
-        adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "Community");
+        adapter.addFragment(TalkListFragment.newInstance(talkBundle), "talk");
+        adapter.addFragment(CommunityListKeywordFragment.newInstance(talkBundle), "Community");
 
     }
 
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel) {
         Bundle bundle = new Bundle();
         bundle.putString("channel", thisChannel.getJsonObject().toString());
+        bundle.putString("division", "community");
 
         adapter.addFragment(PostListFragment.newInstance(bundle), "정보");
         adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "Community");

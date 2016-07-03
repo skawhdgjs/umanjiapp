@@ -63,7 +63,7 @@ public class TalkListFragment extends BaseTalkListFragment {
         String thisType = getArguments().getString("division");
 //        thisType.equals("channelInterface")
 
-        if(thisType != null){
+        if(thisType.equals("talk")){
 
             try {
                 JSONObject jsonObj = new JSONObject(getArguments().getString("channel"));
