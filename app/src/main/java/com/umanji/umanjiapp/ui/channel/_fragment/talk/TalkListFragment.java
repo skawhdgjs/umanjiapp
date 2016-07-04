@@ -68,8 +68,10 @@ public class TalkListFragment extends BaseChannelListFragment {
         if(thisType.equals("talk")){
 
             try {
-                JSONObject jsonObj = new JSONObject(getArguments().getString("channel"));
-                JSONArray jsonArray = jsonObj.getJSONArray("data");
+//                JSONObject jsonObj = new JSONObject(getArguments().getString("channel"));
+
+                JSONArray jsonArray = new JSONArray(getArguments().getString("channels"));
+                Log.d("@@@@@@@@@@@@@@@", jsonArray.toString());
 
                 if(jsonArray.length() != 0) {
 

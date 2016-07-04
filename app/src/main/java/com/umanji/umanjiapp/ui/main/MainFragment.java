@@ -750,7 +750,13 @@ public class MainFragment extends BaseFragment {
                                 mTalk.setImageResource(R.drawable.button_kakao);
 
                                 mChannel = new ChannelData(json);
-                                initTabAdapter(mView, mChannel, "talk");
+
+
+
+                                initTabAdapter(mView, jsonArray, "talk");
+                                //initTabAdapter(mView, mChannel, "talk");
+
+
 
 /*
                                     for (int idx = 0; idx < jsonArray.length(); idx++) {
@@ -771,7 +777,7 @@ public class MainFragment extends BaseFragment {
                             }
 
                             isLoading = false;
-                            mTalkAdapter.notifyDataSetChanged();
+                            //mTalkAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }
@@ -1965,6 +1971,32 @@ public class MainFragment extends BaseFragment {
         onTabSelected(mTabLayout);
     }
 
+
+    protected void initTabAdapter(View view, JSONArray jsonArray, String type) {
+        mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);
+        mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        mTabAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
+
+//        mTabAdapter.notifyDataSetChanged();
+
+        switch(type){
+            case "keywordCommunity":
+                addFragmentToTabAdapter(mTabAdapter, jsonArray, "keywordCommunity");
+                break;
+            case "talk":
+                addFragmentToTabAdapter(mTabAdapter, jsonArray, "talk");
+                break;
+        }
+
+        mViewPager.setAdapter(mTabAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        setTabSelect();
+
+        onTabSelected(mTabLayout);
+    }
+
+
     protected void setTabSelect() {
         TabLayout.Tab tab;
         switch (mTabType) {
@@ -2010,6 +2042,43 @@ public class MainFragment extends BaseFragment {
 
             }
         });
+    }
+
+    protected void addFragmentToTabAdapter(BaseTabAdapter adapter, JSONArray jsonArray, String type) {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("channels", jsonArray.toString());
+
+        Log.d("#######", bundle.getString("channels"));
+        
+        switch(type){
+            case "keywordCommunity":
+                bundle.putString("division", "keywordCommunity");
+                adapter.addFragment(PostListFragment.newInstance(bundle), "talk");
+                break;
+            case "talk":
+                bundle.putString("division", "talk");
+                adapter.addFragment(TalkListFragment.newInstance(bundle), "talk");
+                break;
+        }
+
+        adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "Community");
+
+        /*
+        if (mChannel2.getJsonObject().toString()!= null){
+            Bundle bundle2 = new Bundle();
+            bundle2.putString("channel", mChannel2.getJsonObject().toString());
+            adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
+            adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
+        }
+
+        if (mChannel3.getJsonObject().toString()!= null){
+            Bundle bundle3 = new Bundle();
+            bundle3.putString("channel", mChannel3.getJsonObject().toString());
+            adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
+            adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
+        }*/
+
     }
 
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel, String type) {
