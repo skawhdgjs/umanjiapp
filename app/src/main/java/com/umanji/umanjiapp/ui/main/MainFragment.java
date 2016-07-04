@@ -229,8 +229,7 @@ public class MainFragment extends BaseFragment {
      ****************************************************/
     protected ChannelData mChannel;
 
-    protected BaseTabAdapter mCommunityAdapter;
-    protected BaseTabAdapter mBaseTalkAdapter;
+    protected BaseTabAdapter mTabAdapter;
 
 
     private PostListAdapter mAdapter;
@@ -695,7 +694,7 @@ public class MainFragment extends BaseFragment {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         mChannel = new ChannelData(json);
-                        initTabAdapter(mView, mChannel);
+                        initTabAdapter(mView, mChannel, "keywordCommunity");
                     }
                 });
 
@@ -747,7 +746,7 @@ public class MainFragment extends BaseFragment {
                                 mTalk.setImageResource(R.drawable.button_kakao);
 
                                 mChannel = new ChannelData(json);
-                                initTalkTabAdapter(mView, mChannel);
+                                initTabAdapter(mView, mChannel, "talk");
 /*
 
                                     for (int idx = 0; idx < jsonArray.length(); idx++) {
@@ -768,7 +767,7 @@ public class MainFragment extends BaseFragment {
                             }
 
                             isLoading = false;
-                            mBaseTalkAdapter.notifyDataSetChanged();
+                            mTabAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }
@@ -875,55 +874,55 @@ public class MainFragment extends BaseFragment {
                     mEnvironmentImageView.startAnimation(buttonClick);
                     communityName = mEnvironmentChannel.getName();
                     mLauncherLevel2.setVisibility(View.GONE);
-                    initTabAdapter(mView, mEnvironmentChannel);
+                    initTabAdapter(mView, mEnvironmentChannel, "keywordCommunity");
                     break;
                 case "Energy":
                     mEnergyImageView.startAnimation(buttonClick);
                     communityName = mEnergyChannel.getName();
                     mLauncherLevel2.setVisibility(View.GONE);
-                    initTabAdapter(mView, mEnergyChannel);
+                    initTabAdapter(mView, mEnergyChannel, "keywordCommunity");
                     break;
                 case "Spiritual":
                     mSpiritualImageView.startAnimation(buttonClick);
                     communityName = mSpiritualChannel.getName();
                     mLauncherLevel3.setVisibility(View.GONE);
-                    initTabAdapter(mView, mSpiritualChannel);
+                    initTabAdapter(mView, mSpiritualChannel, "keywordCommunity");
                     break;
                 case "History":
                     mHistoryImageView.startAnimation(buttonClick);
                     communityName = mHistoryChannel.getName();
                     mLauncherLevel4.setVisibility(View.GONE);
-                    initTabAdapter(mView, mHistoryChannel);
+                    initTabAdapter(mView, mHistoryChannel, "keywordCommunity");
                     break;
                 case "Unity":
                     mUnityImageView.startAnimation(buttonClick);
                     communityName = mUnityChannel.getName();
                     mLauncherLevel5.setVisibility(View.GONE);
-                    initTabAdapter(mView, mUnityChannel);
+                    initTabAdapter(mView, mUnityChannel, "keywordCommunity");
                     break;
                 case "Health":
                     mHealthImageView.startAnimation(buttonClick);
                     communityName = mHealthChannel.getName();
                     mLauncherLevel6.setVisibility(View.GONE);
-                    initTabAdapter(mView, mHealthChannel);
+                    initTabAdapter(mView, mHealthChannel, "keywordCommunity");
                     break;
                 case "Politics":
                     mPoliticsImageView.startAnimation(buttonClick);
                     communityName = mPoliticsChannel.getName();
                     mLauncherLevel6.setVisibility(View.GONE);
-                    initTabAdapter(mView, mPoliticsChannel);
+                    initTabAdapter(mView, mPoliticsChannel, "keywordCommunity");
                     break;
                 case "Climb":
                     mClimbImageView.startAnimation(buttonClick);
                     communityName = mClimbChannel.getName();         // 등산
                     mLauncherLevel7.setVisibility(View.GONE);
-                    initTabAdapter(mView, mClimbChannel);
+                    initTabAdapter(mView, mClimbChannel, "keywordCommunity");
                     break;
                 case "Golf":
                     mGolfImageView.startAnimation(buttonClick);
                     communityName = mGolfChannel.getName();
                     mLauncherLevel7.setVisibility(View.GONE);
-                    initTabAdapter(mView, mGolfChannel);
+                    initTabAdapter(mView, mGolfChannel, "keywordCommunity");
                     break;
             }
 
@@ -1935,32 +1934,27 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    protected void initTalkTabAdapter(View view, ChannelData fetchChannel) {
-        mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);
-        mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        mBaseTalkAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
-
-        addFragmentToTalkTabAdapter(mBaseTalkAdapter, fetchChannel);
-
-        mViewPager.setAdapter(mBaseTalkAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
-
-//        setTabSelect();
-
-        onTabSelected(mTabLayout);
-    }
 // doing
-    protected void initTabAdapter(View view, ChannelData fetchChannel) {
+    protected void initTabAdapter(View view, ChannelData fetchChannel, String type) {
         mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);
         mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
-        mCommunityAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
+        mTabAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
 
-        addFragmentToTabAdapter(mCommunityAdapter, fetchChannel);
+        switch(type){
+            case "keywordCommunity":
+                addFragmentToTabAdapter(mTabAdapter, fetchChannel, "keywordCommunity");
+                break;
+            case "talk":
+                addFragmentToTabAdapter(mTabAdapter, fetchChannel, "talk");
+                break;
+        }
 
-        mViewPager.setAdapter(mCommunityAdapter);
+        mViewPager.setAdapter(mTabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
-//        setTabSelect();
+        setTabSelect();
+//        isLoading = false;
+        mAdapter.notifyDataSetChanged();
 
         onTabSelected(mTabLayout);
     }
@@ -1995,6 +1989,8 @@ public class MainFragment extends BaseFragment {
                 super.onTabSelected(tab);
                 mCurrentTapPosition = tab.getPosition();
 
+                getItemPosition();
+
                 /*switch (mCurrentTapPosition) {
                     case 0:
                         mFab.setImageResource(R.drawable.ic_discuss);
@@ -2012,22 +2008,26 @@ public class MainFragment extends BaseFragment {
         });
     }
 
-    protected void addFragmentToTalkTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel) {
-        Bundle talkBundle = new Bundle();
-        talkBundle.putString("channel", thisChannel.getJsonObject().toString());
-        talkBundle.putString("division", "talk");
-
-        adapter.addFragment(TalkListFragment.newInstance(talkBundle), "talk");
-        adapter.addFragment(CommunityListKeywordFragment.newInstance(talkBundle), "Community");
-
+    public int getItemPosition() {
+        return 1;
     }
 
-    protected void addFragmentToTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel) {
+    protected void addFragmentToTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel, String type) {
+
         Bundle bundle = new Bundle();
         bundle.putString("channel", thisChannel.getJsonObject().toString());
-        bundle.putString("division", "community");
 
-        adapter.addFragment(PostListFragment.newInstance(bundle), "정보");
+
+        switch(type){
+            case "keywordCommunity":
+                bundle.putString("division", "keywordCommunity");
+                break;
+            case "talk":
+                bundle.putString("division", "talk");
+                break;
+        }
+
+        adapter.addFragment(PostListFragment.newInstance(bundle), "talk");
         adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "Community");
 
         /*
@@ -2294,7 +2294,7 @@ public class MainFragment extends BaseFragment {
         mAdapter.resetDocs();
         mAdapter.setCurrentPage(0);
 
-        loadMoreMainPosts();
+//        loadMoreMainPosts();
     }
 
     //*******                광고로직 테스트
@@ -2914,7 +2914,7 @@ public class MainFragment extends BaseFragment {
 
                     if (!isLoading) {
                         if (mPreFocusedItem == (totalItemCount - 2)) {
-                            loadMoreMainPosts();
+//                            loadMoreMainPosts();
                         }
                     }
                 }

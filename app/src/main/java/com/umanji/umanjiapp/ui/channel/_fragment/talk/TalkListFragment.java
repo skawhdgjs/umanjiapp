@@ -14,8 +14,8 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.channel._fragment.BaseTalkListAdapter;
-import com.umanji.umanjiapp.ui.channel._fragment.BaseTalkListFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
-public class TalkListFragment extends BaseTalkListFragment {
+public class TalkListFragment extends BaseChannelListFragment {
     private static final String TAG = "TalkListFragment";
     private LinearLayout mlayout;
 
@@ -45,7 +45,7 @@ public class TalkListFragment extends BaseTalkListFragment {
     }
 
     @Override
-    public BaseTalkListAdapter getListAdapter() {
+    public BaseChannelListAdapter getListAdapter() {
         return new TalkListAdapter(mActivity, this, mChannel);
     }
 

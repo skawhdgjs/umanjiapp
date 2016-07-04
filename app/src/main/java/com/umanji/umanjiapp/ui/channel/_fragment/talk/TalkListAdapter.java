@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseActivity;
-import com.umanji.umanjiapp.ui.channel._fragment.BaseTalkListAdapter;
+import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 
 
-public class TalkListAdapter extends BaseTalkListAdapter {
+public class TalkListAdapter extends BaseChannelListAdapter {
     private static final String TAG = "TalkListAdapter";
 
     public TalkListAdapter(BaseActivity activity, Fragment fragment) {
@@ -39,7 +39,7 @@ public class TalkListAdapter extends BaseTalkListAdapter {
         if(channelData == null || channelData.getOwner() == null || TextUtils.isEmpty(channelData.getOwner().getId())) return;
 
         setUserName(holder, channelData.getOwner());
-        setName(holder, channelData, channelData.getParent());
+        setName(holder, channelData);
         setParentName(holder, channelData.getParent());
 
         setUserPhoto(holder, channelData.getOwner());
