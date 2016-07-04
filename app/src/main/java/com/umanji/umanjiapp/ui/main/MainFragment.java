@@ -721,12 +721,16 @@ public class MainFragment extends BaseFragment {
     }
 
     private void getTalkData() {
+        isLoading = true;
+
+        int page = 0;
+
         mMainListContainer.setVisibility(View.GONE);
         mCommunityListContainer.setVisibility(View.VISIBLE);
 
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-//            params.put("page", mBaseTalkAdapter.getCurrentPage());
+            params.put("page", page);  //mTalkAdapter.getCurrentPage()
             params.put("limit", 5);
 //            doing
 //            api_main_findPosts
@@ -747,8 +751,8 @@ public class MainFragment extends BaseFragment {
 
                                 mChannel = new ChannelData(json);
                                 initTabAdapter(mView, mChannel, "talk");
-/*
 
+/*
                                     for (int idx = 0; idx < jsonArray.length(); idx++) {
                                         JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                         ChannelData doc = new ChannelData(jsonDoc);
@@ -767,7 +771,7 @@ public class MainFragment extends BaseFragment {
                             }
 
                             isLoading = false;
-                            mTabAdapter.notifyDataSetChanged();
+                            mTalkAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
                         }
@@ -780,6 +784,8 @@ public class MainFragment extends BaseFragment {
             Log.e(TAG, "error " + e.toString());
         }
 
+//        mTalkAdapter.setCurrentPage(mTalkAdapter.getCurrentPage() + 1);
+        page ++ ;
 
     }
 
@@ -1940,6 +1946,8 @@ public class MainFragment extends BaseFragment {
         mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
         mTabAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
 
+//        mTabAdapter.notifyDataSetChanged();
+
         switch(type){
             case "keywordCommunity":
                 addFragmentToTabAdapter(mTabAdapter, fetchChannel, "keywordCommunity");
@@ -1953,8 +1961,6 @@ public class MainFragment extends BaseFragment {
         mTabLayout.setupWithViewPager(mViewPager);
 
         setTabSelect();
-//        isLoading = false;
-        mAdapter.notifyDataSetChanged();
 
         onTabSelected(mTabLayout);
     }
@@ -1989,8 +1995,6 @@ public class MainFragment extends BaseFragment {
                 super.onTabSelected(tab);
                 mCurrentTapPosition = tab.getPosition();
 
-                getItemPosition();
-
                 /*switch (mCurrentTapPosition) {
                     case 0:
                         mFab.setImageResource(R.drawable.ic_discuss);
@@ -2008,10 +2012,6 @@ public class MainFragment extends BaseFragment {
         });
     }
 
-    public int getItemPosition() {
-        return 1;
-    }
-
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel, String type) {
 
         Bundle bundle = new Bundle();
@@ -2021,13 +2021,14 @@ public class MainFragment extends BaseFragment {
         switch(type){
             case "keywordCommunity":
                 bundle.putString("division", "keywordCommunity");
+                adapter.addFragment(PostListFragment.newInstance(bundle), "talk");
                 break;
             case "talk":
                 bundle.putString("division", "talk");
+                adapter.addFragment(TalkListFragment.newInstance(bundle), "talk");
                 break;
         }
 
-        adapter.addFragment(PostListFragment.newInstance(bundle), "talk");
         adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "Community");
 
         /*
