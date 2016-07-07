@@ -13,8 +13,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +22,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -65,12 +66,14 @@ import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
+import com.umanji.umanjiapp.model.PaulBusData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
+import com.umanji.umanjiapp.ui.channel.bottomWindow.BottomMainActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
@@ -117,8 +120,8 @@ public class MainFragment extends BaseFragment {
     private String mInteriorStatus = "비활성화";
     private ImageView mTowerCrane;
     private String mTowerCraneStatus = "비활성화";
-    private ImageView mEye;
-    private ImageView mSay;
+//    private ImageView mEye;
+//    private ImageView mSay;
 
 
     private Marker mDraggableMarker;
@@ -186,7 +189,7 @@ public class MainFragment extends BaseFragment {
 
     private ChannelData mHomeChannel;
 
-    private ImageView mInfoButton;
+    //    private ImageView mInfoButton;
     private LinearLayout mLauncherLevel2;
     private LinearLayout mLauncherLevel3;
     private LinearLayout mLauncherLevel4;
@@ -236,7 +239,6 @@ public class MainFragment extends BaseFragment {
     private Button mToCommunityBtn;
     private String communityName;
 
-    private boolean isKeywordCommunityMode;
     private ImageView mCommunityCloseBtn;
 
 
@@ -268,8 +270,17 @@ public class MainFragment extends BaseFragment {
     private String mChannelIdForPush;
     private ImageView mAdsImage;
     private LinearLayout mlayout;
+    private ImageView mTalk;
 
     boolean mMapIsTouched = false;
+    private boolean isKeywordCommunityMode;
+    boolean isTalkMode = false;
+    boolean isTalkFlag = false;
+    boolean mTalkExpanded = false;
+    boolean touchedOnce = false;
+
+    private JSONArray jsonArrayBottom;
+
     View mView;
     TouchableWrapper mTouchView;
 
@@ -338,7 +349,7 @@ public class MainFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = super.onCreateView(inflater, container, savedInstanceState);
 
-        initMainListView(mView);
+//        initMainListView(mView);
 
         if (AuthHelper.isLogin(mActivity)) {
             loginByToken();
@@ -475,10 +486,10 @@ public class MainFragment extends BaseFragment {
         mInterior.setOnClickListener(this);
         mTowerCrane = (ImageView) view.findViewById(R.id.towerCrane);
         mTowerCrane.setOnClickListener(this);
-        mSay = (ImageView) view.findViewById(R.id.say);
-        mSay.setOnClickListener(this);
-        mEye = (ImageView) view.findViewById(R.id.eye);
-        mEye.setOnClickListener(this);
+//        mSay = (ImageView) view.findViewById(R.id.say);
+//        mSay.setOnClickListener(this);
+//        mEye = (ImageView) view.findViewById(R.id.eye);
+//        mEye.setOnClickListener(this);
 
         mSearch = (TextView) view.findViewById(R.id.search);
         mSearch.setOnClickListener(this);
@@ -515,8 +526,8 @@ public class MainFragment extends BaseFragment {
 
         mlayout = (LinearLayout) view.findViewById(R.id.mainListContainer);
 
-        mInfoButton = (ImageView) view.findViewById(R.id.infoButton);
-        mInfoButton.setOnClickListener(this);
+//        mInfoButton = (ImageView) view.findViewById(R.id.infoButton);
+//        mInfoButton.setOnClickListener(this);
 
         mToCommunityBtn = (Button) view.findViewById(R.id.toCommunityBtn);
 
@@ -572,8 +583,27 @@ public class MainFragment extends BaseFragment {
         mGolfImageView.setOnClickListener(this);
 
         // Level 8
-        mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
-        mEtcImageView.setOnClickListener(this);
+//        mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
+//        mEtcImageView.setOnClickListener(this);
+
+        mTalk = (ImageView) view.findViewById(R.id.talk);
+        mTalk.setOnClickListener(this);
+
+
+// $$
+//        mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);
+//        mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
+//        mTabAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
+//        addFragmentToTabAdapter(mTabAdapter, "keywordCommunity");
+//        addFragmentToTabAdapter(mTabAdapter, "talk");
+//        mViewPager.setAdapter(mTabAdapter);
+//        mTabLayout.setupWithViewPager(mViewPager);
+//
+//        setTabSelect();
+//
+//        onTabSelected(mTabLayout);
+
+
     }
 
 
@@ -584,8 +614,16 @@ public class MainFragment extends BaseFragment {
         }
 
         loadMainMarkers();
-        loadMainPosts();
         loadMainAds();
+//        loadMainPosts();
+
+        int zoom = (int) mMap.getCameraPosition().zoom;
+
+        if (isKeywordTouchable(zoom)) {
+            isTalkMode = false;
+        } else {
+            isTalkMode = true;
+        }
 
     }
 
@@ -653,11 +691,70 @@ public class MainFragment extends BaseFragment {
             mMainTitle.setVisibility(View.VISIBLE);
             mKeywordTitle.setText(communityName);
 //            loadCommunityMarkers(communityName);
-            mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
-
-
+//            mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
         }
     }
+
+    private void getTalkData() {
+        isLoading = true;
+
+        mMainListContainer.setVisibility(View.GONE);
+        mCommunityListContainer.setVisibility(View.VISIBLE);
+
+        try {
+            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+            params.put("page", 0);  //mTalkAdapter.getCurrentPage()
+            params.put("limit", 5);
+
+//            api_main_findPosts
+//            api_channels_findPosts
+
+            mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    if (status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    } else {
+                        try {
+                            JSONArray jsonArray = json.getJSONArray("data");
+                            jsonArrayBottom = jsonArray;
+                            if (jsonArray.length() != 0) {
+                                isTalkFlag = true;
+                                mTalk.setImageResource(R.drawable.button_kakao);
+
+                                mChannel = new ChannelData(json);
+
+                                String testPass = "this is test pass data";
+                                EventBus.getDefault().post(new PaulBusData("Paul", testPass));
+
+//                                doing
+
+                            } else {
+
+                                isTalkFlag = false;
+                                mTalk.setImageResource(R.drawable.button_kakao_black);
+
+                            }
+
+                            isLoading = false;
+                            //mTalkAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+                    }
+                }
+            });
+
+
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+    }
+
+//    sliding control
+//    mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
+//
+//
 
     @Override
     public void onEvent(SuccessData event) {
@@ -727,6 +824,12 @@ public class MainFragment extends BaseFragment {
                 Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 break;
         }
+    }
+
+    public void onEvent(PaulBusData event) {
+        String mty = event.type;
+        String msy = event.key;
+        Log.d("Paul", mty + " " + msy);
     }
 
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
@@ -810,6 +913,7 @@ public class MainFragment extends BaseFragment {
             mMainListContainer.setVisibility(View.GONE);
             mCommunityListContainer.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
+            mLauncherLevel8.setVisibility(View.VISIBLE);
             buttonClick.setDuration(500);
             updateCommunityBtn(zoom);
             loadCommunityMarkers(communityName);
@@ -846,6 +950,7 @@ public class MainFragment extends BaseFragment {
                 mMainTitle.setVisibility(View.GONE);                // Title의 '커뮤니티'
                 mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
                 mSearchLayout.setVisibility(View.VISIBLE);          // search bar
+                mLauncherLevel8.setVisibility(View.GONE);           // talk 숨김
                 isKeywordCommunityMode = false;
                 loadData();
                 break;
@@ -879,6 +984,7 @@ public class MainFragment extends BaseFragment {
                     Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 }
                 break;
+/*
 
             case R.id.keyword_etc:
                 mEtcImageView.startAnimation(buttonClick);
@@ -887,8 +993,29 @@ public class MainFragment extends BaseFragment {
                 mProgress.show();
 
                 showCommunityPanel();
+                break;
+*/
 
-//                Helper.startKeywordMapActivity(mActivity, mGolfChannel);
+            case R.id.talk:
+                mTalk.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                if (isTalkFlag) {
+//                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+//                    mTalkExpanded = true;
+                    Intent intent = new Intent(mActivity, BottomMainActivity.class);
+                    intent.putExtra("channels", jsonArrayBottom.toString());
+                    startActivity(intent);
+
+                    mTouchView.setEnabled(false);
+                } else if (isKeywordCommunityMode) {
+                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    mTalkExpanded = true;
+                } else {
+                    String divisionTalk = "talk";
+                    showTutorialDialog(divisionTalk);
+
+                }
                 break;
 
             case R.id.headerPanel:
@@ -953,6 +1080,7 @@ public class MainFragment extends BaseFragment {
                 Intent webIntent = new Intent(mActivity, WebViewActivity.class);
                 mActivity.startActivity(webIntent);
                 break;
+/*
 
             case R.id.infoButton:
                 zoom = (int) mMap.getCameraPosition().zoom;
@@ -968,6 +1096,7 @@ public class MainFragment extends BaseFragment {
 
                 mActivity.startActivity(mwebInt);
                 break;
+*/
 
 
             case R.id.search:
@@ -991,21 +1120,21 @@ public class MainFragment extends BaseFragment {
                 showTutorialDialog(division2);
                 break;
 
-            case R.id.say:
+          /*  case R.id.say:
                 mSay.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
                 Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
                 String division3 = "say";
                 showTutorialDialog(division3);
-                break;
+                break;*/
 
-            case R.id.eye:
+      /*      case R.id.eye:
                 mEye.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
                 Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
                 String division4 = "eye";
                 showTutorialDialog(division4);
-                break;
+                break;*/
 
             case R.id.communityCountry:
                 mCommunityCountryBtn.startAnimation(buttonClick);
@@ -1036,15 +1165,15 @@ public class MainFragment extends BaseFragment {
     }
 
     /*
-                        *
-                        * 외부링크 리스트 : link list
-                        *
-                        * 우만지 일반 설명 :   http://umanji.com/2016/06/17/manual0001/
-                        * 레벨별 입력 :       http://umanji.com/2016/06/22/input_level_explain/ ‎
-                        * 복합단지 설명 :     http://blog.naver.com/mothcar/220715838911
-                        * 일반 설명 : http://blog.naver.com/mothcar/220720111996
-                        *
-                        * */
+    *
+    * 외부링크 리스트 : link list
+    *
+    * 우만지 일반 설명 :   http://umanji.com/2016/06/17/manual0001/
+    * 레벨별 입력 :       http://umanji.com/2016/06/22/input_level_explain/ ‎
+    * 복합단지 설명 :     http://blog.naver.com/mothcar/220715838911
+    * 일반 설명 : http://blog.naver.com/mothcar/220720111996
+    *
+    * */
 
     private void showComplexTutorialDialog() {
 
@@ -1089,7 +1218,6 @@ public class MainFragment extends BaseFragment {
     }
 
     private void showCommunityPanel() {
-//                                paul doing
 
         final int zoom = (int) mMap.getCameraPosition().zoom;
 
@@ -1244,6 +1372,15 @@ public class MainFragment extends BaseFragment {
 
         } else if (division.equals("say")) {
             mMoveMessage.setText("말하기 : 지역과 커뮤니티에서 표현해보세요");
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.cancel();
+                }
+            });
+        } else if (division.equals("talk")) {
+            mMoveMessage.setText("이곳에 글을 쓴 사람이 아무도 없습니다");
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1706,7 +1843,7 @@ public class MainFragment extends BaseFragment {
                         // isPoliticTouchable
 
                         if (isComplexCreatable(zoom)) {
-                            mSay.setImageResource(R.drawable.say);
+//                            mSay.setImageResource(R.drawable.say);
 //                            mInterior.setVisibility(View.VISIBLE);
 //                            mTowerCrane.setVisibility(View.VISIBLE);
                             mInterior.setImageResource(R.drawable.interior_black);
@@ -1717,7 +1854,7 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                         } else if (isSpotCreatable(zoom)) {
-                            mSay.setImageResource(R.drawable.say);
+//                            mSay.setImageResource(R.drawable.say);
 //                            mInterior.setVisibility(View.VISIBLE);
 //                            mTowerCrane.setVisibility(View.VISIBLE);
                             mInterior.setImageResource(R.drawable.interior);
@@ -1727,7 +1864,7 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else if (isKeywordTouchable(zoom)) {
-                            mSay.setImageResource(R.drawable.say_black);
+//                            mSay.setImageResource(R.drawable.say_black);
 //                            mInterior.setVisibility(View.GONE);
 //                            mTowerCrane.setVisibility(View.GONE);
                             //mCreateComplexText.setVisibility(View.GONE);
@@ -1737,7 +1874,7 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else {
-                            mSay.setImageResource(R.drawable.say_black);
+//                            mSay.setImageResource(R.drawable.say_black);
 //                            mInterior.setVisibility(View.GONE);
 //                            mTowerCrane.setVisibility(View.GONE);
 //                            mInfoTextPanel.setText("전체보기 : else");
@@ -1749,6 +1886,10 @@ public class MainFragment extends BaseFragment {
 
                         loadData();
 
+                    }
+
+                    if (isTalkMode) {
+                        getTalkData();
                     }
 
                 }
@@ -2219,7 +2360,11 @@ public class MainFragment extends BaseFragment {
                             JSONArray jsonArray = object.getJSONArray("data");
                             if (jsonArray.length() != 0) {
 //                                mlayout.setBackgroundResource(R.color.feed_bg);
-                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
+//                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
+                                isTalkFlag= true;
+                                mTalk.setImageResource(R.drawable.button_kakao);
+//                                mTouchView.setEnabled(false);
+
 
                                 for (int idx = 0; idx < jsonArray.length(); idx++) {
                                     JSONObject jsonDoc = jsonArray.getJSONObject(idx);
@@ -2233,6 +2378,8 @@ public class MainFragment extends BaseFragment {
                             } else {
 //                                mlayout.setBackgroundResource(R.drawable.empty_main_post);
                                 mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
+                                isTalkFlag = false;
+                                mTalk.setImageResource(R.drawable.button_kakao_black);
 
                             }
 
@@ -2291,6 +2438,14 @@ public class MainFragment extends BaseFragment {
 
     private static boolean isKeywordTouchable(int zoom) {
         if (zoom >= 2 && zoom <= 7) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isTalkTouchable(int zoom) {
+        if (zoom >= 8) {
             return true;
         } else {
             return false;
@@ -2651,7 +2806,7 @@ public class MainFragment extends BaseFragment {
 
                     if (!isLoading) {
                         if (mPreFocusedItem == (totalItemCount - 2)) {
-                            loadMoreMainPosts();
+//                            loadMoreMainPosts();
                         }
                     }
                 }

@@ -68,6 +68,9 @@
             android:name=".ui.mainHome.MainHomeActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.channel.bottomWindow.BottomMainActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.mainHome.localCommunity.CreateLocalCommunityActivity"
             android:screenOrientation="portrait" />
         <activity

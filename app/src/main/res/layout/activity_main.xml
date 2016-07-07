@@ -97,29 +97,29 @@
                         android:id="@+id/keywordTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/communityText"
+                        android:layout_marginEnd="25dp"
                         android:layout_marginRight="25dp"
+                        android:layout_toLeftOf="@+id/communityText"
+                        android:layout_toStartOf="@+id/communityText"
                         android:gravity="center"
                         android:text="key"
                         android:textColor="@color/gray_text"
-                        android:textSize="16dp"
-                        android:layout_alignTop="@+id/communityText"
-                        android:layout_toLeftOf="@+id/communityText"
-                        android:layout_toStartOf="@+id/communityText"
-                        android:layout_marginEnd="25dp" />
+                        android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/communityText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="125dp"
+                        android:layout_marginRight="125dp"
                         android:gravity="center"
                         android:text="커뮤니티"
                         android:textColor="@color/gray_text"
-                        android:textSize="16dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="125dp"
-                        android:layout_marginEnd="125dp" />
+                        android:textSize="16dp" />
 
                 </RelativeLayout>
 
@@ -195,17 +195,18 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/community_country_black" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:shadowColor="#000"
                         android:shadowRadius="7.0"
                         android:text="국가단체"
                         android:textColor="@color/white"
                         android:textSize="13dp"
-                        android:textStyle="bold"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true" />
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
 
@@ -214,16 +215,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp">
+
                     <ImageView
                         android:id="@+id/communityAdmin"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/community_admin_black" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:shadowColor="#000"
                         android:shadowRadius="7.0"
                         android:text="시도단체"
@@ -237,16 +240,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp">
+
                     <ImageView
                         android:id="@+id/communityLocality"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/community_local_black" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:shadowColor="#000"
                         android:shadowRadius="7.0"
                         android:text="구군단체"
@@ -271,8 +276,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
                         android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
                         android:shadowColor="#000"
                         android:shadowRadius="7.0"
                         android:text="면동단체"
@@ -319,7 +324,7 @@
                 app:riv_corner_radius="5dp"
                 app:riv_oval="false" />
 
-            <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <!--<com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/infoButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -333,7 +338,7 @@
                 app:riv_border_color="@color/colorPrimary"
                 app:riv_border_width="1px"
                 app:riv_corner_radius="15dp"
-                app:riv_oval="false" />
+                app:riv_oval="false" />-->
 
             <Button
                 android:id="@+id/toCommunityBtn"
@@ -709,23 +714,10 @@
                     android:layout_alignParentStart="true">
 
                     <ImageView
-                        android:id="@+id/keyword_etc"
+                        android:id="@+id/talk"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@drawable/keyword_image"
-                        android:src="@drawable/keyword_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:shadowColor="#000"
-                        android:shadowRadius="7.0"
-                        android:text="커뮤니티"
-                        android:textColor="@color/white"
-                        android:textSize="14dp"
-                        android:textStyle="bold" />
+                        android:src="@drawable/button_kakao_black" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -734,11 +726,11 @@
                 android:id="@+id/tutorialPanel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_below="@+id/ads_image"
-                android:layout_marginTop="150dp"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/ads_image"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/interior"
@@ -760,14 +752,15 @@
                     android:src="@drawable/tower_crane_black"
                     android:visibility="visible" />
 
-                <ImageView
+              <!--  <ImageView
                     android:id="@+id/say"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_above="@+id/eye"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/say_black" />
+                    android:src="@drawable/say_black" />-->
+<!--
 
                 <ImageView
                     android:id="@+id/eye"
@@ -779,48 +772,42 @@
                     android:layout_marginBottom="30dp"
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/eye" />
+-->
 
 
             </LinearLayout>
 
 
+            <!--
+                        <RelativeLayout
+                            android:id="@+id/Panel"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@color/white"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/test_arrow"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignTop="@+id/linearLayout6"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ic_arrow_up" />
+
+                            <TextView
+                                android:id="@+id/testPanel"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="전체보기"
+                                android:textColor="@color/gray_text"
+                                android:textSize="16sp"
+                                android:gravity="center_vertical|center_horizontal" />
 
 
-<!--
-            <RelativeLayout
-                android:id="@+id/Panel"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/white"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/test_arrow"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignTop="@+id/linearLayout6"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_arrow_up" />
-
-                <TextView
-                    android:id="@+id/testPanel"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="전체보기"
-                    android:textColor="@color/gray_text"
-                    android:textSize="16sp"
-                    android:gravity="center_vertical|center_horizontal" />
-
-
-            </RelativeLayout>
--->
-
-
-
-
-
+                        </RelativeLayout>
+            -->
 
 
         </RelativeLayout>
@@ -861,10 +848,10 @@
                         android:id="@+id/mInfoTextPanel"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center_vertical|center_horizontal"
                         android:text="전체보기"
                         android:textColor="@color/gray_text"
-                        android:textSize="16sp"
-                        android:gravity="center_vertical|center_horizontal"/>
+                        android:textSize="16sp" />
 
                     <!--<TextView
 
@@ -918,7 +905,7 @@
                 android:id="@+id/communityListContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/empty_main_post"
+                android:background="@drawable/dark_bg"
                 android:clickable="true"
                 android:focusable="false"
                 android:orientation="vertical"
@@ -963,9 +950,7 @@
                 </android.support.design.widget.CoordinatorLayout>
             </LinearLayout>
 
-
         </LinearLayout>
-
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 

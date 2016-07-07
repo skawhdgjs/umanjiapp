@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
+import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.ui.BaseActivity;
 
 
@@ -19,6 +20,12 @@ public class MainActivity extends BaseActivity {
 
     protected Fragment createFragment() {
         return MainFragment.newInstance(getIntent().getBundleExtra("bundle"));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.move_base, R.anim.slide_out_down);
     }
 
     @Override
