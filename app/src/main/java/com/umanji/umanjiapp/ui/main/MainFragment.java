@@ -113,7 +113,6 @@ public class MainFragment extends BaseFragment {
      ****************************************************/
     private GoogleMap mMap;
 
-    private PostListAdapter mAdapter;
     private RoundedImageView mZoomBtn;
 
     private ImageView mInterior;
@@ -287,7 +286,6 @@ public class MainFragment extends BaseFragment {
     /****************************************************
      * from other Activity
      ****************************************************/
-    private String fromkeyword;
 
     public static MainFragment newInstance(Bundle bundle) {
         MainFragment fragment = new MainFragment();
@@ -2235,6 +2233,7 @@ public class MainFragment extends BaseFragment {
             mLauncherLevel8.setVisibility(View.VISIBLE);
         }
     }
+/*
 
     private void loadMainPosts() {
         mAdapter.resetDocs();
@@ -2242,6 +2241,7 @@ public class MainFragment extends BaseFragment {
 
         loadMoreMainPosts();
     }
+*/
 
     //*******                광고로직 테스트
 
@@ -2340,7 +2340,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void loadMoreMainPosts() {
+  /*  private void loadMoreMainPosts() {
         isLoading = true;
 //        mProgress.show();
 
@@ -2398,7 +2398,7 @@ public class MainFragment extends BaseFragment {
         mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
         mProgress.hide();
     }
-
+*/
     private void loginByToken() {
         try {
             JSONObject params = new JSONObject();
@@ -2769,6 +2769,7 @@ public class MainFragment extends BaseFragment {
         startActivity(intent);
     }
 
+/*
     protected void addOnScrollListener(RecyclerView rView) {
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(rView.getContext());
         rView.setLayoutManager(mLayoutManager);
@@ -2814,7 +2815,9 @@ public class MainFragment extends BaseFragment {
         });
 
     }
+*/
 
+/*
 
     protected RecyclerView initMainListView(View view) {
         RecyclerView rView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -2825,6 +2828,7 @@ public class MainFragment extends BaseFragment {
         addOnScrollListener(rView);
         return rView;
     }
+*/
 
     private void loadNewNoties() {
         try {
