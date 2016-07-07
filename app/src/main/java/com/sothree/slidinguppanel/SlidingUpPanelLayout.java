@@ -977,6 +977,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
             // If the scroll view isn't under the touch, pass the
             // event along to the dragView.
             if (!isViewUnder(mScrollableView, (int) mInitialMotionX, (int) mInitialMotionY)) {
+//                error
                 return super.dispatchTouchEvent(ev);
             }
 

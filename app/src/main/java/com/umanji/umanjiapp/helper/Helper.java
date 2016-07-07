@@ -5,27 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.NinePatch;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,10 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -70,7 +58,7 @@ import com.umanji.umanjiapp.ui.channel.profile.update.ProfileUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
-import com.umanji.umanjiapp.ui.keywordCommunity.KeywordCommunityActivity;
+import com.umanji.umanjiapp.ui.channelInterface.ChannelInterfaceActivity;
 import com.umanji.umanjiapp.ui.main.MainActivity;
 import com.umanji.umanjiapp.ui.mainHome.localCommunity.StepTwoActivity;
 import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
@@ -88,8 +76,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
-import android.graphics.Color;
 
 import de.greenrobot.event.EventBus;
 
@@ -664,6 +650,9 @@ public final class Helper implements AppConfig {
             case TYPE_LOCAL_COMPLEX:
                 intent = new Intent(activity, StepTwoActivity.class);
                 bundle.putString("localType", "local_complex");
+                break;
+            case TYPE_INTERFACE:
+                intent = new Intent(activity, ChannelInterfaceActivity.class);
                 break;
         }
 

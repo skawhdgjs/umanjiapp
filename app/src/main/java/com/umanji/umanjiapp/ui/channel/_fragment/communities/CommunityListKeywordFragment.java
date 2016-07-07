@@ -60,6 +60,8 @@ public class CommunityListKeywordFragment extends BaseChannelListFragment {
 
     @Override
     public void loadMoreData() {
+
+        /*
         isLoading = true;
         mLoadCount = mLoadCount + 1;
         try {
@@ -96,6 +98,8 @@ public class CommunityListKeywordFragment extends BaseChannelListFragment {
         } catch(JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
+
+        */
 
     }
 

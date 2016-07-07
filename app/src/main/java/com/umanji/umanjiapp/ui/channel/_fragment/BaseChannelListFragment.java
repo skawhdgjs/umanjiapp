@@ -16,6 +16,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,6 +52,15 @@ public abstract class BaseChannelListFragment extends BaseFragment {
 
         if(getArguments() != null) {
             String jsonString = getArguments().getString("channel");
+
+            try {
+                JSONArray jsonArray = new JSONArray(getArguments().getString("channels"));
+                Log.d("TAT", jsonArray.toString());
+            } catch (JSONException e) {
+
+            }
+
+
             if(jsonString != null) {
                 mChannel = new ChannelData(jsonString);
             }

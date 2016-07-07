@@ -1,4 +1,4 @@
-package com.umanji.umanjiapp.ui.channel._fragment.posts;
+package com.umanji.umanjiapp.ui.channel._fragment.talk;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -24,15 +23,16 @@ import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
-public class PostListFragment extends BaseChannelListFragment {
-    private static final String TAG = "PostListFragment";
+public class TalkListFragment extends BaseChannelListFragment {
+    private static final String TAG = "TalkListFragment";
     private LinearLayout mlayout;
 
-    public static PostListFragment newInstance(Bundle bundle) {
-        PostListFragment fragment = new PostListFragment();
+    public static TalkListFragment newInstance(Bundle bundle) {
+        TalkListFragment fragment = new TalkListFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class PostListFragment extends BaseChannelListFragment {
 
     @Override
     public BaseChannelListAdapter getListAdapter() {
-        return new PostListAdapter(mActivity, this, mChannel);
+        return new TalkListAdapter(mActivity, this, mChannel);
     }
 
     @Override
@@ -62,6 +62,82 @@ public class PostListFragment extends BaseChannelListFragment {
         mLoadCount = mLoadCount + 1;
 
 
+        String thisType = getArguments().getString("division");
+//        thisType.equals("channelInterface")
+
+        if(thisType.equals("talk")){
+
+            try {
+//                JSONObject jsonObj = new JSONObject(getArguments().getString("channel"));
+
+                JSONArray jsonArray = new JSONArray(getArguments().getString("channels"));
+                Log.d("@@@@@@@@@@@@@@@", jsonArray.toString());
+
+                if(jsonArray.length() != 0) {
+
+                    for(int idx = 0; idx < jsonArray.length(); idx++) {
+                        JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                        ChannelData doc = new ChannelData(jsonDoc);
+
+                        if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                            mAdapter.addBottom(doc);
+                        }
+                    }
+
+                    updateView();
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, "Error " + e.toString());
+            }
+
+
+        } else {
+            try {
+                JSONObject params = new JSONObject();
+                params.put("page", mAdapter.getCurrentPage()); // for paging
+                params.put("keywords", mChannel.getName());
+                params.put("limit", 5);
+                params.put("type", TYPE_POST);
+
+
+                mApi.call(api_channels_posts_find, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject object, AjaxStatus status) {
+                        if(status.getCode() == 500) {
+                            EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                        }else {
+                            try {
+                                JSONArray jsonArray = object.getJSONArray("data");
+
+                                if(jsonArray.length() != 0) {
+
+                                    mlayout.setBackgroundResource(R.color.feed_bg);
+
+                                    for(int idx = 0; idx < jsonArray.length(); idx++) {
+                                        JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                        ChannelData doc = new ChannelData(jsonDoc);
+
+                                        if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                            mAdapter.addBottom(doc);
+                                        }
+                                    }
+
+                                    updateView();
+                                }
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Error " + e.toString());
+                            }
+
+                            isLoading = false;
+                        }
+                    }
+                });
+                mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
+            } catch(JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
+/*
             try {
                 JSONObject params = new JSONObject();
                 params.put("page", mAdapter.getCurrentPage()); // for paging
@@ -114,57 +190,9 @@ public class PostListFragment extends BaseChannelListFragment {
             } catch(JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
-
-
-
-/*
-        try {
-            JSONObject params = new JSONObject();
-            params.put("page", mAdapter.getCurrentPage()); // for paging
-            params.put("keywords", mChannel.getName());
-            params.put("limit", 5);
-            params.put("type", TYPE_POST);
-
-
-            mApi.call(api_channels_posts_find, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if(status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    }else {
-                        try {
-                            JSONArray jsonArray = object.getJSONArray("data");
-
-                            if(jsonArray.length() != 0) {
-
-                                mlayout.setBackgroundResource(R.color.feed_bg);
-
-                                for(int idx = 0; idx < jsonArray.length(); idx++) {
-                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                    ChannelData doc = new ChannelData(jsonDoc);
-
-                                    if(doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
-                                        mAdapter.addBottom(doc);
-                                    }
-                                }
-
-                                updateView();
-                            }
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error " + e.toString());
-                        }
-
-                        isLoading = false;
-                    }
-                }
-            });
-            mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-        } catch(JSONException e) {
-            Log.e(TAG, "error " + e.toString());
-        }
 */
 
-
+        }
 
 
     }
@@ -188,7 +216,7 @@ public class PostListFragment extends BaseChannelListFragment {
                     mAdapter.addTop(channelData);
                     mAdapter.notifyDataSetChanged();
                 }
-                mlayout.setBackgroundResource(R.color.feed_bg);
+
                 break;
 
         }
