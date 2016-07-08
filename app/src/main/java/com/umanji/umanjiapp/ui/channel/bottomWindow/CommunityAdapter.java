@@ -69,17 +69,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
-//        viewHolder.getmUserName().setText(mDataSet[position]);
-/*
 
-        if(mChannels.get(position).getPhone() != null ){
-            String userPhoto = mChannels.get(position).getPhoto();
-            Glide.with(mContext)
-                    .load(userPhoto)
-                    .override(40, 40)
-                    .into(viewHolder.mUserPhoto);
-        }
-*/
         viewHolder.getTalkCard().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +83,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
             }
         });
-        if(mChannels.get(position).getOwner().getPhoto() != null ) {
+        if(mChannels.get(position).getPhoto() != null ) {
             String userPhoto = mChannels.get(position).getOwner().getPhoto();
 //            Picasso.with(mContext).load(userPhoto).into(viewHolder.getUserPhoto());
 
@@ -107,7 +97,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
         }
 
-        viewHolder.getUserName().setText(mChannels.get(position).getOwner().getUserName());
+//        viewHolder.getUserName().setText(mChannels.get(position).getOwner().getUserName());
         viewHolder.getName().setText(mChannels.get(position).getName());
 //        viewHolder.getParentType().setText(mChannels.get(position).getParent().getType());
 

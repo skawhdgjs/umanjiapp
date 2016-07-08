@@ -2,6 +2,7 @@ package com.umanji.umanjiapp.ui.main;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -279,6 +280,7 @@ public class MainFragment extends BaseFragment {
     boolean touchedOnce = false;
 
     private JSONArray jsonArrayBottom;
+    private JSONObject getMinMaxParams;
 
     View mView;
     TouchableWrapper mTouchView;
@@ -700,12 +702,16 @@ public class MainFragment extends BaseFragment {
         mCommunityListContainer.setVisibility(View.VISIBLE);
 
         try {
+
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("page", 0);  //mTalkAdapter.getCurrentPage()
-            params.put("limit", 5);
+            params.put("limit", 1);
 
+            getMinMaxParams = params;
 //            api_main_findPosts
 //            api_channels_findPosts
+            EventBus.getDefault().post(new PaulBusData("talk", getMinMaxParams));
+//                                doing
 
             mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
                 @Override
@@ -721,11 +727,6 @@ public class MainFragment extends BaseFragment {
                                 mTalk.setImageResource(R.drawable.button_kakao);
 
                                 mChannel = new ChannelData(json);
-
-                                String testPass = "this is test pass data";
-                                EventBus.getDefault().post(new PaulBusData("Paul", testPass));
-
-//                                doing
 
                             } else {
 
@@ -823,12 +824,14 @@ public class MainFragment extends BaseFragment {
                 break;
         }
     }
+/*  Event Bus Default response
 
     public void onEvent(PaulBusData event) {
         String mty = event.type;
         String msy = event.key;
         Log.d("Paul", mty + " " + msy);
     }
+*/
 
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
@@ -1001,7 +1004,9 @@ public class MainFragment extends BaseFragment {
                 if (isTalkFlag) {
 //                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
 //                    mTalkExpanded = true;
+
                     Intent intent = new Intent(mActivity, BottomMainActivity.class);
+                    intent.putExtra("params", getMinMaxParams.toString());
                     intent.putExtra("channels", jsonArrayBottom.toString());
                     startActivity(intent);
 

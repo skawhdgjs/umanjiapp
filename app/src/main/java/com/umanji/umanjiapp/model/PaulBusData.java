@@ -13,4 +13,9 @@ public class PaulBusData {
         this.type = type;
         this.key = key;
     }
+
+    public PaulBusData(String type, JSONObject obj) {
+        this.type = type;
+        this.response = obj;
+    }
 }

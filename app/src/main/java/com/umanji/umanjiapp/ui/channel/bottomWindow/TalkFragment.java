@@ -5,11 +5,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 
 import org.json.JSONArray;
@@ -21,17 +26,19 @@ import java.util.ArrayList;
 /**
  * Created by paul on 7/6/16.
  */
-public class TalkFragment extends Fragment {
+public class TalkFragment extends Fragment implements AppConfig {
+    private static final String TAG = "RecyclerViewFragment";
+    private static final String KEY_LAYOUT_MANAGER = "layoutManager";
+    private static final int SPAN_COUNT = 2;
+
+    public ApiHelper mApi;
+    private JSONObject mParams;
 
     public static TalkFragment newInstance(Bundle bundle) {
         TalkFragment fragment = new TalkFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
-
-    private static final String TAG = "RecyclerViewFragment";
-    private static final String KEY_LAYOUT_MANAGER = "layoutManager";
-    private static final int SPAN_COUNT = 2;
 
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
@@ -42,7 +49,6 @@ public class TalkFragment extends Fragment {
     protected RecyclerView mRecyclerView;
     protected TalkAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected String[] mDataset;
     protected ArrayList<ChannelData> mChannels;
 
     @Override
@@ -51,7 +57,18 @@ public class TalkFragment extends Fragment {
 
         // Initialize dataset, this data would usually come from a local content provider or
         // remote server.
-        initDataset();
+
+        mApi = new ApiHelper(getContext());
+
+        String getData = getArguments().getString("params");
+
+        try {
+            mParams = new JSONObject(getData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        getTalkData(mParams);
     }
 
     @Override
@@ -68,10 +85,6 @@ public class TalkFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
 
         setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
-
-        mAdapter = new TalkAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
-        // Set TalkAdapter as the adapter for RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -105,10 +118,9 @@ public class TalkFragment extends Fragment {
      * Generates Strings for RecyclerView's adapter. This data would usually come
      * from a local content provider or remote server.
      */
-    private void initDataset() {
-        mDataset = new String[60];
-        mChannels   = new ArrayList<ChannelData>();
-        String getData = getArguments().getString("channels");
+    private void initDataset(String mData) {
+        mChannels = new ArrayList<ChannelData>();
+        String getData = mData;
         JSONArray jsonArray = null;
         try {
             jsonArray = new JSONArray(getData);
@@ -125,7 +137,47 @@ public class TalkFragment extends Fragment {
             }
             ChannelData doc = new ChannelData(jsonDoc);
             mChannels.add(doc);
-
         }
+        mAdapter = new TalkAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
+        // Set TalkAdapter as the adapter for RecyclerView.
+        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter.notifyDataSetChanged();
     }
+
+    private void getTalkData(JSONObject params){
+
+        try {
+            params.put("limit", 30);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                if (status.getCode() == 500) {
+//                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                } else {
+                    try {
+                        JSONArray jsonArray = json.getJSONArray("data");
+
+                        if (jsonArray.length() != 0) {
+
+                            String mdata = jsonArray.toString();
+
+                            initDataset(mdata);
+
+                        } else {
+
+                        }
+                        //mTalkAdapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Error " + e.toString());
+                    }
+                }
+            }
+        });
+
+    }
+
 }

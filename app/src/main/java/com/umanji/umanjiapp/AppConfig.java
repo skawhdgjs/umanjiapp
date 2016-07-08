@@ -92,7 +92,7 @@ public interface AppConfig {
     String api_complex_findSpots        = "GET  /complex/id/spots";
 
 
-    String api_findCommunity            = "GET  /channels/community";
+    String api_findCommunity            = "GET  /channels/community";   // 대한민국 정보센터 하나만 가져옴
 
     String api_channels_id_update       = "PUT  /channels/id";
     String api_profile_id_update        = "PUT  /channels/id/profile";

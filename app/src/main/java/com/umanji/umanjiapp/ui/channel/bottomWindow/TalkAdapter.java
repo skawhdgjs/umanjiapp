@@ -70,17 +70,7 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
 
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
-//        viewHolder.getmUserName().setText(mDataSet[position]);
-/*
 
-        if(mChannels.get(position).getPhone() != null ){
-            String userPhoto = mChannels.get(position).getPhoto();
-            Glide.with(mContext)
-                    .load(userPhoto)
-                    .override(40, 40)
-                    .into(viewHolder.mUserPhoto);
-        }
-*/
         viewHolder.getTalkCard().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

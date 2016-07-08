@@ -1,6 +1,5 @@
 package com.umanji.umanjiapp.ui.channel.bottomWindow;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,21 +8,38 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
+import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.ApiHelper;
+import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.ErrorData;
+import com.umanji.umanjiapp.model.PaulBusData;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 
-public class BottomMainActivity extends AppCompatActivity {
+
+public class BottomMainActivity extends AppCompatActivity{
+
+    private static final String TAG = "BottomMainActivity";
 
 //    Intent intent = getIntent();
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private String mData;;
+    private String mData;
+    private String mParams;
 
     int mEnterAnim = 0;
     int mExitAnim = 0;
@@ -33,19 +49,16 @@ public class BottomMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_main);
 
+//        EventBus.getDefault().register(this);
+        mParams = getIntent().getStringExtra("params");
+
         mEnterAnim = getIntent().getIntExtra("enterAnim", R.anim.slide_in_up);
         mExitAnim = getIntent().getIntExtra("exitAnim", R.anim.slide_in_down);
 
         this.overridePendingTransition(mEnterAnim, R.anim.move_base);
 
-//        overridePendingTransition( R.anim.slide_in_up, R.anim.slide_out_up );
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle("지역소식");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);  //Umanji
-//        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -54,15 +67,23 @@ public class BottomMainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+
     private void setupViewPager(ViewPager viewPager) {
-        mData = getIntent().getExtras().getString("channels");
+//        mData = getIntent().getExtras().getString("channels");
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         Bundle bundle = new Bundle();
-        bundle.putString("channels", mData);
+//        bundle.putString("channels", mData);
+        bundle.putString("params", mParams);
         adapter.addFragment(TalkFragment.newInstance(bundle), "Talk");
         adapter.addFragment(CommunityFragment.newInstance(bundle), "Community");
 //        adapter.addFragment(new CommunityFragment(), "Community");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     @Override
@@ -71,6 +92,14 @@ public class BottomMainActivity extends AppCompatActivity {
         super.finish();
         this.overridePendingTransition(mExitAnim, R.anim.move_base);
     }
+/*
+
+    public void onEvent(PaulBusData event) {
+        String type = event.type;
+        mParams = event.response;
+        Log.d("Paul", type + " " + mParams);
+    }
+*/
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
