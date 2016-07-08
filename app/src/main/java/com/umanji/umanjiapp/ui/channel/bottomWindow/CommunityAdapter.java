@@ -57,7 +57,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.card_talk, viewGroup, false);
+                .inflate(R.layout.bottom_card_community, viewGroup, false);
 
         return new ViewHolder(v);
     }
@@ -75,7 +75,6 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
             public void onClick(View v) {
                 if(mChannels.get(position).getParent() != null){
                     mChannel = mChannels.get(position).getParent();
-//                String type = mChannel.getType();
                     Helper.startActivity(mActivity, mChannel);
                 } else {
                     Toast.makeText(mActivity, "준비중입니다", Toast.LENGTH_SHORT).show();
@@ -84,7 +83,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
             }
         });
         if(mChannels.get(position).getPhoto() != null ) {
-            String userPhoto = mChannels.get(position).getOwner().getPhoto();
+            String userPhoto = mChannels.get(position).getPhoto();
 //            Picasso.with(mContext).load(userPhoto).into(viewHolder.getUserPhoto());
 
             Glide.with(mContext)
@@ -97,9 +96,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
         }
 
-//        viewHolder.getUserName().setText(mChannels.get(position).getOwner().getUserName());
         viewHolder.getName().setText(mChannels.get(position).getName());
-//        viewHolder.getParentType().setText(mChannels.get(position).getParent().getType());
 
 
         if(mChannels.get(position).getParent() != null ){
@@ -110,17 +107,6 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
             viewHolder.getParentName().setText(mChannels.get(position).getParent().getName());
         } else {
 
-        }
-
-        String dateString = mChannels.get(position).getCreatedAt();
-        try{
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            Date parsedDate = dateFormat.parse(dateString);
-            Timestamp timestamp = new Timestamp(parsedDate.getTime());
-            viewHolder.getCreatedAt().setText(Helper.toPrettyDate(timestamp.getTime()));
-        }catch(Exception e){
-            Log.e(TAG, "error " + e.toString());
         }
 
     }
@@ -142,11 +128,9 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
         private final RelativeLayout mTalkCard;
         private final RoundedImageView mUserPhoto;
-        private final TextView mUserName;
         private final TextView mName;
-//        private final TextView mParentType;
         private final TextView mParentName;
-        private final TextView mCreatedAt;
+
 
 
 
@@ -164,11 +148,8 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
             mTalkCard = (RelativeLayout) v.findViewById(R.id.talkCard);
             mUserPhoto = (RoundedImageView) v.findViewById(R.id.userPhoto);
-            mUserName = (TextView) v.findViewById(R.id.userName);
             mName = (TextView) v.findViewById(R.id.name);
-//            mParentType = (TextView) v.findViewById(R.id.parentType);
             mParentName = (TextView) v.findViewById(R.id.parentName);
-            mCreatedAt = (TextView) v.findViewById(R.id.createdAt);
 
         }
 
@@ -178,22 +159,11 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
         public RoundedImageView getUserPhoto() {
             return mUserPhoto;
         }
-        public TextView getUserName() {
-            return mUserName;
-        }
         public TextView getName() {
             return mName;
         }
- /*
-        public TextView getParentType() {
-            return mParentType;
-        }
-   */
         public TextView getParentName() {
             return mParentName;
-        }
-        public TextView getCreatedAt() {
-            return mCreatedAt;
         }
     }
 }

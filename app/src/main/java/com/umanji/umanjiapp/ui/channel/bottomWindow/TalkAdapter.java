@@ -58,7 +58,7 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.card_talk, viewGroup, false);
+                .inflate(R.layout.bottom_card_talk, viewGroup, false);
 
         return new ViewHolder(v);
     }

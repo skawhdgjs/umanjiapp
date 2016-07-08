@@ -28,7 +28,7 @@ public class TalkListAdapter extends BaseChannelListAdapter {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_talk, parent, false);
+                .inflate(R.layout.bottom_card_talk, parent, false);
 
         return new ViewHolder(view);
     }
