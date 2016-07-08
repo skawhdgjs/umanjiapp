@@ -14,11 +14,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.squareup.picasso.Picasso;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
-
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -29,8 +27,8 @@ import java.util.TimeZone;
 /**
  * Created by paul on 7/6/16.
  */
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-    private static final String TAG = "CustomAdapter";
+public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.ViewHolder> {
+    private static final String TAG = "TalkAdapter";
     private Context mContext;
 
     protected static Activity mActivity;
@@ -45,10 +43,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      *
      * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
      */
-    public CustomAdapter(String[] dataSet) {
+    public CommunityAdapter(String[] dataSet) {
         mDataSet = dataSet;
     }
-    public CustomAdapter(Activity activity, Context context,ArrayList<ChannelData> channelData) {
+    public CommunityAdapter(Activity activity, Context context, ArrayList<ChannelData> channelData) {
         this.mActivity = activity;
         this.mContext = context;
         mChannels   = channelData;

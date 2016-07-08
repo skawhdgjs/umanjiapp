@@ -3,14 +3,11 @@ package com.umanji.umanjiapp.ui.channel.bottomWindow;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -26,27 +23,6 @@ import java.util.ArrayList;
  */
 public class TalkFragment extends Fragment {
 
-
-    /*
-    public TalkFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_one, container, false);
-    }
-
-}
-
-*/
     public static TalkFragment newInstance(Bundle bundle) {
         TalkFragment fragment = new TalkFragment();
         fragment.setArguments(bundle);
@@ -56,7 +32,6 @@ public class TalkFragment extends Fragment {
     private static final String TAG = "RecyclerViewFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
-    private static final int DATASET_COUNT = 60;
 
     private enum LayoutManagerType {
         GRID_LAYOUT_MANAGER,
@@ -65,7 +40,7 @@ public class TalkFragment extends Fragment {
 
     protected LayoutManagerType mCurrentLayoutManagerType;
     protected RecyclerView mRecyclerView;
-    protected CustomAdapter mAdapter;
+    protected TalkAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected String[] mDataset;
     protected ArrayList<ChannelData> mChannels;
@@ -93,35 +68,9 @@ public class TalkFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
 
         setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
-        /*
-        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
-        if (savedInstanceState != null) {
-            // Restore saved layout manager type.
-            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
-                    .getSerializable(KEY_LAYOUT_MANAGER);
-        }
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-
-        mLinearLayoutRadioButton = (RadioButton) rootView.findViewById(R.id.linear_layout_rb);
-        mLinearLayoutRadioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        mGridLayoutRadioButton = (RadioButton) rootView.findViewById(R.id.grid_layout_rb);
-        mGridLayoutRadioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setRecyclerViewLayoutManager(LayoutManagerType.GRID_LAYOUT_MANAGER);
-            }
-        });
-*/
-
-        mAdapter = new CustomAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
-        // Set CustomAdapter as the adapter for RecyclerView.
+        mAdapter = new TalkAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
+        // Set TalkAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
@@ -136,12 +85,6 @@ public class TalkFragment extends Fragment {
         int scrollPosition = 0;
 
         // If a layout manager has already been set, get current scroll position.
-        /*
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-*/
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
@@ -184,9 +127,5 @@ public class TalkFragment extends Fragment {
             mChannels.add(doc);
 
         }
-
-
-
-
     }
 }

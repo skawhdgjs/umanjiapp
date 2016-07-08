@@ -60,8 +60,16 @@ public class BottomMainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("channels", mData);
         adapter.addFragment(TalkFragment.newInstance(bundle), "Talk");
-        adapter.addFragment(new CommunityFragment(), "Community");
+        adapter.addFragment(CommunityFragment.newInstance(bundle), "Community");
+//        adapter.addFragment(new CommunityFragment(), "Community");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void finish() {
+
+        super.finish();
+        this.overridePendingTransition(mExitAnim, R.anim.move_base);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -91,12 +99,5 @@ public class BottomMainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-    @Override
-    public void finish() {
-
-        super.finish();
-        this.overridePendingTransition(mExitAnim, R.anim.move_base);
     }
 }
