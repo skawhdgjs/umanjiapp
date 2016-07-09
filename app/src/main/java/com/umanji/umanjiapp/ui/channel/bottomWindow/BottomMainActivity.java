@@ -40,6 +40,9 @@ public class BottomMainActivity extends AppCompatActivity{
     private ViewPager viewPager;
     private String mData;
     private String mParams;
+    private JSONObject mParamsObj;
+
+    private String thisType;
 
     int mEnterAnim = 0;
     int mExitAnim = 0;
@@ -51,6 +54,24 @@ public class BottomMainActivity extends AppCompatActivity{
 
 //        EventBus.getDefault().register(this);
         mParams = getIntent().getStringExtra("params");
+        try {
+            mParamsObj = new JSONObject(mParams);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+
+            thisType = mParamsObj.getString("type");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (thisType == null){
+            thisType = "talk";
+        } else {
+            thisType = "keywordCommunity";
+        }
+
 
         mEnterAnim = getIntent().getIntExtra("enterAnim", R.anim.slide_in_up);
         mExitAnim = getIntent().getIntExtra("exitAnim", R.anim.slide_in_down);
@@ -61,21 +82,25 @@ public class BottomMainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        setupViewPager(viewPager, thisType);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
     }
 
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(ViewPager viewPager, String thisType) {
 //        mData = getIntent().getExtras().getString("channels");
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         Bundle bundle = new Bundle();
 //        bundle.putString("channels", mData);
         bundle.putString("params", mParams);
+
         adapter.addFragment(TalkFragment.newInstance(bundle), "Talk");
         adapter.addFragment(CommunityFragment.newInstance(bundle), "Community");
+        if (thisType.equals("keywordCommunity")){
+            adapter.addFragment(ProfessionalFragment.newInstance(bundle), "professional");
+        }
 //        adapter.addFragment(new CommunityFragment(), "Community");
         viewPager.setAdapter(adapter);
     }

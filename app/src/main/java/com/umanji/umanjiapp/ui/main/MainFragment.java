@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -281,6 +282,8 @@ public class MainFragment extends BaseFragment {
 
     private JSONArray jsonArrayBottom;
     private JSONObject getMinMaxParams;
+    private SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
     View mView;
     TouchableWrapper mTouchView;
@@ -300,6 +303,8 @@ public class MainFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         String fromHomeUser;
+        sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
         if (getArguments() != null) {
             fromHomeUser = getArguments().getString("id");
             if (fromHomeUser != null) {
@@ -661,8 +666,15 @@ public class MainFragment extends BaseFragment {
         * */
 
         if (isKeywordCommunityMode) {
+            JSONObject params1 = null;
             try {
-                JSONObject params1 = new JSONObject();
+                if(mMap == null){
+                    String tempString = sharedpreferences.getString("MyParams", "empty");
+                    params1 = new JSONObject(tempString);
+                } else {
+                    params1 = Helper.getZoomMinMaxLatLngParams(mMap);
+                }
+
                 params1.put("name", communityName);
 
                 mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
@@ -690,16 +702,77 @@ public class MainFragment extends BaseFragment {
             mSearchLayout.setVisibility(View.GONE);
             mMainTitle.setVisibility(View.VISIBLE);
             mKeywordTitle.setText(communityName);
+            getKeywordCommunityData();  // keywordCommunityMode 일때 키워드 전문가 tab 추가
 //            loadCommunityMarkers(communityName);
 //            mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
         }
     }
+//    doing now
+    private void getKeywordCommunityData() {
+        isLoading = true;
+
+        mMainListContainer.setVisibility(View.GONE);
+//        mCommunityListContainer.setVisibility(View.VISIBLE);
+
+        JSONObject params = null;
+        try {
+            if(mMap == null){
+                String tempString = sharedpreferences.getString("MyParams", "empty");
+                params = new JSONObject(tempString);
+            } else {
+                params = Helper.getZoomMinMaxLatLngParams(mMap);
+            }
+            params.put("type", TYPE_COMMUNITY);
+            params.put("limit", 1);
+
+            getMinMaxParams = params;
+//            EventBus.getDefault().post(new PaulBusData("talk", getMinMaxParams));
+// api_channels_communities_num
+            mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    if (status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    } else {
+                        try {
+                            JSONArray jsonArray = json.getJSONArray("data");
+                            jsonArrayBottom = jsonArray;
+                            if (jsonArray.length() != 0) {
+                                isTalkFlag = true;
+                                mTalk.setImageResource(R.drawable.button_kakao);
+
+                                mChannel = new ChannelData(json);
+
+                            } else {
+
+                                isTalkFlag = false;
+                                mTalk.setImageResource(R.drawable.button_kakao_black);
+
+                            }
+
+                            isLoading = false;
+                            //mTalkAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error " + e.toString());
+                        }
+                    }
+                }
+            });
+
+
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+    }
+
 
     private void getTalkData() {
         isLoading = true;
 
+        Log.d("Paul", sharedpreferences.getString("MyParams", "none"));
+
         mMainListContainer.setVisibility(View.GONE);
-        mCommunityListContainer.setVisibility(View.VISIBLE);
+//        mCommunityListContainer.setVisibility(View.VISIBLE);
 
         try {
 
@@ -707,11 +780,16 @@ public class MainFragment extends BaseFragment {
             params.put("page", 0);  //mTalkAdapter.getCurrentPage()
             params.put("limit", 1);
 
+            String paramsToString = params.toString();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+
+            editor.putString("MyParams", paramsToString);
+            editor.commit();
+
             getMinMaxParams = params;
 //            api_main_findPosts
 //            api_channels_findPosts
-            EventBus.getDefault().post(new PaulBusData("talk", getMinMaxParams));
-//                                doing
+//            EventBus.getDefault().post(new PaulBusData("talk", getMinMaxParams));
 
             mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
                 @Override
@@ -912,7 +990,7 @@ public class MainFragment extends BaseFragment {
 //            mToCommunityBtn.setVisibility(View.VISIBLE);
             mCommunityGoToPanel.setVisibility(View.VISIBLE);
             mMainListContainer.setVisibility(View.GONE);
-            mCommunityListContainer.setVisibility(View.VISIBLE);
+//            mCommunityListContainer.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
             mLauncherLevel8.setVisibility(View.VISIBLE);
             buttonClick.setDuration(500);
@@ -1007,7 +1085,7 @@ public class MainFragment extends BaseFragment {
 
                     Intent intent = new Intent(mActivity, BottomMainActivity.class);
                     intent.putExtra("params", getMinMaxParams.toString());
-                    intent.putExtra("channels", jsonArrayBottom.toString());
+//                    intent.putExtra("channels", jsonArrayBottom.toString());
                     startActivity(intent);
 
                     mTouchView.setEnabled(false);
@@ -1383,7 +1461,7 @@ public class MainFragment extends BaseFragment {
                 }
             });
         } else if (division.equals("talk")) {
-            mMoveMessage.setText("이곳에 글을 쓴 사람이 아무도 없습니다");
+            mMoveMessage.setText("이곳에는 아직 정보가 없습니다");
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1887,8 +1965,9 @@ public class MainFragment extends BaseFragment {
 
                         getKeywordCommunity(zoom);
 
+                        getKeywordCommunityData();
                         loadData();
-
+//doing now
                     }
 
                     if (isTalkMode) {
