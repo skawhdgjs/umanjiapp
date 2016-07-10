@@ -152,13 +152,18 @@ public class CommunityFragment extends Fragment  implements AppConfig {
 
         try {
             params.put("type", TYPE_COMMUNITY);
+//            params.put("keywords", communityName);
             params.put("limit", 30);
             params.put("sort", "point DESC");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+//        api_channels_communities_num
+//        api_main_findPosts
 
-        mApi.call(api_channels_communities_num, params, new AjaxCallback<JSONObject>() {
+//        api_main_findDistributions
+//        api_channels_bottomCommunity
+        mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 if (status.getCode() == 500) {

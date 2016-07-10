@@ -1081,19 +1081,24 @@ public class MainFragment extends BaseFragment {
                 mTalk.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
+                Intent bottomIntent;
+                bottomIntent = new Intent(mActivity, BottomMainActivity.class);
                 if (isTalkFlag) {
 //                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
 //                    mTalkExpanded = true;
-
-                    Intent intent = new Intent(mActivity, BottomMainActivity.class);
-                    intent.putExtra("params", getMinMaxParams.toString());
+                    if(isKeywordCommunityMode == false){
+                        bottomIntent.putExtra("type", "talkMode");
+                    } else {
+                        bottomIntent.putExtra("type", "keywordCommunityMode");
+                    }
+                    bottomIntent.putExtra("params", getMinMaxParams.toString());
 //                    intent.putExtra("channels", jsonArrayBottom.toString());
-                    startActivity(intent);
+                    startActivity(bottomIntent);
 
                     mTouchView.setEnabled(false);
                 } else if (isKeywordCommunityMode) {
-                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                    mTalkExpanded = true;
+//                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+//                    mTalkExpanded = true;
                 } else {
                     String divisionTalk = "talk";
                     showTutorialDialog(divisionTalk);
@@ -1950,8 +1955,7 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setTag(ZOOM_IN);
                         }
 
-                        getKeywordCommunity(zoom);
-
+                        getKeywordCommunityBtn(zoom);
                         getKeywordCommunityData();
                         loadData();
                     }
@@ -2143,7 +2147,7 @@ public class MainFragment extends BaseFragment {
     }
 
 
-    private void getKeywordCommunity(int zoom) {
+    private void getKeywordCommunityBtn(int zoom) {
         mLauncherLevel2.setVisibility(View.GONE);
         mLauncherLevel3.setVisibility(View.GONE);
         mLauncherLevel4.setVisibility(View.GONE);
@@ -2159,14 +2163,12 @@ public class MainFragment extends BaseFragment {
                 JSONObject params1 = new JSONObject();
                 params1.put("name", "환경");
 
-
                 mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         mEnvironmentChannel = new ChannelData(json);
                     }
                 });
-
 
                 JSONObject params2 = new JSONObject();
                 params2.put("name", "에너지");
@@ -2219,7 +2221,6 @@ public class MainFragment extends BaseFragment {
                 Log.e(TAG, "error " + e.toString());
             }
 
-
         } else if (zoom == 5) {
             mLauncherLevel5.setVisibility(View.VISIBLE);
 
@@ -2250,7 +2251,6 @@ public class MainFragment extends BaseFragment {
                         mHealthChannel = new ChannelData(json);
                     }
                 });
-
 
                 JSONObject params2 = new JSONObject();
                 params2.put("name", "정치");
@@ -2540,10 +2540,8 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-
     private void loadMainMarkers() {
         //mProgress.show();
-
 
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
@@ -2574,7 +2572,6 @@ public class MainFragment extends BaseFragment {
         mProgress.hide();
 
     }
-
 
     private void addChannelsToMap(JSONObject jsonObject) {
         Double fetchLat;
@@ -2916,7 +2913,6 @@ public class MainFragment extends BaseFragment {
             Log.e(TAG, "Error " + e.toString());
         }
     }
-
 
     private boolean checkPlayServices() {
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(mActivity);

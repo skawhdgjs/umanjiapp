@@ -43,6 +43,7 @@ public class BottomMainActivity extends AppCompatActivity{
     private JSONObject mParamsObj;
 
     private String thisType;
+    private String paramType;
 
     int mEnterAnim = 0;
     int mExitAnim = 0;
@@ -54,24 +55,25 @@ public class BottomMainActivity extends AppCompatActivity{
 
 //        EventBus.getDefault().register(this);
         mParams = getIntent().getStringExtra("params");
+        thisType = getIntent().getStringExtra("type");
+
         try {
             mParamsObj = new JSONObject(mParams);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        try {
 
-            thisType = mParamsObj.getString("type");
+        try {
+            paramType = mParamsObj.getString("type");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        if (thisType == null){
+        if (thisType.equals("talkMode")){
             thisType = "talk";
         } else {
             thisType = "keywordCommunity";
         }
-
 
         mEnterAnim = getIntent().getIntExtra("enterAnim", R.anim.slide_in_up);
         mExitAnim = getIntent().getIntExtra("exitAnim", R.anim.slide_in_down);

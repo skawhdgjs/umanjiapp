@@ -61,6 +61,8 @@ public interface AppConfig {
     String api_channels_findMarkers     = "GET  /channels/markers";
     String api_channels_findPosts       = "GET  /channels/posts";
 
+    String api_channels_bottomCommunity     = "GET /keyword/bottom/communities";
+
 
     String api_channels_posts_find          = "GET  /channels/id/posts";        // needs ID
     String api_channels_keywords_find       = "GET  /channels/id/keywords";

@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:singleLine="true"
-                    android:text="지역소식"
+                    android:text="지 역 정 보"
                     android:textColor="@color/gray_text"
                     android:textSize="18sp"
                     android:textStyle="bold" />
