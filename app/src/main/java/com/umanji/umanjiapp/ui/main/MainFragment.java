@@ -130,9 +130,9 @@ public class MainFragment extends BaseFragment {
     private TextView mZoomLevelText;
     private TextView mInfoTextPanel;
     private LatLng mCurrentMyPosition;
-    private LatLng mLatLngByPoint = new LatLng(37.498039, 126.9220201);
+    private LatLng mLatLngByPoint = new LatLng(37.498039, 126.9220201);  //보라매공원
     private int currentZoomLevel = 0;
-    //      참새어린이공원  37.498039  126.9220201   / 대한민국 정보센터 37.642443934398   126.977429352700
+    // 참새어린이공원  37.498039, 126.9220201 / 대한민국 정보센터 37.642443934398, 126.977429352700  / 보라매 공원 37.498039, 126.9220201  / 초등 37.5053403, 126.9589435
 
     private static final String[] LOCATION_PERMS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -283,7 +283,7 @@ public class MainFragment extends BaseFragment {
     private JSONArray jsonArrayBottom;
     private JSONObject getMinMaxParams;
     private SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
 
     View mView;
     TouchableWrapper mTouchView;
@@ -316,6 +316,7 @@ public class MainFragment extends BaseFragment {
             }
 
             if (getArguments().getString("type") != null) {
+//******************************************************************** isKeywordCommunityMode
                 isKeywordCommunityMode = true;
 
                 if (mChannel == null) {
@@ -325,11 +326,9 @@ public class MainFragment extends BaseFragment {
 
                 }
             }
-
+//******************************************************************** normalMode = TalkMode
             mTabType = getArguments().getString("tabType");
         }
-
-//        isKeywordCommunityMode
 
         Tracker t = ((ApplicationController) mActivity.getApplication()).getTracker();
         t.setScreenName("MainActivity");
@@ -340,7 +339,6 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-
         GoogleAnalytics.getInstance(mActivity).reportActivityStart(mActivity);
     }
 
@@ -470,6 +468,8 @@ public class MainFragment extends BaseFragment {
     @Override
     public void initWidgets(View view) {
 
+        mAlert = new AlertDialog.Builder(mActivity);
+
         mUmanji = (TextView) view.findViewById(R.id.logo);
         mUmanji.setOnClickListener(this);
 
@@ -518,8 +518,6 @@ public class MainFragment extends BaseFragment {
         mNotyCountBtn = (Button) view.findViewById(R.id.mNotyCount);
         mNotyCountBtn.setOnClickListener(this);
         mNotyCountBtn.setText("0");
-
-        mAlert = new AlertDialog.Builder(mActivity);
 
         mZoomLevelText = (TextView) view.findViewById(R.id.mZoomLevelText);
 
@@ -594,7 +592,6 @@ public class MainFragment extends BaseFragment {
         mTalk = (ImageView) view.findViewById(R.id.talk);
         mTalk.setOnClickListener(this);
 
-
 // $$
 //        mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);
 //        mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
@@ -608,9 +605,7 @@ public class MainFragment extends BaseFragment {
 //
 //        onTabSelected(mTabLayout);
 
-
     }
-
 
     @Override
     public void loadData() {
@@ -662,13 +657,13 @@ public class MainFragment extends BaseFragment {
         /*
         *
         *  Keyword community Mode
-        *   paul panel
         * */
 
+//        doing now
         if (isKeywordCommunityMode) {
             JSONObject params1 = null;
             try {
-                if(mMap == null){
+                if (mMap == null) {
                     String tempString = sharedpreferences.getString("MyParams", "empty");
                     params1 = new JSONObject(tempString);
                 } else {
@@ -676,8 +671,14 @@ public class MainFragment extends BaseFragment {
                 }
 
                 params1.put("name", communityName);
+                params1.put("type", TYPE_POST);
+//                params1.put("id", mAdChannel.getParent().getId());
 
-                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
+//                api_findCommunity
+//                api_channels_get
+//                api_keyword_findPosts
+
+                mApi.call(api_keyword_findPosts, params1, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         mChannel = new ChannelData(json);
@@ -690,7 +691,6 @@ public class MainFragment extends BaseFragment {
                 Log.e(TAG, "error " + e.toString());
             }
 
-
             communityName = mChannel.getName();
 
 
@@ -699,6 +699,7 @@ public class MainFragment extends BaseFragment {
             mCommunityGoToPanel.setVisibility(View.VISIBLE);
             mMainListContainer.setVisibility(View.GONE);
             mCommunityListContainer.setVisibility(View.VISIBLE);
+            mLauncherLevel8.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
             mMainTitle.setVisibility(View.VISIBLE);
             mKeywordTitle.setText(communityName);
@@ -707,7 +708,8 @@ public class MainFragment extends BaseFragment {
 //            mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
         }
     }
-//    doing now
+
+    //    doing now
     private void getKeywordCommunityData() {
         isLoading = true;
 
@@ -716,7 +718,7 @@ public class MainFragment extends BaseFragment {
 
         JSONObject params = null;
         try {
-            if(mMap == null){
+            if (mMap == null) {
                 String tempString = sharedpreferences.getString("MyParams", "empty");
                 params = new JSONObject(tempString);
             } else {
@@ -1584,11 +1586,10 @@ public class MainFragment extends BaseFragment {
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
 
-        double latitude = 37.642443934398;
-        double longitude = 126.977429352700;
+        double latitude = 37.498039;
+        double longitude = 126.9220201;  // 37.498039, 126.9220201
 
         try {
-
             String isFirst = FileHelper.getString(mActivity, "isFirst");
             Location location = null;
             if (TextUtils.isEmpty(isFirst)) {
@@ -1625,6 +1626,7 @@ public class MainFragment extends BaseFragment {
                 latitude = homeChannel.getLatitude();
                 longitude = homeChannel.getLongitude();
 
+                mCurrentMyPosition = new LatLng(latitude, longitude);
                 cameraPosition = new CameraPosition.Builder()
                         .target(mCurrentMyPosition)
                         .zoom(18)
@@ -1639,7 +1641,6 @@ public class MainFragment extends BaseFragment {
                         .tilt(40)
                         .build();
             }
-
 
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
@@ -1662,128 +1663,132 @@ public class MainFragment extends BaseFragment {
      * init Map Events
      ****************************************************/
 
-    protected void initMapEvents() {
+    protected void mapClickEvent(LatLng point) {
+        mProgress.setMessage("확대하실 곳의 주소를 찾고 있습니다...");
+        mProgress.show();
 
+        if (mFocusedMarker != null) {
+            mFocusedMarker.remove();
+        }
+        if (mChannelByPoint != null) {
+            mChannelByPoint = null;
+        }
+
+        final int zoom = (int) mMap.getCameraPosition().zoom;
+
+        if (mUser != null) {
+            if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
+                int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
+
+                showComplexTutorialDialog();
+
+                mProgress.hide();
+                return;
+            }
+        }
+
+        mLatLngByPoint = point;
+
+        if (zoom >= 15 && zoom <= 21) {
+            mProgress.setMessage("장소를 만드실 곳의 주소를 찾고 있습니다...");
+            mProgress.show();
+
+            try {
+                JSONObject params = new JSONObject();
+                params.put("latitude", mLatLngByPoint.latitude);
+                params.put("longitude", mLatLngByPoint.longitude);
+
+                mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject object, AjaxStatus status) {
+                        mChannelByPoint = new ChannelData(object);
+
+                        if (TextUtils.isEmpty(mChannelByPoint.getId())) {
+                            if (AuthHelper.isLogin(mActivity)) {
+                                isBlock = true;
+
+                                mMarkerByPoint = Helper.addNewMarkerToMap(mMap, mChannelByPoint);
+                                LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
+
+                                mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
+
+                                if (isComplexCreatable(zoom)) {
+                                    showCreateComplexDialog();
+                                } else if (isSpotCreatable(zoom)) {
+                                    showCreateSpotDialog();
+                                }
+
+                            } else {
+                                Helper.startSigninActivity(mActivity, mCurrentMyPosition);
+                                mProgress.hide();
+                            }
+
+                        } else {
+                            if (isComplexCreatable(zoom)) {
+                                startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
+                                mProgress.hide();
+                            } else if (isSpotCreatable(zoom)) {
+                                startSpotActivity(mChannelByPoint, TYPE_SPOT);
+                                mProgress.hide();
+                            }
+                        }
+                    }
+                });
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+        } else if (zoom >= 2 && zoom <= 9) {        // zoom >=2 && zoom <=12
+            try {
+                JSONObject params = new JSONObject();
+                params.put("latitude", mLatLngByPoint.latitude);
+                params.put("longitude", mLatLngByPoint.longitude);
+
+                mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject object, AjaxStatus status) {
+                        mChannelByPoint = new ChannelData(object);
+                        String division = "levelFirst";
+                        showJumpDialog(division);
+                    }
+                });
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
+        } else {                    // zoom >=12 && zoom <=14
+
+            try {
+                JSONObject params = new JSONObject();
+                params.put("latitude", mLatLngByPoint.latitude);
+                params.put("longitude", mLatLngByPoint.longitude);
+
+                mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject object, AjaxStatus status) {
+                        mChannelByPoint = new ChannelData(object);
+                        String division = "levelSecond";
+                        showJumpDialog(division);
+                    }
+                });
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+        }
+
+    }
+
+    protected void initMapEvents() {
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-
-                mProgress.setMessage("확대하실 곳의 주소를 찾고 있습니다...");
-                mProgress.show();
-
-                if (mFocusedMarker != null) {
-                    mFocusedMarker.remove();
-                }
-                if (mChannelByPoint != null) {
-                    mChannelByPoint = null;
-                }
-
-                final int zoom = (int) mMap.getCameraPosition().zoom;
-
-                if (mUser != null) {
-                    if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
-                        int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
-
-                        showComplexTutorialDialog();
-
-                        mProgress.hide();
-                        return;
-                    }
-                }
-
-                mLatLngByPoint = point;
-
-                if (zoom >= 15 && zoom <= 21) {
-                    mProgress.setMessage("장소를 만드실 곳의 주소를 찾고 있습니다...");
-                    mProgress.show();
-
-                    try {
-                        JSONObject params = new JSONObject();
-                        params.put("latitude", mLatLngByPoint.latitude);
-                        params.put("longitude", mLatLngByPoint.longitude);
-
-                        mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject object, AjaxStatus status) {
-                                mChannelByPoint = new ChannelData(object);
-
-                                if (TextUtils.isEmpty(mChannelByPoint.getId())) {
-                                    if (AuthHelper.isLogin(mActivity)) {
-                                        isBlock = true;
-
-                                        mMarkerByPoint = Helper.addNewMarkerToMap(mMap, mChannelByPoint);
-                                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
-
-                                        mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
-
-                                        if (isComplexCreatable(zoom)) {
-                                            showCreateComplexDialog();
-                                        } else if (isSpotCreatable(zoom)) {
-                                            showCreateSpotDialog();
-                                        }
-
-                                    } else {
-                                        Helper.startSigninActivity(mActivity, mCurrentMyPosition);
-                                        mProgress.hide();
-                                    }
-
-                                } else {
-                                    if (isComplexCreatable(zoom)) {
-                                        startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
-                                        mProgress.hide();
-                                    } else if (isSpotCreatable(zoom)) {
-                                        startSpotActivity(mChannelByPoint, TYPE_SPOT);
-                                        mProgress.hide();
-                                    }
-                                }
-                            }
-                        });
-                    } catch (JSONException e) {
-                        Log.e(TAG, "error " + e.toString());
-                    }
-                } else if (zoom >= 2 && zoom <= 9) {        // zoom >=2 && zoom <=12
-                    try {
-                        JSONObject params = new JSONObject();
-                        params.put("latitude", mLatLngByPoint.latitude);
-                        params.put("longitude", mLatLngByPoint.longitude);
-
-                        mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject object, AjaxStatus status) {
-                                mChannelByPoint = new ChannelData(object);
-                                String division = "levelFirst";
-                                showJumpDialog(division);
-                            }
-                        });
-                    } catch (JSONException e) {
-                        Log.e(TAG, "error " + e.toString());
-                    }
-
-                } else {                    // zoom >=12 && zoom <=14
-
-                    try {
-                        JSONObject params = new JSONObject();
-                        params.put("latitude", mLatLngByPoint.latitude);
-                        params.put("longitude", mLatLngByPoint.longitude);
-
-                        mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
-                            @Override
-                            public void callback(String url, JSONObject object, AjaxStatus status) {
-                                mChannelByPoint = new ChannelData(object);
-                                String division = "levelSecond";
-                                showJumpDialog(division);
-                            }
-                        });
-                    } catch (JSONException e) {
-                        Log.e(TAG, "error " + e.toString());
-                    }
-                }
+                mapClickEvent(point);
             }
         });
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng point) {
+                mapClickEvent(point);
             }
         });
 
@@ -1843,13 +1848,11 @@ public class MainFragment extends BaseFragment {
                         }
                     }
 
-
                 } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
                 }
             }
         });
-
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
@@ -1880,17 +1883,15 @@ public class MainFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
-                if (isKeywordCommunityMode) {    //community
-
+                mZoomLevelText.setText("" + (int) position.zoom);
+                int zoom = (int) position.zoom;
+//************************************************************************************************** isKeywordCommunityMode
+                if (isKeywordCommunityMode) {
                     if (mMapIsTouched) return;
 
                     if (isBlock) {
                         isBlock = false;
                     } else {
-
-                        mZoomLevelText.setText("" + (int) position.zoom);
-
-                        int zoom = (int) position.zoom;
                         // isPoliticTouchable
 
                         if (isComplexCreatable(zoom)) {
@@ -1910,23 +1911,19 @@ public class MainFragment extends BaseFragment {
                         updateCommunityBtn(zoom);
                         loadCommunityMarkers(communityName);
                     }
+//************************************************************************************************** isTalkMode (normalMode)
                 } else {                  // start main
                     currentZoomLevel = (int) position.zoom;
+                    getTalkData();
+
                     if (mMapIsTouched) return;
 
                     if (isBlock) {
                         isBlock = false;
                     } else {
-
-                        mZoomLevelText.setText("" + (int) position.zoom);
-
-                        int zoom = (int) position.zoom;
                         // isPoliticTouchable
 
                         if (isComplexCreatable(zoom)) {
-//                            mSay.setImageResource(R.drawable.say);
-//                            mInterior.setVisibility(View.VISIBLE);
-//                            mTowerCrane.setVisibility(View.VISIBLE);
                             mInterior.setImageResource(R.drawable.interior_black);
                             mTowerCrane.setImageResource(R.drawable.tower_crane);
 //                            mInfoTextPanel.setTextColor(getResources().getColor(R.color.gray_text));
@@ -1935,9 +1932,6 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                         } else if (isSpotCreatable(zoom)) {
-//                            mSay.setImageResource(R.drawable.say);
-//                            mInterior.setVisibility(View.VISIBLE);
-//                            mTowerCrane.setVisibility(View.VISIBLE);
                             mInterior.setImageResource(R.drawable.interior);
                             mTowerCrane.setImageResource(R.drawable.tower_crane_black);
                             mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
@@ -1945,9 +1939,6 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else if (isKeywordTouchable(zoom)) {
-//                            mSay.setImageResource(R.drawable.say_black);
-//                            mInterior.setVisibility(View.GONE);
-//                            mTowerCrane.setVisibility(View.GONE);
                             //mCreateComplexText.setVisibility(View.GONE);
                             mInfoTextPanel.setText("지역 소식");
                             mInfoTextPanel.setTextSize(20);
@@ -1955,10 +1946,6 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                         } else {
-//                            mSay.setImageResource(R.drawable.say_black);
-//                            mInterior.setVisibility(View.GONE);
-//                            mTowerCrane.setVisibility(View.GONE);
-//                            mInfoTextPanel.setText("전체보기 : else");
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                         }
@@ -1967,18 +1954,11 @@ public class MainFragment extends BaseFragment {
 
                         getKeywordCommunityData();
                         loadData();
-//doing now
                     }
-
-                    if (isTalkMode) {
-                        getTalkData();
-                    }
-
                 }
 
             }
         });
-
 
         mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
             @Override
@@ -2424,65 +2404,65 @@ public class MainFragment extends BaseFragment {
 
     }
 
-  /*  private void loadMoreMainPosts() {
-        isLoading = true;
-//        mProgress.show();
+    /*  private void loadMoreMainPosts() {
+          isLoading = true;
+  //        mProgress.show();
 
-        try {
-            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("page", mAdapter.getCurrentPage());
-            params.put("limit", 5);
-            //params.put("sort", "point DESC");
+          try {
+              JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+              params.put("page", mAdapter.getCurrentPage());
+              params.put("limit", 5);
+              //params.put("sort", "point DESC");
 
-            mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if (status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    } else {
-                        try {
-                            JSONArray jsonArray = object.getJSONArray("data");
-                            if (jsonArray.length() != 0) {
-//                                mlayout.setBackgroundResource(R.color.feed_bg);
-//                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
-                                isTalkFlag= true;
-                                mTalk.setImageResource(R.drawable.button_kakao);
-//                                mTouchView.setEnabled(false);
+              mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
+                  @Override
+                  public void callback(String url, JSONObject object, AjaxStatus status) {
+                      if (status.getCode() == 500) {
+                          EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                      } else {
+                          try {
+                              JSONArray jsonArray = object.getJSONArray("data");
+                              if (jsonArray.length() != 0) {
+  //                                mlayout.setBackgroundResource(R.color.feed_bg);
+  //                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
+                                  isTalkFlag= true;
+                                  mTalk.setImageResource(R.drawable.button_kakao);
+  //                                mTouchView.setEnabled(false);
 
 
-                                for (int idx = 0; idx < jsonArray.length(); idx++) {
-                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                    ChannelData doc = new ChannelData(jsonDoc);
+                                  for (int idx = 0; idx < jsonArray.length(); idx++) {
+                                      JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                      ChannelData doc = new ChannelData(jsonDoc);
 
-                                    if (doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
-                                        mAdapter.addBottom(doc);
-                                    }
-                                }
+                                      if (doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
+                                          mAdapter.addBottom(doc);
+                                      }
+                                  }
 
-                            } else {
-//                                mlayout.setBackgroundResource(R.drawable.empty_main_post);
-                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
-                                isTalkFlag = false;
-                                mTalk.setImageResource(R.drawable.button_kakao_black);
+                              } else {
+  //                                mlayout.setBackgroundResource(R.drawable.empty_main_post);
+                                  mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
+                                  isTalkFlag = false;
+                                  mTalk.setImageResource(R.drawable.button_kakao_black);
 
-                            }
+                              }
 
-                            isLoading = false;
-                            mAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error " + e.toString());
-                        }
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            Log.e(TAG, "Error " + e.toString());
-        }
+                              isLoading = false;
+                              mAdapter.notifyDataSetChanged();
+                          } catch (JSONException e) {
+                              Log.e(TAG, "Error " + e.toString());
+                          }
+                      }
+                  }
+              });
+          } catch (JSONException e) {
+              Log.e(TAG, "Error " + e.toString());
+          }
 
-        mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-        mProgress.hide();
-    }
-*/
+          mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
+          mProgress.hide();
+      }
+  */
     private void loginByToken() {
         try {
             JSONObject params = new JSONObject();
