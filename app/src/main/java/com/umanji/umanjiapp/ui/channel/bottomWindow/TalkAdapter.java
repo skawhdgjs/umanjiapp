@@ -38,6 +38,7 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
 
     public static ChannelData mChannel;
 
+    protected int mCurrentPage = 0;
 
     /**
      * Initialize the dataset of the Adapter.
@@ -125,6 +126,28 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
         }
 
     }
+
+    public ArrayList<ChannelData> getDocs() {
+        return mChannels;
+    }
+
+    public void resetDocs() {
+        mChannels = new ArrayList<ChannelData>();
+    }
+
+    public void setCurrentPage(int mCurrentPage) {
+        this.mCurrentPage = mCurrentPage;
+    }
+
+    public int getCurrentPage() {
+        return mCurrentPage;
+    }
+
+    public void addBottom(ChannelData doc) {
+        mChannels.add(doc);
+    }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

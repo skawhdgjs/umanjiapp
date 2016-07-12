@@ -51,6 +51,11 @@ public class TalkFragment extends Fragment implements AppConfig {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected ArrayList<ChannelData> mChannels;
 
+    protected boolean isLoading = false;
+    protected int mPreFocusedItem = 0;
+    protected int mLoadCount = 0;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +73,7 @@ public class TalkFragment extends Fragment implements AppConfig {
             e.printStackTrace();
         }
 
-        getTalkData(mParams);
+//        getTalkData(mParams);
     }
 
     @Override
@@ -79,15 +84,69 @@ public class TalkFragment extends Fragment implements AppConfig {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
+
+        addOnScrollListener(mRecyclerView);
+
+        mAdapter = new TalkAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
+
+        // Set TalkAdapter as the adapter for RecyclerView.
+        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter.notifyDataSetChanged();
+
         // LinearLayoutManager is used here, this will layout the elements in a similar fashion
         // to the way ListView would layout elements. The RecyclerView.LayoutManager defines how
         // elements are laid out.
-        mLayoutManager = new LinearLayoutManager(getActivity());
+//        mLayoutManager = new LinearLayoutManager(getActivity());
 
-        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
+        loadData();
+
+//        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
+
 
         return rootView;
     }
+
+    protected void addOnScrollListener(RecyclerView rView) {
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(rView.getContext());
+        rView.setLayoutManager(mLayoutManager);
+
+        rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    ArrayList<ChannelData> channels = mAdapter.getDocs();
+
+                    int currentFocusedIndex = visibleItemCount + pastVisiblesItems;
+                    if (currentFocusedIndex == mPreFocusedItem) return;
+                    mPreFocusedItem = currentFocusedIndex;
+                    if (channels.size() <= mPreFocusedItem) return;
+
+                    if (!isLoading) {
+                        if (mPreFocusedItem != (totalItemCount - 3)) {  // -1
+                            loadMoreData(mParams);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void loadData() {
+        mAdapter.resetDocs();
+        mAdapter.setCurrentPage(0);
+
+        loadMoreData(mParams);
+    }
+
+
+    public void updateView() {
+        mAdapter.notifyDataSetChanged();
+    }
+
 
     /**
      * Set RecyclerView's LayoutManager to the one given.
@@ -114,40 +173,19 @@ public class TalkFragment extends Fragment implements AppConfig {
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    /**
-     * Generates Strings for RecyclerView's adapter. This data would usually come
-     * from a local content provider or remote server.
-     */
-    private void initDataset(String mData) {
-        mChannels = new ArrayList<ChannelData>();
-        String getData = mData;
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = new JSONArray(getData);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        for (int idx = 0; idx < jsonArray.length(); idx++) {
-            JSONObject jsonDoc = null;
-            try {
-                jsonDoc = jsonArray.getJSONObject(idx);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            ChannelData doc = new ChannelData(jsonDoc);
-            mChannels.add(doc);
-        }
-        mAdapter = new TalkAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
-        // Set TalkAdapter as the adapter for RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.notifyDataSetChanged();
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
-    private void getTalkData(JSONObject params){
+    private void loadMoreData(JSONObject params){
+
+        isLoading = true;
+        mLoadCount = mLoadCount + 1;
 
         try {
-            params.put("limit", 30);
+            params.put("page", mAdapter.getCurrentPage());
+            params.put("limit", 7);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -163,20 +201,40 @@ public class TalkFragment extends Fragment implements AppConfig {
 
                         if (jsonArray.length() != 0) {
 
-                            String mdata = jsonArray.toString();
+                            String mData = jsonArray.toString();
 
-                            initDataset(mdata);
+//                            initDataset(mData);
+
+                            mChannels = new ArrayList<ChannelData>();
+                            String getData = mData;
+
+                            for (int idx = 0; idx < jsonArray.length(); idx++) {
+                                JSONObject jsonDoc = null;
+                                try {
+                                    jsonDoc = jsonArray.getJSONObject(idx);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                ChannelData doc = new ChannelData(jsonDoc);
+//                                mChannels.add(doc);
+                                mAdapter.addBottom(doc);
+
+                                updateView();
+                            }
 
                         } else {
 
                         }
                         //mTalkAdapter.notifyDataSetChanged();
+                        isLoading = false;
                     } catch (JSONException e) {
                         Log.e(TAG, "Error " + e.toString());
                     }
+
                 }
             }
         });
+        mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
 
     }
 
