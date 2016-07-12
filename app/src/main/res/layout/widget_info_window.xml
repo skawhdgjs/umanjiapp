@@ -21,7 +21,7 @@
        android:layout_marginTop="5dp"
        android:padding="5dp"
        android:background="@drawable/default_btn_radius"
-       android:text="입장"
+       android:text="들어가기"
        android:textColor="#FFFFFF"
        android:textSize="12sp"
 

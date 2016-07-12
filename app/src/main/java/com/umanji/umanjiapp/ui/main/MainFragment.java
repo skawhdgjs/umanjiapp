@@ -637,7 +637,7 @@ public class MainFragment extends BaseFragment {
                         .load(userPhoto)
                         .placeholder(R.drawable.empty)
                         .animate(R.anim.abc_fade_in)
-                        .override(40, 40)
+                        .thumbnail(1f)
                         .into(mAvatarImageBtn);
             } else {
                 Glide.with(mActivity)
@@ -996,6 +996,7 @@ public class MainFragment extends BaseFragment {
             mSearchLayout.setVisibility(View.GONE);
             mLauncherLevel8.setVisibility(View.VISIBLE);
             buttonClick.setDuration(500);
+            mKeywordTitle.setText(communityName);
             updateCommunityBtn(zoom);
             loadCommunityMarkers(communityName);
         }
@@ -1097,8 +1098,8 @@ public class MainFragment extends BaseFragment {
 
                     mTouchView.setEnabled(false);
                 } else if (isKeywordCommunityMode) {
-//                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-//                    mTalkExpanded = true;
+                    String divisionTalk = "talk";
+                    showTutorialDialog(divisionTalk);
                 } else {
                     String divisionTalk = "talk";
                     showTutorialDialog(divisionTalk);
@@ -1433,10 +1434,12 @@ public class MainFragment extends BaseFragment {
 
         Button okBtn = (Button) dialog.findViewById(R.id.dialogOK);
 
-        TextView mMoveMessage = (TextView) dialog.findViewById(R.id.contents);
+        TextView mMoveMessage1 = (TextView) dialog.findViewById(R.id.contentsLine1);
+        TextView mMoveMessage2 = (TextView) dialog.findViewById(R.id.contentsLine2);
 
         if (division.equals("interior")) {
-            mMoveMessage.setText("줌레벨 18에서 21단계까지는 일반 건물과 상점과 같은 장소를 만드실 수 있고 그 곳에 커뮤니티를 만드실 수 있습니다");
+            mMoveMessage1.setText("일반 건물과 상점과 같은 장소");
+            mMoveMessage2.setText("줌레벨 18 ~ 21단계");
 
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1448,7 +1451,9 @@ public class MainFragment extends BaseFragment {
             });
 
         } else if (division.equals("towerCrane")) {
-            mMoveMessage.setText("줌레벨 15에서 17단계까지는 대학교, 공원, 골프장과 같은 넓은 장소를 만드실 수 있습니다");
+            mMoveMessage1.setText("대학교, 공원, 골프장과 같은 넓은 장소");
+            mMoveMessage2.setText("줌레벨 15 ~ 17단계");
+
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1458,17 +1463,8 @@ public class MainFragment extends BaseFragment {
                 }
             });
 
-        } else if (division.equals("say")) {
-            mMoveMessage.setText("말하기 : 지역과 커뮤니티에서 표현해보세요");
-            okBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    dialog.cancel();
-                }
-            });
         } else if (division.equals("talk")) {
-            mMoveMessage.setText("이곳에는 아직 정보가 없습니다");
+            mMoveMessage1.setText("이곳에는 아직 정보가 없습니다");
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1478,7 +1474,7 @@ public class MainFragment extends BaseFragment {
                 }
             });
         } else {
-            mMoveMessage.setText("구경하기 : 지역과 건물에서의 커뮤니티를 자유롭게 여행하세요");
+            mMoveMessage1.setText("구경하기 : 지역과 건물에서의 커뮤니티를 자유롭게 여행하세요");
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1808,6 +1804,9 @@ public class MainFragment extends BaseFragment {
                 if (marker.isInfoWindowShown()) {
                     marker.hideInfoWindow();
                 } else {
+                    if(isKeywordCommunityMode){
+                        marker.setInfoWindowAnchor(.5f,1.0f);
+                    }
                     marker.showInfoWindow();
                 }
 
@@ -1914,6 +1913,7 @@ public class MainFragment extends BaseFragment {
                         }
 
                         updateCommunityBtn(zoom);
+                        getKeywordCommunityData();
                         loadCommunityMarkers(communityName);
                     }
 //************************************************************************************************** isTalkMode (normalMode)
@@ -1956,7 +1956,7 @@ public class MainFragment extends BaseFragment {
                         }
 
                         getKeywordCommunityBtn(zoom);
-                        getKeywordCommunityData();
+
                         loadData();
                     }
                 }

@@ -1,32 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
 
 
-        <TextView
-            android:id="@+id/contents"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="contents HERE"
-            android:textSize="15dp"
-            android:textColor="#111"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/contentsLine1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:text="contents HERE"
+        android:textColor="#111"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/contentsLine2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:text="contents HERE"
+        android:textColor="#111"
+        android:textSize="15dp"
+        android:layout_below="@+id/contentsLine1"
+        android:layout_alignLeft="@+id/contentsLine1"
+        android:layout_alignStart="@+id/contentsLine1" />
 
 
     <LinearLayout
         android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/contents"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp">
+        android:layout_below="@+id/contentsLine2"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
 
 
         <Button
@@ -35,11 +49,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
-            android:text=" 확인  "/>
+            android:text=" 확인  " />
 
     </LinearLayout>
-
-
 
 
 </RelativeLayout>
