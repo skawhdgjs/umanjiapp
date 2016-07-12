@@ -340,6 +340,14 @@
                 app:riv_corner_radius="15dp"
                 app:riv_oval="false" />-->
 
+            <ImageView
+                android:id="@+id/centerCircle"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/center_circle"
+                android:layout_above="@+id/mZoomLevelText"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="62dp" />
             <Button
                 android:id="@+id/toCommunityBtn"
                 android:layout_width="wrap_content"
@@ -776,6 +784,20 @@
 
 
             </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/currentAddress"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:text="current Address"
+                android:textStyle="bold"
+                android:layout_below="@+id/ads_image"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:gravity="center"
+                android:background="@drawable/light_bg"/>
 
 
             <!--

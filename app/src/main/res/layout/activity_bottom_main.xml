@@ -9,10 +9,6 @@
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-
-
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,14 +23,15 @@
 
                 <TextView
                     android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:singleLine="true"
                     android:text="지 역 정 보"
                     android:textColor="@color/gray_text"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:gravity="center" />
             </android.support.v7.widget.Toolbar>
 
             <View

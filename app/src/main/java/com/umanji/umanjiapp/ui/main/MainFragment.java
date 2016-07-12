@@ -105,8 +105,11 @@ public class MainFragment extends BaseFragment {
 
     private TextView mUmanji;
     private TextView mSearch;
+    private ImageView mCenterCircle;
 
     private View mNoticePanel;
+    private TextView mCurrentAddress;
+    private String currentAddress;
 
     private ImageView mGuideImageView01;
 
@@ -472,6 +475,8 @@ public class MainFragment extends BaseFragment {
 
         mUmanji = (TextView) view.findViewById(R.id.logo);
         mUmanji.setOnClickListener(this);
+        mCenterCircle = (ImageView) view.findViewById(R.id.centerCircle);
+        mCurrentAddress = (TextView) view.findViewById(R.id.currentAddress);
 
         mMainTitle = (RelativeLayout) view.findViewById(R.id.mainTitle);
         mKeywordTitle = (TextView) view.findViewById(R.id.keywordTitle);
@@ -1087,12 +1092,13 @@ public class MainFragment extends BaseFragment {
                 if (isTalkFlag) {
 //                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
 //                    mTalkExpanded = true;
-                    if(isKeywordCommunityMode == false){
+                    if (isKeywordCommunityMode == false) {
                         bottomIntent.putExtra("type", "talkMode");
                     } else {
                         bottomIntent.putExtra("type", "keywordCommunityMode");
                     }
                     bottomIntent.putExtra("params", getMinMaxParams.toString());
+                    bottomIntent.putExtra("currentAddress", currentAddress);
 //                    intent.putExtra("channels", jsonArrayBottom.toString());
                     startActivity(bottomIntent);
 
@@ -1804,8 +1810,8 @@ public class MainFragment extends BaseFragment {
                 if (marker.isInfoWindowShown()) {
                     marker.hideInfoWindow();
                 } else {
-                    if(isKeywordCommunityMode){
-                        marker.setInfoWindowAnchor(.5f,1.0f);
+                    if (isKeywordCommunityMode) {
+                        marker.setInfoWindowAnchor(.5f, 1.0f);
                     }
                     marker.showInfoWindow();
                 }
@@ -1889,9 +1895,13 @@ public class MainFragment extends BaseFragment {
             public void onCameraChange(CameraPosition position) {
                 mZoomLevelText.setText("" + (int) position.zoom);
                 int zoom = (int) position.zoom;
+
+                LatLng center = mMap.getCameraPosition().target;
+                getCenterAddress(center, zoom);
 //************************************************************************************************** isKeywordCommunityMode
                 if (isKeywordCommunityMode) {
                     if (mMapIsTouched) return;
+                    mCenterCircle.setVisibility(View.GONE);
 
                     if (isBlock) {
                         isBlock = false;
@@ -1912,6 +1922,7 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setTag(ZOOM_IN);
                         }
 
+
                         updateCommunityBtn(zoom);
                         getKeywordCommunityData();
                         loadCommunityMarkers(communityName);
@@ -1919,6 +1930,7 @@ public class MainFragment extends BaseFragment {
 //************************************************************************************************** isTalkMode (normalMode)
                 } else {                  // start main
                     currentZoomLevel = (int) position.zoom;
+                    mCenterCircle.setVisibility(View.VISIBLE);
                     getTalkData();
 
                     if (mMapIsTouched) return;
@@ -1970,6 +1982,49 @@ public class MainFragment extends BaseFragment {
                 mCurrentMyPosition = new LatLng(location.getLatitude(), location.getLongitude());
             }
         });
+
+    }
+
+    protected void getCenterAddress(LatLng center, final int zoom) {
+        try {
+            JSONObject params = new JSONObject();
+            params.put("latitude", center.latitude);
+            params.put("longitude", center.longitude);
+
+            mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    mAddressChannel = new ChannelData(object);
+
+                    String countryName = "대한민국";
+                    String adminArea = mAddressChannel.getAdminArea();
+                    String localityName = mAddressChannel.getLocality();
+                    String thoroughfare = mAddressChannel.getThoroughfare();
+
+                    if (zoom >= 6 && zoom < 8) {          // 대한민국
+                        mCurrentAddress.setText(countryName);
+                        currentAddress = countryName+" 지역정보";
+                    } else if (zoom == 8) {     // 도
+                        mCurrentAddress.setText(countryName+" "+adminArea);
+                        currentAddress = countryName+" "+adminArea+" 지역정보";
+                    } else if (zoom >8 && zoom < 11) {     // 서울시 , 시
+                        mCurrentAddress.setText(adminArea+" "+localityName);
+                        currentAddress = adminArea+" "+localityName+" 지역정보";
+                    } else if (zoom > 10 && zoom < 14) {   // 구
+                        mCurrentAddress.setText(adminArea+" "+localityName);
+                        currentAddress = adminArea+" "+localityName+" 지역정보";
+                    } else if (zoom > 13 && zoom <= 21) {  // 동
+                        mCurrentAddress.setText(adminArea+" "+localityName+" "+thoroughfare);
+                        currentAddress = adminArea+" "+localityName+" "+thoroughfare+" 지역정보";
+                    } else {
+                        mCurrentAddress.setText("준비중입니다");
+                    }
+                }
+            });
+
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
 
     }
 

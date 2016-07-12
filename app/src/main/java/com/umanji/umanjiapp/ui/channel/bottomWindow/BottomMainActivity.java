@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -37,6 +38,8 @@ public class BottomMainActivity extends AppCompatActivity{
 //    Intent intent = getIntent();
 
     private Toolbar toolbar;
+    private TextView mToolbarTitle;
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private String mData;
@@ -45,6 +48,7 @@ public class BottomMainActivity extends AppCompatActivity{
 
     private String thisType;
     private String paramType;
+    private String currentTitle;
 
     int mEnterAnim = 0;
     int mExitAnim = 0;
@@ -57,6 +61,7 @@ public class BottomMainActivity extends AppCompatActivity{
 //        EventBus.getDefault().register(this);
         mParams = getIntent().getStringExtra("params");
         thisType = getIntent().getStringExtra("type");
+        currentTitle = getIntent().getStringExtra("currentAddress");
 
         try {
             mParamsObj = new JSONObject(mParams);
@@ -81,6 +86,8 @@ public class BottomMainActivity extends AppCompatActivity{
 
         this.overridePendingTransition(mEnterAnim, R.anim.move_base);
 
+        mToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        mToolbarTitle.setText(currentTitle);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
