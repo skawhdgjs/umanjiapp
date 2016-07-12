@@ -16,6 +16,7 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.SubLinkData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +57,11 @@ public class CommunityFragment extends Fragment  implements AppConfig {
     protected String[] mDataset;
     protected ArrayList<ChannelData> mChannels;
 
+    protected boolean isLoading = false;
+    protected int mPreFocusedItem = 0;
+    protected int mLoadCount = 0;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +79,7 @@ public class CommunityFragment extends Fragment  implements AppConfig {
             e.printStackTrace();
         }
 
-        getTalkData(mParams);
+//        getTalkData(mParams);
     }
 
     @Override
@@ -84,14 +90,65 @@ public class CommunityFragment extends Fragment  implements AppConfig {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
+        addOnScrollListener(mRecyclerView);
+
+        mAdapter = new CommunityAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
+
+        // Set TalkAdapter as the adapter for RecyclerView.
+        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter.notifyDataSetChanged();
+
         // LinearLayoutManager is used here, this will layout the elements in a similar fashion
         // to the way ListView would layout elements. The RecyclerView.LayoutManager defines how
         // elements are laid out.
-        mLayoutManager = new LinearLayoutManager(getActivity());
+//        mLayoutManager = new LinearLayoutManager(getActivity());
 
-        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
+        loadData();
+
+//        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
+
 
         return rootView;
+    }
+
+    protected void addOnScrollListener(RecyclerView rView) {
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(rView.getContext());
+        rView.setLayoutManager(mLayoutManager);
+
+        rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    ArrayList<ChannelData> channels = mAdapter.getDocs();
+
+                    int currentFocusedIndex = visibleItemCount + pastVisiblesItems;
+                    if (currentFocusedIndex == mPreFocusedItem) return;
+                    mPreFocusedItem = currentFocusedIndex;
+                    if (channels.size() <= mPreFocusedItem) return;
+
+                    if (!isLoading) {
+                        if (mPreFocusedItem != (totalItemCount - 3)) {  // -1
+                            loadMoreData(mParams);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void loadData() {
+        mAdapter.resetDocs();
+        mAdapter.setCurrentPage(0);
+
+        loadMoreData(mParams);
+    }
+
+    public void updateView() {
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -118,42 +175,22 @@ public class CommunityFragment extends Fragment  implements AppConfig {
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    /**
-     * Generates Strings for RecyclerView's adapter. This data would usually come
-     * from a local content provider or remote server.
-     */
-    private void initDataset(String mData) {
-        mChannels = new ArrayList<ChannelData>();
-        String getData = mData;
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = new JSONArray(getData);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        for (int idx = 0; idx < jsonArray.length(); idx++) {
-            JSONObject jsonDoc = null;
-            try {
-                jsonDoc = jsonArray.getJSONObject(idx);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            ChannelData doc = new ChannelData(jsonDoc);
-            mChannels.add(doc);
-        }
-        mAdapter = new CommunityAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
-        // Set TalkAdapter as the adapter for RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.notifyDataSetChanged();
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
-    private void getTalkData(JSONObject params){
+    private void loadMoreData(JSONObject params) {
+
+        isLoading = true;
+        mLoadCount = mLoadCount + 1;
+
+        final JSONArray extractArr = new JSONArray();
 
         try {
             params.put("type", TYPE_COMMUNITY);
 //            params.put("keywords", communityName);
-            params.put("limit", 30);
+            params.put("limit", 7);
             params.put("sort", "point DESC");
         } catch (JSONException e) {
             e.printStackTrace();
@@ -163,32 +200,55 @@ public class CommunityFragment extends Fragment  implements AppConfig {
 
 //        api_main_findDistributions
 //        api_channels_bottomCommunity
-        mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
+//        api_channels_bottomCommunity
+
+//        api_channels_community_find
+
+        mApi.call(api_channels_community_find, params, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                ArrayList<ChannelData> communityArr = new ArrayList<ChannelData>();
                 if (status.getCode() == 500) {
 //                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
                 } else {
                     try {
+
                         JSONArray jsonArray = json.getJSONArray("data");
 
-                        if (jsonArray.length() != 0) {
+                        for (int idx = 0; idx < jsonArray.length(); idx++) {
+                            JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                            ChannelData doc = new ChannelData(jsonDoc);
+                            if(doc.getParent() != null){
+                                String type = doc.getParent().getType();
+                                if (type != null && type.equals(TYPE_INFO_CENTER)) {
 
-                            String mdata = jsonArray.toString();
-
-                            initDataset(mdata);
-
-                        } else {
+                                } else {
+                                    communityArr.add(doc);
+                                }
+                            }
 
                         }
-                        //mTalkAdapter.notifyDataSetChanged();
+
+                        for (int idx2 = 0; idx2 < communityArr.size(); idx2++) {
+                            ChannelData channelDoc = communityArr.get(idx2);
+//                            ChannelData doc = new ChannelData(jsonDoc);
+                            mAdapter.addBottom(channelDoc);
+
+                            updateView();
+
+                        }
+
+                        isLoading = false;
                     } catch (JSONException e) {
-                        Log.e(TAG, "Error " + e.toString());
+                        e.printStackTrace();
                     }
+
                 }
             }
         });
 
-    }
+        mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
 
+    }
 }
+

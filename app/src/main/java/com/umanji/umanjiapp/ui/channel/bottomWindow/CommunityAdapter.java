@@ -37,6 +37,8 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
     public static ChannelData mChannel;
 
+    protected int mCurrentPage = 0;
+
 
     /**
      * Initialize the dataset of the Adapter.
@@ -110,6 +112,28 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
         }
 
     }
+
+    public ArrayList<ChannelData> getDocs() {
+        return mChannels;
+    }
+
+    public void resetDocs() {
+        mChannels = new ArrayList<ChannelData>();
+    }
+
+    public void setCurrentPage(int mCurrentPage) {
+        this.mCurrentPage = mCurrentPage;
+    }
+
+    public int getCurrentPage() {
+        return mCurrentPage;
+    }
+
+    public void addBottom(ChannelData doc) {
+        mChannels.add(doc);
+    }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

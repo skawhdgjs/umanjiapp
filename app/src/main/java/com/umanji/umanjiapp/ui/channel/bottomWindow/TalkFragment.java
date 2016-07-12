@@ -216,7 +216,6 @@ public class TalkFragment extends Fragment implements AppConfig {
                                     e.printStackTrace();
                                 }
                                 ChannelData doc = new ChannelData(jsonDoc);
-//                                mChannels.add(doc);
                                 mAdapter.addBottom(doc);
 
                                 updateView();
