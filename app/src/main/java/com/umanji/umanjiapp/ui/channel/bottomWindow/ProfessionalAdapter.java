@@ -37,6 +37,8 @@ public class ProfessionalAdapter extends RecyclerView.Adapter<ProfessionalAdapte
 
     public static ChannelData mChannel;
 
+    protected int mCurrentPage = 0;
+    private int count = 1;
 
     /**
      * Initialize the dataset of the Adapter.
@@ -46,10 +48,11 @@ public class ProfessionalAdapter extends RecyclerView.Adapter<ProfessionalAdapte
     public ProfessionalAdapter(String[] dataSet) {
         mDataSet = dataSet;
     }
+
     public ProfessionalAdapter(Activity activity, Context context, ArrayList<ChannelData> channelData) {
         this.mActivity = activity;
         this.mContext = context;
-        mChannels   = channelData;
+        mChannels = channelData;
     }
 
     // Create new views (invoked by the layout manager)
@@ -57,7 +60,7 @@ public class ProfessionalAdapter extends RecyclerView.Adapter<ProfessionalAdapte
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view.
         View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.bottom_card_talk, viewGroup, false);
+                .inflate(R.layout.bottom_card_professional, viewGroup, false);
 
         return new ViewHolder(v);
     }
@@ -69,13 +72,12 @@ public class ProfessionalAdapter extends RecyclerView.Adapter<ProfessionalAdapte
 
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
-
+//************************************************************************************************** KeywordCommunityMode
         viewHolder.getTalkCard().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mChannels.get(position).getParent() != null){
+                if (mChannels.get(position).getParent() != null) {
                     mChannel = mChannels.get(position).getParent();
-//                String type = mChannel.getType();
                     Helper.startActivity(mActivity, mChannel);
                 } else {
                     Toast.makeText(mActivity, "준비중입니다", Toast.LENGTH_SHORT).show();
@@ -83,54 +85,67 @@ public class ProfessionalAdapter extends RecyclerView.Adapter<ProfessionalAdapte
 
             }
         });
-        if(mChannels.get(position).getOwner().getPhoto() != null ) {
+//************************************************************************************************** userPhoto
+        if (mChannels.get(position).getOwner().getPhoto() != null) {
             String userPhoto = mChannels.get(position).getOwner().getPhoto();
-//            Picasso.with(mContext).load(userPhoto).into(viewHolder.getUserPhoto());
 
             Glide.with(mContext)
                     .load(userPhoto)
-//                    .override(40, 100)
                     .thumbnail(1f)
                     .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(viewHolder.getUserPhoto());
 
         }
-
+//************************************************************************************************** userName
         viewHolder.getUserName().setText(mChannels.get(position).getOwner().getUserName());
-        viewHolder.getName().setText(mChannels.get(position).getName());
-//        viewHolder.getParentType().setText(mChannels.get(position).getParent().getType());
 
-
-        if(mChannels.get(position).getParent() != null ){
-            String parentType = mChannels.get(position).getParent().getType();
-            if (parentType.equals("POST")){
-                viewHolder.getParentName().setText("댓글");
-            }
+//************************************************************************************************** organization
+        if (mChannels.get(position).getParent() != null) {
             viewHolder.getParentName().setText(mChannels.get(position).getParent().getName());
         } else {
 
         }
+//************************************************************************************************** rank
 
-        String dateString = mChannels.get(position).getCreatedAt();
-        try{
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            Date parsedDate = dateFormat.parse(dateString);
-            Timestamp timestamp = new Timestamp(parsedDate.getTime());
-            viewHolder.getCreatedAt().setText(Helper.toPrettyDate(timestamp.getTime()));
-        }catch(Exception e){
-            Log.e(TAG, "error " + e.toString());
-        }
+        String rank = Integer.toString(count);
+        viewHolder.getRank().setText(rank);
+        count++;
 
+//**************************************************************************************************
+
+    }
+
+    public void SortedResult() {
+
+    }
+
+    public ArrayList<ChannelData> getDocs() {
+        return mChannels;
+    }
+
+    public void resetDocs() {
+        mChannels = new ArrayList<ChannelData>();
+    }
+
+    public void setCurrentPage(int mCurrentPage) {
+        this.mCurrentPage = mCurrentPage;
+    }
+
+    public int getCurrentPage() {
+        return mCurrentPage;
+    }
+
+    public void addBottom(ChannelData doc) {
+        mChannels.add(doc);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if(mChannels == null) {
+        if (mChannels == null) {
             return 0;
-        }else {
+        } else {
             return mChannels.size();
         }
     }
@@ -141,13 +156,10 @@ public class ProfessionalAdapter extends RecyclerView.Adapter<ProfessionalAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final RelativeLayout mTalkCard;
+        private final TextView mRank;
         private final RoundedImageView mUserPhoto;
         private final TextView mUserName;
-        private final TextView mName;
-//        private final TextView mParentType;
-        private final TextView mParentName;
-        private final TextView mCreatedAt;
-
+        private final TextView mOrganization;
 
 
         public ViewHolder(View v) {
@@ -163,37 +175,31 @@ public class ProfessionalAdapter extends RecyclerView.Adapter<ProfessionalAdapte
 
 
             mTalkCard = (RelativeLayout) v.findViewById(R.id.talkCard);
+            mRank = (TextView) v.findViewById(R.id.rank);
             mUserPhoto = (RoundedImageView) v.findViewById(R.id.userPhoto);
             mUserName = (TextView) v.findViewById(R.id.userName);
-            mName = (TextView) v.findViewById(R.id.name);
-//            mParentType = (TextView) v.findViewById(R.id.parentType);
-            mParentName = (TextView) v.findViewById(R.id.parentName);
-            mCreatedAt = (TextView) v.findViewById(R.id.createdAt);
+            mOrganization = (TextView) v.findViewById(R.id.organization);  // parentName
 
         }
 
         public RelativeLayout getTalkCard() {
             return mTalkCard;
         }
+
+        public TextView getRank() {
+            return mRank;
+        }
+
         public RoundedImageView getUserPhoto() {
             return mUserPhoto;
         }
+
         public TextView getUserName() {
             return mUserName;
         }
-        public TextView getName() {
-            return mName;
-        }
- /*
-        public TextView getParentType() {
-            return mParentType;
-        }
-   */
+
         public TextView getParentName() {
-            return mParentName;
-        }
-        public TextView getCreatedAt() {
-            return mCreatedAt;
+            return mOrganization;
         }
     }
 }

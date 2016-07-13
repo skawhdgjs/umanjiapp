@@ -33,6 +33,8 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
 
     public ApiHelper mApi;
     private JSONObject mParams;
+    private String thisType;
+    private String keywordName;
 
     public static ProfessionalFragment newInstance(Bundle bundle) {
         ProfessionalFragment fragment = new ProfessionalFragment();
@@ -51,6 +53,11 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected ArrayList<ChannelData> mChannels;
 
+    protected boolean isLoading = false;
+    protected int mPreFocusedItem = 0;
+    protected int mLoadCount = 0;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +68,8 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
         mApi = new ApiHelper(getContext());
 
         String getData = getArguments().getString("params");
+        thisType = getArguments().getString("thisType");
+        keywordName = getArguments().getString("keywordName");
 
         try {
             mParams = new JSONObject(getData);
@@ -68,7 +77,7 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
             e.printStackTrace();
         }
 
-        getTalkData(mParams);
+//        getTalkData(mParams);
     }
 
     @Override
@@ -79,14 +88,66 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
+        addOnScrollListener(mRecyclerView);
+
+        mAdapter = new ProfessionalAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
+
+        // Set TalkAdapter as the adapter for RecyclerView.
+        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter.notifyDataSetChanged();
+
         // LinearLayoutManager is used here, this will layout the elements in a similar fashion
         // to the way ListView would layout elements. The RecyclerView.LayoutManager defines how
         // elements are laid out.
-        mLayoutManager = new LinearLayoutManager(getActivity());
+//        mLayoutManager = new LinearLayoutManager(getActivity());
 
-        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
+        loadData();
+
+//        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
+
 
         return rootView;
+    }
+
+    protected void addOnScrollListener(RecyclerView rView) {
+        final LinearLayoutManager mLayoutManager = new LinearLayoutManager(rView.getContext());
+        rView.setLayoutManager(mLayoutManager);
+
+        rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int pastVisiblesItems = mLayoutManager.findFirstVisibleItemPosition();
+
+                    ArrayList<ChannelData> channels = mAdapter.getDocs();
+
+                    int currentFocusedIndex = visibleItemCount + pastVisiblesItems;
+                    if (currentFocusedIndex == mPreFocusedItem) return;
+                    mPreFocusedItem = currentFocusedIndex;
+                    if (channels.size() <= mPreFocusedItem) return;
+
+                    if (!isLoading) {
+                        if (mPreFocusedItem != (totalItemCount - 3)) {  // -1
+                            loadMoreKeywordData(mParams);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void loadData() {
+        mAdapter.resetDocs();
+        mAdapter.setCurrentPage(0);
+
+        loadMoreKeywordData(mParams);
+
+    }
+
+    public void updateView() {
+        mAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -102,7 +163,6 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
-
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.scrollToPosition(scrollPosition);
     }
@@ -114,45 +174,27 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
         super.onSaveInstanceState(savedInstanceState);
     }
 
-    /**
-     * Generates Strings for RecyclerView's adapter. This data would usually come
-     * from a local content provider or remote server.
-     */
-    private void initDataset(String mData) {
-        mChannels = new ArrayList<ChannelData>();
-        String getData = mData;
-        JSONArray jsonArray = null;
-        try {
-            jsonArray = new JSONArray(getData);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        for (int idx = 0; idx < jsonArray.length(); idx++) {
-            JSONObject jsonDoc = null;
-            try {
-                jsonDoc = jsonArray.getJSONObject(idx);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            ChannelData doc = new ChannelData(jsonDoc);
-            mChannels.add(doc);
-        }
-        mAdapter = new ProfessionalAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
-        // Set TalkAdapter as the adapter for RecyclerView.
-        mRecyclerView.setAdapter(mAdapter);
-//        mAdapter.notifyDataSetChanged();
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
-    private void getTalkData(JSONObject params){
+//************************************************************************************************** KeywordCommunityMode
+    private void loadMoreKeywordData(JSONObject params) {
+
+        isLoading = true;
+        mLoadCount = mLoadCount + 1;
 
         try {
-            params.put("limit", 30);
+            params.put("page", mAdapter.getCurrentPage());
+            params.put("keywords", keywordName);
+            params.put("type", "POST");
+            params.put("limit", 7);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
+        mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 if (status.getCode() == 500) {
@@ -161,23 +203,41 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
                     try {
                         JSONArray jsonArray = json.getJSONArray("data");
 
+                        String duplicated = "";
+
                         if (jsonArray.length() != 0) {
 
-                            String mdata = jsonArray.toString();
+                            for (int idx = 0; idx < jsonArray.length(); idx++) {
+                                JSONObject jsonDoc = null;
+                                try {
+                                    jsonDoc = jsonArray.getJSONObject(idx);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                JSONObject jObj = jsonDoc.getJSONObject("owner");
+                                String inputName = jObj.getString("name");
+                                if(!duplicated.contains(inputName)){
+                                    duplicated += inputName;
+                                    ChannelData doc = new ChannelData(jsonDoc);
+                                    mAdapter.addBottom(doc);
 
-                            initDataset(mdata);
+                                    updateView();
+                                }
+                            }
 
                         } else {
 
                         }
                         //mTalkAdapter.notifyDataSetChanged();
+                        isLoading = false;
                     } catch (JSONException e) {
                         Log.e(TAG, "Error " + e.toString());
                     }
                 }
             }
         });
-
+        mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
     }
+
 
 }

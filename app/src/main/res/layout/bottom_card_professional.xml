@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/talkCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="14dp"
+    android:paddingRight="14dp"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp"
+    android:layout_marginTop="1dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/ripple_custom"
+    >
+    <!--android:background="?android:attr/selectableItemBackground"-->
+
+    <TextView
+        android:id="@+id/rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textSize="40dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="1"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/userPhoto"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/avatar_default_0"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="72dp"
+        android:layout_marginStart="72dp" />
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="bruce"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:layout_alignTop="@+id/userPhoto"
+        android:layout_centerHorizontal="true" />
+
+    <!--<TextView
+        android:id="@+id/parentType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="종류"
+        android:textColor="@color/text"
+        android:textSize="12dp"
+        android:visibility="visible"
+        android:layout_alignTop="@+id/parentName"
+        android:layout_centerHorizontal="true" />-->
+
+    <TextView
+        android:id="@+id/organization"
+        android:layout_width="307dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="소속"
+        android:textSize="12dp"
+        android:textColor="@color/gray_text"
+        android:layout_below="@+id/userName"
+        android:layout_alignLeft="@+id/userName"
+        android:layout_alignStart="@+id/userName" />
+
+</RelativeLayout>
