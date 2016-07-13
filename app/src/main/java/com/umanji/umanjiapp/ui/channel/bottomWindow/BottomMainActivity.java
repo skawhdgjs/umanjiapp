@@ -49,6 +49,7 @@ public class BottomMainActivity extends AppCompatActivity{
     private String thisType;
     private String paramType;
     private String currentTitle;
+    private String keywordName;
 
     int mEnterAnim = 0;
     int mExitAnim = 0;
@@ -62,6 +63,7 @@ public class BottomMainActivity extends AppCompatActivity{
         mParams = getIntent().getStringExtra("params");
         thisType = getIntent().getStringExtra("type");
         currentTitle = getIntent().getStringExtra("currentAddress");
+        keywordName = getIntent().getStringExtra("keywordName");
 
         try {
             mParamsObj = new JSONObject(mParams);
@@ -105,6 +107,10 @@ public class BottomMainActivity extends AppCompatActivity{
         Bundle bundle = new Bundle();
 //        bundle.putString("channels", mData);
         bundle.putString("params", mParams);
+        bundle.putString("thisType", thisType);
+        if(thisType.equals("keywordCommunity")){
+            bundle.putString("keywordName", keywordName);
+        }
 
         adapter.addFragment(TalkFragment.newInstance(bundle), "Talk");
         adapter.addFragment(CommunityFragment.newInstance(bundle), "Community");

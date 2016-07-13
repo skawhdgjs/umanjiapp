@@ -33,6 +33,8 @@ public class TalkFragment extends Fragment implements AppConfig {
 
     public ApiHelper mApi;
     private JSONObject mParams;
+    private String thisType;
+    private String keywordName;
 
     public static TalkFragment newInstance(Bundle bundle) {
         TalkFragment fragment = new TalkFragment();
@@ -66,6 +68,8 @@ public class TalkFragment extends Fragment implements AppConfig {
         mApi = new ApiHelper(getContext());
 
         String getData = getArguments().getString("params");
+        thisType = getArguments().getString("thisType");
+        keywordName = getArguments().getString("keywordName");
 
         try {
             mParams = new JSONObject(getData);
@@ -83,7 +87,6 @@ public class TalkFragment extends Fragment implements AppConfig {
         rootView.setTag(TAG);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-
 
         addOnScrollListener(mRecyclerView);
 
@@ -138,15 +141,16 @@ public class TalkFragment extends Fragment implements AppConfig {
     public void loadData() {
         mAdapter.resetDocs();
         mAdapter.setCurrentPage(0);
-
-        loadMoreData(mParams);
+        if(thisType.equals("talk")){
+            loadMoreData(mParams);
+        } else {
+            loadMoreKeywordData(mParams);
+        }
     }
-
 
     public void updateView() {
         mAdapter.notifyDataSetChanged();
     }
-
 
     /**
      * Set RecyclerView's LayoutManager to the one given.
@@ -160,7 +164,6 @@ public class TalkFragment extends Fragment implements AppConfig {
 
         mLayoutManager = new LinearLayoutManager(getActivity());
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.scrollToPosition(scrollPosition);
@@ -234,7 +237,60 @@ public class TalkFragment extends Fragment implements AppConfig {
             }
         });
         mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-
     }
+//************************************************************************************************** KeywordCommunityMode
+    private void loadMoreKeywordData(JSONObject params){
+
+        isLoading = true;
+        mLoadCount = mLoadCount + 1;
+
+        try {
+            params.put("page", mAdapter.getCurrentPage());
+            params.put("keywords", keywordName);
+            params.put("type", "POST");
+            params.put("limit", 7);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                if (status.getCode() == 500) {
+//                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                } else {
+                    try {
+                        JSONArray jsonArray = json.getJSONArray("data");
+
+                        if (jsonArray.length() != 0) {
+
+                            for (int idx = 0; idx < jsonArray.length(); idx++) {
+                                JSONObject jsonDoc = null;
+                                try {
+                                    jsonDoc = jsonArray.getJSONObject(idx);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                ChannelData doc = new ChannelData(jsonDoc);
+                                mAdapter.addBottom(doc);
+
+                                updateView();
+                            }
+
+                        } else {
+
+                        }
+                        //mTalkAdapter.notifyDataSetChanged();
+                        isLoading = false;
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Error " + e.toString());
+                    }
+
+                }
+            }
+        });
+        mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
+    }
+
 
 }

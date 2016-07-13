@@ -1096,6 +1096,7 @@ public class MainFragment extends BaseFragment {
                         bottomIntent.putExtra("type", "talkMode");
                     } else {
                         bottomIntent.putExtra("type", "keywordCommunityMode");
+                        bottomIntent.putExtra("keywordName", communityName);
                     }
                     bottomIntent.putExtra("params", getMinMaxParams.toString());
                     bottomIntent.putExtra("currentAddress", currentAddress);
