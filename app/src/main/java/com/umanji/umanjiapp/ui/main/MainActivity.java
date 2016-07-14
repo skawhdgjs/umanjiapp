@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "한번 더 누르시면 우만지 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "한 번 더 누르시면 우만지 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
 
         new Handler().postDelayed(new Runnable() {
 

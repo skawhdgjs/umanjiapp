@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -87,6 +89,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -100,7 +104,7 @@ public class MainFragment extends BaseFragment {
      ****************************************************/
     private ImageView mAvatarImageBtn;
     private LinearLayout mSearchLayout;
-    private RelativeLayout mMainTitle;
+    private FrameLayout mKeywordCommunityToolbar;
     private TextView mKeywordTitle;
 
     private TextView mUmanji;
@@ -185,12 +189,13 @@ public class MainFragment extends BaseFragment {
     /****************************************************
      * View
      ****************************************************/
+    /*
     private LinearLayout mCommunityGoToPanel;
     private ImageView mCommunityCountryBtn;
     private ImageView mCommunityAdminBtn;
     private ImageView mCommunityLocalityBtn;
     private ImageView mCommunityThoroughBtn;
-
+*/
     private ChannelData mHomeChannel;
 
     //    private ImageView mInfoButton;
@@ -478,9 +483,10 @@ public class MainFragment extends BaseFragment {
         mCenterCircle = (ImageView) view.findViewById(R.id.centerCircle);
         mCurrentAddress = (TextView) view.findViewById(R.id.currentAddress);
 
-        mMainTitle = (RelativeLayout) view.findViewById(R.id.mainTitle);
+        mKeywordCommunityToolbar = (FrameLayout) view.findViewById(R.id.keywordCommunityToolbar);
         mKeywordTitle = (TextView) view.findViewById(R.id.keywordTitle);
         mSearchLayout = (LinearLayout) view.findViewById(R.id.searchLayout);
+/*
 
         mCommunityGoToPanel = (LinearLayout) view.findViewById(R.id.communityGotoPanel);
         mCommunityCountryBtn = (ImageView) view.findViewById(R.id.communityCountry);
@@ -491,6 +497,7 @@ public class MainFragment extends BaseFragment {
         mCommunityLocalityBtn.setOnClickListener(this);
         mCommunityThoroughBtn = (ImageView) view.findViewById(R.id.communityThorough);
         mCommunityThoroughBtn.setOnClickListener(this);
+*/
 
         mInterior = (ImageView) view.findViewById(R.id.interior);
         mInterior.setOnClickListener(this);
@@ -701,12 +708,12 @@ public class MainFragment extends BaseFragment {
 
             mCommunityCloseBtn.setVisibility(View.VISIBLE);
 //            mToCommunityBtn.setVisibility(View.VISIBLE);
-            mCommunityGoToPanel.setVisibility(View.VISIBLE);
+//            mCommunityGoToPanel.setVisibility(View.VISIBLE);
             mMainListContainer.setVisibility(View.GONE);
             mCommunityListContainer.setVisibility(View.VISIBLE);
             mLauncherLevel8.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
-            mMainTitle.setVisibility(View.VISIBLE);
+            mKeywordCommunityToolbar.setVisibility(View.VISIBLE);
             mKeywordTitle.setText(communityName);
             getKeywordCommunityData();  // keywordCommunityMode 일때 키워드 전문가 tab 추가
 //            loadCommunityMarkers(communityName);
@@ -776,7 +783,7 @@ public class MainFragment extends BaseFragment {
     private void getTalkData() {
         isLoading = true;
 
-        Log.d("Paul", sharedpreferences.getString("MyParams", "none"));
+//        Log.d("Paul", sharedpreferences.getString("MyParams", "none"));
 
         mMainListContainer.setVisibility(View.GONE);
 //        mCommunityListContainer.setVisibility(View.VISIBLE);
@@ -992,10 +999,11 @@ public class MainFragment extends BaseFragment {
             }
 
             isKeywordCommunityMode = true;
-            mMainTitle.setVisibility(View.VISIBLE);
+//            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            mKeywordCommunityToolbar.setVisibility(View.VISIBLE);
             mCommunityCloseBtn.setVisibility(View.VISIBLE);
 //            mToCommunityBtn.setVisibility(View.VISIBLE);
-            mCommunityGoToPanel.setVisibility(View.VISIBLE);
+//            mCommunityGoToPanel.setVisibility(View.VISIBLE);
             mMainListContainer.setVisibility(View.GONE);
 //            mCommunityListContainer.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
@@ -1030,11 +1038,12 @@ public class MainFragment extends BaseFragment {
                         mLauncherLevel7.setVisibility(View.VISIBLE);
                         break;
                 }
+//                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);         // mapy type :: MAP_TYPE_NORMAL / MAP_TYPE_TERRAIN / MAP_TYPE_SATELLITE / MAP_TYPE_HYBRID /
                 mCommunityCloseBtn.setVisibility(View.GONE);        // 오른쪽 닫기 버튼
 //                mToCommunityBtn.setVisibility(View.GONE);           // 커뮤니티 정보센터 바로가기
-                mCommunityGoToPanel.setVisibility(View.GONE);       // 커뮤니티 정보센터 바로가기 새로운 버전
+//                mCommunityGoToPanel.setVisibility(View.GONE);       // 커뮤니티 정보센터 바로가기 새로운 버전
                 mCommunityListContainer.setVisibility(View.GONE);   // 커뮤니티 포스트 Tab
-                mMainTitle.setVisibility(View.GONE);                // Title의 '커뮤니티'
+                mKeywordCommunityToolbar.setVisibility(View.GONE);                // Title의 '커뮤니티'
                 mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
                 mSearchLayout.setVisibility(View.VISIBLE);          // search bar
                 mLauncherLevel8.setVisibility(View.GONE);           // talk 숨김
@@ -1231,6 +1240,7 @@ public class MainFragment extends BaseFragment {
                 String division4 = "eye";
                 showTutorialDialog(division4);
                 break;*/
+/*
 
             case R.id.communityCountry:
                 mCommunityCountryBtn.startAnimation(buttonClick);
@@ -1256,6 +1266,7 @@ public class MainFragment extends BaseFragment {
                 Toast.makeText(mActivity, "Thorough", Toast.LENGTH_SHORT).show();
 
                 break;
+*/
 
         }
     }
@@ -1898,6 +1909,7 @@ public class MainFragment extends BaseFragment {
                 int zoom = (int) position.zoom;
 
                 LatLng center = mMap.getCameraPosition().target;
+                getCountryDivision(center.latitude, center.longitude);
                 getCenterAddress(center, zoom);
 //************************************************************************************************** isKeywordCommunityMode
                 if (isKeywordCommunityMode) {
@@ -1925,7 +1937,7 @@ public class MainFragment extends BaseFragment {
 
 
                         updateCommunityBtn(zoom);
-                        getKeywordCommunityData();
+                        getKeywordCommunityData();  //kakao button toggle
                         loadCommunityMarkers(communityName);
                     }
 //************************************************************************************************** isTalkMode (normalMode)
@@ -1986,6 +1998,38 @@ public class MainFragment extends BaseFragment {
 
     }
 
+    private String getCountryDivision(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+        Geocoder geocoder = new Geocoder(mActivity, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                Address returnedAddress = addresses.get(0);
+                StringBuilder strReturnedAddress = new StringBuilder("");
+
+                for (int i = 0; i < returnedAddress.getMaxAddressLineIndex(); i++) {
+                    strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
+                }
+                strAdd = strReturnedAddress.toString();
+                Log.d("Paul", "CountryCode :" + returnedAddress);
+                Log.d("Paul", "CountryCode :" + returnedAddress.getCountryCode());
+                Log.d("Paul", "CountryName :" + returnedAddress.getCountryName());
+                Log.d("Paul", "admin       :" + returnedAddress.getAdminArea());
+                Log.d("Paul", "Locality    :" + returnedAddress.getLocality());
+                Log.d("Paul", "Thoroughfare:" + returnedAddress.getThoroughfare());
+                Log.d("Paul", "Feature     :" + returnedAddress.getFeatureName());
+//                Log.d("Paul", "############");
+            } else {
+                Log.d("Paul", "No Address returned!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("Paul", "Canont get Address!");
+        }
+        return strAdd;
+    }
+
+
     protected void getCenterAddress(LatLng center, final int zoom) {
         try {
             JSONObject params = new JSONObject();
@@ -1997,7 +2041,7 @@ public class MainFragment extends BaseFragment {
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     mAddressChannel = new ChannelData(object);
 
-                    String countryName = "대한민국";
+                    String countryName = mAddressChannel.getCountryName();
                     String adminArea = mAddressChannel.getAdminArea();
                     String localityName = mAddressChannel.getLocality();
                     String thoroughfare = mAddressChannel.getThoroughfare();
@@ -2118,7 +2162,7 @@ public class MainFragment extends BaseFragment {
     private void updateCommunityBtn(final int zoom) {
         if (mCurrentMyPosition != null) {
 //            mToCommunityBtn.setVisibility(View.VISIBLE);
-            mCommunityGoToPanel.setVisibility(View.VISIBLE);
+//            mCommunityGoToPanel.setVisibility(View.VISIBLE);
 
             try {
                 JSONObject params = new JSONObject();
@@ -2985,6 +3029,8 @@ public class MainFragment extends BaseFragment {
     }
 
     private class TouchableWrapper extends FrameLayout {
+
+
         public TouchableWrapper(Context context) {
             super(context);
         }
@@ -3003,5 +3049,8 @@ public class MainFragment extends BaseFragment {
 
             return super.dispatchTouchEvent(ev);
         }
+
     }
+
+
 }

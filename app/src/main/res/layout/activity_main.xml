@@ -87,52 +87,6 @@
 
                 </LinearLayout>
 
-                <RelativeLayout
-                    android:id="@+id/mainTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/keywordTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/communityText"
-                        android:layout_marginEnd="25dp"
-                        android:layout_marginRight="25dp"
-                        android:layout_toLeftOf="@+id/communityText"
-                        android:layout_toStartOf="@+id/communityText"
-                        android:gravity="center"
-                        android:text="key"
-                        android:textColor="@color/gray_text"
-                        android:textSize="16dp" />
-
-                    <TextView
-                        android:id="@+id/communityText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="125dp"
-                        android:layout_marginRight="125dp"
-                        android:gravity="center"
-                        android:text="커뮤니티"
-                        android:textColor="@color/gray_text"
-                        android:textSize="16dp" />
-
-                </RelativeLayout>
-
-                <ImageView
-                    android:id="@+id/community_close_button"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/linearLayout6"
-                    android:src="@drawable/ic_ex_temp"
-                    android:visibility="gone" />
-
                 <Button
                     android:id="@+id/mNotyCount"
                     android:layout_width="20dp"
@@ -152,11 +106,71 @@
 
             </RelativeLayout>
 
+            <FrameLayout
+                android:id="@+id/keywordCommunityToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="#66a6ff"
+                android:visibility="gone"
+                android:layout_alignBottom="@+id/view2">
+
+                <RelativeLayout
+                    android:id="@+id/mainTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <TextView
+                        android:id="@+id/keywordTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="3dp"
+                        android:gravity="center"
+                        android:text="key"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:layout_alignTop="@+id/communityText"
+                        android:layout_toLeftOf="@+id/communityText"
+                        android:layout_toStartOf="@+id/communityText" />
+
+                    <TextView
+                        android:id="@+id/communityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:gravity="center"
+                        android:text="모음"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <ImageView
+                        android:id="@+id/community_close_button"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/close_keyword_button"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="5dp"/>
+
+                </RelativeLayout>
+
+            </FrameLayout>
+
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_above="@+id/ads_image"
-                android:background="@color/gray_soft" />
+                android:background="@color/gray_soft"
+                android:id="@+id/view2" />
 
             <ImageView
                 android:id="@+id/ads_image"
@@ -174,6 +188,7 @@
             ***************
             -->
 
+<!--
             <LinearLayout
                 android:id="@+id/communityGotoPanel"
                 android:layout_width="wrap_content"
@@ -290,6 +305,7 @@
 
 
             </LinearLayout>
+-->
 
 
             <TextView
