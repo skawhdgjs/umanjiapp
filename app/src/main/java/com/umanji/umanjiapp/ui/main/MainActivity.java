@@ -1,5 +1,7 @@
 package com.umanji.umanjiapp.ui.main;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,10 +14,13 @@ import com.umanji.umanjiapp.ui.BaseActivity;
 public class MainActivity extends BaseActivity {
 
     private static final String TAG = "MainActivity";
+    private SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
     }
 
     protected Fragment createFragment() {
@@ -30,6 +35,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void finish() {
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("isInitLocationUsed", "false");
+        editor.commit();
         super.finish();
     }
 
@@ -49,7 +57,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.IntentCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -384,9 +385,20 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     bundle.putString("iamFrom", "home");
                     Intent intent = new Intent(mActivity, MainActivity.class);
                     intent.putExtra("bundle", bundle);
+//                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+                    getActivity().finish();
+//                    doing
                 } else {
                     EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", lookChannel);
+                    bundle.putString("iamFrom", "community");
+                    Intent intent = new Intent(mActivity, MainActivity.class);
+                    intent.putExtra("bundle", bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
                 break;
 

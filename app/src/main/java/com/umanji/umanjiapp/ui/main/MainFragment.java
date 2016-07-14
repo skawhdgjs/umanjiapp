@@ -287,6 +287,7 @@ public class MainFragment extends BaseFragment {
     boolean isTalkFlag = false;
     boolean mTalkExpanded = false;
     boolean touchedOnce = false;
+    private String isInitLocationUsed = "false";
 
     private JSONArray jsonArrayBottom;
     private JSONObject getMinMaxParams;
@@ -312,6 +313,7 @@ public class MainFragment extends BaseFragment {
 
         String fromHomeUser;
         sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        isInitLocationUsed = sharedpreferences.getString("isInitLocationUsed", "empty");
 
         if (getArguments() != null) {
             fromHomeUser = getArguments().getString("id");
@@ -382,6 +384,7 @@ public class MainFragment extends BaseFragment {
                     ContextCompat.checkSelfPermission(mActivity, Manifest.permission.INTERNET) ==
                             PackageManager.PERMISSION_GRANTED) {
                 initMap();
+
             } else {
                 requestPermissions(PERMS, PERMS_REQUEST);
             }
@@ -671,7 +674,6 @@ public class MainFragment extends BaseFragment {
         *  Keyword community Mode
         * */
 
-//        doing now
         if (isKeywordCommunityMode) {
             JSONObject params1 = null;
             try {
@@ -721,7 +723,6 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    //    doing now
     private void getKeywordCommunityData() {
         isLoading = true;
 
@@ -1046,7 +1047,7 @@ public class MainFragment extends BaseFragment {
                 mKeywordCommunityToolbar.setVisibility(View.GONE);                // Title의 '커뮤니티'
                 mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
                 mSearchLayout.setVisibility(View.VISIBLE);          // search bar
-                mLauncherLevel8.setVisibility(View.GONE);           // talk 숨김
+                mLauncherLevel8.setVisibility(View.VISIBLE);           // talk 보임
                 isKeywordCommunityMode = false;
                 loadData();
                 break;
@@ -1604,78 +1605,65 @@ public class MainFragment extends BaseFragment {
         LocationManager locationManager = (LocationManager) mActivity.getSystemService(mActivity.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
+        CameraPosition cameraPosition;
+        Location location = null;
+
+        ChannelData homeChannel = null;
 
         double latitude = 37.498039;
         double longitude = 126.9220201;  // 37.498039, 126.9220201
+        LatLng latLng = null;
 
-        try {
-            String isFirst = FileHelper.getString(mActivity, "isFirst");
-            Location location = null;
-            if (TextUtils.isEmpty(isFirst)) {
-                FileHelper.setString(mActivity, "isFirst", "checked");
-            } else {
-                location = locationManager.getLastKnownLocation(provider);
-            }
+        if (isInitLocationUsed.equals("true")) {
 
-            if (location != null) {
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-            }
-
-            mCurrentMyPosition = new LatLng(latitude, longitude);
-
-
-            CameraPosition cameraPosition;
-
-            ChannelData homeChannel = null;
-            if (getArguments() != null) {
-                String jsonString = getArguments().getString("channel");
-                if (jsonString != null) {
-                    homeChannel = new ChannelData(jsonString);
-                }
-            }
-
-            if (getArguments() != null) {    // from home  getArguments().getString("iamFrom") != null
-
-                if (homeChannel == null) {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                }
-
+            String jsonString = getArguments().getString("channel");
+            if (jsonString != null) {                // isInitLocationUsed = true :: MUST create Bundle from another activity.
+                homeChannel = new ChannelData(jsonString);
                 latitude = homeChannel.getLatitude();
                 longitude = homeChannel.getLongitude();
-
-                mCurrentMyPosition = new LatLng(latitude, longitude);
-                cameraPosition = new CameraPosition.Builder()
-                        .target(mCurrentMyPosition)
-                        .zoom(18)
-                        .bearing(90)
-                        .tilt(40)
-                        .build();
+                latLng = new LatLng(latitude, longitude);
             } else {
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                latLng = new LatLng(latitude, longitude);
+            }
+            mCurrentMyPosition = new LatLng(latitude, longitude);
+            cameraPosition = new CameraPosition.Builder()
+                    .target(mCurrentMyPosition)
+                    .zoom(18)
+                    .bearing(90)
+                    .tilt(40)
+                    .build();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+
+        } else {                   // init My Location for the first Time!!
+            try {
+                location = locationManager.getLastKnownLocation(provider);
+                if (location != null) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    latLng = new LatLng(latitude, longitude);
+                }
+                mCurrentMyPosition = new LatLng(latitude, longitude);
                 cameraPosition = new CameraPosition.Builder()
                         .target(mCurrentMyPosition)
                         .zoom(12)
                         .bearing(90)
                         .tilt(40)
                         .build();
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
+            } catch (SecurityException e) {
+                Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
             }
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString("isInitLocationUsed", "true");
+            editor.commit();
 
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        } catch (SecurityException e) {
-            Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
         }
-
-        LatLng latLng = new LatLng(latitude, longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
-        if (getArguments() != null) {
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);   // home
-        } else {
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
-        }
-
     }
 
     /****************************************************
@@ -1919,14 +1907,15 @@ public class MainFragment extends BaseFragment {
                     if (isBlock) {
                         isBlock = false;
                     } else {
-                        // isPoliticTouchable
 
                         if (isComplexCreatable(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
+                            mCenterCircle.setVisibility(View.VISIBLE);
                         } else if (isSpotCreatable(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
+                            mCenterCircle.setVisibility(View.GONE);
                         } else if (isPoliticTouchable(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
@@ -1951,7 +1940,6 @@ public class MainFragment extends BaseFragment {
                     if (isBlock) {
                         isBlock = false;
                     } else {
-                        // isPoliticTouchable
 
                         if (isComplexCreatable(zoom)) {
                             mInterior.setImageResource(R.drawable.interior_black);
@@ -1961,6 +1949,7 @@ public class MainFragment extends BaseFragment {
                             //mCreateSpotText.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
+                            mCenterCircle.setVisibility(View.VISIBLE);
                         } else if (isSpotCreatable(zoom)) {
                             mInterior.setImageResource(R.drawable.interior);
                             mTowerCrane.setImageResource(R.drawable.tower_crane_black);
@@ -1968,6 +1957,7 @@ public class MainFragment extends BaseFragment {
                             mInfoTextPanel.setTextSize(15);
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
+                            mCenterCircle.setVisibility(View.GONE);
                         } else if (isKeywordTouchable(zoom)) {
                             //mCreateComplexText.setVisibility(View.GONE);
                             mInfoTextPanel.setText("지역 소식");
@@ -2048,19 +2038,19 @@ public class MainFragment extends BaseFragment {
 
                     if (zoom >= 6 && zoom < 8) {          // 대한민국
                         mCurrentAddress.setText(countryName);
-                        currentAddress = countryName+" 지역정보";
+                        currentAddress = countryName + " 지역정보";
                     } else if (zoom == 8) {     // 도
-                        mCurrentAddress.setText(countryName+" "+adminArea);
-                        currentAddress = countryName+" "+adminArea+" 지역정보";
-                    } else if (zoom >8 && zoom < 11) {     // 서울시 , 시
-                        mCurrentAddress.setText(adminArea+" "+localityName);
-                        currentAddress = adminArea+" "+localityName+" 지역정보";
+                        mCurrentAddress.setText(countryName + " " + adminArea);
+                        currentAddress = countryName + " " + adminArea + " 지역정보";
+                    } else if (zoom > 8 && zoom < 11) {     // 서울시 , 시
+                        mCurrentAddress.setText(adminArea + " " + localityName);
+                        currentAddress = adminArea + " " + localityName + " 지역정보";
                     } else if (zoom > 10 && zoom < 14) {   // 구
-                        mCurrentAddress.setText(adminArea+" "+localityName);
-                        currentAddress = adminArea+" "+localityName+" 지역정보";
+                        mCurrentAddress.setText(adminArea + " " + localityName);
+                        currentAddress = adminArea + " " + localityName + " 지역정보";
                     } else if (zoom > 13 && zoom <= 21) {  // 동
-                        mCurrentAddress.setText(adminArea+" "+localityName+" "+thoroughfare);
-                        currentAddress = adminArea+" "+localityName+" "+thoroughfare+" 지역정보";
+                        mCurrentAddress.setText(adminArea + " " + localityName + " " + thoroughfare);
+                        currentAddress = adminArea + " " + localityName + " " + thoroughfare + " 지역정보";
                     } else {
                         mCurrentAddress.setText("준비중입니다");
                     }
