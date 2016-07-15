@@ -1,5 +1,6 @@
 package com.umanji.umanjiapp.ui.channel.bottomWindow;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidquery.callback.AjaxCallback;
@@ -50,6 +54,9 @@ public class BottomMainActivity extends AppCompatActivity{
     private String paramType;
     private String currentTitle;
     private String keywordName;
+    private ImageView mBottomCloseBtn;
+
+    private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
     int mEnterAnim = 0;
     int mExitAnim = 0;
@@ -98,6 +105,16 @@ public class BottomMainActivity extends AppCompatActivity{
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        mBottomCloseBtn = (ImageView) findViewById(R.id.bottom_out_btn);
+        mBottomCloseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBottomCloseBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                finish();
+            }
+        });
     }
 
 

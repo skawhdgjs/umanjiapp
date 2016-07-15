@@ -108,8 +108,10 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
             String parentType = mChannels.get(position).getParent().getType();
             if (parentType.equals("POST")){
                 viewHolder.getParentName().setText("댓글");
+            } else {
+                viewHolder.getParentName().setText(mChannels.get(position).getParent().getName());
             }
-            viewHolder.getParentName().setText(mChannels.get(position).getParent().getName());
+
         } else {
 
         }

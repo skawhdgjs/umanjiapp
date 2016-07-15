@@ -40,14 +40,6 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
     protected int mCurrentPage = 0;
 
 
-    /**
-     * Initialize the dataset of the Adapter.
-     *
-     * @param dataSet String[] containing the data to populate views to be used by RecyclerView.
-     */
-    public CommunityAdapter(String[] dataSet) {
-        mDataSet = dataSet;
-    }
     public CommunityAdapter(Activity activity, Context context, ArrayList<ChannelData> channelData) {
         this.mActivity = activity;
         this.mContext = context;
@@ -75,8 +67,8 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
         viewHolder.getTalkCard().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mChannels.get(position).getParent() != null){
-                    mChannel = mChannels.get(position).getParent();
+                if(mChannels.get(position) != null){
+                    mChannel = mChannels.get(position);
                     Helper.startActivity(mActivity, mChannel);
                 } else {
                     Toast.makeText(mActivity, "준비중입니다", Toast.LENGTH_SHORT).show();
