@@ -13,12 +13,14 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -157,6 +159,10 @@ public class MainFragment extends BaseFragment {
 
     private static final int INITIAL_REQUEST = 10;
     private static final int PERMS_REQUEST = INITIAL_REQUEST + 2;
+
+    public static final int OUT_OF_SERVICE = 0;
+    public static final int TEMPORARILY_UNAVAILABLE = 1;
+    public static final int AVAILABLE = 2;
 
     /****************************************************
      * Footer View
@@ -1603,10 +1609,22 @@ public class MainFragment extends BaseFragment {
 
     protected void initMyLocation() {
         LocationManager locationManager = (LocationManager) mActivity.getSystemService(mActivity.LOCATION_SERVICE);
+        LocationListener locationListener = new MyLocationListener();
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
         CameraPosition cameraPosition;
         Location location = null;
+        if (ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mActivity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 35000, 10, locationListener);
 
         ChannelData homeChannel = null;
 
@@ -1616,32 +1634,14 @@ public class MainFragment extends BaseFragment {
 
         if (isInitLocationUsed.equals("true")) {
 
-            String jsonString = getArguments().getString("channel");
-            if (jsonString != null) {                // isInitLocationUsed = true :: MUST create Bundle from another activity.
-                homeChannel = new ChannelData(jsonString);
-                latitude = homeChannel.getLatitude();
-                longitude = homeChannel.getLongitude();
-                latLng = new LatLng(latitude, longitude);
-            } else {
-                latitude = location.getLatitude();
-                longitude = location.getLongitude();
-                latLng = new LatLng(latitude, longitude);
-            }
-            mCurrentMyPosition = new LatLng(latitude, longitude);
-            cameraPosition = new CameraPosition.Builder()
-                    .target(mCurrentMyPosition)
-                    .zoom(18)
-                    .bearing(90)
-                    .tilt(40)
-                    .build();
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
-
-        } else {                   // init My Location for the first Time!!
-            try {
-                location = locationManager.getLastKnownLocation(provider);
-                if (location != null) {
+            if(getArguments() != null){
+                String jsonString = getArguments().getString("channel");
+                if (jsonString != null) {                // isInitLocationUsed = true :: MUST create Bundle from another activity.
+                    homeChannel = new ChannelData(jsonString);
+                    latitude = homeChannel.getLatitude();
+                    longitude = homeChannel.getLongitude();
+                    latLng = new LatLng(latitude, longitude);
+                } else {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                     latLng = new LatLng(latitude, longitude);
@@ -1649,11 +1649,36 @@ public class MainFragment extends BaseFragment {
                 mCurrentMyPosition = new LatLng(latitude, longitude);
                 cameraPosition = new CameraPosition.Builder()
                         .target(mCurrentMyPosition)
-                        .zoom(12)
+                        .zoom(18)
                         .bearing(90)
                         .tilt(40)
                         .build();
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+            } else {
+                Toast.makeText(mActivity, "Location Null", Toast.LENGTH_SHORT).show();
+            }
+
+
+        } else {                   // init My Location for the first Time!!
+            try {
+                location = locationManager.getLastKnownLocation(provider);
+
+                if (location != null) {
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    mCurrentMyPosition = new LatLng(latitude, longitude);
+                } else {
+                    mCurrentMyPosition = new LatLng(latitude, longitude);
+                }
+                cameraPosition = new CameraPosition.Builder()
+                        .target(mCurrentMyPosition)
+                        .zoom(12)
+                        .bearing(90)
+                        .tilt(40)
+                        .build();
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(mCurrentMyPosition));
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
             } catch (SecurityException e) {
@@ -1663,6 +1688,29 @@ public class MainFragment extends BaseFragment {
             editor.putString("isInitLocationUsed", "true");
             editor.commit();
 
+        }
+    }
+
+    private final class MyLocationListener implements LocationListener {
+
+        @Override
+        public void onLocationChanged(Location locFromGps) {
+            // called when the listener is notified with a location update from the GPS
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            // called when the GPS provider is turned off (user turning off the GPS on the phone)
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // called when the GPS provider is turned on (user turning on the GPS on the phone)
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            // called when the status of the GPS provider changes
         }
     }
 
