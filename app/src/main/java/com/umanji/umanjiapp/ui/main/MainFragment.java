@@ -803,7 +803,6 @@ public class MainFragment extends BaseFragment {
 
             String paramsToString = params.toString();
             SharedPreferences.Editor editor = sharedpreferences.edit();
-
             editor.putString("MyParams", paramsToString);
             editor.commit();
 
@@ -1628,8 +1627,8 @@ public class MainFragment extends BaseFragment {
 
         ChannelData homeChannel = null;
 
-        double latitude = 37.498039;
-        double longitude = 126.9220201;  // 37.498039, 126.9220201
+        double latitude = 37.5053403;
+        double longitude = 126.9589435;  // 초등 37.5053403, 126.9589435  / 보라매공원 : 37.498039, 126.9220201
         LatLng latLng = null;
 
         if (isInitLocationUsed.equals("true")) {
@@ -2049,20 +2048,19 @@ public class MainFragment extends BaseFragment {
                     strReturnedAddress.append(returnedAddress.getAddressLine(i)).append("\n");
                 }
                 strAdd = strReturnedAddress.toString();
-                Log.d("Paul", "CountryCode :" + returnedAddress);
-                Log.d("Paul", "CountryCode :" + returnedAddress.getCountryCode());
-                Log.d("Paul", "CountryName :" + returnedAddress.getCountryName());
-                Log.d("Paul", "admin       :" + returnedAddress.getAdminArea());
-                Log.d("Paul", "Locality    :" + returnedAddress.getLocality());
-                Log.d("Paul", "Thoroughfare:" + returnedAddress.getThoroughfare());
-                Log.d("Paul", "Feature     :" + returnedAddress.getFeatureName());
-//                Log.d("Paul", "############");
+//                Log.d("Paul", "CountryCode :" + returnedAddress);
+//                Log.d("Paul", "CountryCode :" + returnedAddress.getCountryCode());
+//                Log.d("Paul", "CountryName :" + returnedAddress.getCountryName());
+//                Log.d("Paul", "admin       :" + returnedAddress.getAdminArea());
+//                Log.d("Paul", "Locality    :" + returnedAddress.getLocality());
+//                Log.d("Paul", "Thoroughfare:" + returnedAddress.getThoroughfare());
+//                Log.d("Paul", "Feature     :" + returnedAddress.getFeatureName());
             } else {
                 Log.d("Paul", "No Address returned!");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("Paul", "Canont get Address!");
+            Log.d("Paul", "Cannot get Address!");
         }
         return strAdd;
     }
@@ -2624,8 +2622,27 @@ public class MainFragment extends BaseFragment {
             Intent intent = new Intent(mActivity, GcmRegistrationIntentService.class);
             mActivity.startService(intent);
         }
-
+// doing now
         mUser = auth.getUser();
+        int userPoint = mUser.getPoint();
+        String userClass = null;
+        String [] userClasses = mUser.getRoles();
+        switch(userClasses[0]){
+            case "umanji_cow":
+                userClass = "high";
+                break;
+            case "umanji_citizon":
+                userClass = "low";
+                break;
+            case "":
+                userClass = "low";
+                break;
+        }
+        String userPointStr = String.valueOf(userPoint);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("userPoint", userPointStr);
+        editor.putString("userClass", userClass);
+        editor.commit();
         AuthHelper.login(mActivity, auth);
 
         updateView();

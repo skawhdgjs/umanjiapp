@@ -1,6 +1,8 @@
 package com.umanji.umanjiapp.ui.channel;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -62,16 +65,26 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     protected String mFilePath;
 
     protected boolean mClicked = false;
+    private SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs";
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
         if(getArguments() != null) {
             String jsonString = getArguments().getString("channel");
             if(jsonString != null) {
                 mChannel = new ChannelData(jsonString);
+                String userPointStr = sharedpreferences.getString("userPoint", "little money");
+                String userClass = sharedpreferences.getString("userClass", "low");
+
+                Log.d("Paul", "this type : " + mChannel.getType().toString());
+                Log.d("Paul", "user DATA : " + userPointStr);
+                Log.d("Paul", "user class : " + userClass);
             }
         }
     }
