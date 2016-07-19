@@ -164,7 +164,7 @@ public class SigninFragment extends BaseFragment {
                 auth = new AuthData(event.response);
                 if(auth.user != null) {
                     mActivity.finish();
-                    EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
+                    EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW));
                 }else {
                     signup();
                 }
@@ -173,7 +173,7 @@ public class SigninFragment extends BaseFragment {
                 auth = new AuthData(event.response);
                 if(auth.user != null) {
                     mActivity.finish();
-                    EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
+                    EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW));
                 }else {
                     //TODO: 회원가입 오류 처리
                 }

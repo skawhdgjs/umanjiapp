@@ -73,6 +73,7 @@ import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.PaulBusData;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
@@ -91,6 +92,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
@@ -298,7 +300,6 @@ public class MainFragment extends BaseFragment {
     private JSONArray jsonArrayBottom;
     private JSONObject getMinMaxParams;
     private SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs";
 
     View mView;
     TouchableWrapper mTouchView;
@@ -2618,12 +2619,20 @@ public class MainFragment extends BaseFragment {
     }
 
     private void login(AuthData auth) {
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        HashMap<String, String> mHash = new HashMap<String, String>();
+
         if (checkPlayServices()) {
             Intent intent = new Intent(mActivity, GcmRegistrationIntentService.class);
             mActivity.startService(intent);
         }
 // doing now
         mUser = auth.getUser();
+
+        ArrayList<SubLinkData> experts = mUser.getSubLinks(TYPE_EXPERT);
+        EventBus.getDefault().post(new SuccessData(DATA_EXPERT, experts));
+
+
         int userPoint = mUser.getPoint();
         String userClass = null;
         String [] userClasses = mUser.getRoles();
@@ -2639,7 +2648,7 @@ public class MainFragment extends BaseFragment {
                 break;
         }
         String userPointStr = String.valueOf(userPoint);
-        SharedPreferences.Editor editor = sharedpreferences.edit();
+
         editor.putString("userPoint", userPointStr);
         editor.putString("userClass", userClass);
         editor.commit();

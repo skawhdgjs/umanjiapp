@@ -130,7 +130,7 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
         switch (event.type) {
             case api_profile_role_update:
                 mActivity.finish();
-                EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
+                EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW));
                 break;
 
             case api_channels_findEmail:

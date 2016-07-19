@@ -39,6 +39,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = (BaseActivity)getActivity();
+        EventBus.getDefault().register(this);
     }
 
 
@@ -71,8 +72,6 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         mAlert = new AlertDialog.Builder(mActivity);
 
         mApi = new ApiHelper(mActivity);
-
-        EventBus.getDefault().register(this);
 
         initWidgets(view);
         return view;

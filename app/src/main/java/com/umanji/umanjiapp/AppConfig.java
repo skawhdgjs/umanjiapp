@@ -4,7 +4,7 @@ public interface AppConfig {
 
     int APP_VERSION      = 1;
 
-//    String REST_SERVER_URL = "http://172.30.1.2:3000/v1"; /* 로컬 API Server */
+//    String REST_SERVER_URL = "http://192.168.25.54:3000/v1"; /* 로컬 API Server */
    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
@@ -53,6 +53,9 @@ public interface AppConfig {
 
     String api_channels_createPost      = "POST /channels/post";
     String api_channels_create          = "POST /channels";
+
+
+    String api_channels_expert = "POST /channels/expert";
 
     String api_channels_get             = "GET  /channels/id";
     String api_channels_findOne         = "GET  /channels/findOne";
@@ -129,6 +132,11 @@ public interface AppConfig {
 
 
     String TYPE_MAIN                    = "MAIN";
+    String TYPE_EXPERT                  = "EXPERT";
+    String TYPE_ADMINISTRATOR           = "우만지행정전문가";
+    String TYPE_INTEREST                = "정치관심가";
+
+
     String TYPE_SPOTS                   = "SPOTS";
     String TYPE_PROFILE_SPOTS           = "PROFILE_SPOTS";
 
@@ -178,6 +186,10 @@ public interface AppConfig {
     String SLIDING_COLLAPSED            = "COLLAPSED";
     String SLIDING_ANCHORED             = "ANCHORED";
     String SLIDING_EXPANDED             = "EXPANDED";
+
+
+    String DATA_EXPERT                  = "EXPERT_DATA";
+    String MyPREFERENCES                = "MyPrefs";
 
     int POINT_DEFAULT                   = 10;
     int POINT_CREATE_CHANNEL            = 10;

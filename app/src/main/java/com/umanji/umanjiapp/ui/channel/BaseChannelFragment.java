@@ -1,7 +1,9 @@
 package com.umanji.umanjiapp.ui.channel;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
+import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
@@ -37,13 +40,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
 
-public abstract class BaseChannelFragment extends BaseFragment {
+public abstract class BaseChannelFragment extends BaseFragment implements AppConfig {
     private static final String TAG = "BaseChannelFragment";
 
     /****************************************************
@@ -88,6 +94,8 @@ public abstract class BaseChannelFragment extends BaseFragment {
      ****************************************************/
     protected int mCurrentTapPosition = 0;
     protected String mTabType = "";
+    private SharedPreferences sharedpreferences;
+    private ArrayList<SubLinkData> mExperts;
 
 
     @Override
@@ -102,6 +110,7 @@ public abstract class BaseChannelFragment extends BaseFragment {
 
             mTabType = getArguments().getString("tabType");
         }
+//        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -360,20 +369,81 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     mActivity.finish();
                 }
                 break;
+            case DATA_EXPERT:
+                mExperts = event.arrayData;
+                break;
+        }
+    }
+
+    public  void openCreatePost(String keyword){
+        Intent intent = new Intent(mActivity, PostCreateActivity.class);
+        Bundle bundle = new Bundle();
+        if(keyword == null){
+
+        } else {
+            bundle.putString("expert", keyword);
+        }
+        bundle.putString("channel", mChannel.getJsonObject().toString());
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
+    }
+
+    public static boolean useList(List<String> arr, String targetValue) {
+        return Arrays.asList(arr).contains(targetValue);
+    }
+
+    public boolean hasKeyword() {
+
+        if(mChannel.getKeywords() != null){
+            return true;
+        } else {
+            return false;
         }
     }
 
     @Override
     public void onClick(View v) {
+        sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String moneyString = sharedpreferences.getString("userPoint", "empty");
+        int money = Integer.parseInt(moneyString);
+        SubLinkData temp;
+        List<String> experts = new ArrayList<String>();
+        if(mExperts != null){
+            for(int idx = 0; mExperts.size() > idx; idx ++){
+                temp = mExperts.get(idx);
+
+                experts.add(temp.getName());
+            }
+        }
+
+
         switch (v.getId()) {
             case R.id.fab:
-                if (mCurrentTapPosition == 0) {
-                    Intent intent = new Intent(mActivity, PostCreateActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("channel", mChannel.getJsonObject().toString());
-                    intent.putExtra("bundle", bundle);
-                    startActivity(intent);
+                if(mCurrentTapPosition == 0){
+                    if(mChannel.getType().equals(TYPE_INFO_CENTER)){         // 정보센터
+                        if(useList(experts, TYPE_ADMINISTRATOR)){  //행정전문가
+                            openCreatePost("");
+                        } else {                                    // 일반시민
+                            if(money > 10000){      // 돈있냐
+                                openCreatePost("");
+                            } else {        // 벌어서 와라
+                                Toast.makeText(mActivity, "돈이 부족합니다", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } else {                                                 // 일반 장소
+                        if(hasKeyword()){               // 키워드가 있냐
+//                            doing now
+                            String [] keywords = mChannel.getKeywords();
+                            String keyword = keywords[0];
+                            openCreatePost(keyword);
+
+                        } else {                // 키워드 없는 일반 장소  > 그냥 쓴다
+                            openCreatePost("");
+                        }
+                    }
                 }
+
+
                 break;
 
             case R.id.lookAround:
@@ -389,7 +459,6 @@ public abstract class BaseChannelFragment extends BaseFragment {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     getActivity().finish();
-//                    doing
                 } else {
                     EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
                     Bundle bundle = new Bundle();

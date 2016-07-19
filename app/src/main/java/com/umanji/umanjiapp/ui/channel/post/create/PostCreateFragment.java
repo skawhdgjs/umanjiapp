@@ -19,13 +19,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidquery.callback.AjaxCallback;
+import com.androidquery.callback.AjaxStatus;
 import com.bumptech.glide.Glide;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SearchUrls;
 import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.AuthData;
+import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
 
@@ -33,7 +39,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class PostCreateFragment extends BaseChannelCreateFragment {
@@ -42,6 +51,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     // for site preview info.
     TextCrawler mTextCrawler;
     protected LinearLayout mMetaPanel;
+//    protected ChannelData mUser;
     protected ImageView mMetaPhoto;
     protected TextView mMetaTitle;
     protected TextView mMetaDesc;
@@ -61,6 +71,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
 
     protected boolean isReady = false;
+    protected ArrayList<SubLinkData> mExperts ;
 
     public static PostCreateFragment newInstance(Bundle bundle) {
         PostCreateFragment fragment = new PostCreateFragment();
@@ -165,6 +176,10 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         }
     }
 
+    public static boolean useList(ArrayList<SubLinkData> arr, String targetValue) {
+        return Arrays.asList(arr).contains(targetValue);
+    }
+
     @Override
     protected void request() {
         mProgress.show();
@@ -179,6 +194,28 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_POST);
 
+
+            if(mChannel.getType().equals(TYPE_INFO_CENTER)){             //키워드가 없을 경우이면서 정보센터는 키워드가 없지만 행정임
+// doing now
+
+                if(useList(mExperts, TYPE_ADMINISTRATOR)){   // 행정전문가
+
+                } else {                                      // 관심시민
+                    params.put("sub_type", TYPE_EXPERT);
+                    params.put("sub_name", TYPE_INTEREST);
+                    params.put("sub_point", "200");
+                }
+
+            } else {                                                    // 일반 장소
+                if(getArguments().getString("expert")!= null){  //키워드 장소      + 장소의 키워드와 user의 키워드가 같으면 update
+                    params.put("sub_type", TYPE_EXPERT);
+                    params.put("sub_name", getArguments().getString("expert"));
+                    params.put("sub_point", "200");
+                } else {                                        // 이름없는 장소
+
+                }
+
+            }
 
             String [] keywords = mChannel.getKeywords();
 
@@ -246,6 +283,9 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                 mProgress.hide();
                 mActivity.finish();
                 mClicked = false;
+                break;
+            case DATA_EXPERT:
+                mExperts = event.arrayData;
                 break;
         }
     }

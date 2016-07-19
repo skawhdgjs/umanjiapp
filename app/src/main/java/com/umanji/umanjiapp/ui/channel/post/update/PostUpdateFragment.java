@@ -432,7 +432,7 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
             case api_channels_id_update:
                 mActivity.finish();
                 mClicked = false;
-                EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
+                EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW));
                 break;
         }
     }

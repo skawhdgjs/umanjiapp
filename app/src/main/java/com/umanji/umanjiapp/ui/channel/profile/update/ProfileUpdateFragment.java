@@ -89,7 +89,7 @@ public class ProfileUpdateFragment extends BaseChannelUpdateFragment {
         switch (event.type) {
             case api_channels_id_update:
                 mActivity.finish();
-                EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW, null));
+                EventBus.getDefault().post(new SuccessData(EVENT_UPDATEVIEW));
                 break;
         }
     }
