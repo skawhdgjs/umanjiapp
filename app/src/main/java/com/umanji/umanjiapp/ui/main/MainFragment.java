@@ -2619,6 +2619,9 @@ public class MainFragment extends BaseFragment {
     }
 
     private void login(AuthData auth) {
+        mUser = auth.getUser();
+        AuthHelper.login(mActivity, auth);
+
         SharedPreferences.Editor editor = sharedpreferences.edit();
         HashMap<String, String> mHash = new HashMap<String, String>();
 
@@ -2626,35 +2629,39 @@ public class MainFragment extends BaseFragment {
             Intent intent = new Intent(mActivity, GcmRegistrationIntentService.class);
             mActivity.startService(intent);
         }
-// doing now
-        mUser = auth.getUser();
 
         ArrayList<SubLinkData> experts = mUser.getSubLinks(TYPE_EXPERT);
         EventBus.getDefault().post(new SuccessData(DATA_EXPERT, experts));
-
+// expert filter
 
         int userPoint = mUser.getPoint();
         String userClass = null;
         String [] userClasses = mUser.getRoles();
-        switch(userClasses[0]){
-            case "umanji_cow":
-                userClass = "high";
-                break;
-            case "umanji_citizon":
-                userClass = "low";
-                break;
-            case "":
-                userClass = "low";
-                break;
+
+        if(userClasses != null){
+            switch(userClasses[0]){
+                case "umanji_cow":
+                    userClass = "high";
+                    break;
+                case "umanji_citizon":
+                    userClass = "low";
+                    break;
+                case "":
+                    userClass = "low";
+                    break;
+            }
+        } else {
+            userClass = "low";
         }
+
         String userPointStr = String.valueOf(userPoint);
 
         editor.putString("userPoint", userPointStr);
         editor.putString("userClass", userClass);
         editor.commit();
-        AuthHelper.login(mActivity, auth);
 
         updateView();
+
     }
 
     private void logout() {
