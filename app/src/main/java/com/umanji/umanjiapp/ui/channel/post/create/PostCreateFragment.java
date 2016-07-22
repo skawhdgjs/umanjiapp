@@ -34,6 +34,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
+import com.umanji.umanjiapp.ui.main.MainFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 
 public class PostCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "BaseChannelCreateFragment";
@@ -51,7 +54,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     // for site preview info.
     TextCrawler mTextCrawler;
     protected LinearLayout mMetaPanel;
-//    protected ChannelData mUser;
+    //    protected ChannelData mUser;
     protected ImageView mMetaPhoto;
     protected TextView mMetaTitle;
     protected TextView mMetaDesc;
@@ -71,7 +74,9 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
 
     protected boolean isReady = false;
-    protected ArrayList<SubLinkData> mExperts ;
+    protected ArrayList<SubLinkData> mExperts;
+    protected ChannelData mUser;
+    protected ArrayList<String> mExpertsArr;
 
     public static PostCreateFragment newInstance(Bundle bundle) {
         PostCreateFragment fragment = new PostCreateFragment();
@@ -82,16 +87,35 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mExpertsArr = new ArrayList<String>();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+/*
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+//        EventBus.getDefault().hasSubscriberForEvent(MainFragment.class);
+    }
+*/
 
     @Override
     public void initWidgets(View view) {
         super.initWidgets(view);
+
+        getUserData();
 
         mMetaPanel = (LinearLayout) view.findViewById(R.id.metaPanel);
         mMetaPhoto = (ImageView) view.findViewById(R.id.metaPhoto);
@@ -154,7 +178,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
     public void enableSubmitIfReady() {
 
-        boolean isReady =mName.getText().toString().length()>1;
+        boolean isReady = mName.getText().toString().length() > 1;
         mSubmitBtn2.setEnabled(isReady);
     }
 
@@ -176,15 +200,84 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         }
     }
 
-    public static boolean useList(ArrayList<SubLinkData> arr, String targetValue) {
-        return Arrays.asList(arr).contains(targetValue);
+    public void getUserData() {
+        try {
+            JSONObject params = new JSONObject();
+            params.put("access_token", AuthHelper.getToken(mActivity));
+            mApi.call(api_token_check, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    AuthData auth = new AuthData(object);
+                    if (auth != null && auth.getToken() != null) {
+                        mUser = auth.getUser();
+                        mExperts = mUser.getSubLinks();
+                        SubLinkData element;
+
+                        for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
+                            element = mExperts.get(idx);
+                            String name = element.getName().toString();
+
+                            mExpertsArr.add(name);
+
+                        }
+
+                        Log.d("Paul", "auth :: " + mUser);
+
+                    }
+
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+
+    }
+
+    protected void subRequest(JSONObject params) {
+        mApi.call(api_channels_expert, params);
+    }
+
+    protected int getBiggestPoint(String expert) {
+        mExperts = mUser.getSubLinks();
+        SubLinkData element;
+
+        int tempPoint = 0;
+
+        int totalPoint;
+
+        for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
+            element = mExperts.get(idx);
+            String name;
+            if(element.getName().toString() != null){
+                name = element.getName().toString();
+
+                if (name.equals(expert)) {
+                    String expertPointStr = element.getPoint().toString();   // point 가져온다
+                    int expertPoint = Integer.parseInt(expertPointStr);          // to Int
+
+                    if (expertPoint > tempPoint) {                               // 임시로 가장 큰 놈을 넣는다
+                        tempPoint = expertPoint;
+                    }
+                }
+            }
+        }
+
+        totalPoint = tempPoint + 200;                               // 결과적으로 가장 큰 값에 가산점을 더함
+
+        Log.d("Paul", "auth :: " + mUser);
+
+        return totalPoint;
     }
 
     @Override
     protected void request() {
         mProgress.show();
-        if(mClicked == true){
-            Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
+
+
+        // get user points
+
+        if (mClicked == true) {
+            Toast.makeText(mActivity, "이미 요청했습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
@@ -194,36 +287,55 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_POST);
 
-
-            if(mChannel.getType().equals(TYPE_INFO_CENTER)){             //키워드가 없을 경우이면서 정보센터는 키워드가 없지만 행정임
 // doing now
-
-                if(useList(mExperts, TYPE_ADMINISTRATOR)){   // 행정전문가
-
-                } else {                                      // 관심시민
+            String positionType = mChannel.getType();
+            String keyword;
+            if (positionType != null && positionType.equals(TYPE_INFO_CENTER)) {                             // Info_center  TYPE_INFO_CENTER
+                if (mExpertsArr != null && mExpertsArr.contains(TYPE_ADMINISTRATOR)) { // 행정전문가
+                    int expertPoint = getBiggestPoint(TYPE_ADMINISTRATOR);
+                    params.put("sub_type", TYPE_EXPERT);
+                    params.put("sub_name", TYPE_ADMINISTRATOR);
+                    params.put("sub_point", expertPoint);
+                } else {                                                               // 일반시민 // 돈있냐
+                    int expertPoint = 200;
+                    if(mExpertsArr != null && mExpertsArr.contains(TYPE_INTEREST)){
+                        expertPoint = getBiggestPoint(TYPE_INTEREST);
+                    }
                     params.put("sub_type", TYPE_EXPERT);
                     params.put("sub_name", TYPE_INTEREST);
-                    params.put("sub_point", "200");
+                    params.put("sub_point", expertPoint);
                 }
-
-            } else {                                                    // 일반 장소
-                if(getArguments().getString("expert")!= null){  //키워드 장소      + 장소의 키워드와 user의 키워드가 같으면 update
-                    params.put("sub_type", TYPE_EXPERT);
-                    params.put("sub_name", getArguments().getString("expert"));
-                    params.put("sub_point", "200");
-                } else {                                        // 이름없는 장소
-
+            } else {                                                                                            // 일반 장소
+                if (getArguments().getString("keyword") != null) {                  //키워드 장소
+                    keyword = getArguments().getString("keyword");
+                    int expertPoint = getBiggestPoint(keyword);
+                    if (mExpertsArr != null) {                                  // 내키워드와 장소 키워드 일치 : 전문가
+                        if (mExpertsArr.contains(keyword)) {       // 내 전문분야에 이 키워드가 있으면 update
+                            params.put("sub_name", keyword);
+                            params.put("sub_type", TYPE_EXPERT);
+                            params.put("sub_point", expertPoint);
+                        } else {
+                            params.put("sub_name", keyword);
+                            params.put("sub_type", TYPE_EXPERT);
+                            params.put("sub_point", 200);
+                        }
+                    } else {                                       // 처음 방문하는 키워드 장소 : 전문가로 될 수 있음 포인트
+                        params.put("sub_name", keyword);
+                        params.put("sub_type", TYPE_EXPERT);
+                        params.put("sub_point", 200);
+                    }
+                } else {                                                            // 이름없는 장소 : 그냥 글쓰면 올라감 포인트 없음
+//                    params.put("sub_name", keyword);
+//                    params.put("sub_type", TYPE_EXPERT);
+//                    params.put("sub_point", "200");
                 }
-
             }
+//            ***************** ******************************************************************** end of division
 
-            String [] keywords = mChannel.getKeywords();
-
-            if(keywords!=null && keywords.length >0) {
-
+            String[] keywords = mChannel.getKeywords();
+            if (keywords != null && keywords.length > 0) {
                 ArrayList<String> keywordArray = new ArrayList<>();
-
-                for(int idx=0; idx < keywords.length; idx++) {
+                for (int idx = 0; idx < keywords.length; idx++) {
                     keywordArray.add(keywords[idx]);
                 }
                 params.put("keywords", new JSONArray(keywordArray));
@@ -231,7 +343,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
             params.put("push", isPushChecked);
 
-            if(mPhotoUri != null) {
+            if (mPhotoUri != null) {
                 ArrayList<String> photos = new ArrayList<>();
                 photos.add(mPhotoUri);
                 params.put("photos", new JSONArray(photos));
@@ -239,17 +351,17 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             }
 
             JSONObject descParams = new JSONObject();
-            if(isPreview) {
+            if (isPreview) {
                 descParams.put("metaTitle", mMetaTitle.getText().toString());
                 descParams.put("metaDesc", Helper.getShortenString(mMetaDesc.getText().toString(), 50));
                 descParams.put("metaPhoto", mMetaPhotoUrl);
             }
 
-            if(hasVote) {
+            if (hasVote) {
                 JSONObject voteParams = new JSONObject();
                 JSONArray options = new JSONArray();
-                for(int idx=0; idx < mVoteOptionPanel.getChildCount(); idx++) {
-                    TextView text = (TextView)mVoteOptionPanel.getChildAt(idx);
+                for (int idx = 0; idx < mVoteOptionPanel.getChildCount(); idx++) {
+                    TextView text = (TextView) mVoteOptionPanel.getChildAt(idx);
 
                     JSONObject voteOptionParams = new JSONObject();
                     voteOptionParams.put("name", text.getText().toString());
@@ -260,7 +372,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                 }
 
                 voteParams.put("type", TYPE_POST_SURVEY);
-                voteParams.put("options", (Object)options);
+                voteParams.put("options", (Object) options);
 
                 descParams.put("vote", voteParams);
             }
@@ -269,7 +381,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             mApi.call(api_channels_create, params);
             mClicked = true;
 
-        }catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
     }

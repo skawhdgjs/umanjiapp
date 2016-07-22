@@ -8,13 +8,17 @@ public class SubLinkData {
     private String id;
     private String type;
     private String name;
+    private String point;
 
     public SubLinkData(JSONObject jsonObject) {
         this.owner  = jsonObject.optString("owner");
         this.id     = jsonObject.optString("id");
         this.type   = jsonObject.optString("type");
         this.name   = jsonObject.optString("name");
+        this.point   = jsonObject.optString("point");
     }
+
+
 
     public String getOwner() {
         return owner;
@@ -46,5 +50,13 @@ public class SubLinkData {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPoint() {
+        return point;
+    }
+
+    public void setPoint(String point) {
+        this.point = point;
     }
 }

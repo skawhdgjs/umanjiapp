@@ -381,7 +381,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         if(keyword == null){
 
         } else {
-            bundle.putString("expert", keyword);
+            bundle.putString("keyword", keyword);
         }
         bundle.putString("channel", mChannel.getJsonObject().toString());
         intent.putExtra("bundle", bundle);

@@ -300,6 +300,7 @@ public class MainFragment extends BaseFragment {
     private JSONArray jsonArrayBottom;
     private JSONObject getMinMaxParams;
     private SharedPreferences sharedpreferences;
+    private ArrayList<SubLinkData> experts;
 
     View mView;
     TouchableWrapper mTouchView;
@@ -833,6 +834,7 @@ public class MainFragment extends BaseFragment {
                                 mTalk.setImageResource(R.drawable.button_kakao_black);
 
                             }
+                            EventBus.getDefault().post(new SuccessData(DATA_EXPERT, experts));
 
                             isLoading = false;
                             //mTalkAdapter.notifyDataSetChanged();
@@ -2630,8 +2632,8 @@ public class MainFragment extends BaseFragment {
             mActivity.startService(intent);
         }
 
-        ArrayList<SubLinkData> experts = mUser.getSubLinks(TYPE_EXPERT);
-        EventBus.getDefault().post(new SuccessData(DATA_EXPERT, experts));
+        experts = mUser.getSubLinks(TYPE_EXPERT);
+
 // expert filter
 
         int userPoint = mUser.getPoint();
