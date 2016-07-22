@@ -1635,8 +1635,9 @@ public class MainFragment extends BaseFragment {
         LatLng latLng = null;
 
         if (isInitLocationUsed.equals("true")) {
+            int intiLevel = 18;
 
-            if(getArguments() != null){
+            if (getArguments() != null) {
                 String jsonString = getArguments().getString("channel");
                 if (jsonString != null) {                // isInitLocationUsed = true :: MUST create Bundle from another activity.
                     homeChannel = new ChannelData(jsonString);
@@ -1648,19 +1649,22 @@ public class MainFragment extends BaseFragment {
                     longitude = location.getLongitude();
                     latLng = new LatLng(latitude, longitude);
                 }
-                mCurrentMyPosition = new LatLng(latitude, longitude);
-                cameraPosition = new CameraPosition.Builder()
-                        .target(mCurrentMyPosition)
-                        .zoom(18)
-                        .bearing(90)
-                        .tilt(40)
-                        .build();
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+
             } else {
+                latLng = new LatLng(latitude, longitude);
+                intiLevel = 10;
                 Toast.makeText(mActivity, "Location Null", Toast.LENGTH_SHORT).show();
             }
+            mCurrentMyPosition = new LatLng(latitude, longitude);
+            cameraPosition = new CameraPosition.Builder()
+                    .target(mCurrentMyPosition)
+                    .zoom(18)
+                    .bearing(90)
+                    .tilt(40)
+                    .build();
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(intiLevel), 2000, null);
 
 
         } else {                   // init My Location for the first Time!!
@@ -2638,10 +2642,10 @@ public class MainFragment extends BaseFragment {
 
         int userPoint = mUser.getPoint();
         String userClass = null;
-        String [] userClasses = mUser.getRoles();
+        String[] userClasses = mUser.getRoles();
 
-        if(userClasses != null){
-            switch(userClasses[0]){
+        if (userClasses != null) {
+            switch (userClasses[0]) {
                 case "umanji_cow":
                     userClass = "high";
                     break;

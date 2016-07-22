@@ -252,8 +252,14 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                 name = element.getName().toString();
 
                 if (name.equals(expert)) {
-                    String expertPointStr = element.getPoint().toString();   // point 가져온다
-                    int expertPoint = Integer.parseInt(expertPointStr);          // to Int
+                    int expertPoint = 0;
+                    if(element.getPoint().toString() != null){
+                        String expertPointStr = element.getPoint().toString();   // point 가져온다
+                        if(expertPointStr.equals("")){
+                            expertPointStr = "0";
+                        }
+                        expertPoint = Integer.parseInt(expertPointStr);          // to Int
+                    }
 
                     if (expertPoint > tempPoint) {                               // 임시로 가장 큰 놈을 넣는다
                         tempPoint = expertPoint;
@@ -271,11 +277,6 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     protected void request() {
-        mProgress.show();
-
-
-        // get user points
-
         if (mClicked == true) {
             Toast.makeText(mActivity, "이미 요청했습니다.", Toast.LENGTH_SHORT).show();
             return;

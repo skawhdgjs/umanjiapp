@@ -215,6 +215,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
      ****************************************************/
 
     protected void submit() {
+        mProgress.show();
         request();
     }
 
