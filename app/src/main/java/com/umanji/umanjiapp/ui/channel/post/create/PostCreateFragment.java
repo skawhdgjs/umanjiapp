@@ -282,6 +282,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             return;
         }
         try {
+            String sendPointMessage = "200";
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
             params.put("level", mChannel.getLevel());
@@ -297,6 +298,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                     params.put("sub_type", TYPE_EXPERT);
                     params.put("sub_name", TYPE_ADMINISTRATOR);
                     params.put("sub_point", expertPoint);
+                    sendPointMessage = String.valueOf(expertPoint);
                 } else {                                                               // 일반시민 // 돈있냐
                     int expertPoint = 200;
                     if(mExpertsArr != null && mExpertsArr.contains(TYPE_INTEREST)){
@@ -305,6 +307,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                     params.put("sub_type", TYPE_EXPERT);
                     params.put("sub_name", TYPE_INTEREST);
                     params.put("sub_point", expertPoint);
+                    sendPointMessage = String.valueOf(expertPoint);
                 }
             } else {                                                                                            // 일반 장소
                 if (getArguments().getString("keyword") != null) {                  //키워드 장소
@@ -315,20 +318,24 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                             params.put("sub_name", keyword);
                             params.put("sub_type", TYPE_EXPERT);
                             params.put("sub_point", expertPoint);
+                            sendPointMessage = String.valueOf(expertPoint);
                         } else {
                             params.put("sub_name", keyword);
                             params.put("sub_type", TYPE_EXPERT);
                             params.put("sub_point", 200);
+                            sendPointMessage = String.valueOf(expertPoint);
                         }
                     } else {                                       // 처음 방문하는 키워드 장소 : 전문가로 될 수 있음 포인트
                         params.put("sub_name", keyword);
                         params.put("sub_type", TYPE_EXPERT);
                         params.put("sub_point", 200);
+                        sendPointMessage = String.valueOf(expertPoint);
                     }
                 } else {                                                            // 이름없는 장소 : 그냥 글쓰면 올라감 포인트 없음
 //                    params.put("sub_name", keyword);
 //                    params.put("sub_type", TYPE_EXPERT);
 //                    params.put("sub_point", "200");
+                    sendPointMessage = "0";
                 }
             }
 //            ***************** ******************************************************************** end of division
@@ -380,6 +387,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
             params.put("desc", descParams);
             mApi.call(api_channels_create, params);
+            Toast.makeText(mActivity, "전문가 점수가 '" +sendPointMessage+"'이 되셨습니다.", Toast.LENGTH_LONG).show(); //
             mClicked = true;
 
         } catch (JSONException e) {
