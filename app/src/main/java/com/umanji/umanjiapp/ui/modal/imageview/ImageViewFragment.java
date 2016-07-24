@@ -1,5 +1,6 @@
 package com.umanji.umanjiapp.ui.modal.imageview;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -50,7 +54,7 @@ public class ImageViewFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        updateView();
+
 
         return view;
     }
@@ -63,7 +67,7 @@ public class ImageViewFragment extends BaseFragment {
     @Override
     public void initWidgets(View view) {
         mPhoto = (ImageView) view.findViewById(R.id.photo);
-
+        updateView();
     }
 
     @Override
@@ -72,13 +76,30 @@ public class ImageViewFragment extends BaseFragment {
 
     @Override
     public void updateView() {
-        String photo = mChannel.getPhoto();
+        final String photo = mChannel.getPhoto();
         if(!TextUtils.isEmpty(photo)) {
             Glide.with(mActivity)
                     .load(photo)
                     .placeholder(R.drawable.empty)
-                    .animate(R.anim.abc_fade_in)
+//                    .animate(R.anim.abc_fade_in)
+                    .fitCenter()
+//                    .centerCrop()
                     .into(mPhoto);
+            /*
+            Glide.with(mActivity).load(photo).asBitmap().fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).into(new BitmapImageViewTarget(mPhoto) {
+                @Override
+                public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {
+                    super.onResourceReady(bitmap, anim);
+                    Glide.with(mActivity)
+                            .load(photo)
+                            .placeholder(R.drawable.empty)
+                            .dontAnimate()
+//                            .animate(R.anim.move_base)
+                            .fitCenter()
+                            .into(mPhoto);
+                }
+            });
+*/
 
             mPhoto.setVisibility(View.VISIBLE);
         }else {
