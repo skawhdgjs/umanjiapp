@@ -38,4 +38,20 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/zoomLevelText"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="140dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/btn_label"
+        android:gravity="center"
+        android:text="12"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
 </RelativeLayout>

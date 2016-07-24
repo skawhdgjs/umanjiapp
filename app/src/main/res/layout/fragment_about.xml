@@ -7,18 +7,43 @@
     app:layout_collapseMode="parallax"
     app:layout_scrollFlags="scroll|enterAlways">
 
+
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+
+    <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/appointmentBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/appointment"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white"
+                android:text="스탭    임명 / 해임"
+                android:textColor="@color/text_clickable"
+                android:gravity="center"
+                android:textSize="20dp"
+                />
+
+        </LinearLayout>
+
         <RelativeLayout
+            android:layout_below="@id/appointmentBar"
+            android:id="@+id/editPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -48,6 +73,7 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:layout_below="@id/editPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -239,7 +265,7 @@
 
 
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

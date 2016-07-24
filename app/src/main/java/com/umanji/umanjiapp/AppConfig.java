@@ -5,9 +5,9 @@ public interface AppConfig {
     int APP_VERSION      = 1;
 
 //    String REST_SERVER_URL = "http://192.168.25.54:3000/v1"; /* 로컬 집 API Server */
-//    String REST_SERVER_URL = "http://172.30.1.38:3000/v1";   /* 로컬 커피숍 API Server */
+    String REST_SERVER_URL = "http://172.30.1.21:3000/v1";   /* 로컬 커피숍 API Server */
 //    String REST_SERVER_URL = "http://172.30.1.20:3000/v1";   /* 로컬 커피숍 API Server */
-   String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+//   String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -93,6 +93,7 @@ public interface AppConfig {
     String api_main_findDistributions   = "GET  /main/distribution";
     String api_main_findAds             = "GET  /main/ads";
     String api_main_findAds2            = "GET  /main/ads2";
+    String api_Staff_find               = "GET  /staff";
 
     String api_main_search              = "GET  /main/search";
 

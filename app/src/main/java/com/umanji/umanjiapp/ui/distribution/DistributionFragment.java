@@ -70,7 +70,6 @@ public class DistributionFragment extends BaseFragment {
     private ChannelData mSelectedChannel;
     private ArrayList<ChannelData> mPosts;
 
-
     private boolean isBlock = false;
     private boolean isLoading = false;
     private int mPreFocusedItem = 0;
@@ -80,7 +79,7 @@ public class DistributionFragment extends BaseFragment {
     private Marker mMarkerByPoint;
     private Marker mFocusedMarker;
 
-
+    private TextView mZoomLevelText;
 
     boolean mMapIsTouched = false;
     View mView;
@@ -123,6 +122,7 @@ public class DistributionFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+        mZoomLevelText = (TextView) view.findViewById(R.id.zoomLevelText);
 
     }
 
@@ -217,8 +217,10 @@ public class DistributionFragment extends BaseFragment {
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, true);
 
-            double latitude = 37.491361;
-            double longitude = 126.923978;
+            double latitude = 36.068588;
+            double longitude = 127.6359813;   // 용문역 36.3382285 127.3931581
+//            35.844445,127.742355
+//            36.068588,127.6359813
 
             try {
                 Location location = locationManager.getLastKnownLocation(provider);
@@ -232,7 +234,7 @@ public class DistributionFragment extends BaseFragment {
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(mCurrentMyPosition)
-                            .zoom(13)
+                            .zoom(7)
                             .bearing(90)
                             .tilt(40)
                             .build();
@@ -244,12 +246,11 @@ public class DistributionFragment extends BaseFragment {
 
             LatLng latLng = new LatLng(latitude, longitude);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(7), 2000, null);
         }
 
         initMapEvents();
     }
-
 
     /****************************************************
      * init Map Events
@@ -274,7 +275,6 @@ public class DistributionFragment extends BaseFragment {
 
             }
         });
-
 
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
@@ -366,14 +366,14 @@ public class DistributionFragment extends BaseFragment {
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
+                mZoomLevelText.setText("" + (int) position.zoom);
+//                int zoom = (int) position.zoom;
+
                 if(mMapIsTouched) return;
 
                 if (isBlock) {
                     isBlock = false;
                 } else {
-
-                    int zoom = (int) position.zoom;
-
                     loadData();
                 }
 
@@ -390,24 +390,27 @@ public class DistributionFragment extends BaseFragment {
     }
 
     private void loadMainMarkers() {
+        //mProgress.show();
+
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("zoom", (int) mMap.getCameraPosition().zoom);
             params.put("limit", 100);
             params.put("sort", "point DESC");
-            mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
+            mApi.call(api_Staff_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     addChannelsToMap(json);
                 }
             });
+
+
         } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
+        mProgress.hide();
 
     }
-
-
     private void addChannelsToMap(JSONObject jsonObject) {
         try {
             mMap.clear();
@@ -426,7 +429,7 @@ public class DistributionFragment extends BaseFragment {
 
             if (mSelectedChannel != null) {
                 if (Helper.isInVisibleResion(mMap, new LatLng(mSelectedChannel.getLatitude(), mSelectedChannel.getLongitude()))) {
-                    mFocusedMarker = Helper.addMarkerToMap(mMap, mSelectedChannel, MARKER_INDEX_CLICKED, mActivity);
+                    mFocusedMarker = Helper.addStaffToMap(mMap, mSelectedChannel, MARKER_INDEX_CLICKED, mActivity);
                 } else {
                     mSelectedChannel = null;
                 }
@@ -435,7 +438,7 @@ public class DistributionFragment extends BaseFragment {
             if (mMarkers != null) {
                 for (; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
+                    Helper.addStaffToMap(mMap, channelData, idx, mActivity);
                 }
             }
 
@@ -444,93 +447,6 @@ public class DistributionFragment extends BaseFragment {
         }
 
     }
-
-    private void showCreateComplexDialog() {
-        mAlert.setPositiveButton(R.string.complex_create_btn, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Helper.startCreateActivity(mActivity, mChannelByPoint, TYPE_COMPLEX);
-                dialog.cancel();
-            }
-        });
-
-        mAlert.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mMarkerByPoint.remove();
-                dialog.cancel();
-            }
-        });
-
-        mAlert.setTitle(R.string.complex_create_confirm);
-        mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
-        mAlert.show();
-    }
-
-    private void showCreateSpotDialog() {
-        mAlert.setPositiveButton(R.string.spot_create_btn, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    JSONObject params = mChannelByPoint.getAddressJSONObject();
-                    params.put("type", TYPE_SPOT);
-                    mApi.call(api_channels_createSpot, params, new AjaxCallback<JSONObject>() {
-                        @Override
-                        public void callback(String url, JSONObject object, AjaxStatus status) {
-                            mChannelByPoint = new ChannelData(object);
-                            if (mMarkerByPoint != null) mMarkerByPoint.remove();
-                            startSpotActivity(mChannelByPoint, TYPE_SPOT);
-
-                            EventBus.getDefault().post(new SuccessData(api_channels_createSpot, object));
-                        }
-                    });
-                    dialog.cancel();
-                } catch (JSONException e) {
-                    Log.e(TAG, "Error " + e.toString());
-                }
-            }
-        });
-
-        mAlert.setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mMarkerByPoint.remove();
-                dialog.cancel();
-            }
-        });
-
-        mAlert.setTitle(R.string.spot_create_confirm);
-        mAlert.setMessage(Helper.getFullAddress(mChannelByPoint));
-        mAlert.show();
-    }
-
-    private void startSpotActivity(ChannelData channel, String type) {
-        Intent intent = null;
-
-        switch (type) {
-            case TYPE_SPOT:
-                intent = new Intent(getActivity(), SpotActivity.class);
-                break;
-            case TYPE_COMPLEX:
-                intent = new Intent(getActivity(), ComplexActivity.class);
-                break;
-            default:
-                intent = new Intent(getActivity(), SpotActivity.class);
-                break;
-        }
-
-        Bundle bundle = new Bundle();
-        bundle.putString("channel", channel.getJsonObject().toString());
-        intent.putExtra("bundle", bundle);
-        intent.putExtra("enterAnim", R.anim.zoom_out);
-        intent.putExtra("exitAnim", R.anim.zoom_in);
-
-        startActivity(intent);
-    }
-
-
-
-
 
     private class TouchableWrapper extends FrameLayout {
         public TouchableWrapper(Context context) {

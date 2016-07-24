@@ -19,6 +19,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
@@ -29,6 +30,7 @@ import com.umanji.umanjiapp.ui.channel.complex.update.ComplexUpdateActivity;
 import com.umanji.umanjiapp.ui.channel.keyword.create.KeywordCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
+import com.umanji.umanjiapp.ui.distribution.DistributionActivity;
 import com.umanji.umanjiapp.ui.modal.map.update_address.MapUpdateAddressActivity;
 
 import org.json.JSONException;
@@ -51,6 +53,12 @@ public class AboutFragment extends BaseChannelListFragment {
     protected TextView mKeywordName;
     protected TextView mUpdatedDate;
 
+    protected LinearLayout mAppointmentBar;
+    protected TextView mAppointment;
+
+    protected String mUserId;
+    protected String mOwnerId;
+
     private AlertDialog.Builder mAlert;
     boolean mType = false;
 
@@ -58,6 +66,7 @@ public class AboutFragment extends BaseChannelListFragment {
         AboutFragment fragment = new AboutFragment();
         fragment.setArguments(bundle);
         return fragment;
+
     }
 
     @Override
@@ -82,6 +91,39 @@ public class AboutFragment extends BaseChannelListFragment {
 
     @Override
     public void initWidgets(View view) {
+        mAppointmentBar = (LinearLayout) view.findViewById(R.id.appointmentBar);
+        try {
+            JSONObject param = new JSONObject();
+            param.put("access_token", AuthHelper.getToken(mActivity));
+
+            mApi.call(api_token_check, param, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    AuthData auth = new AuthData(object);
+                    if (auth != null && auth.getToken() != null) {
+                        mUserId = auth.getUser().getId();
+                    }
+                    mOwnerId = mChannel.getOwner().getId();
+
+                    if (mChannel.getType().equals(TYPE_INFO_CENTER)){
+                        if(mUserId.equals(mOwnerId)){                                                           // Info의 owner ID와 User의 ID가 같은면
+                            mAppointmentBar.setVisibility(View.VISIBLE);
+                        } else {
+                            mAppointmentBar.setVisibility(View.GONE);
+                        }
+
+                    } else {
+                        mAppointmentBar.setVisibility(View.GONE);
+                    }
+
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
         mEditChannelBtn = (TextView) view.findViewById(R.id.editChannelBtn);
         mEditChannelBtn.setOnClickListener(this);
 
@@ -114,6 +156,9 @@ public class AboutFragment extends BaseChannelListFragment {
         }
 
         mAddress.setText(Helper.getFullAddress(mChannel));
+
+        mAppointment = (TextView) view.findViewById(R.id.appointment);
+        mAppointment.setOnClickListener(this);
     }
 
     public String subDate() {
@@ -208,6 +253,14 @@ public class AboutFragment extends BaseChannelListFragment {
                 Intent adsIntent = new Intent(mActivity, AdsCreateActivity.class);
                 adsIntent.putExtra("bundle", adsBundle);
                 startActivity(adsIntent);
+                break;
+
+            case R.id.appointment:
+                Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
+                Bundle roleBundle = new Bundle();
+                roleBundle.putString("channel", mChannel.getJsonObject().toString());
+                roleIntent.putExtra("bundle", roleBundle);
+                startActivity(roleIntent);
                 break;
         }
     }

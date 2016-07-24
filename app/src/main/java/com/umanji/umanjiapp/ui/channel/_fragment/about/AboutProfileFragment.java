@@ -154,16 +154,7 @@ public class AboutProfileFragment extends BaseChannelListFragment {
                 homeIntent.putExtra("bundle", homeBundle);
                 startActivity(homeIntent);
                 break;
-/*
-            case R.id.dutyBtn:
-                Intent roleIntent = new Intent(mActivity, DistributionActivity.class);
-                Bundle roleBundle = new Bundle();
-                roleBundle.putString("channel", mChannel.getJsonObject().toString());
-                roleIntent.putExtra("bundle", roleBundle);
-                startActivity(roleIntent);
-                break;
 
-            */
             case R.id.userName:
                 Helper.startUpdateActivity(mActivity, mChannel);
                 break;

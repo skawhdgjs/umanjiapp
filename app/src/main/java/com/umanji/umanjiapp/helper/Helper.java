@@ -269,7 +269,7 @@ public final class Helper implements AppConfig {
 
         String name = channelData.getName();
         if (TextUtils.isEmpty(name)) {
-            name = "어떤곳";
+            name = "in Helper";
         }
 
         int overOne = 0;
@@ -376,6 +376,119 @@ public final class Helper implements AppConfig {
                 Color.blue(argb)
         );
     }
+
+    public static Marker addStaffToMap(GoogleMap map, ChannelData channelData, int index, Activity activity) {
+        return addStaffToMap(map, channelData, index, activity, false);
+    }
+
+    public static Marker addStaffToMap(GoogleMap map, ChannelData channelData, int index, Activity activity, boolean isDraggable) {
+        LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
+        Marker marker;
+
+        IconGenerator tc = new IconGenerator(activity);
+        tc.setColor(Color.parseColor("#ffff33"));           // background color yellow : ffff33
+        tc.setTextAppearance(R.style.keywordCommunityText);          // text design
+        Bitmap bmp = tc.makeIcon();
+
+//        keywordCommunityText
+
+        String name = channelData.getName();
+        if (TextUtils.isEmpty(name)) {
+            name = "in Helper";
+        }
+
+        int overOne = 0;
+        String strOverOne = null;
+
+        ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_COMMUNITY);
+        if (subLinks != null && subLinks.size() > 0) {
+            if (subLinks.size() > 1) {
+                overOne = subLinks.size() - 1;
+                strOverOne = String.valueOf(overOne);
+
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(name)
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(subLinks.get(0).getName() + "외 " + strOverOne + "개")))
+                        .alpha(0.8f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+
+            } else {
+                marker = map.addMarker(new MarkerOptions().position(point)
+                        .title(name)
+                        .snippet(String.valueOf(index))
+                        .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(subLinks.get(0).getName())))
+                        .alpha(0.8f)  // default 1.0
+                        .anchor(0.45f, 1.0f));
+            }
+        } else {
+            switch (channelData.getLevel()) {
+                case LEVEL_DONG:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_moon",100, 100, activity)))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+                case LEVEL_GUGUN:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_moon",100, 100, activity)))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+                case LEVEL_DOSI:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_moon",100, 100, activity)))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+                case LEVEL_COUNTRY:
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_kang",100, 100, activity)))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+
+                default:
+
+                    if (TextUtils.isEmpty(channelData.getName())) {
+                        ArrayList<SubLinkData> inSpots = channelData.getSubLinks(TYPE_SPOT_INNER);
+                        if (inSpots != null && inSpots.size() > 0) {
+                            name = inSpots.get(0).getName();
+                        }
+                    }
+
+                    marker = map.addMarker(new MarkerOptions().position(point)
+                            .title(name)
+                            .snippet(String.valueOf(index))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi))
+                            .draggable(isDraggable)
+                            .alpha(0.8f)  // default 1.0
+                            .anchor(0.45f, 1.0f));
+                    break;
+
+            }
+        }
+        return marker;
+    }
+
+    public static Bitmap resizeMapIcons(String iconName, int width, int height, Activity activity){
+        Bitmap imageBitmap = BitmapFactory.decodeResource(activity.getResources(),activity.getResources().getIdentifier(iconName, "drawable", activity.getPackageName()));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
+        return resizedBitmap;
+    }
+
 
     public static Marker addMarkerToMapOnStepOne(GoogleMap map, ChannelData channelData, int index, Activity activity) {
 
