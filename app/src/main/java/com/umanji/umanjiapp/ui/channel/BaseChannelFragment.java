@@ -28,6 +28,7 @@ import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
@@ -87,6 +88,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     protected TextView mCommentHint;
 
     protected ImageView mInfoBtn;
+    protected ChannelData mUser;
 
 
     /****************************************************
@@ -95,6 +97,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     protected int mCurrentTapPosition = 0;
     protected String mTabType = "";
     private SharedPreferences sharedpreferences;
+    protected ArrayList<String> mExpertsArr;
     private ArrayList<SubLinkData> mExperts;
 
 
@@ -110,6 +113,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
             mTabType = getArguments().getString("tabType");
         }
+        mExpertsArr = new ArrayList<String>();
 //        EventBus.getDefault().register(this);
     }
 
@@ -184,6 +188,8 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
     @Override
     public void initWidgets(View view) {
+        getUserData();
+
         mNoticePanel = view.findViewById(R.id.noticePanel);
 
         if (mChannel.getType().equals(TYPE_USER)) {
@@ -388,10 +394,6 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         startActivity(intent);
     }
 
-    public static boolean useList(List<String> arr, String targetValue) {
-        return Arrays.asList(arr).contains(targetValue);
-    }
-
     public boolean hasKeyword() {
 
         if(mChannel.getKeywords() != null){
@@ -400,6 +402,43 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
             return false;
         }
     }
+
+    public void getUserData() {
+        try {
+            JSONObject params = new JSONObject();
+            params.put("access_token", AuthHelper.getToken(mActivity));
+            mApi.call(api_token_check, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    AuthData auth = new AuthData(object);
+                    if (auth != null && auth.getToken() != null) {
+                        mUser = auth.getUser();
+                        mExperts = mUser.getSubLinks();
+                        SubLinkData element;
+
+                        for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
+                            element = mExperts.get(idx);
+                            String name = element.getName().toString();
+
+                            if(name.length() != 0){
+                                mExpertsArr.add(name);
+                            }
+
+
+                        }
+
+                        Log.d("Paul", "auth :: " + mUser);
+
+                    }
+
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
+
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -421,7 +460,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
             case R.id.fab:
                 if(mCurrentTapPosition == 0){
                     if(mChannel.getType().equals(TYPE_INFO_CENTER)){         // 정보센터
-                        if(useList(experts, TYPE_ADMINISTRATOR)){  //행정전문가
+                        if(mExpertsArr != null && mExpertsArr.contains(TYPE_ADMINISTRATOR)){  //행정전문가
                             openCreatePost("");
                         } else {                                    // 일반시민
                             if(money > 10000){      // 돈있냐

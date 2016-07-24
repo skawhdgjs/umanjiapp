@@ -245,27 +245,30 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
         int totalPoint;
 
-        for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
-            element = mExperts.get(idx);
-            String name;
-            if(element.getName().toString() != null){
-                name = element.getName().toString();
+        if(mExperts != null){
+            for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
+                element = mExperts.get(idx);
+                String name;
+                if(element.getName().toString() != null){
+                    name = element.getName().toString();
 
-                if (name.equals(expert)) {
-                    int expertPoint = 0;
-                    if(element.getPoint().toString() != null){
-                        String expertPointStr = element.getPoint().toString();   // point 가져온다
-                        if(expertPointStr.equals("")){
-                            expertPointStr = "0";
+                    if (name.equals(expert)) {
+                        int expertPoint = 0;
+                        if(element.getPoint().toString() != null){
+                            String expertPointStr = element.getPoint().toString();   // point 가져온다
+                            if(expertPointStr.equals("")){
+                                expertPointStr = "0";
+                            }
+                            expertPoint = Integer.parseInt(expertPointStr);          // to Int
                         }
-                        expertPoint = Integer.parseInt(expertPointStr);          // to Int
-                    }
 
-                    if (expertPoint > tempPoint) {                               // 임시로 가장 큰 놈을 넣는다
-                        tempPoint = expertPoint;
+                        if (expertPoint > tempPoint) {                               // 임시로 가장 큰 놈을 넣는다
+                            tempPoint = expertPoint;
+                        }
                     }
                 }
             }
+
         }
 
         totalPoint = tempPoint + 200;                               // 결과적으로 가장 큰 값에 가산점을 더함
@@ -289,10 +292,9 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_POST);
 
-// doing now
             String positionType = mChannel.getType();
-            String keyword;
-            if (positionType != null && positionType.equals(TYPE_INFO_CENTER)) {                             // Info_center  TYPE_INFO_CENTER
+            String keyword = "";
+            if (positionType != null && positionType.equals(TYPE_INFO_CENTER)) {                                 // Info_center  TYPE_INFO_CENTER
                 if (mExpertsArr != null && mExpertsArr.contains(TYPE_ADMINISTRATOR)) { // 행정전문가
                     int expertPoint = getBiggestPoint(TYPE_ADMINISTRATOR);
                     params.put("sub_type", TYPE_EXPERT);
@@ -309,17 +311,17 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                     params.put("sub_point", expertPoint);
                     sendPointMessage = String.valueOf(expertPoint);
                 }
-            } else {                                                                                            // 일반 장소
-                if (getArguments().getString("keyword") != null) {                  //키워드 장소
+            } else {                                                                                                             // 일반 장소
+                if (getArguments().getString("keyword") != null && getArguments().getString("keyword").length() != 0) {  //키워드 장소
                     keyword = getArguments().getString("keyword");
                     int expertPoint = getBiggestPoint(keyword);
-                    if (mExpertsArr != null) {                                  // 내키워드와 장소 키워드 일치 : 전문가
+                    if (mExpertsArr.size() > 0) {                                  // 내키워드와 장소 키워드 일치 : 전문가
                         if (mExpertsArr.contains(keyword)) {       // 내 전문분야에 이 키워드가 있으면 update
                             params.put("sub_name", keyword);
                             params.put("sub_type", TYPE_EXPERT);
                             params.put("sub_point", expertPoint);
                             sendPointMessage = String.valueOf(expertPoint);
-                        } else {
+                        } else {                                    // mExpertsArr != null
                             params.put("sub_name", keyword);
                             params.put("sub_type", TYPE_EXPERT);
                             params.put("sub_point", 200);
@@ -387,7 +389,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
             params.put("desc", descParams);
             mApi.call(api_channels_create, params);
-            Toast.makeText(mActivity, "전문가 점수가 '" +sendPointMessage+"'이 되셨습니다.", Toast.LENGTH_LONG).show(); //
+            Toast.makeText(mActivity, keyword + "전문가 점수가 '" +sendPointMessage+"'이 되셨습니다.", Toast.LENGTH_LONG).show(); //
             mClicked = true;
 
         } catch (JSONException e) {
