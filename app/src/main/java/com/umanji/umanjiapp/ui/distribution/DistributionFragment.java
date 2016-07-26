@@ -327,6 +327,7 @@ public class DistributionFragment extends BaseFragment {
                     Intent i = new Intent(mActivity, DutyCreateActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", channelData.getJsonObject().toString());
+                    bundle.putString("whichAction", "appointment");
                     i.putExtra("bundle", bundle);
                     startActivity(i);
 

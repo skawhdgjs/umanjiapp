@@ -285,7 +285,7 @@ public final class Helper implements AppConfig {
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(subLinks.get(0).getName() + "외 " + strOverOne + "개")))
-                        .alpha(0.8f)  // default 1.0
+                        .alpha(0.9f)  // default 1.0
                         .anchor(0.45f, 1.0f));
 
             } else {
@@ -293,7 +293,7 @@ public final class Helper implements AppConfig {
                         .title(name)
                         .snippet(String.valueOf(index))
                         .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(subLinks.get(0).getName())))
-                        .alpha(0.8f)  // default 1.0
+                        .alpha(0.9f)  // default 1.0
                         .anchor(0.45f, 1.0f));
             }
         } else {
@@ -304,7 +304,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.complex))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
                 case LEVEL_DONG:
@@ -313,7 +313,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.dong))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
                 case LEVEL_GUGUN:
@@ -322,7 +322,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.gugun))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
                 case LEVEL_DOSI:
@@ -331,7 +331,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.city))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
                 case LEVEL_COUNTRY:
@@ -340,7 +340,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.kr))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
 
@@ -429,7 +429,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_moon",100, 100, activity)))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
                 case LEVEL_GUGUN:
@@ -438,7 +438,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_moon",100, 100, activity)))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
                 case LEVEL_DOSI:
@@ -447,7 +447,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_moon",100, 100, activity)))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
                 case LEVEL_COUNTRY:
@@ -456,7 +456,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_kang",100, 100, activity)))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
 
@@ -474,7 +474,7 @@ public final class Helper implements AppConfig {
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi))
                             .draggable(isDraggable)
-                            .alpha(0.8f)  // default 1.0
+                            .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
                     break;
 
@@ -502,7 +502,7 @@ public final class Helper implements AppConfig {
 
         String name = channelData.getName();
         if (TextUtils.isEmpty(name)) {
-            name = "어떤곳";
+            name = "일반장소";
         }
 
         int overOne = 0;
