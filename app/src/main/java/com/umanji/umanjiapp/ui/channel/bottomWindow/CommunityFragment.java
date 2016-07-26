@@ -154,7 +154,11 @@ public class CommunityFragment extends BottomBaseFragment{
         mAdapter.resetDocs();
         mAdapter.setCurrentPage(0);
 
-        loadMoreData(mParams);
+        if(thisType.equals("talk")){
+            loadMoreData(mParams);
+        } else {
+            loadMoreKeywordData(mParams);
+        }
 
     }
 
@@ -279,7 +283,8 @@ public class CommunityFragment extends BottomBaseFragment{
         try {
             params.put("page", mAdapter.getCurrentPage());
             params.put("keywords", keywordName);
-            params.put("limit", 7);
+            params.put("type", TYPE_COMMUNITY);
+            params.put("limit", 8);
         } catch (JSONException e) {
             e.printStackTrace();
         }

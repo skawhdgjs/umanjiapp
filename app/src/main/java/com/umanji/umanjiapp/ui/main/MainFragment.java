@@ -704,7 +704,7 @@ public class MainFragment extends BaseFragment {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         mChannel = new ChannelData(json);
-                        initTabAdapter(mView, mChannel);
+//                        initTabAdapter(mView, mChannel);   160726
                     }
                 });
 
@@ -1055,7 +1055,7 @@ public class MainFragment extends BaseFragment {
                 mKeywordCommunityToolbar.setVisibility(View.GONE);                // Title의 '커뮤니티'
                 mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
                 mSearchLayout.setVisibility(View.VISIBLE);          // search bar
-                mLauncherLevel8.setVisibility(View.VISIBLE);           // talk 보임
+                mLauncherLevel8.setVisibility(View.GONE);           // talk 보임
                 isKeywordCommunityMode = false;
                 loadData();
                 break;
@@ -2105,7 +2105,7 @@ public class MainFragment extends BaseFragment {
                         mCurrentAddress.setText(adminArea + " " + localityName + " " + thoroughfare);
                         currentAddress = adminArea + " " + localityName + " " + thoroughfare + " 지역정보";
                     } else {
-                        mCurrentAddress.setText("준비중입니다");
+                        mCurrentAddress.setText("전세계 언어 주소");
                     }
                 }
             });
@@ -2182,9 +2182,13 @@ public class MainFragment extends BaseFragment {
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel) {
 
         Bundle bundle = new Bundle();
-        bundle.putString("channel", thisChannel.getJsonObject().toString());
-        adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
-        adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
+        if(thisChannel.getJsonObject() != null){
+            String thisChannelStr = thisChannel.getJsonObject().toString();
+            bundle.putString("channel", thisChannelStr);
+            adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
+            adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
+        }
+
         /*
         if (mChannel2.getJsonObject().toString()!= null){
             Bundle bundle2 = new Bundle();
