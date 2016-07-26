@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel.bottomWindow;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 /**
  * Created by paul on 7/6/16.
  */
-public class TalkFragment extends Fragment implements AppConfig {
+public class TalkFragment extends BottomBaseFragment {
     private static final String TAG = "RecyclerViewFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
@@ -81,13 +82,17 @@ public class TalkFragment extends Fragment implements AppConfig {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.recycler_view_frag, container, false);
         rootView.setTag(TAG);
 
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        mProgress = new ProgressDialog(getActivity());
+        mProgress.setMessage("데이터를 불러오고 있습니다. 잠시만 기다려주세요...");
+//        mProgress.setTitle("Connecting server");
+        mProgress.setCancelable(true);
+        mProgress.show();
 
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         addOnScrollListener(mRecyclerView);
 
         mAdapter = new TalkAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
@@ -104,7 +109,6 @@ public class TalkFragment extends Fragment implements AppConfig {
         loadData();
 
 //        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
-
 
         return rootView;
     }
@@ -129,7 +133,7 @@ public class TalkFragment extends Fragment implements AppConfig {
                     if (channels.size() <= mPreFocusedItem) return;
 
                     if (!isLoading) {
-                        if (mPreFocusedItem != (totalItemCount - 3)) {  // -1
+                        if (mPreFocusedItem != (totalItemCount - 1)) {  // -1 : origin / -3 : too many
                             loadMoreData(mParams);
                         }
                     }
@@ -150,6 +154,7 @@ public class TalkFragment extends Fragment implements AppConfig {
 
     public void updateView() {
         mAdapter.notifyDataSetChanged();
+        mProgress.hide();
     }
 
     /**
@@ -188,7 +193,7 @@ public class TalkFragment extends Fragment implements AppConfig {
 
         try {
             params.put("page", mAdapter.getCurrentPage());
-            params.put("limit", 7);
+            params.put("limit", 10);
         } catch (JSONException e) {
             e.printStackTrace();
         }

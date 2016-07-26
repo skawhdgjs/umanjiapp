@@ -5,9 +5,9 @@ public interface AppConfig {
     int APP_VERSION      = 1;
 
 //    String REST_SERVER_URL = "http://192.168.25.54:3000/v1"; /* 로컬 집 API Server */
-//    String REST_SERVER_URL = "http://192.168.1.149:3000/v1";   /* 로컬 커피숍 API Server  192.168.1.149 */
+    String REST_SERVER_URL = "http://172.30.1.22:3000/v1";   /* 로컬 커피숍 API Server  192.168.1.149 */
 //    String REST_SERVER_URL = "http://172.30.1.20:3000/v1";   /* 로컬 커피숍 API Server */
-   String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+//   String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -75,6 +75,7 @@ public interface AppConfig {
     String api_channels_likes_find          = "GET  /channels/id/likes";
     String api_channels_communities_find    = "GET  /channels/id/communities";
     String api_channels_community_find      = "GET  /channels/id/keywords";     //community list on spot
+    String api_bottom_communities_find      = "GET  /channels/bottom/keywords";     //community bottom
     String api_channels_spots_find          = "GET  /channels/id/spots";
     String api_channels_roles_find          = "GET  /channels/findRole";
 

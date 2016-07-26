@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel.bottomWindow;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by paul on 7/6/16.
  */
-public class CommunityFragment extends Fragment  implements AppConfig {
+public class CommunityFragment extends BottomBaseFragment{
     private static final String TAG = "CommunityFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
@@ -91,6 +92,12 @@ public class CommunityFragment extends Fragment  implements AppConfig {
         View rootView = inflater.inflate(R.layout.recycler_view_frag, container, false);
         rootView.setTag(TAG);
 
+        mProgress = new ProgressDialog(getActivity());
+        mProgress.setMessage("잠시만 기다려주세요...");
+//        mProgress.setTitle("Connecting server");
+        mProgress.setCancelable(true);
+        mProgress.show();
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
         addOnScrollListener(mRecyclerView);
@@ -134,7 +141,7 @@ public class CommunityFragment extends Fragment  implements AppConfig {
                     if (channels.size() <= mPreFocusedItem) return;
 
                     if (!isLoading) {
-                        if (mPreFocusedItem != (totalItemCount - 3)) {  // -1
+                        if (mPreFocusedItem != (totalItemCount - 1)) {  // -1
                             loadMoreData(mParams);
                         }
                     }
@@ -146,15 +153,14 @@ public class CommunityFragment extends Fragment  implements AppConfig {
     public void loadData() {
         mAdapter.resetDocs();
         mAdapter.setCurrentPage(0);
-        if(thisType.equals("talk")){
-            loadMoreData(mParams);
-        } else {
-            loadMoreKeywordData(mParams);
-        }
+
+        loadMoreData(mParams);
+
     }
 
     public void updateView() {
         mAdapter.notifyDataSetChanged();
+        mProgress.hide();
     }
 
     /**
@@ -194,23 +200,19 @@ public class CommunityFragment extends Fragment  implements AppConfig {
         final JSONArray extractArr = new JSONArray();
 
         try {
+            params.put("page", mAdapter.getCurrentPage());
             params.put("type", TYPE_COMMUNITY);
+            params.put("level", 18);
 //            params.put("keywords", communityName);
-            params.put("limit", 7);
+            params.put("limit", 8);
             params.put("sort", "point DESC");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//        api_channels_communities_num
-//        api_main_findPosts
+// original :: api_channels_community_find
+// test     :: api_channels_communities_find
 
-//        api_main_findDistributions
-//        api_channels_bottomCommunity
-//        api_channels_bottomCommunity
-
-//        api_channels_community_find
-
-        mApi.call(api_channels_community_find, params, new AjaxCallback<JSONObject>() {
+        mApi.call(api_bottom_communities_find, params, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 ArrayList<ChannelData> communityArr = new ArrayList<ChannelData>();
@@ -224,6 +226,18 @@ public class CommunityFragment extends Fragment  implements AppConfig {
                         for (int idx = 0; idx < jsonArray.length(); idx++) {
                             JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                             ChannelData doc = new ChannelData(jsonDoc);
+                            communityArr.add(doc);
+
+                            ChannelData channelDoc = communityArr.get(idx);
+                            mAdapter.addBottom(channelDoc);
+
+                            updateView();
+
+                        }
+                        /*
+                        for (int idx = 0; idx < jsonArray.length(); idx++) {
+                            JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                            ChannelData doc = new ChannelData(jsonDoc);
                             if(doc.getParent() != null){
                                 String type = doc.getParent().getType();
                                 if (type != null && type.equals(TYPE_INFO_CENTER)) {
@@ -234,6 +248,7 @@ public class CommunityFragment extends Fragment  implements AppConfig {
                             }
 
                         }
+                        *//*
 
                         for (int idx2 = 0; idx2 < communityArr.size(); idx2++) {
                             ChannelData channelDoc = communityArr.get(idx2);
@@ -243,7 +258,7 @@ public class CommunityFragment extends Fragment  implements AppConfig {
                             updateView();
 
                         }
-
+*/
                         isLoading = false;
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -61,6 +61,8 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         Log.d(TAG, "Element " + position + " set.");
 
+//        viewHolder.itemView.setTag(mChannels.get(position));
+
         // Get element from your dataset at this position and replace the contents of the view
         // with that element
 
