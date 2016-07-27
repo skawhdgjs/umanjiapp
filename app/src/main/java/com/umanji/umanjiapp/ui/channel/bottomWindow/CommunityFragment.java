@@ -16,6 +16,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SubLinkData;
 
@@ -207,6 +208,7 @@ public class CommunityFragment extends BottomBaseFragment{
             params.put("page", mAdapter.getCurrentPage());
             params.put("type", TYPE_COMMUNITY);
             params.put("level", 18);
+            params.put("typeFilter", "SPACE");
 //            params.put("keywords", communityName);
             params.put("limit", 8);
             params.put("sort", "point DESC");
@@ -280,10 +282,13 @@ public class CommunityFragment extends BottomBaseFragment{
         isLoading = true;
         mLoadCount = mLoadCount + 1;
 
+        String keywordParse = Helper.dictionaryHasKeyword(keywordName);
+
         try {
             params.put("page", mAdapter.getCurrentPage());
-            params.put("keywords", keywordName);
+            params.put("keywords", keywordParse);
             params.put("type", TYPE_COMMUNITY);
+            params.put("typeFilter", "SPACE");
             params.put("limit", 8);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -317,6 +322,7 @@ public class CommunityFragment extends BottomBaseFragment{
 
                                 updateView();
                             }
+                            mProgress.hide();
 
                         } else {
 

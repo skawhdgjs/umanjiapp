@@ -692,7 +692,8 @@ public class MainFragment extends BaseFragment {
                     params1 = Helper.getZoomMinMaxLatLngParams(mMap);
                 }
 
-                params1.put("name", communityName);
+                String keywordParse = Helper.dictionaryHasKeyword(communityName);
+                params1.put("name", keywordParse);
                 params1.put("type", TYPE_POST);
 //                params1.put("id", mAdChannel.getParent().getId());
 
@@ -1055,7 +1056,7 @@ public class MainFragment extends BaseFragment {
                 mKeywordCommunityToolbar.setVisibility(View.GONE);                // Title의 '커뮤니티'
                 mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
                 mSearchLayout.setVisibility(View.VISIBLE);          // search bar
-                mLauncherLevel8.setVisibility(View.GONE);           // talk 보임
+                mLauncherLevel8.setVisibility(View.VISIBLE);           // talk 보임
                 isKeywordCommunityMode = false;
                 loadData();
                 break;
@@ -1981,7 +1982,9 @@ public class MainFragment extends BaseFragment {
 
                         updateCommunityBtn(zoom);
                         getKeywordCommunityData();  //kakao button toggle
-                        loadCommunityMarkers(communityName);
+//                        keyword Parse
+                        String keywordParse = Helper.dictionaryHasKeyword(communityName);
+                        loadCommunityMarkers(keywordParse);
                     }
 //************************************************************************************************** isTalkMode (normalMode)
                 } else {                  // start main

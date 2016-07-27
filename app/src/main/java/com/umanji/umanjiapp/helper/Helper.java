@@ -269,7 +269,7 @@ public final class Helper implements AppConfig {
 
         String name = channelData.getName();
         if (TextUtils.isEmpty(name)) {
-            name = "in Helper";
+            name = "일반장소";
         }
 
         int overOne = 0;

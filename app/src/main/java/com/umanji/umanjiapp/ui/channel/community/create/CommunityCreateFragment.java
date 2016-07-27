@@ -81,9 +81,16 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
     @Override
     protected void request() {
         try {
+            String typeFilter ;
+            if(mChannel.getType().equals(TYPE_INFO_CENTER)){
+                typeFilter = TYPE_INFO_CENTER;
+            } else {
+                typeFilter = "SPACE";
+            }
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
             params.put("parentType", mChannel.getType());
+            params.put("typeFilter", typeFilter);
             params.put("level", mChannel.getLevel());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMMUNITY);
