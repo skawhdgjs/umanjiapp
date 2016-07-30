@@ -213,36 +213,39 @@ public class DutyCreateFragment extends BaseChannelCreateFragment {
                                         }
 
                                     }
-                                    if(number1 >= tempPoint){
-                                        if(number2 >= tempPoint){
-                                            number3 = tempPoint;
-                                            mCandidateThird = mUser;
-                                        } else {
+                                    if(tempPoint > 0){
+                                        if(number1 >= tempPoint){
+                                            if(number2 >= tempPoint){
+                                                number3 = tempPoint;
+                                                mCandidateThird = mUser;
+                                            } else {
+                                                number2 = tempPoint;
+                                                mCandidateSecond = mUser;
+                                            }
+
+                                        } else if(number2 >= tempPoint) {
                                             number2 = tempPoint;
                                             mCandidateSecond = mUser;
-                                        }
-
-                                    } else if(number2 >= tempPoint) {
-                                        number2 = tempPoint;
-                                        mCandidateSecond = mUser;
-                                    } else {
-                                        if(number2 >= 100 && number1 >= 100){
-                                            number3 = number2;
-                                            mCandidateThird = mCandidateSecond;
-                                            number2 = number1;
-                                            mCandidateSecond = mCandidateFirst;
-                                            number1 = tempPoint;
-                                            mCandidateFirst = mUser;
-                                        } else if(number1 >= 100){
-                                            number2 = number1;
-                                            mCandidateSecond = mCandidateFirst;
-                                            number1 = tempPoint;
-                                            mCandidateFirst = mUser;
                                         } else {
-                                            number1 = tempPoint;
-                                            mCandidateFirst = mUser;
+                                            if(number2 >= 100 && number1 >= 100){
+                                                number3 = number2;
+                                                mCandidateThird = mCandidateSecond;
+                                                number2 = number1;
+                                                mCandidateSecond = mCandidateFirst;
+                                                number1 = tempPoint;
+                                                mCandidateFirst = mUser;
+                                            } else if(number1 >= 100){
+                                                number2 = number1;
+                                                mCandidateSecond = mCandidateFirst;
+                                                number1 = tempPoint;
+                                                mCandidateFirst = mUser;
+                                            } else {
+                                                number1 = tempPoint;
+                                                mCandidateFirst = mUser;
+                                            }
                                         }
                                     }
+
 
 
                                 } // for user count
