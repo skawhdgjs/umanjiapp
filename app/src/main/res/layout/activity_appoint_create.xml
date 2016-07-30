@@ -31,12 +31,12 @@
             android:layout_centerHorizontal="true"/>
 
         <TextView
+            android:id="@+id/submitBtn2"
             android:layout_width="50dp"
             android:layout_height="@dimen/tabs_height"
             android:textSize="16dp"
             android:textColor="#fff"
             android:text="완료"
-            android:id="@+id/submitBtn2"
             android:gravity="center"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"/>
@@ -55,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+<!--
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -73,6 +74,7 @@
                     android:visibility="gone"/>
 
             </android.support.design.widget.TextInputLayout>
+-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,7 +95,7 @@
                         android:layout_centerHorizontal="true"/>
 
                     <TextView
-                        android:id="@+id/ad_area"
+                        android:id="@+id/manage_area"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
                         android:textSize="18dp"
@@ -116,27 +118,142 @@
                         android:layout_alignTop="@+id/submitBtn2"
                         android:layout_centerHorizontal="true"/>
 
-                    <EditText
-                        android:id="@+id/ad_admin"
+                    <TextView
+                        android:id="@+id/manager"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:textSize="18dp"
                         android:textColor="#555"
-                        android:hint="advertise1234@gmail.com"
+                        android:hint="강옥남"
                         android:layout_alignTop="@+id/submitBtn2"
                         android:layout_centerHorizontal="true"/>
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/candidate1"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_launcher"
+                            android:layout_marginRight="20dp"/>
+                        <TextView
+                            android:id="@+id/candidateName1"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="후보자"/>
+                        <TextView
+                            android:id="@+id/candidatePoint1"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="300"/>
+
+                        <RadioButton
+                            android:id="@+id/radioButton1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/candidate2"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_launcher"
+                            android:layout_marginRight="20dp"/>
+
+                        <TextView
+                            android:id="@+id/candidateName2"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="후보자"/>
+                        <TextView
+                            android:id="@+id/candidatePoint2"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="200"/>
+
+                        <RadioButton
+                            android:id="@+id/radioButton2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/candidate3"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/ic_launcher"
+                            android:layout_marginRight="20dp"/>
+
+                        <TextView
+                            android:id="@+id/candidateName3"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="후보자"/>
+                        <TextView
+                            android:id="@+id/candidatePoint3"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="100"/>
+
+                        <RadioButton
+                            android:id="@+id/radioButton3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+
+                </RadioGroup>
 
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="E-mail CHECK"
-                android:layout_gravity="center_horizontal" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/appointment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="임명"/>
+
+                <Button
+                    android:id="@+id/dismissal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="해임"/>
+
+
+            </LinearLayout>
+
+
+
+<!--
             <Button
                 android:id="@+id/submitBtn"
                 style="?android:textAppearanceSmall"
@@ -172,6 +289,7 @@
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:visibility="visible"/>
+            -->
 
         </LinearLayout>
     </ScrollView>

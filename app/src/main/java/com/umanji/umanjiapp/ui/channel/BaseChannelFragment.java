@@ -463,7 +463,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                         if(mExpertsArr != null && mExpertsArr.contains(TYPE_ADMINISTRATOR)){  //행정전문가
                             openCreatePost("");
                         } else {                                    // 일반시민
-                            if(money > 10000){      // 돈있냐
+                            if(money > 10){      // 돈있냐
                                 openCreatePost("");
                             } else {        // 벌어서 와라
                                 Toast.makeText(mActivity, "돈이 부족합니다", Toast.LENGTH_SHORT).show();
