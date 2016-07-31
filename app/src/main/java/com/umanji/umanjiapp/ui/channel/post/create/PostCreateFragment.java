@@ -295,19 +295,19 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             String positionType = mChannel.getType();
             String keyword = "";
             if (positionType != null && positionType.equals(TYPE_INFO_CENTER)) {                                 // Info_center  TYPE_INFO_CENTER
-                if (mExpertsArr != null && mExpertsArr.contains(TYPE_ADMINISTRATOR)) { // 행정전문가
-                    int expertPoint = getBiggestPoint(TYPE_ADMINISTRATOR);
+                if (mExpertsArr != null && mExpertsArr.contains(INTEREST_ADMINISTRATION)) { // 행정전문가
+                    int expertPoint = getBiggestPoint(INTEREST_ADMINISTRATION);
                     params.put("sub_type", TYPE_EXPERT);
-                    params.put("sub_name", TYPE_ADMINISTRATOR);
+                    params.put("sub_name", INTEREST_ADMINISTRATION);
                     params.put("sub_point", expertPoint);
                     sendPointMessage = String.valueOf(expertPoint);
                 } else {                                                               // 일반시민 // 돈있냐
                     int expertPoint = 200;
-                    if(mExpertsArr != null && mExpertsArr.contains(TYPE_INTEREST)){
-                        expertPoint = getBiggestPoint(TYPE_INTEREST);
+                    if(mExpertsArr != null && mExpertsArr.contains(INTEREST_ADMINISTRATION)){
+                        expertPoint = getBiggestPoint(INTEREST_ADMINISTRATION);
                     }
                     params.put("sub_type", TYPE_EXPERT);
-                    params.put("sub_name", TYPE_INTEREST);
+                    params.put("sub_name", INTEREST_ADMINISTRATION);
                     params.put("sub_point", expertPoint);
                     sendPointMessage = String.valueOf(expertPoint);
                 }

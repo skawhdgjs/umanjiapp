@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.maps.android.ui.IconGenerator;
+import com.koushikdutta.ion.Ion;
 import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -76,6 +78,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 import de.greenrobot.event.EventBus;
 
@@ -422,12 +425,26 @@ public final class Helper implements AppConfig {
                         .anchor(0.45f, 1.0f));
             }
         } else {
+            String userPhoto = null;
+            if(channelData.getOwner() != null){
+                userPhoto = channelData.getOwner().getPhoto();
+            }
+            Bitmap bmImg = BitmapFactory.decodeResource(activity.getResources(),activity.getResources().getIdentifier("user_default", "drawable", activity.getPackageName()));
+            try {
+
+                bmImg = Ion.with(activity).load(userPhoto).asBitmap().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
             switch (channelData.getLevel()) {
                 case LEVEL_DONG:
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_moon",100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto,100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -436,7 +453,7 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_moon",100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto,100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -445,7 +462,7 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_moon",100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg,100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -454,7 +471,7 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons("user_kang",100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg,100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -481,6 +498,51 @@ public final class Helper implements AppConfig {
             }
         }
         return marker;
+    }
+
+    public static Bitmap createDrawableFromView(Context context, View view) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+
+        return bitmap;
+    }
+
+    public static Bitmap myResizeMapIcons(Bitmap iconName, int width, int height, Activity activity){
+        Bitmap imageBitmap = iconName;
+        Bitmap resizedBitmap ;
+        Bitmap finalBitmap ;
+
+        if (imageBitmap.getWidth() >= imageBitmap.getHeight()){
+
+            resizedBitmap = Bitmap.createBitmap(
+                    imageBitmap,
+                    imageBitmap.getWidth()/2 - imageBitmap.getHeight()/2,
+                    0,
+                    imageBitmap.getHeight(),
+                    imageBitmap.getHeight()
+            );
+
+        }else{
+
+            resizedBitmap = Bitmap.createBitmap(
+                    imageBitmap,
+                    0,
+                    imageBitmap.getHeight()/2 - imageBitmap.getWidth()/2,
+                    imageBitmap.getWidth(),
+                    imageBitmap.getWidth()
+            );
+        }
+        finalBitmap = Bitmap.createScaledBitmap(resizedBitmap, width, height, false);
+
+        return finalBitmap;
     }
 
     public static Bitmap resizeMapIcons(String iconName, int width, int height, Activity activity){

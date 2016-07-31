@@ -5,9 +5,9 @@ public interface AppConfig {
     int APP_VERSION      = 1;
 
 //    String REST_SERVER_URL = "http://192.168.25.54:3000/v1"; /* 로컬 집 API Server */
-//    String REST_SERVER_URL = "http://172.30.1.52:3000/v1";   /* 로컬 커피숍 API Server  192.168.1.149 */
+    String REST_SERVER_URL = "http://172.30.1.20:3000/v1";   /* 로컬 커피숍 API Server  192.168.1.149 */
 //    String REST_SERVER_URL = "http://172.30.1.20:3000/v1";   /* 로컬 커피숍 API Server */
-   String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
+//   String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
 
     /* 아마존 S3 */
@@ -31,9 +31,28 @@ public interface AppConfig {
     int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     int DEFAULT_MIN_FLING_VELOCITY      = 10000;
 
+    /***********************************************
+     * Roles
+     ***********************************************/
+
+    String INTEREST_ADMINISTRATION      = "정치관심가";
+
+    String ROLE_INFO_WORLD              = "info_world";
+    String ROLE_INFO_COUNTRY            = "info_country";
+    String ROLE_INFO_ADMIN              = "info_admin";
+    String ROLE_INFO_LOCALITY           = "info_locality";
+    String ROLE_INFO_THOROUGHFARE       = "info_thoroughfare";
+    String ROLE_AD_WORLD                = "ad_world";
+    String ROLE_AD_COUNTRY              = "ad_country";
+    String ROLE_AD_ADMIN                = "ad_admin";
+    String ROLE_AD_LOCALITY             = "ad_locality";
+    String ROLE_AD_THOROUGHFARE         = "ad_thoroughfare";
+    String ROLE_UMANJI_COW              = "umanji_cow";
+    String ROLE_UMANJI_CITIZEN          = "umanji_citizen";
+
+    String TYPE_EXPERT                  = "EXPERT";
+
     String dataLoaded                   = "dataLoaded";
-
-
 
     String api_system_version           = "GET  /system/version";
 
@@ -134,13 +153,7 @@ public interface AppConfig {
     String TAB_MEMBERS                  = "멤버";
     String TAB_ABOUT                    = "기타정보";
 
-
     String TYPE_MAIN                    = "MAIN";
-    String TYPE_EXPERT                  = "EXPERT";
-    String TYPE_ADMINISTRATOR           = "우만지행정전문가";
-    String TYPE_INTEREST                = "정치관심가";
-
-
     String TYPE_SPOTS                   = "SPOTS";
     String TYPE_PROFILE_SPOTS           = "PROFILE_SPOTS";
 

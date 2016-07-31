@@ -22,6 +22,7 @@ import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
+import com.umanji.umanjiapp.model.TestCDN;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListFragment;
 import com.umanji.umanjiapp.ui.channel.advertise.AdsCreateActivity;
@@ -92,6 +93,8 @@ public class AboutFragment extends BaseChannelListFragment {
     @Override
     public void initWidgets(View view) {
         mAppointmentBar = (LinearLayout) view.findViewById(R.id.appointmentBar);
+        final TestCDN mCdn = new TestCDN();
+
         try {
             JSONObject param = new JSONObject();
             param.put("access_token", AuthHelper.getToken(mActivity));
@@ -104,10 +107,25 @@ public class AboutFragment extends BaseChannelListFragment {
                         mUserId = auth.getUser().getId();
                     }
                     mOwnerId = mChannel.getOwner().getId();
+                    String[] myRoleArr = auth.getUser().getRoles();
+                    String[] centerManagerArr = mChannel.getOwner().getRoles();
+                    String myRole = null;
+                    String centerManager = null;
+                    if(myRoleArr.length > 0){
+                        myRole = myRoleArr[0];
+                    }
+                    if(centerManagerArr.length >0){
+                        centerManager = centerManagerArr[0];
+                    }
+                    boolean isUpper = false;
+                    isUpper = mCdn.isUpper(myRole, centerManager);
 
                     if (mChannel.getType().equals(TYPE_INFO_CENTER)){
-                        if(mUserId.equals(mOwnerId)){                                                           // Info의 owner ID와 User의 ID가 같은면
+                        if(mUserId.equals(mOwnerId)){                         // Info의 owner ID와 User의 ID가 같은면
                             mAppointmentBar.setVisibility(View.VISIBLE);
+                        } else if (isUpper) {
+                            mAppointmentBar.setVisibility(View.VISIBLE);
+
                         } else {
                             mAppointmentBar.setVisibility(View.GONE);
                         }

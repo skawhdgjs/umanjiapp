@@ -460,7 +460,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
             case R.id.fab:
                 if(mCurrentTapPosition == 0){
                     if(mChannel.getType().equals(TYPE_INFO_CENTER)){         // 정보센터
-                        if(mExpertsArr != null && mExpertsArr.contains(TYPE_ADMINISTRATOR)){  //행정전문가
+                        if(mExpertsArr != null && mExpertsArr.contains(INTEREST_ADMINISTRATION)){  //행정전문가
                             openCreatePost("");
                         } else {                                    // 일반시민
                             if(money > 10){      // 돈있냐
