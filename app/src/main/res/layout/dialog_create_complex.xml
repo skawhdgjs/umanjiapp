@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
-            android:text=" 복합건물 만들기  "/>
+            android:text="넓은 장소(공원, 단지) 만들기"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

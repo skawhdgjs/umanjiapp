@@ -139,7 +139,7 @@ public class MainFragment extends BaseFragment {
     private Marker mDraggableMarker;
 
     private TextView mZoomLevelText;
-    private TextView mInfoTextPanel;
+//    private TextView mInfoTextPanel;
     private LatLng mCurrentMyPosition;
     private LatLng mLatLngByPoint = new LatLng(37.498039, 126.9220201);  //보라매공원
     private int currentZoomLevel = 0;
@@ -329,6 +329,7 @@ public class MainFragment extends BaseFragment {
                 mUser = new ChannelData(fromHomeUser);
             }
             String jsonString = getArguments().getString("channel");
+
             if (jsonString != null) {
                 mChannel = new ChannelData(jsonString);
             }
@@ -338,10 +339,10 @@ public class MainFragment extends BaseFragment {
                 isKeywordCommunityMode = true;
 
                 if (mChannel == null) {
-
+//                    do nothing!!!
                 } else {
-                    communityName = mChannel.getName();
-
+                    String[] tempGetString = mChannel.getKeywords();
+                    communityName = tempGetString[0];
                 }
             }
 //******************************************************************** normalMode = TalkMode
@@ -544,8 +545,8 @@ public class MainFragment extends BaseFragment {
 
         mZoomLevelText = (TextView) view.findViewById(R.id.mZoomLevelText);
 
-        mInfoTextPanel = (TextView) view.findViewById(R.id.mInfoTextPanel);
-        mInfoTextPanel.setSelected(true);
+//        mInfoTextPanel = (TextView) view.findViewById(R.id.mInfoTextPanel);
+//        mInfoTextPanel.setSelected(true);
 
         mAdsImage = (ImageView) view.findViewById(R.id.ads_image);
         mAdsImage.setOnClickListener(this);
@@ -705,7 +706,7 @@ public class MainFragment extends BaseFragment {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         mChannel = new ChannelData(json);
-//                        initTabAdapter(mView, mChannel);   160726
+//                        initTabAdapter(mView, mChannel);   160726  //  doing now  null
                     }
                 });
 
@@ -713,9 +714,6 @@ public class MainFragment extends BaseFragment {
             } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
-
-            communityName = mChannel.getName();
-
 
             mCommunityCloseBtn.setVisibility(View.VISIBLE);
 //            mToCommunityBtn.setVisibility(View.VISIBLE);
@@ -1970,10 +1968,18 @@ public class MainFragment extends BaseFragment {
                         } else if (isSpotCreatable(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
-                            mCenterCircle.setVisibility(View.GONE);
+                            mCenterCircle.setImageResource(R.drawable.center_dot);
                         } else if (isPoliticTouchable(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
+                        } else if (isCountryViewLevel(zoom)) {
+                            mZoomBtn.setImageResource(R.drawable.zoom_out);
+                            mZoomBtn.setTag(ZOOM_OUT);
+                            mCenterCircle.setImageResource(R.drawable.center_cross);
+                        } else if (isGlobalViewLevel(zoom)) {
+                            mZoomBtn.setImageResource(R.drawable.zoom_out);
+                            mZoomBtn.setTag(ZOOM_OUT);
+                            mCenterCircle.setVisibility(View.GONE);
                         } else {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
@@ -2001,27 +2007,23 @@ public class MainFragment extends BaseFragment {
                         if (isComplexCreatable(zoom)) {
                             mInterior.setImageResource(R.drawable.interior_black);
                             mTowerCrane.setImageResource(R.drawable.tower_crane);
-//                            mInfoTextPanel.setTextColor(getResources().getColor(R.color.gray_text));
-//                            mInfoTextPanel.setTextSize(15);
-                            //mCreateSpotText.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
-                            mCenterCircle.setVisibility(View.VISIBLE);
+                            mCenterCircle.setImageResource(R.drawable.center_circle);
                         } else if (isSpotCreatable(zoom)) {
                             mInterior.setImageResource(R.drawable.interior);
                             mTowerCrane.setImageResource(R.drawable.tower_crane_black);
-                            mInfoTextPanel.setTextColor(getResources().getColor(R.color.red));
-                            mInfoTextPanel.setTextSize(15);
+                            mZoomBtn.setImageResource(R.drawable.zoom_out);
+                            mZoomBtn.setTag(ZOOM_OUT);
+                            mCenterCircle.setImageResource(R.drawable.center_dot);
+                        } else if (isKeywordTouchable(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                             mCenterCircle.setVisibility(View.GONE);
-                        } else if (isKeywordTouchable(zoom)) {
-                            //mCreateComplexText.setVisibility(View.GONE);
-                            mInfoTextPanel.setText("지역 소식");
-                            mInfoTextPanel.setTextSize(20);
-                            mInfoTextPanel.setTextColor(getResources().getColor(R.color.gray_text));
+                        } else if (isCountryViewLevel(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
+                            mCenterCircle.setImageResource(R.drawable.center_cross);
                         } else {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
@@ -2185,7 +2187,7 @@ public class MainFragment extends BaseFragment {
     protected void addFragmentToTabAdapter(BaseTabAdapter adapter, ChannelData thisChannel) {
 
         Bundle bundle = new Bundle();
-        if(thisChannel.getJsonObject() != null){
+        if (thisChannel.getJsonObject() != null) {
             String thisChannelStr = thisChannel.getJsonObject().toString();
             bundle.putString("channel", thisChannelStr);
             adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
@@ -2682,6 +2684,22 @@ public class MainFragment extends BaseFragment {
         AuthHelper.logout(mActivity);
 
         updateView();
+    }
+
+    private static boolean isGlobalViewLevel(int zoom) {
+        if (zoom >= 2 && zoom <= 6) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean isCountryViewLevel(int zoom) {
+        if (zoom >= 7 && zoom <= 14) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private static boolean isKeywordTouchable(int zoom) {

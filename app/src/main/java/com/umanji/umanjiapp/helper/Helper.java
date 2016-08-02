@@ -632,6 +632,13 @@ public final class Helper implements AppConfig {
                     .anchor(0.45f, 1.0f));
 //            keywordSpotText
 
+        } else {
+            marker = map.addMarker(new MarkerOptions().position(point)
+                    .title(name)
+                    .snippet(String.valueOf(index))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
+                    .alpha(0.8f)  // default 1.0
+                    .anchor(0.45f, 1.0f));
         }
 
 

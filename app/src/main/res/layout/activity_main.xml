@@ -882,7 +882,7 @@
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_arrow_up" />
 
-                    <TextView
+                    <!--<TextView
                         android:id="@+id/mInfoTextPanel"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -891,7 +891,7 @@
                         android:textColor="@color/gray_text"
                         android:textSize="16sp" />
 
-                    <!--<TextView
+                    <TextView
 
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"

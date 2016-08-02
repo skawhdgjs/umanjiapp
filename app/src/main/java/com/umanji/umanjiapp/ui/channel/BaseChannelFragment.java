@@ -687,7 +687,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                             mKeywordPanel.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Helper.startKeywordMapActivity(mActivity, channelData1);  // To KeywordCommunityMode
+                                    Helper.startKeywordMapActivity(mActivity, mChannel);  // To KeywordCommunityMode
 
 
                                 }
