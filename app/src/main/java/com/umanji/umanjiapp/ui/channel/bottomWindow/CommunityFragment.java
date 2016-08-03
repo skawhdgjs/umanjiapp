@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Created by paul on 7/6/16.
  */
-public class CommunityFragment extends BottomBaseFragment{
+public class CommunityFragment extends BottomBaseFragment {
     private static final String TAG = "CommunityFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
@@ -38,6 +39,7 @@ public class CommunityFragment extends BottomBaseFragment{
         // Required empty public constructor
     }
 
+    private LinearLayout mLayout;
     public ApiHelper mApi;
     private JSONObject mParams;
     private String thisType;
@@ -90,8 +92,10 @@ public class CommunityFragment extends BottomBaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.recycler_view_frag, container, false);
+        View rootView = inflater.inflate(R.layout.recycler_view_frag_bottom_community, container, false);
         rootView.setTag(TAG);
+
+        mLayout = (LinearLayout) rootView.findViewById(R.id.layout);
 
         mProgress = new ProgressDialog(getActivity());
         mProgress.setMessage("잠시만 기다려주세요...");
@@ -155,7 +159,7 @@ public class CommunityFragment extends BottomBaseFragment{
         mAdapter.resetDocs();
         mAdapter.setCurrentPage(0);
 
-        if(thisType.equals("talk")){
+        if (thisType.equals("talk")) {
             loadMoreData(mParams);
         } else {
             loadMoreKeywordData(mParams);
@@ -225,6 +229,7 @@ public class CommunityFragment extends BottomBaseFragment{
                 if (status.getCode() == 500) {
 //                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
                 } else {
+
                     try {
 
                         JSONArray jsonArray = json.getJSONArray("data");
@@ -237,38 +242,20 @@ public class CommunityFragment extends BottomBaseFragment{
                             ChannelData channelDoc = communityArr.get(idx);
                             mAdapter.addBottom(channelDoc);
 
+
+                        }
+                        if (communityArr != null && communityArr.size() > 0) {
                             updateView();
-
+                        } else {
+                            mLayout.setBackgroundResource(R.drawable.empty_community);
+                            mProgress.hide();
                         }
-                        /*
-                        for (int idx = 0; idx < jsonArray.length(); idx++) {
-                            JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                            ChannelData doc = new ChannelData(jsonDoc);
-                            if(doc.getParent() != null){
-                                String type = doc.getParent().getType();
-                                if (type != null && type.equals(TYPE_INFO_CENTER)) {
 
-                                } else {
-                                    communityArr.add(doc);
-                                }
-                            }
-
-                        }
-                        *//*
-
-                        for (int idx2 = 0; idx2 < communityArr.size(); idx2++) {
-                            ChannelData channelDoc = communityArr.get(idx2);
-//                            ChannelData doc = new ChannelData(jsonDoc);
-                            mAdapter.addBottom(channelDoc);
-
-                            updateView();
-
-                        }
-*/
                         isLoading = false;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
 
                 }
             }
@@ -277,7 +264,7 @@ public class CommunityFragment extends BottomBaseFragment{
     }
 
     //************************************************************************************************** KeywordCommunityMode
-    private void loadMoreKeywordData(JSONObject params){
+    private void loadMoreKeywordData(JSONObject params) {
 
         isLoading = true;
         mLoadCount = mLoadCount + 1;
@@ -325,7 +312,7 @@ public class CommunityFragment extends BottomBaseFragment{
                             mProgress.hide();
 
                         } else {
-
+                            mProgress.hide();
                         }
                         //mTalkAdapter.notifyDataSetChanged();
                         isLoading = false;

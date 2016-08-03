@@ -1975,7 +1975,8 @@ public class MainFragment extends BaseFragment {
                         } else if (isCountryViewLevel(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
-                            mCenterCircle.setImageResource(R.drawable.center_cross);
+//                            mCenterCircle.setImageResource(R.drawable.center_cross);
+                            mCenterCircle.setVisibility(View.GONE);
                         } else if (isGlobalViewLevel(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
@@ -2023,7 +2024,8 @@ public class MainFragment extends BaseFragment {
                         } else if (isCountryViewLevel(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
-                            mCenterCircle.setImageResource(R.drawable.center_cross);
+//                            mCenterCircle.setImageResource(R.drawable.center_cross);
+                            mCenterCircle.setVisibility(View.GONE);
                         } else {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);

@@ -90,6 +90,13 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(viewHolder.getUserPhoto());
 
+        } else {
+            Glide.with(mContext)
+                    .load(R.drawable.hobby)
+                    .thumbnail(1f)
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(viewHolder.getUserPhoto());
         }
 
         viewHolder.getName().setText(mChannels.get(position).getName());
@@ -102,7 +109,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
             }
             viewHolder.getParentName().setText(mChannels.get(position).getParent().getName());
         } else {
-
+            viewHolder.getParentName().setText("일반장소");
         }
 
     }

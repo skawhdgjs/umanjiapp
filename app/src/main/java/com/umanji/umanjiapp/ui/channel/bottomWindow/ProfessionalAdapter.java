@@ -96,6 +96,13 @@ public class ProfessionalAdapter extends RecyclerView.Adapter<ProfessionalAdapte
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(viewHolder.getUserPhoto());
 
+        } else {
+            Glide.with(mContext)
+                    .load(R.drawable.user_default)
+                    .thumbnail(1f)
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(viewHolder.getUserPhoto());
         }
 //************************************************************************************************** userName
         viewHolder.getUserName().setText(mChannels.get(position).getOwner().getUserName());

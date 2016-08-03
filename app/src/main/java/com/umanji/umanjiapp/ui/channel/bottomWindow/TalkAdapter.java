@@ -91,12 +91,18 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
 
             Glide.with(mContext)
                     .load(userPhoto)
-//                    .override(40, 100)
                     .thumbnail(1f)
                     .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(viewHolder.getUserPhoto());
 
+        } else {
+            Glide.with(mContext)
+                    .load(R.drawable.user_default)
+                    .thumbnail(1f)
+                    .crossFade()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(viewHolder.getUserPhoto());
         }
 
         viewHolder.getUserName().setText(mChannels.get(position).getOwner().getUserName());

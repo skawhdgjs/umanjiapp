@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel.bottomWindow;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -26,11 +28,12 @@ import java.util.ArrayList;
 /**
  * Created by paul on 7/6/16.
  */
-public class ProfessionalFragment extends Fragment implements AppConfig {
+public class ProfessionalFragment extends BottomBaseFragment{
     private static final String TAG = "RecyclerViewFragment";
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
 
+    private LinearLayout mLayout;
     public ApiHelper mApi;
     private JSONObject mParams;
     private String thisType;
@@ -83,10 +86,17 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.recycler_view_frag, container, false);
+        View rootView = inflater.inflate(R.layout.recycler_view_frag_bottom_professional, container, false);
         rootView.setTag(TAG);
 
+        mProgress = new ProgressDialog(getActivity());
+        mProgress.setMessage("잠시만 기다려주세요...");
+//        mProgress.setTitle("Connecting server");
+        mProgress.setCancelable(true);
+        mProgress.show();
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
+        mLayout = (LinearLayout) rootView.findViewById(R.id.layout);
 
         addOnScrollListener(mRecyclerView);
 
@@ -226,6 +236,9 @@ public class ProfessionalFragment extends Fragment implements AppConfig {
                             }
 
                         } else {
+
+                            mLayout.setBackgroundResource(R.drawable.empty_community);
+                            mProgress.hide();
 
                         }
                         //mTalkAdapter.notifyDataSetChanged();
