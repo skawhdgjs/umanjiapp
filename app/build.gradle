@@ -11,8 +11,8 @@ android {
         applicationId "com.umanji.umanjiapp"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 66
-        versionName "2.066"
+        versionCode 67
+        versionName "2.0661"
     }
 
     buildTypes {
@@ -23,6 +23,8 @@ android {
         }
     }
 }
+
+//maven { url "https://jitpack.io" }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -67,6 +69,7 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.koushikdutta.ion:ion:2.+'
+//    compile 'com.github.mothcar:umanji_CDN:Tag'
 //    compile 'org.greenrobot:eventbus:3.0.0'
 
 }
