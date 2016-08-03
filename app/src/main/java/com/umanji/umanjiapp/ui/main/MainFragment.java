@@ -35,6 +35,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -304,6 +307,7 @@ public class MainFragment extends BaseFragment {
 
     View mView;
     TouchableWrapper mTouchView;
+
 
     /****************************************************
      * from other Activity
@@ -733,6 +737,10 @@ public class MainFragment extends BaseFragment {
     private void getKeywordCommunityData() {
         isLoading = true;
 
+        final Animation talkAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.talk_animation);
+        final ScaleAnimation animation = new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+
         mMainListContainer.setVisibility(View.GONE);
 //        mCommunityListContainer.setVisibility(View.VISIBLE);
 
@@ -762,6 +770,7 @@ public class MainFragment extends BaseFragment {
                             if (jsonArray.length() != 0) {
                                 isTalkFlag = true;
                                 mTalk.setImageResource(R.drawable.button_kakao);
+                                mTalk.startAnimation(talkAnimation);
 
                                 mChannel = new ChannelData(json);
 
@@ -790,6 +799,9 @@ public class MainFragment extends BaseFragment {
 
     private void getTalkData() {
         isLoading = true;
+
+        final Animation talkAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.talk_animation);
+        final ScaleAnimation animation = new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
 //        Log.d("Paul", sharedpreferences.getString("MyParams", "none"));
 
@@ -824,6 +836,7 @@ public class MainFragment extends BaseFragment {
                             if (jsonArray.length() != 0) {
                                 isTalkFlag = true;
                                 mTalk.setImageResource(R.drawable.button_kakao);
+                                mTalk.startAnimation(talkAnimation);
 
                                 mChannel = new ChannelData(json);
 
@@ -2006,14 +2019,14 @@ public class MainFragment extends BaseFragment {
                     } else {
 
                         if (isComplexCreatable(zoom)) {
-                            mInterior.setImageResource(R.drawable.interior_black);
-                            mTowerCrane.setImageResource(R.drawable.tower_crane);
+                            mInterior.setVisibility(View.GONE);
+                            mTowerCrane.setVisibility(View.VISIBLE);
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                             mCenterCircle.setImageResource(R.drawable.center_circle);
                         } else if (isSpotCreatable(zoom)) {
-                            mInterior.setImageResource(R.drawable.interior);
-                            mTowerCrane.setImageResource(R.drawable.tower_crane_black);
+                            mInterior.setVisibility(View.VISIBLE);
+                            mTowerCrane.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                             mCenterCircle.setImageResource(R.drawable.center_dot);

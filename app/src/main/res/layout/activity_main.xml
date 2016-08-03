@@ -746,7 +746,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/tutorialPanel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -760,21 +760,19 @@
                     android:id="@+id/interior"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_above="@+id/towerCrane"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/interior_black"
-                    android:visibility="visible" />
+                    android:src="@drawable/interior"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/towerCrane"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_above="@+id/say"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/tower_crane_black"
-                    android:visibility="visible" />
+                    android:src="@drawable/tower_crane"
+                    android:visibility="gone" />
 
               <!--  <ImageView
                     android:id="@+id/say"
@@ -799,7 +797,7 @@
 -->
 
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 android:layout_marginTop="5dp"
