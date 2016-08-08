@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.greenrobot.event.EventBus;
 
 
@@ -68,14 +69,14 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     protected RelativeLayout mFab;
 
     protected TextView mName;
+    protected LinearLayout mParentNamePanel;
     protected TextView mParentName;
     protected ImageView mParentInfoCenter;
-    protected TextView mHeaderBorder;
     protected ImageView mPhoto;
 
     protected ImageView mUserPhoto;
     protected ImageView mLookAround;
-    protected ImageView mLookLink;
+//    protected ImageView mLookLink;
     protected TextView mMemberCount;
     protected TextView mPoint;
     protected TextView mLevel;
@@ -89,6 +90,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
     protected ImageView mInfoBtn;
     protected ChannelData mUser;
+    protected AuthData auth;
 
 
     /****************************************************
@@ -132,7 +134,6 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
             return;
         } else {
 
-
             if (AuthHelper.isLogin(mActivity)) {
                 switch (mChannel.getType()) {
                     case TYPE_SPOT:
@@ -158,7 +159,6 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
         }
 
-
         switch (mChannel.getLevel()) {
             case LEVEL_COMPLEX:
             case LEVEL_LOCAL:
@@ -177,9 +177,9 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                 mParentInfoCenter.setVisibility(View.GONE);
                 break;
         }
+
         mProgress.hide();
     }
-
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
@@ -207,11 +207,10 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         mParentInfoCenter = (ImageView) view.findViewById(R.id.parentInfoCenter);
         mParentInfoCenter.setOnClickListener(this);
 
+        mParentNamePanel = (LinearLayout) view.findViewById(R.id.parentNamePanel);
+
         mParentName = (TextView) view.findViewById(R.id.parentName);
         mParentName.setOnClickListener(this);
-
-        mHeaderBorder = (TextView) view.findViewById(R.id.headerBorder);
-
 
         mPhoto = (ImageView) view.findViewById(R.id.photo);
         mUserPhoto = (ImageView) view.findViewById(R.id.userPhoto);
@@ -230,19 +229,22 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         mNameType = (TextView) view.findViewById(R.id.nameType);
         switch (mChannel.getType()) {
             case TYPE_COMMUNITY:
-                mNameType.setText("커뮤니티 : ");
+                mNameType.setText("커뮤니티");
                 break;
             case TYPE_KEYWORD_COMMUNITY:
-                mNameType.setText("단체들 : ");
+                mNameType.setText("지역연합");
                 break;
             case TYPE_INFO_CENTER:
-                mNameType.setText("정보센터 : ");
+                mNameType.setText("정보센터");
+                break;
+            case TYPE_COMPLEX:
+                mNameType.setText("");
                 break;
             case TYPE_SPOT:
-                mNameType.setText("빌딩 : ");
+                mNameType.setText("빌딩");
                 break;
             case TYPE_SPOT_INNER:
-                mNameType.setText("내부공간 : ");
+                mNameType.setText("내부공간");
                 break;
         }
 
@@ -404,13 +406,16 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     }
 
     public void getUserData() {
+        final String [] thisChannelKeywords = mChannel.getKeywords();
+
         try {
             JSONObject params = new JSONObject();
             params.put("access_token", AuthHelper.getToken(mActivity));
             mApi.call(api_token_check, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
-                    AuthData auth = new AuthData(object);
+
+                    auth = new AuthData(object);
                     if (auth != null && auth.getToken() != null) {
                         mUser = auth.getUser();
                         mExperts = mUser.getSubLinks();
@@ -424,19 +429,34 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                                 mExpertsArr.add(name);
                             }
 
-
+                            if(thisChannelKeywords[0].equals(name) && element.getPoint().equals("1000")){               // channel keyword == user has keyword
+                                askUpdateToExpert();
+                            }
                         }
-
                         Log.d("Paul", "auth :: " + mUser);
-
                     }
 
                 }
             });
+
         } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
+    }
 
+    private void askUpdateToExpert(){
+        new SweetAlertDialog(mActivity, SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText("관리자 승격!")
+                .setContentText("키워드 전문가가 되시겠습니까?")
+                .setConfirmText("확인")
+                .setCancelText("취소")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
     }
 
 
@@ -485,7 +505,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
                 break;
 
-            case R.id.lookAround:
+            case R.id.parentName:
                 String answer = getArguments().getString("iamFrom");
                 String lookChannel = getArguments().getString("channel");
                 if(answer != null){  //from home
@@ -590,7 +610,6 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                         .load(userPhoto)
                         .placeholder(R.drawable.empty)
                         .animate(R.anim.abc_fade_in)
-                        .override(40, 40)
                         .into(mUserPhoto);
             }
 
@@ -603,7 +622,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
         } else {
             Glide.with(mActivity)
-                    .load(R.drawable.avatar_default_0)
+                    .load(R.drawable.user_default)
                     .animate(R.anim.abc_fade_in)
                     .into(mUserPhoto);
         }
@@ -611,11 +630,11 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
     protected void setParentName(Activity activity, final ChannelData parentData) {
         if (parentData == null) {
-            mHeaderBorder.setVisibility(View.GONE);
             mParentName.setVisibility(View.GONE);
+            mParentNamePanel.setVisibility(View.GONE);
         } else {
-            mHeaderBorder.setVisibility(View.VISIBLE);
             mParentName.setVisibility(View.VISIBLE);
+            mParentNamePanel.setVisibility(View.VISIBLE);
 
             if (TextUtils.isEmpty(parentData.getName())) {
                 switch (mChannel.getType()) {
@@ -674,7 +693,6 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                 mKeywordPanel.addView(keywordView);
                 keywordView.setText("#" + keywords[0]);
 
-
                 try {
                     JSONObject params = new JSONObject();
                     params.put("name", keywords[0]);
@@ -688,7 +706,6 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                                 @Override
                                 public void onClick(View v) {
                                     Helper.startKeywordMapActivity(mActivity, mChannel);  // To KeywordCommunityMode
-
 
                                 }
                             });

@@ -234,6 +234,7 @@ public class ProfessionalFragment extends BottomBaseFragment{
                                     updateView();
                                 }
                             }
+                            mProgress.hide();
 
                         } else {
 

@@ -10,15 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -47,8 +44,7 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     protected ImageView mPhotoBtn;
     protected ImageView mGallaryBtn;
 
-//    protected Button mSubmitBtn;
-    protected TextView mSubmitBtn2;
+    protected TextView mSubmitBtn;
     protected TextView mHeaderTitle;
     protected ImageView mPhoto;
 
@@ -99,8 +95,8 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
         mName = (AutoCompleteTextView) view.findViewById(R.id.name);
         mPhoto = (ImageView) view.findViewById(R.id.photo);
 
-        mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
-        mSubmitBtn2.setOnClickListener(this);
+        mSubmitBtn = (TextView) view.findViewById(R.id.submitBtn);
+        mSubmitBtn.setOnClickListener(this);
 
         String channelType = getArguments().getString("whichAction");
 
@@ -132,8 +128,6 @@ public abstract class BaseChannelCreateFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submitBtn:
-            case R.id.submitBtn2:
-                mProgress.onStart();
                 submit();
                 break;
             case R.id.photoBtn:

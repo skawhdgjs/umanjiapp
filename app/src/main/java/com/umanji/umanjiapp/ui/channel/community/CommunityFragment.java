@@ -39,7 +39,7 @@ public class CommunityFragment extends BaseChannelFragment {
     private ChannelData mParentChannel;
     private String mFromWhere;
 
-    private ImageView mLookLink;
+//    private ImageView mLookLink;
 
 
     public static CommunityFragment newInstance(Bundle bundle) {
@@ -64,13 +64,13 @@ public class CommunityFragment extends BaseChannelFragment {
             tabSpot.setText("커뮤니티 (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
         }
 
-        mLookLink = (ImageView) view.findViewById(R.id.lookLink);
+//        mLookLink = (ImageView) view.findViewById(R.id.lookLink);
         String channerType = mChannel.getType();
 
         if (channerType.equals(TYPE_KEYWORD_COMMUNITY)){
             mKeywordPanel.setVisibility(View.GONE);
-            mLookLink.setVisibility(View.VISIBLE);
-            mLookLink.setOnClickListener(this);
+//            mLookLink.setVisibility(View.VISIBLE);
+//            mLookLink.setOnClickListener(this);
         }
 
         return view;
@@ -78,7 +78,7 @@ public class CommunityFragment extends BaseChannelFragment {
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_community, container, false);
+        return inflater.inflate(R.layout.activity_channel, container, false);  // activity_community
     }
 
     @Override
@@ -141,7 +141,7 @@ public class CommunityFragment extends BaseChannelFragment {
 
         if (getArguments().getString("fromDist") == null) {
             setKeywords(mActivity, mChannel);
-            setPhoto(mActivity, mChannel, R.drawable.community_background);
+            setPhoto(mActivity, mChannel, R.drawable.test_background);
             if (mParentChannel != null) {
                 setParentName(mActivity, mParentChannel);
             }
@@ -152,7 +152,7 @@ public class CommunityFragment extends BaseChannelFragment {
             setMemberCount(mActivity, mChannel);
         } else {
             setKeywords(mActivity, mChannel.getParent());
-            setPhoto(mActivity, mChannel.getParent(), R.drawable.community_background);
+            setPhoto(mActivity, mChannel.getParent(), R.drawable.test_background);
             if (mParentChannel != null) {
                 setParentName(mActivity, mParentChannel);
             }
@@ -268,9 +268,9 @@ public class CommunityFragment extends BaseChannelFragment {
                 }
                 break;*/
 
-            case R.id.lookLink:
+          /*  case R.id.lookLink:
                 Helper.startKeywordMapActivity(mActivity, mChannel);
-                break;
+                break;*/
         }
     }
 

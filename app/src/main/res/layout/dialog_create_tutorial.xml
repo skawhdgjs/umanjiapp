@@ -13,7 +13,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="contents HERE"
+        android:text=""
         android:textColor="#111"
         android:textSize="15dp" />
 
@@ -24,7 +24,7 @@
         android:gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
-        android:text="contents HERE"
+        android:text=""
         android:textColor="#111"
         android:textSize="15dp"
         android:layout_below="@+id/contentsLine1"
@@ -42,14 +42,21 @@
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
+        <Button
+            android:id="@+id/dialogCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_button_shadow"
+            android:layout_weight="1"
+            android:text=" 취  소  " />
 
         <Button
             android:id="@+id/dialogOK"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/white"
-            android:text=" 확인  " />
+            android:background="@drawable/dialog_button_shadow"
+            android:text=" 확  인  " />
 
     </LinearLayout>
 

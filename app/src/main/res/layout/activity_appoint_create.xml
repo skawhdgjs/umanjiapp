@@ -30,7 +30,7 @@
             android:textSize="18dp" />
 
         <TextView
-            android:id="@+id/submitBtn2"
+            android:id="@+id/submitBtn"
             android:layout_width="50dp"
             android:layout_height="@dimen/tabs_height"
             android:layout_alignParentRight="true"
@@ -88,7 +88,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/submitBtn2"
+                        android:layout_alignTop="@+id/submitBtn"
                         android:layout_centerHorizontal="true"
                         android:text="역    할 :"
                         android:textColor="#000"
@@ -98,7 +98,7 @@
                         android:id="@+id/manage_area"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/submitBtn2"
+                        android:layout_alignTop="@+id/submitBtn"
                         android:layout_centerHorizontal="true"
                         android:text="광고관리지역"
                         android:textColor="#555"
@@ -108,7 +108,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/submitBtn2"
+                    android:layout_alignTop="@+id/submitBtn"
                     android:layout_centerHorizontal="true"
                     android:text="관리자 :"
                     android:textColor="#000"

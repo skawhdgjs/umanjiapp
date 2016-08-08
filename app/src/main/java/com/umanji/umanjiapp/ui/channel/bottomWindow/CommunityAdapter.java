@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,7 +44,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
     public CommunityAdapter(Activity activity, Context context, ArrayList<ChannelData> channelData) {
         this.mActivity = activity;
         this.mContext = context;
-        mChannels   = channelData;
+        mChannels = channelData;
     }
 
     // Create new views (invoked by the layout manager)
@@ -69,7 +70,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
         viewHolder.getTalkCard().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mChannels.get(position) != null){
+                if (mChannels.get(position) != null) {
                     mChannel = mChannels.get(position);
                     Helper.startActivity(mActivity, mChannel);
                 } else {
@@ -78,7 +79,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
             }
         });
-        if(mChannels.get(position).getPhoto() != null ) {
+        if (mChannels.get(position).getPhoto() != null) {
             String userPhoto = mChannels.get(position).getPhoto();
 //            Picasso.with(mContext).load(userPhoto).into(viewHolder.getUserPhoto());
 
@@ -92,19 +93,28 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
         } else {
             Glide.with(mContext)
-                    .load(R.drawable.hobby)
+                    .load(R.drawable.test_background)
                     .thumbnail(1f)
                     .crossFade()
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(viewHolder.getUserPhoto());
         }
 
+
+        if (mChannels.get(position).getKeywords() != null) {
+            String[] keywords = mChannels.get(position).getKeywords();
+            viewHolder.getKeyword().setText(keywords[0]);
+        } else {
+            viewHolder.getKeyword().setText("일반모임");
+        }
+
         viewHolder.getName().setText(mChannels.get(position).getName());
 
+        viewHolder.getName().setText(mChannels.get(position).getAdminArea());
 
-        if(mChannels.get(position).getParent() != null ){
+        if (mChannels.get(position).getParent() != null) {
             String parentType = mChannels.get(position).getParent().getType();
-            if (parentType.equals("POST")){
+            if (parentType.equals("POST")) {
                 viewHolder.getParentName().setText("댓글");
             }
             viewHolder.getParentName().setText(mChannels.get(position).getParent().getName());
@@ -135,13 +145,12 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
     }
 
 
-
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if(mChannels == null) {
+        if (mChannels == null) {
             return 0;
-        }else {
+        } else {
             return mChannels.size();
         }
     }
@@ -152,11 +161,11 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final RelativeLayout mTalkCard;
-        private final RoundedImageView mUserPhoto;
+        private final ImageView mUserPhoto;
         private final TextView mName;
+        private final TextView mKeyword;
+        private final TextView mAddressShort;
         private final TextView mParentName;
-
-
 
 
         public ViewHolder(View v) {
@@ -172,23 +181,36 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
 
             mTalkCard = (RelativeLayout) v.findViewById(R.id.talkCard);
-            mUserPhoto = (RoundedImageView) v.findViewById(R.id.userPhoto);
+            mUserPhoto = (ImageView) v.findViewById(R.id.userPhoto);
+            mKeyword = (TextView) v.findViewById(R.id.keyword);
             mName = (TextView) v.findViewById(R.id.name);
             mParentName = (TextView) v.findViewById(R.id.parentName);
+            mAddressShort = (TextView) v.findViewById(R.id.address_short);
 
         }
 
         public RelativeLayout getTalkCard() {
             return mTalkCard;
         }
-        public RoundedImageView getUserPhoto() {
+
+        public ImageView getUserPhoto() {
             return mUserPhoto;
         }
+
         public TextView getName() {
             return mName;
         }
+
+        public TextView getKeyword() {
+            return mKeyword;
+        }
+
         public TextView getParentName() {
             return mParentName;
+        }
+
+        public TextView getAddressShort() {
+            return mAddressShort;
         }
     }
 }

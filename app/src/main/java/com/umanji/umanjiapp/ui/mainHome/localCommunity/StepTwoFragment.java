@@ -1,46 +1,33 @@
 package com.umanji.umanjiapp.ui.mainHome.localCommunity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
-import com.umanji.umanjiapp.model.SuccessData;
-import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
-import com.umanji.umanjiapp.ui.channel.BaseChannelUpdateFragment;
 import com.umanji.umanjiapp.ui.channel.community.CommunityActivity;
-import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
-import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
-import com.umanji.umanjiapp.ui.main.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
 
@@ -106,7 +93,7 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
         mGoBackBtn = (ImageView) view.findViewById(R.id.goBackBtn);
         mGoBackBtn.setOnClickListener(this);
 
-        mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
+        mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn);
         mSubmitBtn2.setOnClickListener(this);
 
         mConsole = (TextView) view.findViewById(R.id.console);
@@ -270,7 +257,7 @@ public class StepTwoFragment extends BaseChannelCreateFragment {
                 Helper.callGallery(this);
                 break;
 
-            case R.id.submitBtn2:
+            case R.id.submitBtn:
                 mSubmitBtn2.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 

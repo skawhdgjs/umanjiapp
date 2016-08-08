@@ -778,6 +778,7 @@ public class MainFragment extends BaseFragment {
 
                                 isTalkFlag = false;
                                 mTalk.setImageResource(R.drawable.button_kakao_black);
+                                mTalk.clearAnimation();
 
                             }
 
@@ -844,6 +845,7 @@ public class MainFragment extends BaseFragment {
 
                                 isTalkFlag = false;
                                 mTalk.setImageResource(R.drawable.button_kakao_black);
+                                mTalk.clearAnimation();
 
                             }
                             EventBus.getDefault().post(new SuccessData(DATA_EXPERT, experts));
@@ -1472,33 +1474,51 @@ public class MainFragment extends BaseFragment {
         title.setTextSize(22);
 
         Button okBtn = (Button) dialog.findViewById(R.id.dialogOK);
+        Button cancelBtn = (Button) dialog.findViewById(R.id.dialogCancel);
 
         TextView mMoveMessage1 = (TextView) dialog.findViewById(R.id.contentsLine1);
         TextView mMoveMessage2 = (TextView) dialog.findViewById(R.id.contentsLine2);
 
+        final LatLng center = mMap.getCameraPosition().target;
+// *********************************************************************************** level 18 spot create
         if (division.equals("interior")) {
             mMoveMessage1.setText("일반 건물과 상점과 같은 장소");
-            mMoveMessage2.setText("줌레벨 18 ~ 21단계");
+            mMoveMessage2.setText("장소를 만드시겠습니까?");
 
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                    mapClickEvent(center);
                     dialog.cancel();
 
                 }
             });
+            cancelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.cancel();
+                }
+            });
+// *********************************************************************************** level 15 complex create
 
         } else if (division.equals("towerCrane")) {
             mMoveMessage1.setText("대학교, 공원, 골프장과 같은 넓은 장소");
-            mMoveMessage2.setText("줌레벨 15 ~ 17단계");
+            mMoveMessage2.setText("장소를 만드시겠습니까?");
 
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
+                    mapClickEvent(center);
                     dialog.cancel();
 
+                }
+            });
+            cancelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.cancel();
                 }
             });
 

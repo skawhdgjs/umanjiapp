@@ -105,6 +105,7 @@ public final class Helper implements AppConfig {
                 "창업=스타트업, startup /" +
                 "아파트=주상복합, 주상복합아파트, 빌라, 맨숀, 거주지 /" +
                 "식당=초밥, 비빔밥, 한식, 한식집, 간장게장 /" +
+                "축구=사커, soccer, 조기축구, 조기축구회, 동네축구 /" +
                 "프로그래머=프로그레머, 프로그래밍, programmer, programer, programing, 개발자";
 
         // 연습장일경우 야구인지 골프인지 모른다

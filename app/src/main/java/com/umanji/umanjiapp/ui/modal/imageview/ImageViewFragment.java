@@ -82,8 +82,8 @@ public class ImageViewFragment extends BaseFragment {
                     .load(photo)
                     .placeholder(R.drawable.empty)
 //                    .animate(R.anim.abc_fade_in)
-                    .fitCenter()
-//                    .centerCrop()
+//                    .fitCenter()
+                    .centerCrop()
                     .into(mPhoto);
             /*
             Glide.with(mActivity).load(photo).asBitmap().fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).into(new BitmapImageViewTarget(mPhoto) {

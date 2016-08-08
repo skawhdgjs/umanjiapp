@@ -14,6 +14,7 @@ import com.androidquery.callback.AjaxStatus;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
@@ -25,6 +26,10 @@ import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class SpotFragment extends BaseChannelFragment {
     private static final String TAG = "SpotFragment";

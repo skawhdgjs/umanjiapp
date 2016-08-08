@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.greenrobot.event.EventBus;
 
 
@@ -77,6 +78,8 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     protected ArrayList<SubLinkData> mExperts;
     protected ChannelData mUser;
     protected ArrayList<String> mExpertsArr;
+
+    protected String sendPointMessage = "0";
 
     public static PostCreateFragment newInstance(Bundle bundle) {
         PostCreateFragment fragment = new PostCreateFragment();
@@ -134,17 +137,17 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         mAddVoteOptionBtn = (Button) view.findViewById(R.id.addVoteOptionBtn);
         mAddVoteOptionBtn.setOnClickListener(this);
 
-        mSubmitBtn2.setEnabled(isReady);
-        mSubmitBtn2.setTextColor(Color.parseColor("#5c5cd6"));
+        mSubmitBtn.setEnabled(isReady);
+        mSubmitBtn.setTextColor(Color.parseColor("#5c5cd6"));
 
         mName.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
                 isReady = true;
                 if (mName.getText().toString().length() == 0) {
-                    mSubmitBtn2.setTextColor(Color.parseColor("#5c5cd6"));
+                    mSubmitBtn.setTextColor(Color.parseColor("#5c5cd6"));
                 } else {
-                    mSubmitBtn2.setTextColor(Color.parseColor("#ffffff"));
+                    mSubmitBtn.setTextColor(Color.parseColor("#ffffff"));
                 }
                 enableSubmitIfReady();
             }
@@ -179,7 +182,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     public void enableSubmitIfReady() {
 
         boolean isReady = mName.getText().toString().length() > 1;
-        mSubmitBtn2.setEnabled(isReady);
+        mSubmitBtn.setEnabled(isReady);
     }
 
     @Override
@@ -245,18 +248,18 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
         int totalPoint;
 
-        if(mExperts != null){
+        if (mExperts != null) {
             for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
                 element = mExperts.get(idx);
                 String name;
-                if(element.getName().toString() != null){
+                if (element.getName().toString() != null) {
                     name = element.getName().toString();
 
                     if (name.equals(expert)) {
                         int expertPoint = 0;
-                        if(element.getPoint().toString() != null){
+                        if (element.getPoint().toString() != null) {
                             String expertPointStr = element.getPoint().toString();   // point 가져온다
-                            if(expertPointStr.equals("")){
+                            if (expertPointStr.equals("")) {
                                 expertPointStr = "0";
                             }
                             expertPoint = Integer.parseInt(expertPointStr);          // to Int
@@ -285,7 +288,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             return;
         }
         try {
-            String sendPointMessage = "200";
+
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
             params.put("level", mChannel.getLevel());
@@ -303,7 +306,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                     sendPointMessage = String.valueOf(expertPoint);
                 } else {                                                               // 일반시민 // 돈있냐
                     int expertPoint = 200;
-                    if(mExpertsArr != null && mExpertsArr.contains(INTEREST_ADMINISTRATION)){
+                    if (mExpertsArr != null && mExpertsArr.contains(INTEREST_ADMINISTRATION)) {
                         expertPoint = getBiggestPoint(INTEREST_ADMINISTRATION);
                     }
                     params.put("sub_type", TYPE_EXPERT);
@@ -389,7 +392,9 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
             params.put("desc", descParams);
             mApi.call(api_channels_create, params);
-            Toast.makeText(mActivity, keyword + "전문가 점수가 '" +sendPointMessage+"'이 되셨습니다.", Toast.LENGTH_LONG).show(); //
+
+                Toast.makeText(mActivity, keyword + " 전문가 점수가 '" + sendPointMessage + "'이 되셨습니다.", Toast.LENGTH_LONG).show();
+
             mClicked = true;
 
         } catch (JSONException e) {

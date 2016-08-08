@@ -30,7 +30,7 @@
             android:textSize="18dp" />
 
         <TextView
-            android:id="@+id/submitBtn2"
+            android:id="@+id/submitBtn"
             android:layout_width="50dp"
             android:layout_height="@dimen/tabs_height"
             android:layout_alignParentRight="true"

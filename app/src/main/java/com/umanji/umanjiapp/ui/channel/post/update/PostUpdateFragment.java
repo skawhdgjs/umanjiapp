@@ -128,17 +128,17 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
         mAddVoteOptionBtn = (Button) view.findViewById(R.id.addVoteOptionBtn);
         mAddVoteOptionBtn.setOnClickListener(this);
 
-        mSubmitBtn2.setEnabled(isReady);
-        mSubmitBtn2.setTextColor(Color.parseColor("#5c5cd6"));
+        mSubmitBtn.setEnabled(isReady);
+        mSubmitBtn.setTextColor(Color.parseColor("#5c5cd6"));
 
         mName.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
                 isReady = true;
                 if (mName.getText().toString().length() == 0) {
-                    mSubmitBtn2.setTextColor(Color.parseColor("#5c5cd6"));
+                    mSubmitBtn.setTextColor(Color.parseColor("#5c5cd6"));
                 } else {
-                    mSubmitBtn2.setTextColor(Color.parseColor("#ffffff"));
+                    mSubmitBtn.setTextColor(Color.parseColor("#ffffff"));
                 }
                 enableSubmitIfReady();
             }
@@ -357,7 +357,7 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
     public void enableSubmitIfReady() {
 
         boolean isReady =mName.getText().toString().length()>1;
-        mSubmitBtn2.setEnabled(isReady);
+        mSubmitBtn.setEnabled(isReady);
     }
 
     @Override

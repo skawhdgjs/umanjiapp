@@ -148,7 +148,7 @@ public class SignupFragment extends BaseFragment {
                 mActivity.startActivity(privacyIntent);
                 break;
 
-            case R.id.submitBtn2:
+            case R.id.submitBtn:
             case R.id.submit:
                 boolean isValid = isValidLoginForm(mEmail, mPassword);
                 if(isValid) {

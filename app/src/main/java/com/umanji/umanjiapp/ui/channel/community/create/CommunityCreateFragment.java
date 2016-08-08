@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.channel.BaseChannelCreateFragment;
@@ -22,11 +23,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class CommunityCreateFragment extends BaseChannelCreateFragment {
     private static final String TAG = "CommunityCreateFragment";
-
-
 
     protected AutoCompleteTextView mKeywordName;
     protected Button mAddKeywordBtn;
@@ -50,6 +51,7 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+
         updateView();
         return view;
     }
@@ -85,7 +87,7 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
             if(mChannel.getType().equals(TYPE_INFO_CENTER)){
                 typeFilter = TYPE_INFO_CENTER;
             } else {
-                typeFilter = "SPACE";
+                typeFilter = "SPACE";     //to avoid find Info_Center
             }
             JSONObject params = mChannel.getAddressJSONObject();
             params.put("parent", mChannel.getId());
@@ -94,7 +96,6 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
             params.put("level", mChannel.getLevel());
             params.put("name", mName.getText().toString());
             params.put("type", TYPE_COMMUNITY);
-
 
             if(mKeywords.size() > 0) {
                 params.put("keywords", new JSONArray(mKeywords));
@@ -109,9 +110,28 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
+//        super.onClick(v);
 
         switch (v.getId()) {
+            case R.id.submitBtn:
+                if(mKeyword1.getText() != null && mKeyword1.getText().length() > 1){
+                    submit();
+                } else {
+                    new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("커뮤니티 키워드 없음")
+                            .setContentText("반드시 주제 키워드를 넣어주세요.")
+                            .setConfirmText("확인")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            })
+                            .show();
+                }
+
+                break;
+
             case R.id.addKeywordBtn:
                 if(TextUtils.isEmpty(mKeyword1.getText())) {
                     String dictionaryKeyword;
@@ -159,6 +179,13 @@ public class CommunityCreateFragment extends BaseChannelCreateFragment {
                     mKeyword2.setText(null);
                     mKeywords.remove(1);
                 }
+                break;
+            case R.id.photoBtn:
+                mFilePath = Helper.callCamera(this);
+                FileHelper.setString(mActivity, "tmpFilePath", mFilePath);
+                break;
+            case R.id.gallaryBtn:
+                Helper.callGallery(this);
                 break;
         }
     }

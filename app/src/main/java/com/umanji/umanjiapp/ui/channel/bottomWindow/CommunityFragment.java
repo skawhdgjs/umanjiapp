@@ -211,8 +211,7 @@ public class CommunityFragment extends BottomBaseFragment {
         try {
             params.put("page", mAdapter.getCurrentPage());
             params.put("type", TYPE_COMMUNITY);
-            params.put("level", 18);
-            params.put("typeFilter", "SPACE");
+            params.put("typeFilter", "SPACE");    //to avoid find Info_Center
 //            params.put("keywords", communityName);
             params.put("limit", 8);
             params.put("sort", "point DESC");
@@ -312,6 +311,7 @@ public class CommunityFragment extends BottomBaseFragment {
                             mProgress.hide();
 
                         } else {
+                            mLayout.setBackgroundResource(R.drawable.empty_community);
                             mProgress.hide();
                         }
                         //mTalkAdapter.notifyDataSetChanged();

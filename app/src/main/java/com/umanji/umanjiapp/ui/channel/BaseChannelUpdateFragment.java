@@ -2,18 +2,14 @@ package com.umanji.umanjiapp.ui.channel;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -50,8 +46,7 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
     protected ImageView mPhotoBtn;
     protected ImageView mGallaryBtn;
 
-    protected Button mSubmitBtn;
-    protected TextView mSubmitBtn2;
+    protected TextView mSubmitBtn;
     protected ImageView mPhoto;
 
     /****************************************************
@@ -91,11 +86,8 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
         mName = (EditText) view.findViewById(R.id.name);
         mPhoto = (ImageView) view.findViewById(R.id.photo);
 
-        mSubmitBtn = (Button) view.findViewById(R.id.submitBtn);
+        mSubmitBtn = (TextView) view.findViewById(R.id.submitBtn);
         mSubmitBtn.setOnClickListener(this);
-
-        mSubmitBtn2 = (TextView) view.findViewById(R.id.submitBtn2);
-        mSubmitBtn2.setOnClickListener(this);
 
         mPhotoBtn = (ImageView) view.findViewById(R.id.photoBtn);
         mPhotoBtn.setOnClickListener(this);
@@ -143,9 +135,6 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submitBtn:
-                submit();
-                break;
-            case R.id.submitBtn2:
                 //mSubmitBtn2.setTextColor(Color.green(127));
                 submit();
                 break;

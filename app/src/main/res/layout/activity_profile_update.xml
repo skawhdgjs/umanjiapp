@@ -37,7 +37,7 @@
             android:textSize="16dp"
             android:textColor="#fff"
             android:text="완료"
-            android:id="@+id/submitBtn2"
+            android:id="@+id/submitBtn"
             android:gravity="center"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"/>
