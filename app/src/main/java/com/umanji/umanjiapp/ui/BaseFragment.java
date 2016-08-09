@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 
 import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
@@ -32,8 +33,11 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
      ****************************************************/
     public ApiHelper mApi;
 
+    /****************************************************
+     *  action
+     ****************************************************/
+    public AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
     public AlertDialog.Builder mAlert;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

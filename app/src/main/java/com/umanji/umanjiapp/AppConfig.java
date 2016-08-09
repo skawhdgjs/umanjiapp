@@ -9,7 +9,6 @@ public interface AppConfig {
 //    String REST_SERVER_URL = "http://172.30.1.20:3000/v1";   /* 로컬 커피숍 API Server */
    String REST_SERVER_URL  = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
 
-
     /* 아마존 S3 */
     String REST_S3_URL        = "https://s3-ap-northeast-1.amazonaws.com/umanji-0001/";
 //    String REST_S3_URL        = "https://s3.ap-northeast-2.amazonaws.com/umanjiapp-0001/";
@@ -26,7 +25,6 @@ public interface AppConfig {
     int LEVEL_GUGUN                     = 12;
     int LEVEL_DOSI                      = 8;
     int LEVEL_COUNTRY                   = 2;
-
 
     int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     int DEFAULT_MIN_FLING_VELOCITY      = 10000;
@@ -97,6 +95,7 @@ public interface AppConfig {
     String api_bottom_communities_find      = "GET  /channels/bottom/keywords";     //community bottom
     String api_channels_spots_find          = "GET  /channels/id/spots";
     String api_channels_roles_find          = "GET  /channels/findRole";
+    String api_channels_new_communities          = "GET  /channels/newCommunities";
 
 
 

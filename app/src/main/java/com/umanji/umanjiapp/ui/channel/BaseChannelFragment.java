@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.IntentCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,6 +92,8 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     protected ImageView mInfoBtn;
     protected ChannelData mUser;
     protected AuthData auth;
+
+    protected ImageView mToolbarBtn;
 
 
     /****************************************************
@@ -189,6 +192,16 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     @Override
     public void initWidgets(View view) {
         getUserData();
+
+        ActionBar actionBar = mActivity.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true); // disable the button
+            actionBar.setDisplayHomeAsUpEnabled(false); // remove the left caret
+            actionBar.setDisplayShowHomeEnabled(false); // remove the icon
+        }
+
+        mToolbarBtn = (ImageView) view.findViewById(R.id.toolbarBtn);
+        mToolbarBtn.setOnClickListener(this);
 
         mNoticePanel = view.findViewById(R.id.noticePanel);
 
@@ -475,8 +488,13 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
             }
         }
 
-
         switch (v.getId()) {
+            case R.id.toolbarBtn:
+                mToolbarBtn.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+                getActivity().finish();
+                break;
+
             case R.id.fab:
                 if(mCurrentTapPosition == 0){
                     if(mChannel.getType().equals(TYPE_INFO_CENTER)){         // 정보센터

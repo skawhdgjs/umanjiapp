@@ -110,7 +110,7 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
         viewHolder.getName().setText(mChannels.get(position).getName());
 
-        viewHolder.getName().setText(mChannels.get(position).getAdminArea());
+        viewHolder.getAddressShort().setText(mChannels.get(position).getAdminArea());
 
         if (mChannels.get(position).getParent() != null) {
             String parentType = mChannels.get(position).getParent().getType();

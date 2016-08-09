@@ -78,6 +78,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     protected ArrayList<SubLinkData> mExperts;
     protected ChannelData mUser;
     protected ArrayList<String> mExpertsArr;
+    protected AuthData auth;
 
     protected String sendPointMessage = "0";
 
@@ -210,7 +211,8 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             mApi.call(api_token_check, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
-                    AuthData auth = new AuthData(object);
+
+                    auth = new AuthData(object);
                     if (auth != null && auth.getToken() != null) {
                         mUser = auth.getUser();
                         mExperts = mUser.getSubLinks();
@@ -400,6 +402,25 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         } catch (JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
+
+
+
+        String[] keywords = mChannel.getKeywords();
+        if (keywords != null && keywords.length > 0) {
+//            mUser = auth.getUser();
+
+            try {
+                JSONObject params2 = mChannel.getAddressJSONObject();
+                params2.put("id", mUser.getId());
+                params2.put("keywords", keywords[0]);
+                mApi.call(api_channels_id_update, params2);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
     }
 
     @Override

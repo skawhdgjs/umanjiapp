@@ -1,5 +1,6 @@
 package com.umanji.umanjiapp.ui.channel._fragment.members;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,6 +31,7 @@ public class MemberListFragment extends BaseChannelListFragment {
 
     private Button mJoinBtn;
     private Button mUnJoinBtn;
+    private String keyword;;
     private LinearLayout mlayout;
 
     public static MemberListFragment newInstance(Bundle bundle) {
@@ -37,7 +39,6 @@ public class MemberListFragment extends BaseChannelListFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,12 +64,25 @@ public class MemberListFragment extends BaseChannelListFragment {
         mUnJoinBtn.setOnClickListener(this);
 
         mlayout = (LinearLayout) view.findViewById(R.id.memberLayout);
+
+
     }
 
     @Override
     public void loadMoreData() {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
+
+        String jsonString = getArguments().getString("channel");
+        if (jsonString != null) {
+            mChannel = new ChannelData(jsonString);
+        }
+        String []keywords = mChannel.getKeywords();
+        if(keywords != null ){
+            keyword = keywords[0];
+        }
+
+
         try {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
@@ -81,6 +95,11 @@ public class MemberListFragment extends BaseChannelListFragment {
                     break;
                 case TYPE_INFO_CENTER:
                     params.put("type", TYPE_USER);
+                    setAddressParams(params, mChannel);
+                    break;
+                case TYPE_KEYWORD_COMMUNITY:
+                    params.put("type", TYPE_USER);
+                    params.put("keywords", keyword);
                     setAddressParams(params, mChannel);
                     break;
                 default:

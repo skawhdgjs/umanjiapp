@@ -77,8 +77,13 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
             public void onClick(View v) {
                 if(mChannels.get(position).getParent() != null){
                     mChannel = mChannels.get(position).getParent();
-//                String type = mChannel.getType();
-                    Helper.startActivity(mActivity, mChannel);
+                String [] passKeywords = mChannel.getKeywords();
+                    if(passKeywords != null && passKeywords[0] != null){
+                        Helper.startActivity(mActivity, mChannel, passKeywords[0]);
+                    } else {
+                        Helper.startActivity(mActivity, mChannel);
+                    }
+
                 } else {
                     Toast.makeText(mActivity, "준비중입니다", Toast.LENGTH_SHORT).show();
                 }

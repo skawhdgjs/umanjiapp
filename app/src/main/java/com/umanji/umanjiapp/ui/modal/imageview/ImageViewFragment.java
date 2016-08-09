@@ -83,6 +83,7 @@ public class ImageViewFragment extends BaseFragment {
                     .placeholder(R.drawable.empty)
 //                    .animate(R.anim.abc_fade_in)
 //                    .fitCenter()
+
                     .centerCrop()
                     .into(mPhoto);
             /*

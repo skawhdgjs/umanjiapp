@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -609,40 +610,80 @@ public final class Helper implements AppConfig {
         tc.setTextAppearance(R.style.keywordCommunityText);          // text design
         Bitmap bmp = tc.makeIcon();
 
+        // to modify marker size
+        Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.community_marker);
+        Bitmap smallMarker = Bitmap.createScaledBitmap(icon, 120, 120, false);
+
         String name = channelData.getName();
+
         if (TextUtils.isEmpty(name)) {
             name = "어떤곳";
         }
 
         String keyword = channelData.getName();
 
-
-        if (channelData.getType().equals(TYPE_COMMUNITY)) {
+        if (channelData.getType().equals(TYPE_COMMUNITY)) {                // 실제 커뮤니티 : 만든 장소
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
-                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
-                    .alpha(0.8f)  // default 1.0
+//                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_pink))
+//                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+                    .alpha(1.0f)  // default 1.0
                     .anchor(0.45f, 1.0f));
         } else if (channelData.getType().equals(TYPE_SPOT)) {
             tc.setTextAppearance(R.style.keywordSpotText);
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
-                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
-                    .alpha(0.8f)  // default 1.0
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_pink))
                     .anchor(0.45f, 1.0f));
-//            keywordSpotText
+
+        } else if (channelData.getType().equals(TYPE_KEYWORD_COMMUNITY)) {     // like Info Center
+            String thoroughfare = channelData.getParent().getThoroughfare();
+            String locality = channelData.getParent().getLocality();
+            String admin = channelData.getParent().getAdminArea();
+            String coutry = channelData.getParent().getCountryName();
+
+            String typeName = name + " 연합";
+            Bitmap myBitmap = null;
+//            doing
+            switch(channelData.getParent().getLevel()){
+                case LEVEL_DONG:
+                    typeName = thoroughfare + " " + name + "연합";
+                    myBitmap = myResizeMapIcons(smallMarker,75, 75, activity);
+                    break;
+                case LEVEL_GUGUN:
+                    typeName = locality + " " + name + "연합";
+                    myBitmap = myResizeMapIcons(smallMarker,90, 90, activity);
+                    break;
+                case LEVEL_DOSI:
+                    typeName = admin + " " + name + "연합";
+                    myBitmap = myResizeMapIcons(smallMarker,105, 105, activity);
+                    break;
+                case LEVEL_COUNTRY:
+                    typeName = coutry + " " + name + "연합";
+                    myBitmap = myResizeMapIcons(smallMarker,120, 120, activity);
+                    break;
+
+            }
+//            tc.setTextAppearance(R.style.keywordSpotText);
+            marker = map.addMarker(new MarkerOptions().position(point)
+                    .title(typeName)
+                    .snippet(String.valueOf(index))
+                    .icon(BitmapDescriptorFactory.fromBitmap(myBitmap))
+                    .anchor(0.45f, 1.0f));
 
         } else {
+            /*
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
                     .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
                     .alpha(0.8f)  // default 1.0
                     .anchor(0.45f, 1.0f));
+            */
         }
-
 
         return marker;
 
@@ -811,6 +852,9 @@ public final class Helper implements AppConfig {
             case TYPE_COMMUNITY:
             case TYPE_KEYWORD_COMMUNITY:
                 intent = new Intent(activity, CommunityActivity.class);
+                if(tabType != null){
+                    bundle.putString("keyword", tabType);
+                }
                 break;
             case TYPE_INFO_CENTER:
                 intent = new Intent(activity, InfoActivity.class);

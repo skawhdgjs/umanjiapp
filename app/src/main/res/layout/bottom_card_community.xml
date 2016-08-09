@@ -41,6 +41,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
+
+
         <TextView
             android:id="@+id/memberCount"
             android:layout_width="wrap_content"
@@ -54,40 +56,65 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
+        <TextView
+            android:layout_above="@+id/keyword"
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:shadowColor="#000"
+            android:shadowRadius="7.0"
+            android:text="Title Here"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:layout_above="@+id/addressPanel"
+            android:id="@+id/keyword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="keyword"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:shadowColor="#000"
+            android:shadowRadius="7.0"
+            android:layout_marginBottom="5dp"/>
+
         <LinearLayout
+            android:layout_above="@+id/addressPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/addressPanel"
             android:layout_marginBottom="5dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:orientation="horizontal">
-            <TextView
+            <!--<TextView
                 android:id="@+id/keyword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="keyword"
-                android:textSize="17dp"
+                android:textSize="16dp"
                 android:textColor="@color/white"
                 android:shadowColor="#000"
-                android:shadowRadius="7.0" />
+                android:shadowRadius="7.0" />-->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" - "
-                android:textSize="17dp"
+                android:textSize="15dp"
                 android:textColor="@color/white"
                 android:shadowColor="#000"
-                android:shadowRadius="7.0" />
+                android:shadowRadius="7.0"
+                android:visibility="gone"/>
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/areaName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="community name"
-                android:textSize="17dp"
+                android:textSize="14dp"
                 android:textColor="@color/white"
                 android:shadowColor="#000"
-                android:shadowRadius="7.0" />
+                android:shadowRadius="7.0"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -148,6 +175,8 @@
             android:layout_alignParentStart="true" />
 
     </RelativeLayout>
+
+
 
 
 </RelativeLayout>

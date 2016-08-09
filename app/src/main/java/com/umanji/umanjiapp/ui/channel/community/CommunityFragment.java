@@ -89,7 +89,7 @@ public class CommunityFragment extends BaseChannelFragment {
             bundle.putString("channel", mChannel.getJsonObject().toString());
             adapter.addFragment(PostListFragment.newInstance(bundle), "정보광장");
             adapter.addFragment(MemberListFragment.newInstance(bundle), "사람들");
-            adapter.addFragment(CommunityListFragment.newInstance(bundle), "단체 : 커뮤니티");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "관련 커뮤니티");
             adapter.addFragment(AboutFragment.newInstance(bundle), "상세정보 및 수정");
         } else {
             Bundle bundle = new Bundle();
@@ -101,7 +101,7 @@ public class CommunityFragment extends BaseChannelFragment {
 
             adapter.addFragment(PostListFragment.newInstance(bundle), "무슨광장");
             adapter.addFragment(MemberListFragment.newInstance(bundle), "사람들");
-            adapter.addFragment(CommunityListFragment.newInstance(bundle), "단체 : 커뮤니티");
+            adapter.addFragment(CommunityListFragment.newInstance(bundle), "관련 커뮤니티");
             adapter.addFragment(AboutFragment.newInstance(bundle), "상세정보 및 수정");
         }
 

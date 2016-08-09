@@ -1574,7 +1574,7 @@ public class MainFragment extends BaseFragment {
             if (mMarkers != null) {
                 for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
+                    Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);       // keyword community mode
                 }
             }
 
@@ -1940,7 +1940,7 @@ public class MainFragment extends BaseFragment {
                             marker.hideInfoWindow();
                         } else {
                             channelData = new ChannelData(mMarkers.getJSONObject(Integer.valueOf(index)));
-                            Helper.startActivity(mActivity, channelData);
+                            Helper.startActivity(mActivity, channelData, communityName);
                         }
                     }
 

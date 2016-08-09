@@ -29,6 +29,7 @@ public class CommunityListFragment extends BaseChannelListFragment {
     private static final String TAG = "CommunityListFragment";
 
     private Button mAddBtn;
+    private String keyword;
 
     public static CommunityListFragment newInstance(Bundle bundle) {
         CommunityListFragment fragment = new CommunityListFragment();
@@ -69,6 +70,16 @@ public class CommunityListFragment extends BaseChannelListFragment {
     public void loadMoreData() {
         isLoading = true;
         mLoadCount = mLoadCount + 1;
+
+        String jsonString = getArguments().getString("channel");
+        if (jsonString != null) {
+            mChannel = new ChannelData(jsonString);
+        }
+        String []keywords = mChannel.getKeywords();
+        if(keywords != null ){
+            keyword = keywords[0];
+        }
+
         try {
             JSONObject params = new JSONObject();
             params.put("page", mAdapter.getCurrentPage()); // for paging
@@ -84,6 +95,12 @@ public class CommunityListFragment extends BaseChannelListFragment {
                     params.put("type", TYPE_KEYWORD_COMMUNITY);
                     setAddressParams(params, mChannel);
                     break;
+                case TYPE_KEYWORD_COMMUNITY:
+                    params.put("type", TYPE_COMMUNITY);
+                    params.put("keywords", keyword);
+                    params.remove("level");
+                    setAddressParams(params, mChannel);
+                    break;
                 default:
                     params.put("parent", mChannel.getId());
                     params.put("type", TYPE_COMMUNITY);
@@ -92,8 +109,12 @@ public class CommunityListFragment extends BaseChannelListFragment {
 
             String communityType = mChannel.getType();
             String apiType;
-
+// api_channels_new_communities
+//            api_bottom_communities_find
             switch(communityType){
+                case TYPE_KEYWORD_COMMUNITY:
+                    apiType = api_channels_new_communities;
+                    break;
                 case TYPE_COMMUNITY:
                     apiType = api_channels_community_find;
                     break;
