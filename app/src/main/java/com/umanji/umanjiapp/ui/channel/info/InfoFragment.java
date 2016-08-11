@@ -93,7 +93,7 @@ public class InfoFragment extends BaseChannelFragment {
 
     @Override
     protected void setTabSelect() {
-        if(TextUtils.isEmpty(mTabType)) return;
+        if (TextUtils.isEmpty(mTabType)) return;
 
         TabLayout.Tab tab;
         switch (mTabType) {
@@ -121,7 +121,20 @@ public class InfoFragment extends BaseChannelFragment {
     public void updateView() {
         super.updateView();
 
-        if(AuthHelper.isLogin(mActivity)) {
+        if (getArguments() != null) {
+            String check = getArguments().getString("extraData");
+            if (check != null) {
+                if (getArguments().getString("extraData").equals("keywordData")) {
+                    setUserPhoto(mActivity, mOwner);
+                } else {
+                    setUserPhoto(mActivity, mChannel.getOwner());
+                }
+            } else {
+                setUserPhoto(mActivity, mChannel.getOwner());
+            }
+        }
+
+        if (AuthHelper.isLogin(mActivity)) {
             mFab.setVisibility(View.VISIBLE);
         } else {
             mFab.setVisibility(View.GONE);
@@ -130,7 +143,6 @@ public class InfoFragment extends BaseChannelFragment {
         setName(mActivity, mChannel, "");
         setPhoto(mActivity, mChannel, R.drawable.multi_spot_background);
         setParentName(mActivity, mChannel.getParent());
-        setUserPhoto(mActivity, mChannel.getOwner());
         setPoint(mActivity, mChannel);
 //        setLevel(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
@@ -140,10 +152,9 @@ public class InfoFragment extends BaseChannelFragment {
 //        setKeywords(mActivity, mChannel);
     }
 
-
     @Override
     protected void setName(Activity activity, final ChannelData channelData, String label) {
-        if(!TextUtils.isEmpty(channelData.getName())) {
+        if (!TextUtils.isEmpty(channelData.getName())) {
             mName.setText(Helper.getShortenString(channelData.getName()));
         } else {
             mName.setText(label);
@@ -162,7 +173,7 @@ public class InfoFragment extends BaseChannelFragment {
                     mName.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(userData.getPoint() >= 10000) {
+                            if (userData.getPoint() >= 10000) {
                                 Helper.startUpdateActivity(mActivity, channelData);
                             } else {
                                 Toast.makeText(mActivity, "활동 포인트 10000 이상에서 수정가능합니다.", Toast.LENGTH_SHORT).show();
@@ -171,16 +182,16 @@ public class InfoFragment extends BaseChannelFragment {
                     });
                 }
             });
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
     }
 
     private boolean hasAuthority() {
-        if(TextUtils.isEmpty(AuthHelper.getLevel(mActivity))) return false;
+        if (TextUtils.isEmpty(AuthHelper.getLevel(mActivity))) return false;
 
         int loginUserLevel = Integer.parseInt(AuthHelper.getLevel(mActivity));
-        if(loginUserLevel <= mChannel.getLevel()) {
+        if (loginUserLevel <= mChannel.getLevel()) {
             return true;
         } else {
             return false;
@@ -190,7 +201,7 @@ public class InfoFragment extends BaseChannelFragment {
     @Override
     protected void setPhoto(Activity activity, final ChannelData channelData, int defaultImage) {
         String photoUrl = channelData.getPhoto();
-        if(photoUrl != null) {
+        if (photoUrl != null) {
             Glide.with(activity)
                     .load(photoUrl)
                     .into(mPhoto);
@@ -201,7 +212,7 @@ public class InfoFragment extends BaseChannelFragment {
                     Helper.startImageViewActivity(mActivity, channelData);
                 }
             });
-        }else {
+        } else {
             Glide.with(activity)
                     .load(defaultImage)
                     .into(mPhoto);
@@ -263,7 +274,7 @@ public class InfoFragment extends BaseChannelFragment {
                         }
                     });
 
-                } catch(JSONException e) {
+                } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
                 }
                 break;

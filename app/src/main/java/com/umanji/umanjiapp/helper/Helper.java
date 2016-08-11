@@ -85,6 +85,7 @@ import de.greenrobot.event.EventBus;
 
 public final class Helper implements AppConfig {
     private static final String TAG = "Helper";
+    private String args;
 
     public static String dictionaryHasKeyword(String inputKeyword) {
 
@@ -143,7 +144,7 @@ public final class Helper implements AppConfig {
         return keyword;
     }
 
-    public static String extractKeyword(String statement){
+    public static String extractKeyword(String statement) {
         String inputStr = statement;
 
         int howlong = inputStr.length();
@@ -152,18 +153,18 @@ public final class Helper implements AppConfig {
         int startStr = 0;
 
         startLoop:
-        for (int idx = 0;  idx < howlong; idx++) {
+        for (int idx = 0; idx < howlong; idx++) {
 
             aaa = inputStr.charAt(idx);
 
-            if(aaa == '/'){
-                startStr = idx+1;
+            if (aaa == '/') {
+                startStr = idx + 1;
                 break startLoop;
             }
         }
         String preStr = inputStr.substring(startStr, howlong);
 
-        String answer = preStr.substring(0,1);
+        String answer = preStr.substring(0, 1);
         answer = answer.toUpperCase();
         answer += preStr.substring(1);
 
@@ -429,10 +430,10 @@ public final class Helper implements AppConfig {
             }
         } else {
             String userPhoto = null;
-            if(channelData.getOwner() != null){
+            if (channelData.getOwner() != null) {
                 userPhoto = channelData.getOwner().getPhoto();
             }
-            Bitmap bmImg = BitmapFactory.decodeResource(activity.getResources(),activity.getResources().getIdentifier("user_default", "drawable", activity.getPackageName()));
+            Bitmap bmImg = BitmapFactory.decodeResource(activity.getResources(), activity.getResources().getIdentifier("user_default", "drawable", activity.getPackageName()));
             try {
 
                 bmImg = Ion.with(activity).load(userPhoto).asBitmap().get();
@@ -447,7 +448,7 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto,100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto, 100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -456,7 +457,7 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto,100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto, 100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -465,7 +466,7 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg,100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg, 100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -474,7 +475,7 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg,100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg, 100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -518,27 +519,27 @@ public final class Helper implements AppConfig {
         return bitmap;
     }
 
-    public static Bitmap myResizeMapIcons(Bitmap iconName, int width, int height, Activity activity){
+    public static Bitmap myResizeMapIcons(Bitmap iconName, int width, int height, Activity activity) {
         Bitmap imageBitmap = iconName;
-        Bitmap resizedBitmap ;
-        Bitmap finalBitmap ;
+        Bitmap resizedBitmap;
+        Bitmap finalBitmap;
 
-        if (imageBitmap.getWidth() >= imageBitmap.getHeight()){
+        if (imageBitmap.getWidth() >= imageBitmap.getHeight()) {
 
             resizedBitmap = Bitmap.createBitmap(
                     imageBitmap,
-                    imageBitmap.getWidth()/2 - imageBitmap.getHeight()/2,
+                    imageBitmap.getWidth() / 2 - imageBitmap.getHeight() / 2,
                     0,
                     imageBitmap.getHeight(),
                     imageBitmap.getHeight()
             );
 
-        }else{
+        } else {
 
             resizedBitmap = Bitmap.createBitmap(
                     imageBitmap,
                     0,
-                    imageBitmap.getHeight()/2 - imageBitmap.getWidth()/2,
+                    imageBitmap.getHeight() / 2 - imageBitmap.getWidth() / 2,
                     imageBitmap.getWidth(),
                     imageBitmap.getWidth()
             );
@@ -548,8 +549,8 @@ public final class Helper implements AppConfig {
         return finalBitmap;
     }
 
-    public static Bitmap resizeMapIcons(String iconName, int width, int height, Activity activity){
-        Bitmap imageBitmap = BitmapFactory.decodeResource(activity.getResources(),activity.getResources().getIdentifier(iconName, "drawable", activity.getPackageName()));
+    public static Bitmap resizeMapIcons(String iconName, int width, int height, Activity activity) {
+        Bitmap imageBitmap = BitmapFactory.decodeResource(activity.getResources(), activity.getResources().getIdentifier(iconName, "drawable", activity.getPackageName()));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false);
         return resizedBitmap;
     }
@@ -611,8 +612,14 @@ public final class Helper implements AppConfig {
         Bitmap bmp = tc.makeIcon();
 
         // to modify marker size
-        Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.community_marker);
-        Bitmap smallMarker = Bitmap.createScaledBitmap(icon, 120, 120, false);
+        Bitmap icon = BitmapFactory.decodeResource(activity.getResources(), R.drawable.election);
+        Bitmap smallMarker = Bitmap.createScaledBitmap(icon, 100, 100, false);
+
+        Bitmap icon2 = BitmapFactory.decodeResource(activity.getResources(), R.drawable.community_marker);
+        Bitmap smallMarker2 = Bitmap.createScaledBitmap(icon2, 100, 100, false);
+
+        Bitmap flag = BitmapFactory.decodeResource(activity.getResources(), R.drawable.flag);
+        Bitmap smallflag = Bitmap.createScaledBitmap(flag, 100, 100, false);
 
         String name = channelData.getName();
 
@@ -627,16 +634,16 @@ public final class Helper implements AppConfig {
                     .title(name)
                     .snippet(String.valueOf(index))
 //                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_pink))
-//                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.community_marker))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker2))
                     .alpha(1.0f)  // default 1.0
                     .anchor(0.45f, 1.0f));
-        } else if (channelData.getType().equals(TYPE_SPOT)) {
+        } else if (channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_COMPLEX)) {
             tc.setTextAppearance(R.style.keywordSpotText);
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_pink))
+                    .icon(BitmapDescriptorFactory.fromBitmap(smallflag))
                     .anchor(0.45f, 1.0f));
 
         } else if (channelData.getType().equals(TYPE_KEYWORD_COMMUNITY)) {     // like Info Center
@@ -648,22 +655,22 @@ public final class Helper implements AppConfig {
             String typeName = name + " 연합";
             Bitmap myBitmap = null;
 //            doing
-            switch(channelData.getParent().getLevel()){
+            switch (channelData.getParent().getLevel()) {
                 case LEVEL_DONG:
                     typeName = thoroughfare + " " + name + "연합";
-                    myBitmap = myResizeMapIcons(smallMarker,75, 75, activity);
+                    myBitmap = myResizeMapIcons(smallMarker, 75, 75, activity);
                     break;
                 case LEVEL_GUGUN:
                     typeName = locality + " " + name + "연합";
-                    myBitmap = myResizeMapIcons(smallMarker,90, 90, activity);
+                    myBitmap = myResizeMapIcons(smallMarker, 90, 90, activity);
                     break;
                 case LEVEL_DOSI:
                     typeName = admin + " " + name + "연합";
-                    myBitmap = myResizeMapIcons(smallMarker,105, 105, activity);
+                    myBitmap = myResizeMapIcons(smallMarker, 105, 105, activity);
                     break;
                 case LEVEL_COUNTRY:
                     typeName = coutry + " " + name + "연합";
-                    myBitmap = myResizeMapIcons(smallMarker,120, 120, activity);
+                    myBitmap = myResizeMapIcons(smallMarker, 120, 120, activity);
                     break;
 
             }
@@ -827,8 +834,76 @@ public final class Helper implements AppConfig {
     public static void startActivity(Activity activity, ChannelData channelData, String tabType) {
         Intent intent = null;
         Bundle bundle = new Bundle();
+
         bundle.putString("channel", channelData.getJsonObject().toString());
         bundle.putString("tabType", tabType);
+
+        switch (channelData.getType()) {
+            case TYPE_SPOT:
+                intent = new Intent(activity, SpotActivity.class);
+                intent.putExtra("enterAnim", R.anim.zoom_out);
+                intent.putExtra("exitAnim", R.anim.zoom_in);
+                break;
+            case TYPE_COMPLEX:
+                bundle.putString("keyword", tabType);
+                intent = new Intent(activity, ComplexActivity.class);
+                intent.putExtra("enterAnim", R.anim.zoom_out);
+                intent.putExtra("exitAnim", R.anim.zoom_in);
+                break;
+            case TYPE_SPOT_INNER:
+                intent = new Intent(activity, SpotActivity.class);
+                break;
+
+            case TYPE_USER:
+                intent = new Intent(activity, ProfileActivity.class);
+                break;
+            case TYPE_KEYWORD:
+            case TYPE_COMMUNITY:
+            case TYPE_KEYWORD_COMMUNITY:
+                intent = new Intent(activity, CommunityActivity.class);
+                if (tabType != null) {
+                    bundle.putString("keyword", tabType);
+                }
+                break;
+            case TYPE_INFO_CENTER:
+                intent = new Intent(activity, InfoActivity.class);
+                intent.putExtra("enterAnim", R.anim.zoom_out);
+                intent.putExtra("exitAnim", R.anim.zoom_in);
+                break;
+
+            case TYPE_MEMBER:
+                intent = new Intent(activity, ProfileActivity.class);
+                bundle.putString("fromType", "whatever");
+                break;
+            case TYPE_LIKE:
+                intent = new Intent(activity, ProfileActivity.class);
+            case TYPE_POST:
+                intent = new Intent(activity, ReplyActivity.class);
+                break;
+            case TYPE_LOCAL_SPOT:
+                intent = new Intent(activity, StepTwoActivity.class);
+                bundle.putString("localType", "local_spot");
+                break;
+            case TYPE_LOCAL_COMPLEX:
+                intent = new Intent(activity, StepTwoActivity.class);
+                bundle.putString("localType", "local_complex");
+                break;
+            case TYPE_INTERFACE:
+                intent = new Intent(activity, ChannelInterfaceActivity.class);
+                break;
+        }
+
+        intent.putExtra("bundle", bundle);
+        activity.startActivity(intent);
+    }
+
+    public static void startKeywordActivity(Activity activity, ChannelData channelData, String tabType, String fromType) {
+        Intent intent = null;
+        Bundle bundle = new Bundle();
+
+        bundle.putString("channel", channelData.getJsonObject().toString());
+        bundle.putString("extraData", fromType);
+        bundle.putString("keyword", tabType);
 
         switch (channelData.getType()) {
             case TYPE_SPOT:
@@ -852,7 +927,7 @@ public final class Helper implements AppConfig {
             case TYPE_COMMUNITY:
             case TYPE_KEYWORD_COMMUNITY:
                 intent = new Intent(activity, CommunityActivity.class);
-                if(tabType != null){
+                if (tabType != null) {
                     bundle.putString("keyword", tabType);
                 }
                 break;
@@ -1216,7 +1291,6 @@ public final class Helper implements AppConfig {
             }
         }, 3000);
     }
-
 
 
 /*****  custom marker

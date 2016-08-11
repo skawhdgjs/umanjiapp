@@ -32,6 +32,7 @@
 
 
                 <FrameLayout
+                    android:id="@+id/frame"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <LinearLayout
@@ -41,6 +42,17 @@
                         android:orientation="horizontal">
 
                     </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/toolbarBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="7dp"
+                        android:src="@drawable/ic_arrow_back_white"
+                        android:visibility="gone"/>
 
 
                     <ImageView
@@ -123,7 +135,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="bottom|right"
-                                android:text="부모링크"
+                                android:text=""
                                 android:padding="15dp"
                                 android:shadowColor="#000"
                                 android:shadowRadius="7.0"
@@ -252,7 +264,9 @@
                         </LinearLayout>
 
 
+
                     </RelativeLayout>
+
 
                 </FrameLayout>
 
@@ -264,14 +278,30 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tabs"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/tabs_height"
-                    android:layout_gravity="bottom"
-                    style="@style/AppTheme.TabStyle"
+                    android:layout_gravity="bottom">
 
-                    app:tabMode="scrollable" />
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/tabs"
+                        android:layout_width="match_parent"
+                        android:layout_height="47dp"
+                        style="@style/AppTheme.TabStyle"
+                        app:tabMode="scrollable" />
+
+                    <View
+                        android:layout_below="@+id/tabs"
+                        android:id="@+id/tab_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@color/gray_dim_soft" />
+
+                </RelativeLayout>
+
+
+
 
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>

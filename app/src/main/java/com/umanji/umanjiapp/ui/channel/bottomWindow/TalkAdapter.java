@@ -48,10 +48,11 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
     public TalkAdapter(String[] dataSet) {
         mDataSet = dataSet;
     }
+
     public TalkAdapter(Activity activity, Context context, ArrayList<ChannelData> channelData) {
         this.mActivity = activity;
         this.mContext = context;
-        mChannels   = channelData;
+        mChannels = channelData;
     }
 
     // Create new views (invoked by the layout manager)
@@ -75,11 +76,11 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
         viewHolder.getTalkCard().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mChannels.get(position).getParent() != null){
+                if (mChannels.get(position).getParent() != null) {
                     mChannel = mChannels.get(position).getParent();
-                String [] passKeywords = mChannel.getKeywords();
-                    if(passKeywords != null && passKeywords[0] != null){
-                        Helper.startActivity(mActivity, mChannel, passKeywords[0]);
+                    String[] passKeywords = mChannel.getKeywords();
+                    if (passKeywords != null && passKeywords[0] != null) {
+                        Helper.startKeywordActivity(mActivity, mChannel, passKeywords[0], "keywordData");
                     } else {
                         Helper.startActivity(mActivity, mChannel);
                     }
@@ -90,7 +91,7 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
 
             }
         });
-        if(mChannels.get(position).getOwner().getPhoto() != null ) {
+        if (mChannels.get(position).getOwner().getPhoto() != null) {
             String userPhoto = mChannels.get(position).getOwner().getPhoto();
 //            Picasso.with(mContext).load(userPhoto).into(viewHolder.getUserPhoto());
 
@@ -115,26 +116,26 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
 //        viewHolder.getParentType().setText(mChannels.get(position).getParent().getType());
 
 
-        if(mChannels.get(position).getParent() != null ){
+        if (mChannels.get(position).getParent() != null) {
             String parentType = mChannels.get(position).getParent().getType();
-            if (parentType.equals("POST")){
+            if (parentType.equals("POST")) {
                 viewHolder.getParentName().setText("댓글");
             } else {
                 viewHolder.getParentName().setText(mChannels.get(position).getParent().getName());
             }
 
         } else {
-
+            Toast.makeText(mActivity, "Error on taklAdapter", Toast.LENGTH_LONG).show();
         }
 
         String dateString = mChannels.get(position).getCreatedAt();
-        try{
+        try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
             Date parsedDate = dateFormat.parse(dateString);
             Timestamp timestamp = new Timestamp(parsedDate.getTime());
             viewHolder.getCreatedAt().setText(Helper.toPrettyDate(timestamp.getTime()));
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "error " + e.toString());
         }
 
@@ -161,13 +162,12 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
     }
 
 
-
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        if(mChannels == null) {
+        if (mChannels == null) {
             return 0;
-        }else {
+        } else {
             return mChannels.size();
         }
     }
@@ -181,10 +181,9 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
         private final RoundedImageView mUserPhoto;
         private final TextView mUserName;
         private final TextView mName;
-//        private final TextView mParentType;
+        //        private final TextView mParentType;
         private final TextView mParentName;
         private final TextView mCreatedAt;
-
 
 
         public ViewHolder(View v) {
@@ -212,23 +211,28 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
         public RelativeLayout getTalkCard() {
             return mTalkCard;
         }
+
         public RoundedImageView getUserPhoto() {
             return mUserPhoto;
         }
+
         public TextView getUserName() {
             return mUserName;
         }
+
         public TextView getName() {
             return mName;
         }
- /*
-        public TextView getParentType() {
-            return mParentType;
-        }
-   */
+
+        /*
+               public TextView getParentType() {
+                   return mParentType;
+               }
+          */
         public TextView getParentName() {
             return mParentName;
         }
+
         public TextView getCreatedAt() {
             return mCreatedAt;
         }

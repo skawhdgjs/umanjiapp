@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.umanji.umanjiapp.R;
@@ -210,7 +211,7 @@ public class ProfileFragment extends BaseChannelFragment {
                         .load(userPhoto)
                         .placeholder(R.drawable.empty)
                         .animate(R.anim.abc_fade_in)
-                        .override(40, 40)
+//                        .override(40, 40)
                         .into(mUserPhoto);
             }
 

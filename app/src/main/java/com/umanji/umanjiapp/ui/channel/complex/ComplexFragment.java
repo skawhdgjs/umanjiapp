@@ -41,12 +41,12 @@ public class ComplexFragment extends BaseChannelFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        if(mChannel.getSubLinks(TYPE_MEMBER) != null) {
+        if (mChannel.getSubLinks(TYPE_MEMBER) != null) {
             TabLayout.Tab tabMember = mTabLayout.getTabAt(1);
             tabMember.setText("멤버 (" + mChannel.getSubLinks(TYPE_MEMBER).size() + ")");
         }
 
-        if(mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
+        if (mChannel.getSubLinks(TYPE_COMMUNITY) != null) {
             TabLayout.Tab tabSpot = mTabLayout.getTabAt(2);
             tabSpot.setText("커뮤니티 (" + mChannel.getSubLinks(TYPE_COMMUNITY).size() + ")");
         }
@@ -72,7 +72,7 @@ public class ComplexFragment extends BaseChannelFragment {
 
     @Override
     protected void setTabSelect() {
-        if(TextUtils.isEmpty(mTabType)) return;
+        if (TextUtils.isEmpty(mTabType)) return;
 
         TabLayout.Tab tab;
         switch (mTabType) {
@@ -100,10 +100,23 @@ public class ComplexFragment extends BaseChannelFragment {
     public void updateView() {
         super.updateView();
 
+        if (getArguments() != null) {
+            String check = getArguments().getString("extraData");
+            if (check != null) {
+                if (getArguments().getString("extraData").equals("keywordData")) {
+                    setUserPhoto(mActivity, mOwner);
+                } else {
+                    setUserPhoto(mActivity, mChannel.getOwner());
+                }
+            } else {
+                setUserPhoto(mActivity, mChannel.getOwner());
+            }
+        }
+
         setName(mActivity, mChannel, "복합건물");
         setPhoto(mActivity, mChannel, R.drawable.multi_spot_background);
         setParentName(mActivity, mChannel.getParent());
-        setUserPhoto(mActivity, mChannel.getOwner());
+
         setPoint(mActivity, mChannel);
 //        setLevel(mActivity, mChannel);
         setMemberCount(mActivity, mChannel);
@@ -112,7 +125,7 @@ public class ComplexFragment extends BaseChannelFragment {
 
     @Override
     protected void setName(Activity activity, final ChannelData channelData, String label) {
-        if(!TextUtils.isEmpty(channelData.getName())) {
+        if (!TextUtils.isEmpty(channelData.getName())) {
             mName.setText(Helper.getShortenString(channelData.getName()));
         } else {
             mName.setText(label);
@@ -181,7 +194,7 @@ public class ComplexFragment extends BaseChannelFragment {
                         }
                     });
 
-                } catch(JSONException e) {
+                } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
                 }
                 break;

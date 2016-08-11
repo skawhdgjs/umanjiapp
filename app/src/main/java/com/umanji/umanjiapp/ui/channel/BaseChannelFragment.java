@@ -77,7 +77,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
     protected ImageView mUserPhoto;
     protected ImageView mLookAround;
-//    protected ImageView mLookLink;
+    //    protected ImageView mLookLink;
     protected TextView mMemberCount;
     protected TextView mPoint;
     protected TextView mLevel;
@@ -92,6 +92,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     protected ImageView mInfoBtn;
     protected ChannelData mUser;
     protected AuthData auth;
+    protected ChannelData mOwner;
 
     protected ImageView mToolbarBtn;
 
@@ -104,6 +105,8 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     private SharedPreferences sharedpreferences;
     protected ArrayList<String> mExpertsArr;
     private ArrayList<SubLinkData> mExperts;
+    private String mExtraData;
+    ;
 
 
     @Override
@@ -125,14 +128,42 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        initTabAdapter(view);
-        updateView();
-        loadData();
+
+        if (getArguments() != null) {
+            mExtraData = getArguments().getString("extraData");
+            if (mExtraData != null) {                                     // from Bottom and need to get Owner data
+                getOwnerData();
+                initTabAdapter(view);
+            } else {
+                initTabAdapter(view);
+                updateView();
+                loadData();
+            }
+        } else {
+            initTabAdapter(view);
+            updateView();
+            loadData();
+        }
+
         return view;
     }
 
     @Override
     public void updateView() {
+
+        if (getArguments() != null) {
+            String check = getArguments().getString("extraData");
+            if (check != null) {
+                if (getArguments().getString("extraData").equals("keywordData")) {
+                    setUserPhoto(mActivity, mOwner);
+                } else {
+                    setUserPhoto(mActivity, mChannel.getOwner());
+                }
+            }
+        } else {
+            setUserPhoto(mActivity, mChannel.getOwner());
+        }
+
         if (mChannel.getType().equals(TYPE_USER)) {
             return;
         } else {
@@ -187,6 +218,8 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.activity_channel, container, false);
+
+
     }
 
     @Override
@@ -307,6 +340,25 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         tab.select();
     }
 
+    private void getOwnerData() {
+
+        try {
+            JSONObject params = new JSONObject();
+            params.put("id", mChannel.getOwnerId());
+            params.put("limit", 1);
+            mApi.call(api_channels_findOne, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    mOwner = new ChannelData(object);
+                    updateView();
+                    loadData();
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected abstract void addFragmentToTabAdapter(BaseTabAdapter adapter);
 
     protected void onTabSelected(TabLayout tabLayout) {
@@ -396,10 +448,10 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         }
     }
 
-    public  void openCreatePost(String keyword){
+    public void openCreatePost(String keyword) {
         Intent intent = new Intent(mActivity, PostCreateActivity.class);
         Bundle bundle = new Bundle();
-        if(keyword == null){
+        if (keyword == null) {
 
         } else {
             bundle.putString("keyword", keyword);
@@ -411,7 +463,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
     public boolean hasKeyword() {
 
-        if(mChannel.getKeywords() != null){
+        if (mChannel.getKeywords() != null) {
             return true;
         } else {
             return false;
@@ -419,7 +471,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     }
 
     public void getUserData() {
-        final String [] thisChannelKeywords = mChannel.getKeywords();
+        final String[] thisChannelKeywords = mChannel.getKeywords();
 
         try {
             JSONObject params = new JSONObject();
@@ -438,11 +490,11 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                             element = mExperts.get(idx);
                             String name = element.getName().toString();
 
-                            if(name.length() != 0){
+                            if (name.length() != 0) {
                                 mExpertsArr.add(name);
                             }
 
-                            if(thisChannelKeywords[0].equals(name) && element.getPoint().equals("1000")){               // channel keyword == user has keyword
+                            if (thisChannelKeywords[0].equals(name) && element.getPoint().equals("1000")) {               // channel keyword == user has keyword
                                 askUpdateToExpert();
                             }
                         }
@@ -457,7 +509,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         }
     }
 
-    private void askUpdateToExpert(){
+    private void askUpdateToExpert() {
         new SweetAlertDialog(mActivity, SweetAlertDialog.NORMAL_TYPE)
                 .setTitleText("관리자 승격!")
                 .setContentText("키워드 전문가가 되시겠습니까?")
@@ -480,8 +532,8 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         int money = Integer.parseInt(moneyString);
         SubLinkData temp;
         List<String> experts = new ArrayList<String>();
-        if(mExperts != null){
-            for(int idx = 0; mExperts.size() > idx; idx ++){
+        if (mExperts != null) {
+            for (int idx = 0; mExperts.size() > idx; idx++) {
                 temp = mExperts.get(idx);
 
                 experts.add(temp.getName());
@@ -496,21 +548,21 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                 break;
 
             case R.id.fab:
-                if(mCurrentTapPosition == 0){
-                    if(mChannel.getType().equals(TYPE_INFO_CENTER)){         // 정보센터
-                        if(mExpertsArr != null && mExpertsArr.contains(INTEREST_ADMINISTRATION)){  //행정전문가
+                if (mCurrentTapPosition == 0) {
+                    if (mChannel.getType().equals(TYPE_INFO_CENTER)) {         // 정보센터
+                        if (mExpertsArr != null && mExpertsArr.contains(INTEREST_ADMINISTRATION)) {  //행정전문가
                             openCreatePost("");
                         } else {                                    // 일반시민
-                            if(money > 10){      // 돈있냐
+                            if (money > 10) {      // 돈있냐
                                 openCreatePost("");
                             } else {        // 벌어서 와라
                                 Toast.makeText(mActivity, "돈이 부족합니다", Toast.LENGTH_SHORT).show();
                             }
                         }
                     } else {                                                 // 일반 장소
-                        if(hasKeyword()){               // 키워드가 있냐
+                        if (hasKeyword()) {               // 키워드가 있냐
 //                            doing now
-                            String [] keywords = mChannel.getKeywords();
+                            String[] keywords = mChannel.getKeywords();
                             String keyword = keywords[0];
                             openCreatePost(keyword);
 
@@ -526,7 +578,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
             case R.id.parentName:
                 String answer = getArguments().getString("iamFrom");
                 String lookChannel = getArguments().getString("channel");
-                if(answer != null){  //from home
+                if (answer != null) {  //from home
                     Bundle bundle = new Bundle();
                     bundle.putString("channel", lookChannel);
                     bundle.putString("iamFrom", "home");
@@ -621,8 +673,14 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     }
 
     protected void setUserPhoto(Activity activity, final ChannelData userData) {
+        String userPhoto;
         if (userData != null) {
-            String userPhoto = userData.getPhoto();
+            if (mExtraData != null && mExtraData.length() > 1 && mExtraData.equals("keywordData")) {  // from bottom talk list  get help to show Owner data
+                userPhoto = mOwner.getPhoto();
+            } else {
+                userPhoto = userData.getPhoto();
+            }
+
             if (userPhoto != null) {
                 Glide.with(mActivity)
                         .load(userPhoto)
@@ -648,8 +706,14 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
     protected void setParentName(Activity activity, final ChannelData parentData) {
         if (parentData == null) {
-            mParentName.setVisibility(View.GONE);
-            mParentNamePanel.setVisibility(View.GONE);
+            if (mChannel.getParentId() != null) {
+                mParentName.setVisibility(View.VISIBLE);
+                mParentNamePanel.setVisibility(View.VISIBLE);
+            } else {
+                mParentName.setVisibility(View.GONE);
+                mParentNamePanel.setVisibility(View.GONE);
+            }
+
         } else {
             mParentName.setVisibility(View.VISIBLE);
             mParentNamePanel.setVisibility(View.VISIBLE);

@@ -31,7 +31,8 @@ public class MemberListFragment extends BaseChannelListFragment {
 
     private Button mJoinBtn;
     private Button mUnJoinBtn;
-    private String keyword;;
+    private String keyword;
+    ;
     private LinearLayout mlayout;
 
     public static MemberListFragment newInstance(Bundle bundle) {
@@ -57,10 +58,10 @@ public class MemberListFragment extends BaseChannelListFragment {
 
     @Override
     public void initWidgets(View view) {
-        mJoinBtn = (Button)view.findViewById(R.id.joinBtn);
+        mJoinBtn = (Button) view.findViewById(R.id.joinBtn);
         mJoinBtn.setOnClickListener(this);
 
-        mUnJoinBtn = (Button)view.findViewById(R.id.unJoinBtn);
+        mUnJoinBtn = (Button) view.findViewById(R.id.unJoinBtn);
         mUnJoinBtn.setOnClickListener(this);
 
         mlayout = (LinearLayout) view.findViewById(R.id.memberLayout);
@@ -77,8 +78,8 @@ public class MemberListFragment extends BaseChannelListFragment {
         if (jsonString != null) {
             mChannel = new ChannelData(jsonString);
         }
-        String []keywords = mChannel.getKeywords();
-        if(keywords != null ){
+        String[] keywords = mChannel.getKeywords();
+        if (keywords != null) {
             keyword = keywords[0];
         }
 
@@ -110,17 +111,17 @@ public class MemberListFragment extends BaseChannelListFragment {
             mApi.call(api_channels_members_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if(status.getCode() == 500) {
+                    if (status.getCode() == 500) {
                         EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    }else {
+                    } else {
                         try {
                             JSONArray jsonArray = object.getJSONArray("data");
 
-                            if(jsonArray.length() != 0) {
+                            if (jsonArray.length() != 0) {
 
                                 mlayout.setBackgroundResource(R.color.feed_bg);
-                                
-                                for(int idx = 0; idx < jsonArray.length(); idx++) {
+
+                                for (int idx = 0; idx < jsonArray.length(); idx++) {
                                     JSONObject jsonDoc = jsonArray.getJSONObject(idx);
                                     ChannelData doc = new ChannelData(jsonDoc);
                                     mAdapter.addBottom(doc);
@@ -138,7 +139,7 @@ public class MemberListFragment extends BaseChannelListFragment {
                 }
             });
             mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             Log.e(TAG, "error " + e.toString());
         }
 
@@ -159,11 +160,11 @@ public class MemberListFragment extends BaseChannelListFragment {
                 mJoinBtn.setVisibility(View.VISIBLE);
                 String actionId = mChannel.getActionId(TYPE_MEMBER, AuthHelper.getUserId(mActivity));
 
-                if(TextUtils.isEmpty(actionId)) {
+                if (TextUtils.isEmpty(actionId)) {
                     mJoinBtn.setVisibility(View.VISIBLE);
                     mJoinBtn.setEnabled(true);
                     mUnJoinBtn.setVisibility(View.GONE);
-                }else {
+                } else {
                     mJoinBtn.setVisibility(View.GONE);
                     mUnJoinBtn.setVisibility(View.VISIBLE);
                     mUnJoinBtn.setEnabled(true);
@@ -181,7 +182,7 @@ public class MemberListFragment extends BaseChannelListFragment {
         switch (event.type) {
             case api_channels_id_join:
                 String parentId = event.response.optString("parent");
-                if(TextUtils.equals(mChannel.getId(), parentId)) {
+                if (TextUtils.equals(mChannel.getId(), parentId)) {
                     ChannelData channelData = new ChannelData(event.response);
                     mChannel = channelData.getParent();
                 }
@@ -191,7 +192,7 @@ public class MemberListFragment extends BaseChannelListFragment {
                 break;
             case api_channels_id_unJoin:
                 ChannelData channelData = new ChannelData(event.response);
-                if(TextUtils.equals(mChannel.getId(), channelData.getId())) {
+                if (TextUtils.equals(mChannel.getId(), channelData.getId())) {
                     mChannel = channelData;
                 }
 
@@ -216,7 +217,7 @@ public class MemberListFragment extends BaseChannelListFragment {
                     mJoinBtn.setEnabled(false);
                     mUnJoinBtn.setEnabled(false);
 
-                }catch(JSONException e) {
+                } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
                 }
 
@@ -233,7 +234,7 @@ public class MemberListFragment extends BaseChannelListFragment {
                     mJoinBtn.setEnabled(false);
                     mUnJoinBtn.setEnabled(false);
 
-                }catch(JSONException e) {
+                } catch (JSONException e) {
                     Log.e(TAG, "error " + e.toString());
                 }
 

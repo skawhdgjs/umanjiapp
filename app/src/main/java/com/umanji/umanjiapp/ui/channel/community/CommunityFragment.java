@@ -67,7 +67,7 @@ public class CommunityFragment extends BaseChannelFragment {
 //        mLookLink = (ImageView) view.findViewById(R.id.lookLink);
         String channerType = mChannel.getType();
 
-        if (channerType.equals(TYPE_KEYWORD_COMMUNITY)){
+        if (channerType.equals(TYPE_KEYWORD_COMMUNITY)) {
             mKeywordPanel.setVisibility(View.GONE);
 //            mLookLink.setVisibility(View.VISIBLE);
 //            mLookLink.setOnClickListener(this);
@@ -93,7 +93,7 @@ public class CommunityFragment extends BaseChannelFragment {
             adapter.addFragment(AboutFragment.newInstance(bundle), "상세정보 및 수정");
         } else {
             Bundle bundle = new Bundle();
-            if(mChannel.getUserName() == mChannel.getName()){
+            if (mChannel.getUserName() == mChannel.getName()) {
                 bundle.putString("channel", mChannel.getJsonObject().toString());
             } else {
                 bundle.putString("channel", mChannel.getParent().getJsonObject().toString());
@@ -140,13 +140,23 @@ public class CommunityFragment extends BaseChannelFragment {
         setName(mActivity, mChannel, "커뮤니티");
 
         if (getArguments().getString("fromDist") == null) {
+            if (getArguments() != null) {
+                String check = getArguments().getString("extraData");
+                if (check != null) {
+                    if (getArguments().getString("extraData").equals("keywordData")) {
+                        setUserPhoto(mActivity, mOwner);
+                    } else {
+                        setUserPhoto(mActivity, mChannel.getOwner());
+                    }
+                } else {
+                    setUserPhoto(mActivity, mChannel.getOwner());
+                }
+            }
             setKeywords(mActivity, mChannel);
             setPhoto(mActivity, mChannel, R.drawable.test_background);
             if (mParentChannel != null) {
                 setParentName(mActivity, mParentChannel);
             }
-
-            setUserPhoto(mActivity, mChannel.getOwner());
             setPoint(mActivity, mChannel);
 //            setLevel(mActivity, mChannel);
             setMemberCount(mActivity, mChannel);
@@ -156,7 +166,6 @@ public class CommunityFragment extends BaseChannelFragment {
             if (mParentChannel != null) {
                 setParentName(mActivity, mParentChannel);
             }
-
             setUserPhoto(mActivity, mChannel.getOwner());
             setPoint(mActivity, mChannel.getParent());
 //            setLevel(mActivity, mChannel.getParent());
