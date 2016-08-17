@@ -556,7 +556,7 @@ public class ReplyFragment extends BaseChannelListFragment {
         mEdit = (LinearLayout) dialog.findViewById(R.id.edit);
         mCancel = (LinearLayout) dialog.findViewById(R.id.cancel);
 
-        TextView title = (TextView) dialog.findViewById(android.R.id.title);
+        TextView title = (TextView) dialog.findViewById(R.id.alert_title);
         title.setText("선택");
 //        title.setBackgroundResource(R.drawable.gradient);
         title.setPadding(10, 10, 10, 10);

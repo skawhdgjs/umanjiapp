@@ -529,7 +529,13 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     public void onClick(View v) {
         sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String moneyString = sharedpreferences.getString("userPoint", "empty");
-        int money = Integer.parseInt(moneyString);
+        int money = 0;
+        if (!moneyString.equals("empty")){
+            money = Integer.parseInt(moneyString);
+        } else {
+            money = 0;
+        }
+
         SubLinkData temp;
         List<String> experts = new ArrayList<String>();
         if (mExperts != null) {
@@ -575,7 +581,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
                 break;
 
-            case R.id.parentName:
+            case R.id.lookAround:
                 String answer = getArguments().getString("iamFrom");
                 String lookChannel = getArguments().getString("channel");
                 if (answer != null) {  //from home
@@ -773,7 +779,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
                 TextView keywordView = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView);
-                keywordView.setText("#" + keywords[0]);
+                keywordView.setText(keywords[0] + " 채널 >");
 
                 try {
                     JSONObject params = new JSONObject();

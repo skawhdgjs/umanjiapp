@@ -12,6 +12,16 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp">
 
+        <TextView
+            android:id="@+id/alert_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
