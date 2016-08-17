@@ -287,7 +287,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                 mNameType.setText("");
                 break;
             case TYPE_SPOT:
-                mNameType.setText("빌딩");
+                mNameType.setText("");
                 break;
             case TYPE_SPOT_INNER:
                 mNameType.setText("내부공간");
@@ -675,7 +675,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     protected void setUserPhoto(Activity activity, final ChannelData userData) {
         String userPhoto;
         if (userData != null) {
-            if (mExtraData != null && mExtraData.length() > 1 && mExtraData.equals("keywordData")) {  // from bottom talk list  get help to show Owner data
+            if (mExtraData != null && mExtraData.length() > 1 && mExtraData.equals("BottomList")) {  // from bottom talk list  get help to show Owner data
                 userPhoto = mOwner.getPhoto();
             } else {
                 userPhoto = userData.getPhoto();
@@ -803,7 +803,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
                 TextView keywordView = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView);
-                keywordView.setText("#" + keywords[0]);
+                keywordView.setText(keywords[0] +" 채널 >");
 
 
                 try {
@@ -830,7 +830,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
                 TextView keywordView2 = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView2);
-                keywordView2.setText("#" + keywords[1]);
+                keywordView2.setText(keywords[1] +" 채널 >");
 
 
                 try {
@@ -861,7 +861,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
             TextView keywordView = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
             mKeywordPanel.addView(keywordView);
-            keywordView.setText("#키워드추가");
+            keywordView.setText("키워드 채널 만들기 >");
             keywordView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -103,7 +103,7 @@ public class ComplexFragment extends BaseChannelFragment {
         if (getArguments() != null) {
             String check = getArguments().getString("extraData");
             if (check != null) {
-                if (getArguments().getString("extraData").equals("keywordData")) {
+                if (getArguments().getString("extraData").equals("BottomList")) {
                     setUserPhoto(mActivity, mOwner);
                 } else {
                     setUserPhoto(mActivity, mChannel.getOwner());

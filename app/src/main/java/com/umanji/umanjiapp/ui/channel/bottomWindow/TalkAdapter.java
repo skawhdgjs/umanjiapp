@@ -80,9 +80,9 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
                     mChannel = mChannels.get(position).getParent();
                     String[] passKeywords = mChannel.getKeywords();
                     if (passKeywords != null && passKeywords[0] != null) {
-                        Helper.startKeywordActivity(mActivity, mChannel, passKeywords[0], "keywordData");
+                        Helper.startKeywordActivity(mActivity, mChannel, passKeywords[0], "BottomList");
                     } else {
-                        Helper.startActivity(mActivity, mChannel);
+                        Helper.startActivity(mActivity, mChannel, "BottomList");
                     }
 
                 } else {

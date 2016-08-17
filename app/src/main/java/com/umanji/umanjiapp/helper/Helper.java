@@ -836,7 +836,12 @@ public final class Helper implements AppConfig {
         Bundle bundle = new Bundle();
 
         bundle.putString("channel", channelData.getJsonObject().toString());
-        bundle.putString("tabType", tabType);
+
+        if (tabType.equals("BottomList")) {
+            bundle.putString("extraData", tabType);
+        } else {
+            bundle.putString("tabType", tabType);
+        }
 
         switch (channelData.getType()) {
             case TYPE_SPOT:
