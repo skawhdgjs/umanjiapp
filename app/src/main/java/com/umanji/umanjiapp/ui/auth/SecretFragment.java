@@ -2,9 +2,7 @@ package com.umanji.umanjiapp.ui.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +29,8 @@ import org.json.JSONObject;
 
 import de.greenrobot.event.EventBus;
 
-public class SigninFragment extends BaseFragment {
-    private static final String TAG = "SigninFragment";
+public class SecretFragment extends BaseFragment {
+    private static final String TAG = "SecretFragment";
 
 
     /****************************************************
@@ -43,9 +41,6 @@ public class SigninFragment extends BaseFragment {
     private Button mSubmit;
     private TextView mSignIn;
 
-    private EditText mSecret;
-    private Button mHiddenBtn;
-    private boolean isSecretReady = false;
 
     /****************************************************
      *  Etc
@@ -54,8 +49,8 @@ public class SigninFragment extends BaseFragment {
     private LatLng mCurrentMyPosition;
 
 
-    public static SigninFragment newInstance(Bundle bundle) {
-        SigninFragment fragment = new SigninFragment();
+    public static SecretFragment newInstance(Bundle bundle) {
+        SecretFragment fragment = new SecretFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -79,7 +74,7 @@ public class SigninFragment extends BaseFragment {
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_signin, container, false);
+        return inflater.inflate(R.layout.activity_change_password, container, false);
     }
 
     @Override
@@ -102,37 +97,6 @@ public class SigninFragment extends BaseFragment {
         if(mCurrentMyPosition != null) {
             loadData();
         }
-
-        mSecret = (EditText) view.findViewById(R.id.secret);
-        mHiddenBtn = (Button) view.findViewById(R.id.hiddenBtn);
-        mHiddenBtn.setOnClickListener(this);
-// doing now
-        mSecret.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                isSecretReady = true;
-                if (mSecret.getText().toString().equals("siyoon")) {
-                    mHiddenBtn.setVisibility(View.VISIBLE);
-                } else {
-                    mHiddenBtn.setVisibility(View.GONE);
-                }
-                enableSubmitIfReady();
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });
-    }
-
-    public void enableSubmitIfReady() {
-
-        boolean isSecretReady = mSecret.getText().toString().equals("siyoon");
-        mHiddenBtn.setEnabled(isSecretReady);
     }
 
     @Override
@@ -158,6 +122,8 @@ public class SigninFragment extends BaseFragment {
 
     }
 
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -178,13 +144,9 @@ public class SigninFragment extends BaseFragment {
                     bundle.putDouble("longitude", mCurrentMyPosition.longitude);
                 }
                 signIn.putExtra("bundle", bundle);
-                startActivity(signIn);
-                break;
 
-            case R.id.hiddenBtn:
-                Toast.makeText(mActivity, "Hidden clicked", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(mActivity, SecretActivity.class);
-                startActivity(intent);
+                startActivity(signIn);
+
                 break;
         }
     }
@@ -235,7 +197,7 @@ public class SigninFragment extends BaseFragment {
             params.put("email", fEmail);
             params.put("password", fPassword);
 
-            mApi.call(api_signin, params, new AjaxCallback<JSONObject>() {
+            mApi.call(api_password_update, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     AuthData auth = new AuthData(json);

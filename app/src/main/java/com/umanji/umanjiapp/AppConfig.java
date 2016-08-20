@@ -122,6 +122,7 @@ public interface AppConfig {
     String api_channels_id_update = "PUT  /channels/id";
     String api_profile_id_update = "PUT  /channels/id/profile";
     String api_profile_role_update = "PUT  /channels/email";
+    String api_password_update = "PUT  /channels/password";
 
     String api_channels_id_delete = "DELETE /channels/id";
 

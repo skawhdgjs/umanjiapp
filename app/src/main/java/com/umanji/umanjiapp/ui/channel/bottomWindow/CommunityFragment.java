@@ -101,7 +101,7 @@ public class CommunityFragment extends BottomBaseFragment {
         mProgress.setMessage("잠시만 기다려주세요...");
 //        mProgress.setTitle("Connecting server");
         mProgress.setCancelable(true);
-        mProgress.show();
+//        mProgress.show();
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 

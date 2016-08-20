@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -25,7 +26,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -40,6 +43,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -79,6 +83,7 @@ import com.umanji.umanjiapp.model.PaulBusData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.umanji.umanjiapp.ui.auth.SecretActivity;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
@@ -110,6 +115,7 @@ public class MainFragment extends BaseFragment {
      * Top View
      ****************************************************/
     private ImageView mAvatarImageBtn;
+    private Button mLoginBtn;
     private LinearLayout mSearchLayout;
     private FrameLayout mKeywordCommunityToolbar;
     private TextView mKeywordTitle;
@@ -542,6 +548,8 @@ public class MainFragment extends BaseFragment {
 
         mAvatarImageBtn = (ImageView) view.findViewById(R.id.userPhoto);
         mAvatarImageBtn.setOnClickListener(this);
+        mLoginBtn = (Button) view.findViewById(R.id.loginBtn);
+        mLoginBtn.setOnClickListener(this);
 
         mNotyCountBtn = (Button) view.findViewById(R.id.mNotyCount);
         mNotyCountBtn.setOnClickListener(this);
@@ -659,6 +667,7 @@ public class MainFragment extends BaseFragment {
     public void updateView() {
         if (AuthHelper.isLogin(mActivity)) {
             mAvatarImageBtn.setVisibility(View.VISIBLE);
+            mLoginBtn.setVisibility(View.GONE);
             String userPhoto = mUser.getPhoto();
             if (!TextUtils.isEmpty(userPhoto)) {
                 Glide.with(mActivity)
@@ -675,6 +684,8 @@ public class MainFragment extends BaseFragment {
                         .into(mAvatarImageBtn);
             }
         } else {
+            mAvatarImageBtn.setVisibility(View.GONE);
+            mLoginBtn.setVisibility(View.VISIBLE);
             Glide.with(mActivity)
                     .load(R.drawable.icon_user_person)
                     .animate(R.anim.abc_fade_in)
@@ -1083,8 +1094,9 @@ public class MainFragment extends BaseFragment {
                 mActivity.startActivity(webInt);
                 break;
 
+            case R.id.loginBtn:
             case R.id.userPhoto:
-                mAvatarImageBtn.startAnimation(buttonClick);
+                mLoginBtn.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
                 if (AuthHelper.isLogin(mActivity) && mUser != null) {
@@ -2051,10 +2063,12 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setTag(ZOOM_OUT);
                             mCenterCircle.setImageResource(R.drawable.center_dot);
                         } else if (isKeywordTouchable(zoom)) {
+                            mInterior.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                             mCenterCircle.setVisibility(View.GONE);
                         } else if (isCountryViewLevel(zoom)) {
+                            mInterior.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
 //                            mCenterCircle.setImageResource(R.drawable.center_cross);

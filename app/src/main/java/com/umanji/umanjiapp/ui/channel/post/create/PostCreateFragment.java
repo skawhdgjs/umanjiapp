@@ -285,6 +285,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
     @Override
     protected void request() {
+        String keyword = "";
         if (mClicked == true) {
             Toast.makeText(mActivity, "이미 요청했습니다.", Toast.LENGTH_SHORT).show();
             return;
@@ -298,7 +299,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             params.put("type", TYPE_POST);
 
             String positionType = mChannel.getType();
-            String keyword = "";
+
             if (positionType != null && positionType.equals(TYPE_INFO_CENTER)) {                                 // Info_center  TYPE_INFO_CENTER
                 if (mExpertsArr != null && mExpertsArr.contains(INTEREST_ADMINISTRATION)) { // 행정전문가
                     int expertPoint = getBiggestPoint(INTEREST_ADMINISTRATION);
@@ -345,8 +346,8 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
                     sendPointMessage = "0";
                 }
             }
-//            ***************** ******************************************************************** end of division
-
+//            ************************************************************************************** end of division
+// doing now
             String[] keywords = mChannel.getKeywords();
             if (keywords != null && keywords.length > 0) {
                 ArrayList<String> keywordArray = new ArrayList<>();
@@ -395,31 +396,33 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             params.put("desc", descParams);
             mApi.call(api_channels_create, params);
 
-                Toast.makeText(mActivity, keyword + " 전문가 점수가 '" + sendPointMessage + "'이 되셨습니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, keyword + " 전문가 점수가 '" + sendPointMessage + "'이 되셨습니다.", Toast.LENGTH_LONG).show();
 
             mClicked = true;
 
         } catch (JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
-
-
-
+//************************************************************************************************* update
         String[] keywords = mChannel.getKeywords();
         if (keywords != null && keywords.length > 0) {
 //            mUser = auth.getUser();
 
+            ArrayList<String> keywordArray = new ArrayList<>();
+            for (int idx = 0; idx < keywords.length; idx++) {
+                keywordArray.add(keywords[idx]);
+            }
+            keywordArray.add(keyword);
+
             try {
                 JSONObject params2 = mChannel.getAddressJSONObject();
                 params2.put("id", mUser.getId());
-                params2.put("keywords", keywords[0]);
+                params2.put("keywords", new JSONArray(keywordArray));
                 mApi.call(api_channels_id_update, params2);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-
-
 
     }
 
