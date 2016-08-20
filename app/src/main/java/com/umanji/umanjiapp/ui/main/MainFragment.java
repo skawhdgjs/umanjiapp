@@ -2,14 +2,12 @@ package com.umanji.umanjiapp.ui.main;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -19,19 +17,13 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,7 +35,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -73,20 +64,16 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.analytics.ApplicationController;
 import com.umanji.umanjiapp.gcm.GcmRegistrationIntentService;
 import com.umanji.umanjiapp.helper.AuthHelper;
-import com.umanji.umanjiapp.helper.FileHelper;
 import com.umanji.umanjiapp.helper.GridAdapter;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.model.PaulBusData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.auth.SecretActivity;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel.bottomWindow.BottomMainActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
@@ -107,6 +94,7 @@ import java.util.Random;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.greenrobot.event.EventBus;
+import com.umanji.umanjiapp.helper.LevelModule;
 
 public class MainFragment extends BaseFragment {
     private static final String TAG = "MainFragment";
@@ -300,7 +288,6 @@ public class MainFragment extends BaseFragment {
 
     boolean mMapIsTouched = false;
     private boolean isKeywordCommunityMode;
-    boolean isTalkMode = false;
     boolean isTalkFlag = false;
     boolean mTalkExpanded = false;
     boolean touchedOnce = false;
@@ -390,7 +377,6 @@ public class MainFragment extends BaseFragment {
         }
 
         initWidgets(mView);
-
 
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
@@ -577,13 +563,17 @@ public class MainFragment extends BaseFragment {
         mMainListContainer = (LinearLayout) view.findViewById(R.id.mainListContainer);
         mCommunityListContainer = (LinearLayout) view.findViewById(R.id.communityListContainer);
 
+        mLauncherLevel8 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level8);
+        mLauncherLevel8.setVisibility(View.VISIBLE);
+/*
+
         mLauncherLevel2 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level2);
         mLauncherLevel3 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level3);
         mLauncherLevel4 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level4);
         mLauncherLevel5 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level5);
         mLauncherLevel6 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level6);
         mLauncherLevel7 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level7);
-        mLauncherLevel8 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level8);
+
 
 
         // Level 2
@@ -624,6 +614,7 @@ public class MainFragment extends BaseFragment {
         // Level 8
 //        mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
 //        mEtcImageView.setOnClickListener(this);
+*/
 
         mTalk = (ImageView) view.findViewById(R.id.talk);
         mTalk.setOnClickListener(this);
@@ -649,17 +640,10 @@ public class MainFragment extends BaseFragment {
             loadNewNoties();
         }
 
-        loadMainMarkers();
+//        loadMainMarkers();  // origin before 2016.08.20
+        loadMainKeywordMarkers();
         loadMainAds();
 //        loadMainPosts();
-
-        int zoom = (int) mMap.getCameraPosition().zoom;
-
-        if (isKeywordTouchable(zoom)) {
-            isTalkMode = false;
-        } else {
-            isTalkMode = true;
-        }
 
     }
 
@@ -1782,7 +1766,7 @@ public class MainFragment extends BaseFragment {
         final int zoom = (int) mMap.getCameraPosition().zoom;
 
         if (mUser != null) {
-            if (isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
+            if (LevelModule.isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
                 int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
 
                 showComplexTutorialDialog();
@@ -1817,9 +1801,9 @@ public class MainFragment extends BaseFragment {
 
                                 mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
 
-                                if (isComplexCreatable(zoom)) {
+                                if (LevelModule.isComplexCreatable(zoom)) {
                                     showCreateComplexDialog();
-                                } else if (isSpotCreatable(zoom)) {
+                                } else if (LevelModule.isSpotCreatable(zoom)) {
                                     showCreateSpotDialog();
                                 }
 
@@ -1829,10 +1813,10 @@ public class MainFragment extends BaseFragment {
                             }
 
                         } else {
-                            if (isComplexCreatable(zoom)) {
+                            if (LevelModule.isComplexCreatable(zoom)) {
                                 startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
                                 mProgress.hide();
-                            } else if (isSpotCreatable(zoom)) {
+                            } else if (LevelModule.isSpotCreatable(zoom)) {
                                 startSpotActivity(mChannelByPoint, TYPE_SPOT);
                                 mProgress.hide();
                             }
@@ -1995,7 +1979,7 @@ public class MainFragment extends BaseFragment {
                 int zoom = (int) position.zoom;
 
                 LatLng center = mMap.getCameraPosition().target;
-                getCountryDivision(center.latitude, center.longitude);
+//                getCountryDivision(center.latitude, center.longitude);
                 getCenterAddress(center, zoom);
 //************************************************************************************************** isKeywordCommunityMode
                 if (isKeywordCommunityMode) {
@@ -2006,23 +1990,23 @@ public class MainFragment extends BaseFragment {
                         isBlock = false;
                     } else {
 
-                        if (isComplexCreatable(zoom)) {
+                        if (LevelModule.isComplexCreatable(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                             mCenterCircle.setVisibility(View.VISIBLE);
-                        } else if (isSpotCreatable(zoom)) {
+                        } else if (LevelModule.isSpotCreatable(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                             mCenterCircle.setImageResource(R.drawable.center_dot);
-                        } else if (isPoliticTouchable(zoom)) {
+                        } else if (LevelModule.isPoliticTouchable(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
-                        } else if (isCountryViewLevel(zoom)) {
+                        } else if (LevelModule.isCountryViewLevel(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
 //                            mCenterCircle.setImageResource(R.drawable.center_cross);
                             mCenterCircle.setVisibility(View.GONE);
-                        } else if (isGlobalViewLevel(zoom)) {
+                        } else if (LevelModule.isGlobalViewLevel(zoom)) {
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                             mCenterCircle.setVisibility(View.GONE);
@@ -2050,24 +2034,24 @@ public class MainFragment extends BaseFragment {
                         isBlock = false;
                     } else {
 
-                        if (isComplexCreatable(zoom)) {
+                        if (LevelModule.isComplexCreatable(zoom)) {
                             mInterior.setVisibility(View.GONE);
                             mTowerCrane.setVisibility(View.VISIBLE);
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                             mCenterCircle.setImageResource(R.drawable.center_circle);
-                        } else if (isSpotCreatable(zoom)) {
+                        } else if (LevelModule.isSpotCreatable(zoom)) {
                             mInterior.setVisibility(View.VISIBLE);
                             mTowerCrane.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                             mCenterCircle.setImageResource(R.drawable.center_dot);
-                        } else if (isKeywordTouchable(zoom)) {
+                        } else if (LevelModule.isKeywordTouchable(zoom)) {
                             mInterior.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
                             mCenterCircle.setVisibility(View.GONE);
-                        } else if (isCountryViewLevel(zoom)) {
+                        } else if (LevelModule.isCountryViewLevel(zoom)) {
                             mInterior.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_out);
                             mZoomBtn.setTag(ZOOM_OUT);
@@ -2077,8 +2061,6 @@ public class MainFragment extends BaseFragment {
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                         }
-
-                        getKeywordCommunityBtn(zoom);
 
                         loadData();
                     }
@@ -2116,6 +2098,8 @@ public class MainFragment extends BaseFragment {
 //                Log.d("Paul", "Locality    :" + returnedAddress.getLocality());
 //                Log.d("Paul", "Thoroughfare:" + returnedAddress.getThoroughfare());
 //                Log.d("Paul", "Feature     :" + returnedAddress.getFeatureName());
+                Log.d("Paul", "strAdd :: " + strAdd);
+                Log.d("Paul", "returnedAddress.getCountryCode() " + strAdd);
             } else {
                 Log.d("Paul", "No Address returned!");
             }
@@ -2125,7 +2109,6 @@ public class MainFragment extends BaseFragment {
         }
         return strAdd;
     }
-
 
     protected void getCenterAddress(LatLng center, final int zoom) {
         try {
@@ -2282,7 +2265,6 @@ public class MainFragment extends BaseFragment {
                                     JSONObject params = new JSONObject();
                                     params.put("name", communityName);
 
-
                                     if (zoom < 8) {
                                         params.put("countryCode", mAddressChannel.getCountryCode());
                                         params.put("level", 2);
@@ -2346,7 +2328,6 @@ public class MainFragment extends BaseFragment {
         }
 
     }
-
 
     private void getKeywordCommunityBtn(int zoom) {
         mLauncherLevel2.setVisibility(View.GONE);
@@ -2735,62 +2716,6 @@ public class MainFragment extends BaseFragment {
         updateView();
     }
 
-    private static boolean isGlobalViewLevel(int zoom) {
-        if (zoom >= 2 && zoom <= 6) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isCountryViewLevel(int zoom) {
-        if (zoom >= 7 && zoom <= 14) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isKeywordTouchable(int zoom) {
-        if (zoom >= 2 && zoom <= 7) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isTalkTouchable(int zoom) {
-        if (zoom >= 8) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isPoliticTouchable(int zoom) {
-        if (zoom >= 6 && zoom <= 7) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isComplexCreatable(int zoom) {
-        if (zoom >= 15 && zoom <= 17) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private static boolean isSpotCreatable(int zoom) {
-        if (zoom >= 18) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     private void loadMainMarkers() {
         //mProgress.show();
 
@@ -2821,7 +2746,46 @@ public class MainFragment extends BaseFragment {
             Log.e(TAG, "Error " + e.toString());
         }
         mProgress.hide();
+    }
 
+    private void loadMainKeywordMarkers() {
+/*
+
+        int zoom = (int) mMap.getCameraPosition().zoom;
+        switch(zoom){
+            case 2:
+                break;
+        }
+*/
+
+
+        try {
+            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+            params.put("zoom", (int) mMap.getCameraPosition().zoom);
+            params.put("limit", 20);
+            params.put("sort", "point DESC");
+            mApi.call(api_main_findMarkers, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    addChannelsToMap(json);
+                }
+            });
+
+            JSONObject params1 = new JSONObject();
+            params1.put("name", "대한민국 정보센터");
+
+            mApi.call(api_channels_findOne, params1, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    mHomeChannel = new ChannelData(json);
+                    //mHomeChannel.setType("INFO_CENTER");
+                }
+            });
+
+        } catch (JSONException e) {
+            Log.e(TAG, "Error " + e.toString());
+        }
+        mProgress.hide();
     }
 
     private void addChannelsToMap(JSONObject jsonObject) {

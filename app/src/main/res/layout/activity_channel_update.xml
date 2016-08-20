@@ -219,7 +219,7 @@
 
             </LinearLayout>
 
-            <Button
+            <!--<Button
                 android:id="@+id/submitBtn"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
@@ -227,7 +227,7 @@
                 android:layout_marginTop="16dp"
                 android:text="변경"
                 android:textStyle="bold"
-                android:visibility="gone"/>
+                android:visibility="gone"/>-->
 
         </LinearLayout>
     </ScrollView>

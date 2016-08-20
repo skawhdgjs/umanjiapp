@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 앱 기본 -->
     <string name="app_name">Umanji</string>
@@ -85,7 +86,7 @@
     <string name="community_input_name">커뮤니티 이름</string>
     <string name="community_input_text">내용을 입력해주세요</string>
     <string name="community_create_btn">커뮤니티 생성</string>
-    <string name="community_create_success">커뮤니티 생성 성공!</string>
+    <string name="community_create_success">커뮤니티 생성 성공</string>
     <string name="community_create_error">네트워크 상태가 좋지 않습니다. 잠시후 다시 시도해주세요.</string>
     <string name="keyword_explain">주제어 키워드는 한 단어만 등록 가능합니다. 예를들어 축구를 좋아하는 단체의 키워드는 축구로 키워드를 설정하시면 됩니다.</string>
 

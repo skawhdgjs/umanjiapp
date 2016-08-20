@@ -350,7 +350,7 @@
                     android:textSize="16dp" />
             </LinearLayout>
 
-            <Button
+            <!--<Button
                 android:id="@+id/submitBtn"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
@@ -358,7 +358,7 @@
                 android:layout_marginTop="16dp"
                 android:text="광고신청완료"
                 android:textStyle="bold"
-                android:visibility="gone"/>
+                android:visibility="gone"/>-->
 
             <ImageView
                 android:id="@+id/photo"
