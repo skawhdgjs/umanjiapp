@@ -72,7 +72,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     protected TextView mName;
     protected LinearLayout mParentNamePanel;
     protected TextView mParentName;
-    protected ImageView mParentInfoCenter;
+//    protected ImageView mParentInfoCenter;
     protected ImageView mPhoto;
 
     protected ImageView mUserPhoto;
@@ -192,7 +192,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
             }
 
         }
-
+/*
         switch (mChannel.getLevel()) {
             case LEVEL_COMPLEX:
             case LEVEL_LOCAL:
@@ -211,6 +211,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                 mParentInfoCenter.setVisibility(View.GONE);
                 break;
         }
+        */
 
         mProgress.hide();
     }
@@ -250,8 +251,8 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         mName.setVisibility(View.VISIBLE);
         mName.setOnClickListener(this);
 
-        mParentInfoCenter = (ImageView) view.findViewById(R.id.parentInfoCenter);
-        mParentInfoCenter.setOnClickListener(this);
+//        mParentInfoCenter = (ImageView) view.findViewById(R.id.parentInfoCenter);
+//        mParentInfoCenter.setOnClickListener(this);
 
         mParentNamePanel = (LinearLayout) view.findViewById(R.id.parentNamePanel);
 
