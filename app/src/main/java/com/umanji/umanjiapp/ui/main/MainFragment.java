@@ -94,6 +94,7 @@ import java.util.Random;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.greenrobot.event.EventBus;
+
 import com.umanji.umanjiapp.helper.LevelModule;
 
 public class MainFragment extends BaseFragment {
@@ -136,7 +137,7 @@ public class MainFragment extends BaseFragment {
     private Marker mDraggableMarker;
 
     private TextView mZoomLevelText;
-//    private TextView mInfoTextPanel;
+    //    private TextView mInfoTextPanel;
     private LatLng mCurrentMyPosition;
     private LatLng mLatLngByPoint = new LatLng(37.498039, 126.9220201);  //보라매공원
     private int currentZoomLevel = 0;
@@ -243,7 +244,7 @@ public class MainFragment extends BaseFragment {
     private ImageView mClimbImageView;
     private ImageView mGolfImageView;
     // Level 8
-    private ChannelData mEtcChannel;
+    private ChannelData mDefaultChannel;
 
     private ImageView mEtcImageView;
 
@@ -1111,6 +1112,7 @@ public class MainFragment extends BaseFragment {
                 break;
 */
 
+//            doing line
             case R.id.talk:
                 mTalk.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
@@ -2586,65 +2588,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    /*  private void loadMoreMainPosts() {
-          isLoading = true;
-  //        mProgress.show();
 
-          try {
-              JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-              params.put("page", mAdapter.getCurrentPage());
-              params.put("limit", 5);
-              //params.put("sort", "point DESC");
-
-              mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
-                  @Override
-                  public void callback(String url, JSONObject object, AjaxStatus status) {
-                      if (status.getCode() == 500) {
-                          EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                      } else {
-                          try {
-                              JSONArray jsonArray = object.getJSONArray("data");
-                              if (jsonArray.length() != 0) {
-  //                                mlayout.setBackgroundResource(R.color.feed_bg);
-  //                                mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
-                                  isTalkFlag= true;
-                                  mTalk.setImageResource(R.drawable.button_kakao);
-  //                                mTouchView.setEnabled(false);
-
-
-                                  for (int idx = 0; idx < jsonArray.length(); idx++) {
-                                      JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                      ChannelData doc = new ChannelData(jsonDoc);
-
-                                      if (doc != null && doc.getOwner() != null && !TextUtils.isEmpty(doc.getOwner().getId())) {
-                                          mAdapter.addBottom(doc);
-                                      }
-                                  }
-
-                              } else {
-  //                                mlayout.setBackgroundResource(R.drawable.empty_main_post);
-                                  mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));
-                                  isTalkFlag = false;
-                                  mTalk.setImageResource(R.drawable.button_kakao_black);
-
-                              }
-
-                              isLoading = false;
-                              mAdapter.notifyDataSetChanged();
-                          } catch (JSONException e) {
-                              Log.e(TAG, "Error " + e.toString());
-                          }
-                      }
-                  }
-              });
-          } catch (JSONException e) {
-              Log.e(TAG, "Error " + e.toString());
-          }
-
-          mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
-          mProgress.hide();
-      }
-  */
     private void loginByToken() {
         try {
             JSONObject params = new JSONObject();
@@ -2749,25 +2693,42 @@ public class MainFragment extends BaseFragment {
     }
 
     private void loadMainKeywordMarkers() {
-/*
 
         int zoom = (int) mMap.getCameraPosition().zoom;
-        switch(zoom){
-            case 2:
-                break;
-        }
-*/
-
 
         try {
-            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("zoom", (int) mMap.getCameraPosition().zoom);
-            params.put("limit", 20);
-            params.put("sort", "point DESC");
-            mApi.call(api_main_findMarkers, params, new AjaxCallback<JSONObject>() {
+//            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+            JSONObject params = new JSONObject();
+            switch (zoom) {
+                case 2:
+                    params.put("name", "환경");
+                    break;
+                case 3:
+                    params.put("name", "철학");
+                    break;
+                case 4:
+                    params.put("name", "역사");
+                    break;
+                case 5:
+                    params.put("name", "통일");
+                    break;
+                case 6:
+                    params.put("name", "건강");
+                    break;
+                case 7:
+                    params.put("name", "정치");
+                    break;
+            }
+//            params.put("zoom", (int) mMap.getCameraPosition().zoom);
+//            params.put("limit", 20);
+//            params.put("sort", "point DESC");
+            mApi.call(api_findCommunity, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
-                    addChannelsToMap(json);
+                    mDefaultChannel = new ChannelData(json);
+                    String thisChannelName = mDefaultChannel.getName();
+                    loadCommunityMarkers(thisChannelName);
+//                    addChannelsToMap(json);
                 }
             });
 
