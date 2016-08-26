@@ -3,17 +3,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <TextView
+    <!--<TextView
         android:id="@+id/alert_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true" />-->
 
     <LinearLayout
-        android:layout_below="@+id/alert_title"
         android:id="@+id/dialogPostOption"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

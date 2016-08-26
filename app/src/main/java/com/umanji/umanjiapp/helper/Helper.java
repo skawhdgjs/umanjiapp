@@ -280,18 +280,34 @@ public final class Helper implements AppConfig {
         return marker;
     }
 
+/*
+* MainFragment show marker
+*
+*
+* */
     public static Marker addMarkerToMap(GoogleMap map, ChannelData channelData, int index, Activity activity, boolean isDraggable) {
         LatLng point = new LatLng(channelData.getLatitude(), channelData.getLongitude());
         Marker marker;
 
         IconGenerator tc = new IconGenerator(activity);
-        tc.setColor(Color.parseColor("#ffff33"));           // background color yellow : ffff33
+
+        tc.setColor(Color.parseColor("#0d0d0d"));           // background color yellow : ffff33
         tc.setTextAppearance(R.style.keywordCommunityText);          // text design
         Bitmap bmp = tc.makeIcon();
 
 //        keywordCommunityText
 
         String name = channelData.getName();
+        String end = "";
+        int stringLength = name.length();
+        int endOfString ;
+        if(stringLength > 10){
+            endOfString = 10;
+            end = "...";
+        } else {
+            endOfString = stringLength;
+        }
+        String title = name.substring(0, endOfString) + end;
         if (TextUtils.isEmpty(name)) {
             name = "일반장소";
         }
@@ -326,9 +342,10 @@ public final class Helper implements AppConfig {
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi2))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(title)))     // String
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi2))
                     .draggable(isDraggable)
-                    .alpha(0.9f)  // default 1.0
+                    .alpha(0.7f)  // default 1.0
                     .anchor(0.45f, 1.0f));
         } else {
             switch (channelData.getLevel()) {

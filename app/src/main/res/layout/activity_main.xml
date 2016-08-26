@@ -796,7 +796,7 @@
                     android:layout_height="50dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/interior"
+                    android:src="@drawable/icon_create"
                     android:visibility="gone" />
 
                 <ImageView

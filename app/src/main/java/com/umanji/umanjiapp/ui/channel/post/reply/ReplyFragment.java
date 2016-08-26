@@ -559,7 +559,7 @@ public class ReplyFragment extends BaseChannelListFragment {
 //        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_post_option);
 
-        TextView title = (TextView) dialog.findViewById(R.id.alert_title);
+        TextView title = (TextView) dialog.findViewById(android.R.id.title);
         title.setText("선택");
 //        title.setBackgroundResource(R.drawable.gradient);
         title.setPadding(10, 10, 10, 10);

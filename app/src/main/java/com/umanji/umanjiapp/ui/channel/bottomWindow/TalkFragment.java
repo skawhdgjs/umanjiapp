@@ -90,7 +90,7 @@ public class TalkFragment extends BottomBaseFragment {
         mProgress.setMessage("데이터를 불러오고 있습니다. 잠시만 기다려주세요...");
 //        mProgress.setTitle("Connecting server");
         mProgress.setCancelable(true);
-        mProgress.show();
+//        mProgress.show();
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         addOnScrollListener(mRecyclerView);

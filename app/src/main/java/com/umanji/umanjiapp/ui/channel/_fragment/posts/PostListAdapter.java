@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseActivity;
 import com.umanji.umanjiapp.ui.channel._fragment.BaseChannelListAdapter;
@@ -50,6 +51,24 @@ public class PostListAdapter extends BaseChannelListAdapter {
         setCreatedAt(holder, channelData);
         setParentType(holder, channelData.getParent());
         setKeywords(holder, channelData);
+    }
+
+    @Override
+    protected void setName(final ViewHolder holder, final ChannelData channelData) {
+
+        if(TextUtils.isEmpty(channelData.getName())) {
+            holder.name.setText("내용 없음");
+        } else {
+            holder.name.setText(Helper.getShortenString(channelData.getName(), 200));
+        }
+
+
+        holder.mContentPanel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Helper.startActivity(mActivity, channelData);
+            }
+        });
     }
 
     protected void setKeywords(final ViewHolder holder, ChannelData channelData) {

@@ -714,6 +714,8 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
 
         public final View       mView;
 
+        public final LinearLayout  mContentPanel;
+
         public final ImageView  photo;
         public final TextView   name;
         public final TextView   headerBorder;
@@ -760,6 +762,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             super(view);
             mView           = view;
 
+            mContentPanel   = (LinearLayout) view.findViewById(R.id.contentPanel);
             photo           = (ImageView) view.findViewById(R.id.photo);
             name            = (TextView) view.findViewById(R.id.name);
             headerBorder    = (TextView) view.findViewById(R.id.headerBorder);

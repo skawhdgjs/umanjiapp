@@ -1866,7 +1866,7 @@ public class MainFragment extends BaseFragment {
 
         mLatLngByPoint = point;
 
-        if (zoom >= 15 && zoom <= 21) {
+        if (zoom >= 18 && zoom <= 21) {     // 2016.08.27 :: (zoom >= 15 && zoom <= 21)
             mProgress.setMessage("장소를 만드실 곳의 주소를 찾고 있습니다...");
             mProgress.show();
 
@@ -1890,7 +1890,7 @@ public class MainFragment extends BaseFragment {
                                 mMap.animateCamera(CameraUpdateFactory.newLatLng(tmpPoint), 100, null);
 
                                 if (LevelModule.isComplexCreatable(zoom)) {
-                                    showCreateComplexDialog();
+//                                    showCreateComplexDialog();
                                 } else if (LevelModule.isSpotCreatable(zoom)) {
                                     showCreateSpotDialog();
                                 }
@@ -2124,7 +2124,7 @@ public class MainFragment extends BaseFragment {
 
                         if (LevelModule.isComplexCreatable(zoom)) {
                             mInterior.setVisibility(View.GONE);
-                            mTowerCrane.setVisibility(View.VISIBLE);
+                            mTowerCrane.setVisibility(View.GONE);
                             mZoomBtn.setImageResource(R.drawable.zoom_in);
                             mZoomBtn.setTag(ZOOM_IN);
                             mCenterCircle.setImageResource(R.drawable.center_circle);
