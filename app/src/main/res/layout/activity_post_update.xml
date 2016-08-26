@@ -132,16 +132,6 @@
                     android:textSize="16dp" />
             </LinearLayout>
 
-            <!--<Button
-                android:id="@+id/submitBtn"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/post_create_btn"
-                android:textStyle="bold"
-                android:visibility="gone" />-->
-
             <ImageView
                 android:id="@+id/photo"
                 android:layout_width="match_parent"
@@ -208,7 +198,6 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -228,7 +217,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="20dp"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -249,7 +238,7 @@
                         android:id="@+id/voteBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="20dp"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
@@ -270,10 +259,19 @@
                         android:id="@+id/push"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_marginTop="10dp"
                         android:checked="false"
                         android:text="Push 알림" />
+
+                    <Button
+                        android:id="@+id/boundSet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="범위설정"
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 

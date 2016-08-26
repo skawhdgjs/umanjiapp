@@ -7,10 +7,13 @@
 
     <TextView
         android:id="@+id/wiSpotName"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:maxLength="20"
         android:padding="5dp"
         android:textSize="12sp"
+        android:maxLines="3"
+        android:ellipsize="end"
         android:text="Empty Data"
         android:gravity="center_horizontal" />
 
@@ -21,11 +24,9 @@
        android:layout_marginTop="5dp"
        android:padding="5dp"
        android:background="@drawable/default_btn_radius"
-       android:text="들어가기"
+       android:text="더보기"
        android:textColor="#FFFFFF"
        android:textSize="12sp"
-
-
        />
 
 </LinearLayout>

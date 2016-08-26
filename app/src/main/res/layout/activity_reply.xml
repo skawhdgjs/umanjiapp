@@ -28,6 +28,18 @@
             android:text="포스트"
             android:textColor="#fff"
             android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/optionAlert"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/alert_ic_option"
+            android:visibility="visible"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
     </RelativeLayout>
 
 
@@ -126,19 +138,6 @@
                     app:riv_border_width="1px"
                     app:riv_corner_radius="5dp"
                     app:riv_oval="false" />
-
-                <ImageView
-                    android:id="@+id/optionAlert"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="5dp"
-                    android:padding="15dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/alert_ic_option"
-                    android:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -272,65 +271,104 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/gray_light" />
 
+                <!--
+                3 button container
+                -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
 
                     <LinearLayout
                         android:id="@+id/likeBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="60dp"
-                            android:src="@drawable/alert_ic_ads" />
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="공익적인 글"
-                            android:textColor="@color/gray_text"
-                            android:textSize="12dp" />
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/alert_ic_ads" />
 
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="요건 알려야해!"
+                                android:textColor="@color/gray_text"
+                                android:textSize="12dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/dislikeBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/icon_enough" />
+
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="됐거든!"
+                                android:textColor="@color/gray_text"
+                                android:textSize="12dp" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/replyBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginLeft="10dp"
-                            android:src="@drawable/alert_ic_comment" />
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:text="댓글 달기"
-                            android:textColor="@color/gray_text"
-                            android:textSize="12dp" />
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/alert_ic_comment" />
 
+                            <TextView
+                                android:layout_marginLeft="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="댓글 달기"
+                                android:textColor="@color/gray_text"
+                                android:textSize="12dp" />
+                        </LinearLayout>
                     </LinearLayout>
-
-
                 </LinearLayout>
-
             </LinearLayout>
-
 
             <View
                 android:layout_width="match_parent"
@@ -340,7 +378,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp">
 
                 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/recyclerView"

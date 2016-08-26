@@ -642,7 +642,12 @@ public class MainFragment extends BaseFragment {
         }
 
 //        loadMainMarkers();  // origin before 2016.08.20
-        loadMainKeywordMarkers();
+        if(isKeywordCommunityMode){
+            loadMainKeywordMarkers();
+        } else {
+            loadMainMarkers();
+        }
+
         loadMainAds();
 //        loadMainPosts();
 
@@ -800,64 +805,144 @@ public class MainFragment extends BaseFragment {
         final Animation talkAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.talk_animation);
         final ScaleAnimation animation = new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
-//        Log.d("Paul", sharedpreferences.getString("MyParams", "none"));
-
         mMainListContainer.setVisibility(View.GONE);
 //        mCommunityListContainer.setVisibility(View.VISIBLE);
+        int zoom = (int) mMap.getCameraPosition().zoom;
+        if(LevelModule.isHighLevel(zoom)){
+            JSONObject params = null;
+            try {
+                if (mMap == null) {
+                    String tempString = sharedpreferences.getString("MyParams", "empty");
+                    params = new JSONObject(tempString);
+                } else {
+                    params = Helper.getZoomMinMaxLatLngParams(mMap);
+                }
+                switch (zoom) {
+                    case 2:
+                        params.put("name", "환경");
+                        communityName = "환경";
+                        break;
+                    case 3:
+                        params.put("name", "철학");
+                        communityName = "철학";
+                        break;
+                    case 4:
+                        params.put("name", "역사");
+                        communityName = "역사";
+                        break;
+                    case 5:
+                        params.put("name", "통일");
+                        communityName = "통일";
+                        break;
+                    case 6:
+                        params.put("name", "건강");
+                        communityName = "건강";
+                        break;
+                    case 7:
+                        params.put("name", "정치");
+                        communityName = "정치";
+                        break;
+                    default:
+                        communityName = "";
+                        break;
+                }
+                params.put("type", TYPE_COMMUNITY);
+                params.put("limit", 1);
 
-        try {
+                getMinMaxParams = params;
 
-            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("page", 0);  //mTalkAdapter.getCurrentPage()
-            params.put("limit", 1);
+                mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        if (status.getCode() == 500) {
+                            EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                        } else {
+                            try {
+                                JSONArray jsonArray = json.getJSONArray("data");
+                                jsonArrayBottom = jsonArray;
+                                if (jsonArray.length() != 0) {
+                                    isTalkFlag = true;
+                                    mTalk.setImageResource(R.drawable.button_kakao);
+                                    mTalk.startAnimation(talkAnimation);
 
-            String paramsToString = params.toString();
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString("MyParams", paramsToString);
-            editor.commit();
+                                    mChannel = new ChannelData(json);
 
-            getMinMaxParams = params;
+                                } else {
+
+                                    isTalkFlag = false;
+                                    mTalk.setImageResource(R.drawable.button_kakao_black);
+                                    mTalk.clearAnimation();
+
+                                }
+
+                                isLoading = false;
+                                //mTalkAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Error " + e.toString());
+                            }
+                        }
+                    }
+                });
+
+
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+        } else {
+            try {
+
+                JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+                params.put("page", 0);  //mTalkAdapter.getCurrentPage()
+                params.put("limit", 1);
+
+                String paramsToString = params.toString();
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString("MyParams", paramsToString);
+                editor.commit();
+
+                getMinMaxParams = params;
 //            api_main_findPosts
 //            api_channels_findPosts
 //            EventBus.getDefault().post(new PaulBusData("talk", getMinMaxParams));
 
-            mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    if (status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    } else {
-                        try {
-                            JSONArray jsonArray = json.getJSONArray("data");
-                            jsonArrayBottom = jsonArray;
-                            if (jsonArray.length() != 0) {
-                                isTalkFlag = true;
-                                mTalk.setImageResource(R.drawable.button_kakao);
-                                mTalk.startAnimation(talkAnimation);
+                mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        if (status.getCode() == 500) {
+                            EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                        } else {
+                            try {
+                                JSONArray jsonArray = json.getJSONArray("data");
+                                jsonArrayBottom = jsonArray;
+                                if (jsonArray.length() != 0) {
+                                    isTalkFlag = true;
+                                    mTalk.setImageResource(R.drawable.button_kakao);
+                                    mTalk.startAnimation(talkAnimation);
 
-                                mChannel = new ChannelData(json);
+                                    mChannel = new ChannelData(json);
 
-                            } else {
+                                } else {
 
-                                isTalkFlag = false;
-                                mTalk.setImageResource(R.drawable.button_kakao_black);
-                                mTalk.clearAnimation();
+                                    isTalkFlag = false;
+                                    mTalk.setImageResource(R.drawable.button_kakao_black);
+                                    mTalk.clearAnimation();
 
+                                }
+                                EventBus.getDefault().post(new SuccessData(DATA_EXPERT, experts));
+
+                                isLoading = false;
+                                //mTalkAdapter.notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Error " + e.toString());
                             }
-                            EventBus.getDefault().post(new SuccessData(DATA_EXPERT, experts));
-
-                            isLoading = false;
-                            //mTalkAdapter.notifyDataSetChanged();
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Error " + e.toString());
                         }
                     }
-                }
-            });
+                });
 
 
-        } catch (JSONException e) {
-            Log.e(TAG, "error " + e.toString());
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
         }
     }
 
@@ -1124,6 +1209,7 @@ public class MainFragment extends BaseFragment {
 //                    mTalkExpanded = true;
                     if (isKeywordCommunityMode == false) {
                         bottomIntent.putExtra("type", "talkMode");
+                        bottomIntent.putExtra("keywordName", communityName);
                     } else {
                         bottomIntent.putExtra("type", "keywordCommunityMode");
                         bottomIntent.putExtra("keywordName", communityName);
@@ -2660,13 +2746,13 @@ public class MainFragment extends BaseFragment {
         updateView();
     }
 
-    private void loadMainMarkers() {
+    private void loadMainKeywordMarkers() {
         //mProgress.show();
 
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("zoom", (int) mMap.getCameraPosition().zoom);
-            params.put("limit", 100);
+            params.put("limit", 20);
             params.put("sort", "point DESC");
             mApi.call(api_main_findMarkers, params, new AjaxCallback<JSONObject>() {
                 @Override
@@ -2692,61 +2778,30 @@ public class MainFragment extends BaseFragment {
         mProgress.hide();
     }
 
-    private void loadMainKeywordMarkers() {
+    private void loadMainMarkers() {
 
         int zoom = (int) mMap.getCameraPosition().zoom;
 
-        try {
-//            JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            JSONObject params = new JSONObject();
-            switch (zoom) {
-                case 2:
-                    params.put("name", "환경");
-                    break;
-                case 3:
-                    params.put("name", "철학");
-                    break;
-                case 4:
-                    params.put("name", "역사");
-                    break;
-                case 5:
-                    params.put("name", "통일");
-                    break;
-                case 6:
-                    params.put("name", "건강");
-                    break;
-                case 7:
-                    params.put("name", "정치");
-                    break;
+            try {
+                JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
+                params.put("zoom", (int) mMap.getCameraPosition().zoom);
+//                params.put("type", TYPE_POST);
+//                params.put("actions", actionCode);
+                params.put("limit", 20);
+                params.put("sort", "point DESC");
+//                api_main_findPosts
+//                api_main_findMarkers
+                mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject json, AjaxStatus status) {
+                        addChannelsToMap(json);
+                    }
+                });
+
+            } catch (JSONException e) {
+                Log.e(TAG, "Error " + e.toString());
             }
-//            params.put("zoom", (int) mMap.getCameraPosition().zoom);
-//            params.put("limit", 20);
-//            params.put("sort", "point DESC");
-            mApi.call(api_findCommunity, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    mDefaultChannel = new ChannelData(json);
-                    String thisChannelName = mDefaultChannel.getName();
-                    loadCommunityMarkers(thisChannelName);
-//                    addChannelsToMap(json);
-                }
-            });
-
-            JSONObject params1 = new JSONObject();
-            params1.put("name", "대한민국 정보센터");
-
-            mApi.call(api_channels_findOne, params1, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    mHomeChannel = new ChannelData(json);
-                    //mHomeChannel.setType("INFO_CENTER");
-                }
-            });
-
-        } catch (JSONException e) {
-            Log.e(TAG, "Error " + e.toString());
-        }
-        mProgress.hide();
+            mProgress.hide();
     }
 
     private void addChannelsToMap(JSONObject jsonObject) {
@@ -2795,7 +2850,7 @@ public class MainFragment extends BaseFragment {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
 
                     if (mCurrentChannel != null && !TextUtils.equals(mCurrentChannel.getId(), channelData.getId())) {
-                        Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
+                        Helper.addMarkerToMap(mMap, channelData, idx, mActivity);    // normal
                     } else if (mSelectedChannel != null && !TextUtils.equals(mSelectedChannel.getId(), channelData.getId())) {
                         Helper.addMarkerToMap(mMap, channelData, idx, mActivity);
                     } else {

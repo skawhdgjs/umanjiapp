@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.channel.post.update;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +19,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +66,11 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
     protected TextView mMetaDesc;
     protected boolean isPreview = false;
 
+    public Button mApplyBtn;
+    public int mPreBoundLevel;
+    public int mBoundLevel = 0;
+
+
     // for voting
     protected boolean hasVote = false;
     protected LinearLayout mVotePanel;
@@ -74,7 +81,8 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
 
     protected CheckBox mPush;
     protected boolean isPushChecked = false;
-
+    protected Button mBoundSet;
+    protected Button mCancelButton;
 
     protected boolean isReady = false;
     protected boolean mClicked = false;
@@ -131,14 +139,19 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
         mSubmitBtn.setEnabled(isReady);
         mSubmitBtn.setTextColor(Color.parseColor("#5c5cd6"));
 
+        mBoundSet = (Button) view.findViewById(R.id.boundSet);
+        mBoundSet.setOnClickListener(this);
+
         mName.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
                 isReady = true;
                 if (mName.getText().toString().length() == 0) {
                     mSubmitBtn.setTextColor(Color.parseColor("#5c5cd6"));
+                    mBoundSet.setVisibility(View.GONE);
                 } else {
                     mSubmitBtn.setTextColor(Color.parseColor("#ffffff"));
+                    mBoundSet.setVisibility(View.VISIBLE);
                 }
                 enableSubmitIfReady();
             }
@@ -173,6 +186,8 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
         setPhoto(mActivity, mChannel);
         setMetaPanel(mActivity, mChannel);
         setSurvey(mActivity, mChannel);
+
+        mPreBoundLevel = mChannel.getLevel();
     }
 
     @Override
@@ -388,6 +403,9 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
         try {
             JSONObject params = new JSONObject();
             setChannelParams(params);
+            if(mBoundLevel > 0 && mPreBoundLevel != mBoundLevel){       // Level value changed.
+                params.put("level", mBoundLevel);
+            }
 
             JSONObject descParams = new JSONObject();
             if(isPreview) {
@@ -436,7 +454,6 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
                 break;
         }
     }
-
 
     private void setKeyListnerForSitePreview() {
         mName.setOnKeyListener(new View.OnKeyListener() {
@@ -520,7 +537,50 @@ public class PostUpdateFragment extends BaseChannelUpdateFragment {
                 AutoCompleteTextView option = new AutoCompleteTextView(mActivity);
                 mVoteOptionPanel.addView(option);
                 break;
+
+            case R.id.boundSet:
+                levelPickerShow();
+                break;
         }
+    }
+
+    public void levelPickerShow() {
+
+        final Dialog d = new Dialog(getActivity());
+        d.setContentView(R.layout.dialog_level_picker);
+
+        TextView title = (TextView) d.findViewById(android.R.id.title);
+        title.setText("알리고자 하는 범위");
+        title.setGravity(Gravity.CENTER);
+        title.setTextSize(22);
+        title.setPadding(10, 10, 10, 10);
+
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.level_picker);
+        np.setMinValue(6);   // min value 0
+        np.setMaxValue(18); // max value 100
+        np.setValue(18);
+        np.setDisplayedValues( Helper.levelBounds );
+        np.setWrapSelectorWheel(false);
+        mApplyBtn = (Button) d.findViewById(R.id.apply_button);
+        mCancelButton = (Button) d.findViewById(R.id.cancel_button);
+
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.cancel();
+            }
+        });
+
+        mApplyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBoundLevel = np.getValue();
+                Toast.makeText(mActivity, String.valueOf(np.getValue()), Toast.LENGTH_LONG).show();
+                d.cancel();
+            }
+        });
+
+        d.show();
     }
 
     private ArrayList<String> getUrlsFrom() {

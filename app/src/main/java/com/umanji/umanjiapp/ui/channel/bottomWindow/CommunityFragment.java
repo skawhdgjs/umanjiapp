@@ -205,13 +205,32 @@ public class CommunityFragment extends BottomBaseFragment {
 
         isLoading = true;
         mLoadCount = mLoadCount + 1;
+        String keywordParse = "";
 
         final JSONArray extractArr = new JSONArray();
 
+        String apiType = api_bottom_communities_find;
+
+        if(keywordName != null){
+            keywordParse = Helper.dictionaryHasKeyword(keywordName);
+        }
+
         try {
             params.put("page", mAdapter.getCurrentPage());
-            params.put("type", TYPE_COMMUNITY);
-            params.put("typeFilter", "SPACE");    //to avoid find Info_Center
+            if(keywordParse.equals("")){
+                apiType = api_bottom_communities_find;
+                params.put("type", TYPE_COMMUNITY);
+                params.put("typeFilter", "SPACE");    //to avoid find Info_Center
+            } else {
+//                params.put("keywords", keywordParse);
+                params.put("actions", 300);
+                apiType = api_main_findDistributions;
+                params.put("type", TYPE_KEYWORD_COMMUNITY);
+                params.remove("name");
+                params.put("level", LEVEL_COUNTRY);
+
+            }
+
 //            params.put("keywords", communityName);
             params.put("limit", 8);
             params.put("sort", "point DESC");
@@ -221,7 +240,7 @@ public class CommunityFragment extends BottomBaseFragment {
 // original :: api_channels_community_find
 // test     :: api_channels_communities_find
 
-        mApi.call(api_bottom_communities_find, params, new AjaxCallback<JSONObject>() {
+        mApi.call(apiType, params, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 ArrayList<ChannelData> communityArr = new ArrayList<ChannelData>();
@@ -254,7 +273,6 @@ public class CommunityFragment extends BottomBaseFragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
 
                 }
             }

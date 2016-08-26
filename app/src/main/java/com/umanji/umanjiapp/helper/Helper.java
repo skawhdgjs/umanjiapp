@@ -87,12 +87,29 @@ public final class Helper implements AppConfig {
     private static final String TAG = "Helper";
     private String args;
 
+    public static String [] levelBounds =  {
+            "6Lev 국가전체",       // 0
+            "7Lev 전국",          // 1
+            "8Lev 도 2개",        // 2
+            "9Lev 도전체",        // 3
+            "10Lev 서울, 경기",    // 4
+            "11Lev 서울전지역",    // 5
+            "12Lev 서울절반",      // 6
+            "13Lev 구전지역",      // 7
+            "14Lev 동전체",       // 8
+            "15Lev 1Km",        // 9
+            "16Lev 400m",       // 10
+            "17Lev 200m",       // 11
+            "18Lev 동네지역"      // 12
+    };
+
     public static String dictionaryHasKeyword(String inputKeyword) {
 
         String keyword = inputKeyword.replaceAll("\\s", "");
         inputKeyword = inputKeyword.replaceAll("\\s", "");
 
-        String dictionary = "환경=공해, 미세먼지 /" +
+        String dictionary = "= /" +
+                "환경=공해, 미세먼지 /" +
                 "에너지=무한에너지, 풍력발전 /" +
                 "철학=이즈니스, isness /" +
                 "역사=한국사, 중국역사, 중국사, 일본역사, 고대사, 상고사 /" +
@@ -283,6 +300,7 @@ public final class Helper implements AppConfig {
         String strOverOne = null;
 
         ArrayList<SubLinkData> subLinks = channelData.getSubLinks(TYPE_COMMUNITY);
+        String thisType = channelData.getType();
         if (subLinks != null && subLinks.size() > 0) {
             if (subLinks.size() > 1) {
                 overOne = subLinks.size() - 1;
@@ -303,6 +321,15 @@ public final class Helper implements AppConfig {
                         .alpha(0.9f)  // default 1.0
                         .anchor(0.45f, 1.0f));
             }
+        } else if (thisType != null && thisType.equals(TYPE_POST)) {
+            // here is default poi marker !! It was hard to find :(
+            marker = map.addMarker(new MarkerOptions().position(point)
+                    .title(name)
+                    .snippet(String.valueOf(index))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi2))
+                    .draggable(isDraggable)
+                    .alpha(0.9f)  // default 1.0
+                    .anchor(0.45f, 1.0f));
         } else {
             switch (channelData.getLevel()) {
                 case LEVEL_COMPLEX:
@@ -363,7 +390,7 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi2))
                             .draggable(isDraggable)
                             .alpha(0.8f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -493,7 +520,7 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi))
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi2))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));

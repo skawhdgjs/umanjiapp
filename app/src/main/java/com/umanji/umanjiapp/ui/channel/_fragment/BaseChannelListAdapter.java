@@ -509,7 +509,7 @@ public abstract class BaseChannelListAdapter extends RecyclerView.Adapter<BaseCh
             }
         });
 
-
+// doing now
         String actionId = channelData.getActionId(TYPE_LIKE, AuthHelper.getUserId(mActivity));
         if(!TextUtils.isEmpty(actionId)) {
             holder.likeBtn.setTag(actionId);

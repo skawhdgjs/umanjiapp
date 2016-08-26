@@ -191,7 +191,6 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
 
     }
 
-
     /****************************************************
      *  Methods
      ****************************************************/
@@ -201,8 +200,6 @@ public abstract class BaseChannelUpdateFragment extends BaseFragment {
     }
 
     protected abstract void request();
-
-
 
     protected void setChannelParams(JSONObject params) throws JSONException {
         mChannel.setAddressJSONObject(params);

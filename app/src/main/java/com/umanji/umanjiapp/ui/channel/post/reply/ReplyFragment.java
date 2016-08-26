@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -61,6 +59,8 @@ import static com.umanji.umanjiapp.helper.FileHelper.extractUrls;
 public class ReplyFragment extends BaseChannelListFragment {
     private static final String TAG = "ReplyFragment";
 
+    protected boolean mClicked = false;
+
     protected ImageView mUserPhoto;
     protected ImageView mLookAround;
     protected TextView mName;
@@ -85,8 +85,11 @@ public class ReplyFragment extends BaseChannelListFragment {
     protected LinearLayout mAdvertise;
     protected LinearLayout mAbuse;
     protected LinearLayout mEdit;
-    protected LinearLayout mCancel;
+    protected Button mCancel;
 
+    protected LinearLayout mLikeBtn;
+    protected LinearLayout mDislikeBtn;
+    protected LinearLayout mReplyBtn;
 
     public static ReplyFragment newInstance(Bundle bundle) {
         ReplyFragment fragment = new ReplyFragment();
@@ -150,6 +153,13 @@ public class ReplyFragment extends BaseChannelListFragment {
 
         mOptionBtn = (ImageView) view.findViewById(R.id.optionAlert);
         mOptionBtn.setOnClickListener(this);
+
+        mLikeBtn = (LinearLayout) view.findViewById(R.id.likeBtn);
+        mLikeBtn.setOnClickListener(this);
+        mDislikeBtn = (LinearLayout) view.findViewById(R.id.dislikeBtn);
+        mDislikeBtn.setOnClickListener(this);
+        mReplyBtn = (LinearLayout) view.findViewById(R.id.replyBtn);
+        mReplyBtn.setOnClickListener(this);
 
         setName(mActivity, mChannel, "내용없음");
         setUserPhoto(mActivity, mChannel.getOwner());
@@ -545,16 +555,9 @@ public class ReplyFragment extends BaseChannelListFragment {
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
     private void showOptionAlert() {
-        final Dialog dialog = new Dialog(mActivity);
+        final Dialog dialog = new Dialog(getActivity());
 //        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_post_option);
-
-        mGotoSpot = (LinearLayout) dialog.findViewById(R.id.gotoSpot);
-
-        mAdvertise = (LinearLayout) dialog.findViewById(R.id.advertise);
-        mAbuse = (LinearLayout) dialog.findViewById(R.id.abuse);
-        mEdit = (LinearLayout) dialog.findViewById(R.id.edit);
-        mCancel = (LinearLayout) dialog.findViewById(R.id.cancel);
 
         TextView title = (TextView) dialog.findViewById(R.id.alert_title);
         title.setText("선택");
@@ -563,6 +566,12 @@ public class ReplyFragment extends BaseChannelListFragment {
         title.setGravity(Gravity.CENTER); // this is required to bring it to center.
         title.setTextSize(22);
 
+        mGotoSpot = (LinearLayout) dialog.findViewById(R.id.gotoSpot);
+
+        mAdvertise = (LinearLayout) dialog.findViewById(R.id.advertise);
+        mAbuse = (LinearLayout) dialog.findViewById(R.id.abuse);
+        mEdit = (LinearLayout) dialog.findViewById(R.id.edit);
+        mCancel = (Button) dialog.findViewById(R.id.cancelButton);
 
         mGotoSpot.setOnClickListener(new View.OnClickListener() {
 
@@ -645,12 +654,13 @@ public class ReplyFragment extends BaseChannelListFragment {
         setUserName(mActivity, mChannel.getOwner());
         setParentName(mActivity, mChannel.getParent());
         setCreatedAt(mChannel);
-
+/*
         if(AuthHelper.isLogin(mActivity)) {
             mFab.setVisibility(View.VISIBLE);
         }else {
             mFab.setVisibility(View.GONE);
         }
+        */
     }
 
     @Override
@@ -672,6 +682,35 @@ public class ReplyFragment extends BaseChannelListFragment {
             case EVENT_LOOK_AROUND:
                 mActivity.finish();
                 break;
+        }
+    }
+
+    protected void levelRequest(String type) {
+        mProgress.show();
+        if(mClicked == true){
+            Toast.makeText(mActivity,"이미 요청했습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int thisLevel = mChannel.getLevel();
+        try {
+            JSONObject params = new JSONObject();
+            params.put("id", mChannel.getId());
+            switch(type){
+                case "like":
+                    params.put("level", thisLevel-1);
+                    break;
+                case "dislike":
+                    params.put("level", thisLevel+1);
+                    break;
+            }
+
+            mApi.call(api_channels_id_update, params);
+
+            mClicked = true;
+            mProgress.cancel();
+
+        }catch(JSONException e) {
+            Log.e("BaseChannelUpdate", "error " + e.toString());
         }
     }
 
@@ -703,6 +742,25 @@ public class ReplyFragment extends BaseChannelListFragment {
                 buttonClick.setDuration(500);
 
                 showOptionAlert();
+                break;
+            case R.id.likeBtn:
+                levelRequest("like");
+                Toast.makeText(mActivity, "한 단계 상위에 알려졌습니다", Toast.LENGTH_LONG).show();
+                mActivity.finish();
+                break;
+            case R.id.dislikeBtn:
+                levelRequest("dislike");
+                Toast.makeText(mActivity, "본 글이 한단계 강등됐습니다.", Toast.LENGTH_LONG).show();
+                mActivity.finish();
+                break;
+            case R.id.replyBtn:
+                Toast.makeText(mActivity, "write reply", Toast.LENGTH_LONG).show();
+                if (AuthHelper.isLogin(mActivity)) {
+                    Helper.startPostCreateActivity(mActivity, mChannel);
+                } else {
+                    Helper.callAuthErrorEvent();
+                }
+                break;
         }
     }
 }

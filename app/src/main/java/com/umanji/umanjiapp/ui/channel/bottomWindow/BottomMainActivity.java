@@ -127,6 +127,8 @@ public class BottomMainActivity extends AppCompatActivity{
         bundle.putString("thisType", thisType);
         if(thisType.equals("keywordCommunity")){
             bundle.putString("keywordName", keywordName);
+        } else {
+            bundle.putString("keywordName", keywordName);
         }
 
         adapter.addFragment(TalkFragment.newInstance(bundle), "Talk");
