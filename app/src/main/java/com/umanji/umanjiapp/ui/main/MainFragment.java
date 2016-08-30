@@ -77,6 +77,7 @@ import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywor
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel.bottomWindow.BottomMainActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
+import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
 import com.umanji.umanjiapp.ui.main.search.SearchActivity;
@@ -689,32 +690,31 @@ public class MainFragment extends BaseFragment {
         * */
 
         if (isKeywordCommunityMode) {
-            JSONObject params1 = null;
+            JSONObject params = null;
             try {
                 if (mMap == null) {
                     String tempString = sharedpreferences.getString("MyParams", "empty");
-                    params1 = new JSONObject(tempString);
+                    params = new JSONObject(tempString);
                 } else {
-                    params1 = Helper.getZoomMinMaxLatLngParams(mMap);
+                    params = Helper.getZoomMinMaxLatLngParams(mMap);
                 }
 
                 String keywordParse = Helper.dictionaryHasKeyword(communityName);
-                params1.put("name", keywordParse);
-                params1.put("type", TYPE_POST);
+                params.put("name", keywordParse);
+                params.put("type", TYPE_POST);
 //                params1.put("id", mAdChannel.getParent().getId());
 
 //                api_findCommunity
 //                api_channels_get
 //                api_keyword_findPosts
 
-                mApi.call(api_keyword_findPosts, params1, new AjaxCallback<JSONObject>() {
+                mApi.call(api_keyword_findPosts, params, new AjaxCallback<JSONObject>() {
                     @Override
                     public void callback(String url, JSONObject json, AjaxStatus status) {
                         mChannel = new ChannelData(json);
-//                        initTabAdapter(mView, mChannel);   160726  //  doing now  null
+//                        initTabAdapter(mView, mChannel);   160726  //
                     }
                 });
-
 
             } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
@@ -1052,54 +1052,6 @@ public class MainFragment extends BaseFragment {
                     mLauncherLevel2.setVisibility(View.GONE);
                     initTabAdapter(mView, mEnvironmentChannel);
                     break;
-                case "Energy":
-                    mEnergyImageView.startAnimation(buttonClick);
-                    communityName = mEnergyChannel.getName();
-                    mLauncherLevel2.setVisibility(View.GONE);
-                    initTabAdapter(mView, mEnergyChannel);
-                    break;
-                case "Spiritual":
-                    mSpiritualImageView.startAnimation(buttonClick);
-                    communityName = mSpiritualChannel.getName();
-                    mLauncherLevel3.setVisibility(View.GONE);
-                    initTabAdapter(mView, mSpiritualChannel);
-                    break;
-                case "History":
-                    mHistoryImageView.startAnimation(buttonClick);
-                    communityName = mHistoryChannel.getName();
-                    mLauncherLevel4.setVisibility(View.GONE);
-                    initTabAdapter(mView, mHistoryChannel);
-                    break;
-                case "Unity":
-                    mUnityImageView.startAnimation(buttonClick);
-                    communityName = mUnityChannel.getName();
-                    mLauncherLevel5.setVisibility(View.GONE);
-                    initTabAdapter(mView, mUnityChannel);
-                    break;
-                case "Health":
-                    mHealthImageView.startAnimation(buttonClick);
-                    communityName = mHealthChannel.getName();
-                    mLauncherLevel6.setVisibility(View.GONE);
-                    initTabAdapter(mView, mHealthChannel);
-                    break;
-                case "Politics":
-                    mPoliticsImageView.startAnimation(buttonClick);
-                    communityName = mPoliticsChannel.getName();
-                    mLauncherLevel6.setVisibility(View.GONE);
-                    initTabAdapter(mView, mPoliticsChannel);
-                    break;
-                case "Climb":
-                    mClimbImageView.startAnimation(buttonClick);
-                    communityName = mClimbChannel.getName();         // 등산
-                    mLauncherLevel7.setVisibility(View.GONE);
-                    initTabAdapter(mView, mClimbChannel);
-                    break;
-                case "Golf":
-                    mGolfImageView.startAnimation(buttonClick);
-                    communityName = mGolfChannel.getName();
-                    mLauncherLevel7.setVisibility(View.GONE);
-                    initTabAdapter(mView, mGolfChannel);
-                    break;
             }
 
             isKeywordCommunityMode = true;
@@ -1185,19 +1137,7 @@ public class MainFragment extends BaseFragment {
                     Helper.startSigninActivity(mActivity, mCurrentMyPosition);
                 }
                 break;
-/*
 
-            case R.id.keyword_etc:
-                mEtcImageView.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                mProgress.show();
-
-                showCommunityPanel();
-                break;
-*/
-
-//            doing line
             case R.id.talk:
                 mTalk.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
@@ -1220,14 +1160,8 @@ public class MainFragment extends BaseFragment {
                     startActivity(bottomIntent);
 
                     mTouchView.setEnabled(false);
-                } else if (isKeywordCommunityMode) {
-                    String divisionTalk = "talk";
-                    showTutorialDialog(divisionTalk);
-                } else {
-                    String divisionTalk = "talk";
-                    showTutorialDialog(divisionTalk);
-
                 }
+
                 break;
 
             case R.id.headerPanel:
@@ -1320,8 +1254,10 @@ public class MainFragment extends BaseFragment {
                 mInterior.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
                 Toast.makeText(mActivity, mInteriorStatus, Toast.LENGTH_SHORT).show();
-                String division = "interior";
-                showTutorialDialog(division);
+//                String division = "interior";
+//                showTutorialDialog(division);
+                LatLng center = mMap.getCameraPosition().target;
+                mapClickEvent(center);
                 break;
 
             case R.id.towerCrane:
@@ -1331,49 +1267,6 @@ public class MainFragment extends BaseFragment {
                 String division2 = "towerCrane";
                 showTutorialDialog(division2);
                 break;
-
-          /*  case R.id.say:
-                mSay.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-                Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
-                String division3 = "say";
-                showTutorialDialog(division3);
-                break;*/
-
-      /*      case R.id.eye:
-                mEye.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-                Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
-                String division4 = "eye";
-                showTutorialDialog(division4);
-                break;*/
-/*
-
-            case R.id.communityCountry:
-                mCommunityCountryBtn.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-                Toast.makeText(mActivity, "country", Toast.LENGTH_SHORT).show();
-
-                break;
-            case R.id.communityAdmin:
-                mCommunityAdminBtn.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-                Toast.makeText(mActivity, "admin", Toast.LENGTH_SHORT).show();
-
-                break;
-            case R.id.communityLocality:
-                mCommunityLocalityBtn.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-                Toast.makeText(mActivity, "Locality", Toast.LENGTH_SHORT).show();
-
-                break;
-            case R.id.communityThorough:
-                mCommunityThoroughBtn.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-                Toast.makeText(mActivity, "Thorough", Toast.LENGTH_SHORT).show();
-
-                break;
-*/
 
         }
     }
@@ -1644,6 +1537,7 @@ public class MainFragment extends BaseFragment {
 //                    mCommunityChannel = new ChannelData(json);
                 }
             });
+
         } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
@@ -1652,13 +1546,22 @@ public class MainFragment extends BaseFragment {
     private void addCommunityToMap(JSONObject jsonObject) {
         try {
             mMap.clear();
+            int currentZoom = (int) mMap.getCameraPosition().zoom;
 
             mMarkers = jsonObject.getJSONArray("data");
 
             if (mMarkers != null) {
                 for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
-                    Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);       // keyword community mode
+                    int channelZoom = channelData.getLevel();
+                    if(channelData.getType().equals(TYPE_POST) && channelZoom <= currentZoom ){
+                        Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
+                    } else if(channelData.getType().equals(TYPE_COMMUNITY) || channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_COMPLEX)){
+                        Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
+                    } else if(channelData.getType().equals(TYPE_KEYWORD_COMMUNITY)){
+                        Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
+                    }
+
                 }
             }
 
@@ -1867,7 +1770,7 @@ public class MainFragment extends BaseFragment {
         mLatLngByPoint = point;
 
         if (zoom >= 18 && zoom <= 21) {     // 2016.08.27 :: (zoom >= 15 && zoom <= 21)
-            mProgress.setMessage("장소를 만드실 곳의 주소를 찾고 있습니다...");
+            mProgress.setMessage("주소를 찾고 있습니다...");
             mProgress.show();
 
             try {
@@ -1932,8 +1835,7 @@ public class MainFragment extends BaseFragment {
                 Log.e(TAG, "error " + e.toString());
             }
 
-        } else {                    // zoom >=12 && zoom <=14
-
+        } else if (zoom >= 10 && zoom <= 12) {        // zoom >=2 && zoom <=12
             try {
                 JSONObject params = new JSONObject();
                 params.put("latitude", mLatLngByPoint.latitude);
@@ -1944,6 +1846,25 @@ public class MainFragment extends BaseFragment {
                     public void callback(String url, JSONObject object, AjaxStatus status) {
                         mChannelByPoint = new ChannelData(object);
                         String division = "levelSecond";
+                        showJumpDialog(division);
+                    }
+                });
+            } catch (JSONException e) {
+                Log.e(TAG, "error " + e.toString());
+            }
+
+        } else if (zoom >= 13 && zoom <= 17) {                    // zoom >=12 && zoom <=14
+
+            try {
+                JSONObject params = new JSONObject();
+                params.put("latitude", mLatLngByPoint.latitude);
+                params.put("longitude", mLatLngByPoint.longitude);
+
+                mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject object, AjaxStatus status) {
+                        mChannelByPoint = new ChannelData(object);
+                        String division = "levelThird";
                         showJumpDialog(division);
                     }
                 });
@@ -2036,8 +1957,12 @@ public class MainFragment extends BaseFragment {
 
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
-            public View getInfoWindow(Marker arg0) {
-                return null;
+            public View getInfoWindow(Marker marker) {
+                View view = mActivity.getLayoutInflater().inflate(R.layout.widget_info_window, null);
+                TextView name = (TextView) view.findViewById(R.id.wiSpotName);
+                name.setText(marker.getTitle());
+                render(marker, view);
+                return view;
             }
 
             @Override
@@ -2047,8 +1972,12 @@ public class MainFragment extends BaseFragment {
                 TextView name = (TextView) view.findViewById(R.id.wiSpotName);
                 name.setText(marker.getTitle());
 
-                return view;
+                return null;
+            }
 
+            private void render(Marker marker, View view) {
+                // Add the code to set the required values
+                // for each element in your custominfowindow layout file
             }
         });
 
@@ -2209,14 +2138,35 @@ public class MainFragment extends BaseFragment {
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     mAddressChannel = new ChannelData(object);
 
-                    String countryName = mAddressChannel.getCountryName();
-                    String adminArea = mAddressChannel.getAdminArea();
-                    String localityName = mAddressChannel.getLocality();
-                    String thoroughfare = mAddressChannel.getThoroughfare();
+                    String getCenterAddress = mAddressChannel.getAddress();
+                    String countryName = "바다";
+                    String adminArea = null;
+                    String localityName = null;
+                    String thoroughfare = null;
 
-                    if (zoom >= 6 && zoom < 8) {          // 대한민국
-                        mCurrentAddress.setText(countryName);
-                        currentAddress = countryName + " 지역정보";
+                    if (getCenterAddress != null){
+                        if(mAddressChannel.getCountryCode().length() > 1){
+                            countryName = mAddressChannel.getCountryName();
+                            adminArea = mAddressChannel.getAdminArea();
+                            localityName = mAddressChannel.getLocality();
+                            thoroughfare = mAddressChannel.getThoroughfare();
+                        } else {
+                            countryName = "";
+                            adminArea = "바다";
+                            localityName = "";
+                            thoroughfare = "";
+                        }
+
+                    }
+
+                    if (zoom >= 2 && zoom < 8) {          // 대한민국
+                        if (countryName.length() > 1){
+                            mCurrentAddress.setText(countryName);
+                        } else {
+                            mCurrentAddress.setText("바다");
+                        }
+
+                        currentAddress = countryName;
                     } else if (zoom == 8) {     // 도
                         mCurrentAddress.setText(countryName + " " + adminArea);
                         currentAddress = countryName + " " + adminArea + " 지역정보";
@@ -2754,12 +2704,14 @@ public class MainFragment extends BaseFragment {
             params.put("zoom", (int) mMap.getCameraPosition().zoom);
             params.put("limit", 20);
             params.put("sort", "point DESC");
+//            origin :: api_main_findMarkers
             mApi.call(api_main_findMarkers, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     addChannelsToMap(json);
                 }
             });
+
 
             JSONObject params1 = new JSONObject();
             params1.put("name", "대한민국 정보센터");
@@ -2901,8 +2853,7 @@ public class MainFragment extends BaseFragment {
                 }
             });
 
-        } else {
-
+        } else if(division.equals("levelSecond")) {
             okBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -2910,11 +2861,25 @@ public class MainFragment extends BaseFragment {
 
                         LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
                     } else {
                     }
                     dialog.cancel();
+                }
+            });
 
+        } else if(division.equals("levelThird")) {
+            okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (TextUtils.isEmpty(mChannelByPoint.getId())) {
+
+                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+                    } else {
+                    }
+                    dialog.cancel();
                 }
             });
 
@@ -2945,20 +2910,11 @@ public class MainFragment extends BaseFragment {
         text.setText(Helper.getShortAddress(mChannelByPoint));
 
         Button btnCreate = (Button) dialog.findViewById(R.id.create);
-        Button btnFootPrint = (Button) dialog.findViewById(R.id.footPrint);
         Button btnCancel = (Button) dialog.findViewById(R.id.cancel);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Helper.startCreateActivity(mActivity, mChannelByPoint, TYPE_COMPLEX);
-                dialog.dismiss();
-            }
-        });
-
-        btnFootPrint.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mActivity, "Foot Print", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
@@ -3021,6 +2977,8 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mActivity, "Foot Print", Toast.LENGTH_SHORT).show();
+                openWriteFootPrint();
+
                 dialog.dismiss();
             }
         });
@@ -3035,6 +2993,30 @@ public class MainFragment extends BaseFragment {
 
         dialog.show();
 
+    }
+
+    public void openWriteFootPrint() {
+        try {
+            JSONObject params = new JSONObject();
+            params.put("latitude", mLatLngByPoint.latitude);
+            params.put("longitude", mLatLngByPoint.longitude);
+
+            mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+                    mChannelByPoint = new ChannelData(object);
+                    Intent intent = new Intent(mActivity, PostCreateActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("channel", mChannelByPoint.getJsonObject().toString());
+                    bundle.putString("passType", "footPrint");
+                    intent.putExtra("bundle", bundle);
+                    startActivity(intent);
+
+                }
+            });
+        } catch (JSONException e) {
+            Log.e(TAG, "error " + e.toString());
+        }
     }
 
     private void startSpotActivity(ChannelData channel, String type) {

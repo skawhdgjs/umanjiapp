@@ -87,26 +87,6 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/mNotyCount"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/default_btn_red_radius"
-                    android:shadowColor="#A8A8A8"
-                    android:shadowDx="0"
-                    android:shadowDy="0"
-                    android:shadowRadius="5"
-                    android:text="0"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10dp"
-                    android:visibility="gone"
-                    android:layout_alignTop="@+id/loginBtn"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="7dp"
-                    android:layout_marginEnd="7dp"
-                    />
-
-                <Button
                     android:id="@+id/loginBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -130,6 +110,26 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="10dp"
                     android:layout_marginEnd="10dp" />
+
+                <Button
+                    android:id="@+id/mNotyCount"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/default_btn_red_radius"
+                    android:shadowColor="#A8A8A8"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="5"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10dp"
+                    android:visibility="gone"
+                    android:layout_alignTop="@+id/loginBtn"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginEnd="7dp"
+                    />
 
             </RelativeLayout>
 

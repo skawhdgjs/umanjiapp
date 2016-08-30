@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -125,6 +124,7 @@ public final class Helper implements AppConfig {
                 "아파트=주상복합, 주상복합아파트, 빌라, 맨숀, 거주지 /" +
                 "식당=초밥, 비빔밥, 한식, 한식집, 간장게장 /" +
                 "축구=사커, soccer, 조기축구, 조기축구회, 동네축구 /" +
+                "NGO=앤지오, 엔지오, ngo, 비영리재단, 비정부조직 /" +
                 "프로그래머=프로그레머, 프로그래밍, programmer, programer, programing, 개발자";
 
         // 연습장일경우 야구인지 골프인지 모른다
@@ -651,7 +651,7 @@ public final class Helper implements AppConfig {
         Marker marker = null;
 
         IconGenerator tc = new IconGenerator(activity);
-        tc.setColor(Color.parseColor("#ffff33"));           // background color yellow : ffff33
+        tc.setColor(Color.parseColor("#0d0d0d"));           // background color yellow : ffff33
         tc.setTextAppearance(R.style.keywordCommunityText);          // text design
         Bitmap bmp = tc.makeIcon();
 
@@ -666,6 +666,16 @@ public final class Helper implements AppConfig {
         Bitmap smallflag = Bitmap.createScaledBitmap(flag, 100, 100, false);
 
         String name = channelData.getName();
+        String end = "";
+        int stringLength = name.length();
+        int endOfString ;
+        if(stringLength > 10){
+            endOfString = 10;
+            end = "...";
+        } else {
+            endOfString = stringLength;
+        }
+        String title = name.substring(0, endOfString) + end;
 
         if (TextUtils.isEmpty(name)) {
             name = "어떤곳";
@@ -688,6 +698,16 @@ public final class Helper implements AppConfig {
                     .title(name)
                     .snippet(String.valueOf(index))
                     .icon(BitmapDescriptorFactory.fromBitmap(smallflag))
+                    .anchor(0.45f, 1.0f));
+// doing now
+        } else if (channelData.getType().equals(TYPE_POST)) {
+            tc.setTextAppearance(R.style.keywordPostText);
+            marker = map.addMarker(new MarkerOptions().position(point)
+                    .title(name)
+                    .snippet(String.valueOf(index))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(title)))     // String
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.poi2))
+                    .alpha(0.7f)  // default 1.0
                     .anchor(0.45f, 1.0f));
 
         } else if (channelData.getType().equals(TYPE_KEYWORD_COMMUNITY)) {     // like Info Center

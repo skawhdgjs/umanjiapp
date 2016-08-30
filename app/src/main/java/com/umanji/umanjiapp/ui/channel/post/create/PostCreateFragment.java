@@ -50,6 +50,8 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
 
     // for site preview info.
     TextCrawler mTextCrawler;
+    protected TextView mHeaderTitle;
+
     protected LinearLayout mMetaPanel;
     //    protected ChannelData mUser;
     protected ImageView mMetaPhoto;
@@ -79,6 +81,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
     protected ChannelData mUser;
     protected ArrayList<String> mExpertsArr;
     protected AuthData auth;
+    protected String thisType;;
 
     protected String sendPointMessage = "0";
 
@@ -93,6 +96,7 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         super.onCreate(savedInstanceState);
         mExpertsArr = new ArrayList<String>();
 
+        thisType = getArguments().getString("passType");
     }
 
     @Override
@@ -120,6 +124,12 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         super.initWidgets(view);
 
         getUserData();
+
+        mHeaderTitle = (TextView) view.findViewById(R.id.headerTitle);
+        if(thisType != null && thisType.length() > 1 && thisType.equals("footPrint")){
+            mHeaderTitle.setText("흔적남기기");
+            getDefaultChannel();
+        }
 
         mMetaPanel = (LinearLayout) view.findViewById(R.id.metaPanel);
         mMetaPhoto = (ImageView) view.findViewById(R.id.metaPhoto);
@@ -196,6 +206,15 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
         return inflater.inflate(R.layout.activity_post_create, container, false);
     }
 
+    public void getDefaultChannel() {
+        if (getArguments() != null) {
+            String jsonString = getArguments().getString("channel");
+            if (jsonString != null) {
+                mChannel = new ChannelData(jsonString);
+            }
+        }
+    }
+
 
     @Override
     protected void submit() {
@@ -205,7 +224,12 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             requestWithMeta(urls);
 
         } else {
-            request();
+            if(thisType != null && thisType.equals("footPrint")){
+                requestFootPrint();
+            } else {
+                request();
+            }
+
         }
     }
 
@@ -429,6 +453,30 @@ public class PostCreateFragment extends BaseChannelCreateFragment {
             }
         }
 
+    }
+
+    public void requestFootPrint() {
+
+        if (mClicked == true) {
+            Toast.makeText(mActivity, "이미 요청했습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+
+            JSONObject params = mChannel.getAddressJSONObject();
+            params.put("parent", mChannel.getId());
+            params.put("level", mBoundLevel);
+            params.put("name", mName.getText().toString());
+            params.put("type", TYPE_POST);
+
+            mApi.call(api_channels_create, params);
+
+            mClicked = true;
+
+        } catch (JSONException e) {
+            Log.e("BaseChannelCreate", "error " + e.toString());
+        }
     }
 
     @Override

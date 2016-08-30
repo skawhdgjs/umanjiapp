@@ -121,11 +121,20 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
             if (parentType.equals("POST")) {
                 viewHolder.getParentName().setText("댓글");
             } else {
-                viewHolder.getParentName().setText(mChannels.get(position).getParent().getName());
+                String preName = mChannels.get(position).getParent().getName();
+                String name ;
+                if (preName.length() >= 10){
+                    name = preName.substring(0, 10) + "..";
+                } else if(preName.length() == 0) {
+                    name = "일반장소";
+                } else {
+                    name = preName;
+                }
+                viewHolder.getParentName().setText(name);
             }
 
         } else {
-            Toast.makeText(mActivity, "Error on taklAdapter", Toast.LENGTH_LONG).show();
+            viewHolder.getParentName().setText("발자취 흔적");
         }
 
         String dateString = mChannels.get(position).getCreatedAt();
