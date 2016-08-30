@@ -234,12 +234,12 @@ public class ProfessionalFragment extends BottomBaseFragment{
                                     updateView();
                                 }
                             }
-                            mProgress.hide();
+                            mProgress.dismiss();
 
                         } else {
 
                             mLayout.setBackgroundResource(R.drawable.empty_community);
-                            mProgress.hide();
+                            mProgress.dismiss();
 
                         }
                         //mTalkAdapter.notifyDataSetChanged();

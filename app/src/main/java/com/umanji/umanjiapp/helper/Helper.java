@@ -692,12 +692,14 @@ public final class Helper implements AppConfig {
                     .icon(BitmapDescriptorFactory.fromBitmap(smallMarker2))
                     .alpha(1.0f)  // default 1.0
                     .anchor(0.45f, 1.0f));
-        } else if (channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_COMPLEX)) {
+        } else if (channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_COMPLEX) || channelData.getType().equals(TYPE_SPOT_INNER)) {
+            tc.setColor(Color.parseColor("#ffff33"));
             tc.setTextAppearance(R.style.keywordSpotText);
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
-                    .icon(BitmapDescriptorFactory.fromBitmap(smallflag))
+//                    .icon(BitmapDescriptorFactory.fromBitmap(smallflag))
+                    .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(title)))     // String
                     .anchor(0.45f, 1.0f));
 // doing now
         } else if (channelData.getType().equals(TYPE_POST)) {
@@ -710,7 +712,11 @@ public final class Helper implements AppConfig {
                     .alpha(0.7f)  // default 1.0
                     .anchor(0.45f, 1.0f));
 
-        } else if (channelData.getType().equals(TYPE_KEYWORD_COMMUNITY)) {     // like Info Center
+        }
+//        block reason :: do not Info center (keyword community) mark on keyword community mode
+
+        /*
+        else if (channelData.getType().equals(TYPE_KEYWORD_COMMUNITY)) {     // like Info Center
             String thoroughfare = channelData.getParent().getThoroughfare();
             String locality = channelData.getParent().getLocality();
             String admin = channelData.getParent().getAdminArea();
@@ -746,16 +752,16 @@ public final class Helper implements AppConfig {
                     .anchor(0.45f, 1.0f));
 
         } else {
-            /*
+            *//*
             marker = map.addMarker(new MarkerOptions().position(point)
                     .title(name)
                     .snippet(String.valueOf(index))
                     .icon(BitmapDescriptorFactory.fromBitmap(bmp = tc.makeIcon(keyword)))
                     .alpha(0.8f)  // default 1.0
                     .anchor(0.45f, 1.0f));
-            */
+            *//*
         }
-
+*/
         return marker;
 
 /*

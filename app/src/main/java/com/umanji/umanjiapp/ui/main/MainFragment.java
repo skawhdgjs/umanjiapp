@@ -104,6 +104,7 @@ public class MainFragment extends BaseFragment {
     /****************************************************
      * Top View
      ****************************************************/
+    private ImageView mMainLogo;
     private ImageView mAvatarImageBtn;
     private Button mLoginBtn;
     private LinearLayout mSearchLayout;
@@ -486,6 +487,9 @@ public class MainFragment extends BaseFragment {
     @Override
     public void initWidgets(View view) {
 
+        mMainLogo = (ImageView) view.findViewById(R.id.main_Logo);
+        mMainLogo.setOnClickListener(this);
+
         mAlert = new AlertDialog.Builder(mActivity);
 
         mUmanji = (TextView) view.findViewById(R.id.logo);
@@ -730,7 +734,7 @@ public class MainFragment extends BaseFragment {
             mKeywordCommunityToolbar.setVisibility(View.VISIBLE);
             mKeywordTitle.setText(communityName);
             getKeywordCommunityData();  // keywordCommunityMode 일때 키워드 전문가 tab 추가
-//            loadCommunityMarkers(communityName);
+//            loadKeywordCommunityMarkers(communityName);
 //            mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
         }
     }
@@ -1066,11 +1070,20 @@ public class MainFragment extends BaseFragment {
             mLauncherLevel8.setVisibility(View.VISIBLE);
             buttonClick.setDuration(500);
             mKeywordTitle.setText(communityName);
-            updateCommunityBtn(zoom);
-            loadCommunityMarkers(communityName);
+//            updateCommunityBtn(zoom);
+            loadKeywordCommunityMarkers(communityName);
         }
 
         switch (v.getId()) {
+
+            case R.id.main_Logo:
+                mMainLogo.startAnimation(buttonClick);
+                buttonClick.setDuration(500);
+
+                Intent webInt = new Intent(mActivity, WebViewActivity.class);
+                webInt.putExtra("url", "http://umanji.com");
+                mActivity.startActivity(webInt);
+                break;
 
             case R.id.community_close_button:
                 int zoom = (int) mMap.getCameraPosition().zoom;
@@ -1094,6 +1107,8 @@ public class MainFragment extends BaseFragment {
                         mLauncherLevel7.setVisibility(View.VISIBLE);
                         break;
                 }
+                mActivity.finish();
+                /*
 //                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);         // mapy type :: MAP_TYPE_NORMAL / MAP_TYPE_TERRAIN / MAP_TYPE_SATELLITE / MAP_TYPE_HYBRID /
                 mCommunityCloseBtn.setVisibility(View.GONE);        // 오른쪽 닫기 버튼
 //                mToCommunityBtn.setVisibility(View.GONE);           // 커뮤니티 정보센터 바로가기
@@ -1105,15 +1120,16 @@ public class MainFragment extends BaseFragment {
                 mLauncherLevel8.setVisibility(View.VISIBLE);           // talk 보임
                 isKeywordCommunityMode = false;
                 loadData();
+                */
                 break;
 
             case R.id.logo:
                 mUmanji.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
-                Intent webInt = new Intent(mActivity, WebViewActivity.class);
-                webInt.putExtra("url", "http://umanji.com/2016/06/17/manual0001/");
-                mActivity.startActivity(webInt);
+                Intent umanjiHomePage = new Intent(mActivity, WebViewActivity.class);
+                umanjiHomePage.putExtra("url", "http://umanji.com/2016/06/17/manual0001/");
+                mActivity.startActivity(umanjiHomePage);
                 break;
 
             case R.id.loginBtn:
@@ -1525,15 +1541,17 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void loadCommunityMarkers(String communityName) {
+    private void loadKeywordCommunityMarkers(String communityName) {
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("keywords", communityName);
-
+//            params.put("zoom", (int) mMap.getCameraPosition().zoom);
+// 2016.08.30 :: api_main_findDistributions  -> get all type of spot, keywordcommunity
+// 2016.08.30 :: api_main_findPosts  -> get only type of post
             mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
-                    addCommunityToMap(json);
+                    addKeywordCommunityMarkersToMap(json);
 //                    mCommunityChannel = new ChannelData(json);
                 }
             });
@@ -1543,7 +1561,7 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    private void addCommunityToMap(JSONObject jsonObject) {
+    private void addKeywordCommunityMarkersToMap(JSONObject jsonObject) {
         try {
             mMap.clear();
             int currentZoom = (int) mMap.getCameraPosition().zoom;
@@ -1554,13 +1572,19 @@ public class MainFragment extends BaseFragment {
                 for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
                     int channelZoom = channelData.getLevel();
-                    if(channelData.getType().equals(TYPE_POST) && channelZoom <= currentZoom ){
+                   if(channelData.getType().equals(TYPE_POST) && channelZoom <= currentZoom ){
                         Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
-                    } else if(channelData.getType().equals(TYPE_COMMUNITY) || channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_COMPLEX)){
+                    } else if(channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_SPOT_INNER) || channelData.getType().equals(TYPE_COMPLEX)){
+                       Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
+                   }
+
+
+/*                     else if(channelData.getType().equals(TYPE_COMMUNITY) || channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_COMPLEX)){
                         Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
                     } else if(channelData.getType().equals(TYPE_KEYWORD_COMMUNITY)){
                         Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
                     }
+*/
 
                 }
             }
@@ -1902,7 +1926,7 @@ public class MainFragment extends BaseFragment {
                     marker.hideInfoWindow();
                 } else {
                     if (isKeywordCommunityMode) {
-                        marker.setInfoWindowAnchor(.5f, 1.0f);
+                        marker.setInfoWindowAnchor(0.5f, 0f);  // 0.5f, 1.0  0 :center is Left / 0.5 : c is middle / 1 : c is Right
                     }
                     marker.showInfoWindow();
                 }
@@ -2033,11 +2057,11 @@ public class MainFragment extends BaseFragment {
                         }
 
 
-                        updateCommunityBtn(zoom);
+//                        updateCommunityBtn(zoom);
                         getKeywordCommunityData();  //kakao button toggle
 //                        keyword Parse
                         String keywordParse = Helper.dictionaryHasKeyword(communityName);
-                        loadCommunityMarkers(keywordParse);
+                        loadKeywordCommunityMarkers(keywordParse);
                     }
 //************************************************************************************************** isTalkMode (normalMode)
                 } else {                  // start main

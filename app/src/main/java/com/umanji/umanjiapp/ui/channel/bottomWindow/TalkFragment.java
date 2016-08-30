@@ -32,6 +32,8 @@ public class TalkFragment extends BottomBaseFragment {
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
 
+    private boolean isFirst = true;
+
     public ApiHelper mApi;
     private JSONObject mParams;
     private String thisType;
@@ -86,12 +88,6 @@ public class TalkFragment extends BottomBaseFragment {
         View rootView = inflater.inflate(R.layout.recycler_view_frag, container, false);
         rootView.setTag(TAG);
 
-        mProgress = new ProgressDialog(getActivity());
-        mProgress.setMessage("데이터를 불러오고 있습니다. 잠시만 기다려주세요...");
-//        mProgress.setTitle("Connecting server");
-        mProgress.setCancelable(true);
-//        mProgress.show();
-
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         addOnScrollListener(mRecyclerView);
 
@@ -111,6 +107,15 @@ public class TalkFragment extends BottomBaseFragment {
 //        setRecyclerViewLayoutManager(LayoutManagerType.LINEAR_LAYOUT_MANAGER);
 
         return rootView;
+    }
+
+    public void showProgress(){
+        mProgress = new ProgressDialog(getActivity());
+        mProgress.setMessage("데이터를 불러오고 있습니다. 잠시만 기다려주세요...");
+//        mProgress.setTitle("Connecting server");
+        mProgress.setCancelable(true);
+
+        mProgress.show();
     }
 
     protected void addOnScrollListener(RecyclerView rView) {
@@ -150,6 +155,8 @@ public class TalkFragment extends BottomBaseFragment {
         } else {
             loadMoreKeywordData(mParams);
         }
+
+        isFirst = false;
     }
 
     public void updateView() {
@@ -190,6 +197,11 @@ public class TalkFragment extends BottomBaseFragment {
 
         isLoading = true;
         mLoadCount = mLoadCount + 1;
+
+        if(isFirst) {
+            showProgress();
+        }
+
 
         try {
             params.put("page", mAdapter.getCurrentPage());
@@ -233,6 +245,7 @@ public class TalkFragment extends BottomBaseFragment {
 
                         }
                         //mTalkAdapter.notifyDataSetChanged();
+                        mProgress.dismiss();
                         isLoading = false;
                     } catch (JSONException e) {
                         Log.e(TAG, "Error " + e.toString());
@@ -248,6 +261,8 @@ public class TalkFragment extends BottomBaseFragment {
 
         isLoading = true;
         mLoadCount = mLoadCount + 1;
+
+        showProgress();
 
         try {
             params.put("page", mAdapter.getCurrentPage());
@@ -286,6 +301,7 @@ public class TalkFragment extends BottomBaseFragment {
 
                         }
                         //mTalkAdapter.notifyDataSetChanged();
+                        mProgress.dismiss();
                         isLoading = false;
                     } catch (JSONException e) {
                         Log.e(TAG, "Error " + e.toString());

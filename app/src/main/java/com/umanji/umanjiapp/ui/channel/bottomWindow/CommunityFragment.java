@@ -101,7 +101,7 @@ public class CommunityFragment extends BottomBaseFragment {
         mProgress.setMessage("잠시만 기다려주세요...");
 //        mProgress.setTitle("Connecting server");
         mProgress.setCancelable(true);
-//        mProgress.show();
+        mProgress.show();
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
 
@@ -169,7 +169,7 @@ public class CommunityFragment extends BottomBaseFragment {
 
     public void updateView() {
         mAdapter.notifyDataSetChanged();
-        mProgress.hide();
+        mProgress.dismiss();
     }
 
     /**
@@ -266,7 +266,7 @@ public class CommunityFragment extends BottomBaseFragment {
                             updateView();
                         } else {
                             mLayout.setBackgroundResource(R.drawable.empty_community);
-                            mProgress.hide();
+                            mProgress.dismiss();
                         }
 
                         isLoading = false;
@@ -326,13 +326,12 @@ public class CommunityFragment extends BottomBaseFragment {
 
                                 updateView();
                             }
-                            mProgress.hide();
 
                         } else {
                             mLayout.setBackgroundResource(R.drawable.empty_community);
-                            mProgress.hide();
                         }
                         //mTalkAdapter.notifyDataSetChanged();
+                        mProgress.dismiss();
                         isLoading = false;
                     } catch (JSONException e) {
                         Log.e(TAG, "Error " + e.toString());
