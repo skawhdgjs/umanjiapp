@@ -5,14 +5,18 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -34,6 +38,7 @@ import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 import com.umanji.umanjiapp.ui.distribution.DistributionActivity;
 import com.umanji.umanjiapp.ui.modal.map.update_address.MapUpdateAddressActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,9 +55,12 @@ public class AboutFragment extends BaseChannelListFragment {
 
     protected LinearLayout mRepresentKeyword;
 
+    protected TextView mNameType;
     protected TextView mName;
     protected TextView mKeywordName;
     protected TextView mUpdatedDate;
+
+    protected Button mDescEditButton;
 
     protected LinearLayout mAppointmentBar;
     protected TextView mAppointment;
@@ -94,6 +102,8 @@ public class AboutFragment extends BaseChannelListFragment {
     public void initWidgets(View view) {
         mAppointmentBar = (LinearLayout) view.findViewById(R.id.appointmentBar);
         final TestCDN mCdn = new TestCDN();
+
+        mNameType = (TextView) view.findViewById(R.id.nameType);
 
         try {
             JSONObject param = new JSONObject();
@@ -140,7 +150,26 @@ public class AboutFragment extends BaseChannelListFragment {
             e.printStackTrace();
         }
 
+        mDescEditButton = (Button) view.findViewById(R.id.descEditBtn);
+        mDescEditButton.setOnClickListener(this);
 
+/*
+
+        JSONObject data = jsonObject;
+        if(jsonObject.optJSONObject("data") != null) {
+            data = jsonObject.optJSONObject("data");
+        }
+*/
+
+        JSONObject descObject = new JSONObject();
+        descObject = mChannel.getDesc();
+
+        String title = "";
+        if(descObject != null && descObject.optString("description") != null){
+            title = descObject.optString("description");
+        }
+        TextView myTV = (TextView) view.findViewById(R.id.clickable_text_view);
+        myTV.setText(title);
 
         mEditChannelBtn = (TextView) view.findViewById(R.id.editChannelBtn);
         mEditChannelBtn.setOnClickListener(this);
@@ -202,8 +231,34 @@ public class AboutFragment extends BaseChannelListFragment {
 
         setAddBtn(mActivity, mChannel);
         setDeleteBtn(mActivity, mChannel);
+    }
 
+    private void editDescription() {
+        ViewSwitcher switcher = (ViewSwitcher) getView().findViewById(R.id.my_switcher);
+        switcher.showNext(); //or switcher.showPrevious();
+//        TextView myTV = (TextView) switcher.findViewById(R.id.clickable_text_view);
+//        myTV.setText(mChannel.getDesc().toString());
+    }
 
+    private void request(){
+        ViewSwitcher switcher = (ViewSwitcher) getView().findViewById(R.id.my_switcher);
+        EditText descEditPanel = (EditText) switcher.findViewById(R.id.hidden_edit_view);
+        String description = descEditPanel.getText().toString();
+
+        try {
+            JSONObject params = new JSONObject();
+            mChannel.setAddressJSONObject(params);
+            params.put("id", mChannel.getId());
+
+            JSONObject descParams = new JSONObject();
+            descParams.put("description", description);
+            params.put("desc", descParams);
+
+            mApi.call(api_channels_id_update, params);
+
+        }catch(JSONException e) {
+            Log.e("BaseChannelUpdate", "error " + e.toString());
+        }
     }
 
     private void setAddBtn(Activity activity, ChannelData channelData) {
@@ -249,6 +304,19 @@ public class AboutFragment extends BaseChannelListFragment {
         switch (v.getId()) {
             case R.id.editChannelBtn:
                 startChannelUpdateActivity(mActivity, mChannel);
+                break;
+
+            case R.id.descEditBtn:
+                if(mDescEditButton.getText().equals("수정")){
+                    editDescription();
+                    mDescEditButton.setText("제출");
+                } else {
+                    request();
+                    mDescEditButton.setText("수정");
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    ft.detach(this).attach(this).commit();
+                }
+
                 break;
 
             case R.id.deleteBtn:

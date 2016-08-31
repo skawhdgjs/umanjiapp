@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/talkCard"
     android:layout_width="match_parent"
     android:layout_height="170dp"
     android:paddingBottom="7dp"
@@ -23,10 +22,13 @@
         android:layout_alignParentStart="true" />
 
     <ImageView
+        android:id="@+id/talkCard"
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:scaleType="fitXY"
         android:src="@drawable/dark_bg"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
         app:layout_collapseMode="parallax"
         app:layout_collapseParallaxMultiplier="1.0"
         android:layout_centerVertical="true"

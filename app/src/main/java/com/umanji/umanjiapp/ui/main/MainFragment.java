@@ -778,15 +778,11 @@ public class MainFragment extends BaseFragment {
                                 mTalk.startAnimation(talkAnimation);
 
                                 mChannel = new ChannelData(json);
-
                             } else {
-
                                 isTalkFlag = false;
                                 mTalk.setImageResource(R.drawable.button_kakao_black);
                                 mTalk.clearAnimation();
-
                             }
-
                             isLoading = false;
                             //mTalkAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {
@@ -870,15 +866,11 @@ public class MainFragment extends BaseFragment {
                                     mTalk.startAnimation(talkAnimation);
 
                                     mChannel = new ChannelData(json);
-
                                 } else {
-
                                     isTalkFlag = false;
                                     mTalk.setImageResource(R.drawable.button_kakao_black);
                                     mTalk.clearAnimation();
-
                                 }
-
                                 isLoading = false;
                                 //mTalkAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
@@ -924,13 +916,10 @@ public class MainFragment extends BaseFragment {
                                     mTalk.startAnimation(talkAnimation);
 
                                     mChannel = new ChannelData(json);
-
                                 } else {
-
                                     isTalkFlag = false;
                                     mTalk.setImageResource(R.drawable.button_kakao_black);
                                     mTalk.clearAnimation();
-
                                 }
                                 EventBus.getDefault().post(new SuccessData(DATA_EXPERT, experts));
 
@@ -1176,6 +1165,8 @@ public class MainFragment extends BaseFragment {
                     startActivity(bottomIntent);
 
                     mTouchView.setEnabled(false);
+                } else {
+                    Toast.makeText(mActivity, "이곳에는 아직 아무도 글을 남기지 않았습니다", Toast.LENGTH_LONG).show();
                 }
 
                 break;
@@ -1281,7 +1272,7 @@ public class MainFragment extends BaseFragment {
                 buttonClick.setDuration(500);
                 Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
                 String division2 = "towerCrane";
-                showTutorialDialog(division2);
+//                showTutorialDialog(division2);
                 break;
 
         }
@@ -1442,7 +1433,7 @@ public class MainFragment extends BaseFragment {
                             });
 
                             dialog.show();
-                            mProgress.hide();
+                            mProgress.dismiss();
 
                         } catch (JSONException e) {
                             Log.e(TAG, "Error " + e.toString());
@@ -1779,17 +1770,17 @@ public class MainFragment extends BaseFragment {
         }
 
         final int zoom = (int) mMap.getCameraPosition().zoom;
-
+/*
         if (mUser != null) {
             if (LevelModule.isComplexCreatable(zoom) && mUser.getPoint() < POINT_CREATE_COMPLEX) {
                 int gapPoint = POINT_CREATE_COMPLEX - mUser.getPoint();
-
                 showComplexTutorialDialog();
 
-                mProgress.hide();
+                mProgress.dismiss();
                 return;
             }
         }
+*/
 
         mLatLngByPoint = point;
 
@@ -1824,16 +1815,16 @@ public class MainFragment extends BaseFragment {
 
                             } else {
                                 Helper.startSigninActivity(mActivity, mCurrentMyPosition);
-                                mProgress.hide();
+                                mProgress.dismiss();
                             }
 
                         } else {
                             if (LevelModule.isComplexCreatable(zoom)) {
                                 startSpotActivity(mChannelByPoint, TYPE_COMPLEX);
-                                mProgress.hide();
+                                mProgress.dismiss();
                             } else if (LevelModule.isSpotCreatable(zoom)) {
                                 startSpotActivity(mChannelByPoint, TYPE_SPOT);
-                                mProgress.hide();
+                                mProgress.dismiss();
                             }
                         }
                     }
@@ -1841,7 +1832,7 @@ public class MainFragment extends BaseFragment {
             } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
-        } else if (zoom >= 2 && zoom <= 9) {        // zoom >=2 && zoom <=12
+        } else if (zoom >= 2 && zoom <= 17) {        // zoom >=2 && zoom <=12
             try {
                 JSONObject params = new JSONObject();
                 params.put("latitude", mLatLngByPoint.latitude);
@@ -1851,52 +1842,14 @@ public class MainFragment extends BaseFragment {
                     @Override
                     public void callback(String url, JSONObject object, AjaxStatus status) {
                         mChannelByPoint = new ChannelData(object);
-                        String division = "levelFirst";
-                        showJumpDialog(division);
-                    }
-                });
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-
-        } else if (zoom >= 10 && zoom <= 12) {        // zoom >=2 && zoom <=12
-            try {
-                JSONObject params = new JSONObject();
-                params.put("latitude", mLatLngByPoint.latitude);
-                params.put("longitude", mLatLngByPoint.longitude);
-
-                mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject object, AjaxStatus status) {
-                        mChannelByPoint = new ChannelData(object);
-                        String division = "levelSecond";
-                        showJumpDialog(division);
-                    }
-                });
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-
-        } else if (zoom >= 13 && zoom <= 17) {                    // zoom >=12 && zoom <=14
-
-            try {
-                JSONObject params = new JSONObject();
-                params.put("latitude", mLatLngByPoint.latitude);
-                params.put("longitude", mLatLngByPoint.longitude);
-
-                mApi.call(api_channels_getByPoint, params, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject object, AjaxStatus status) {
-                        mChannelByPoint = new ChannelData(object);
-                        String division = "levelThird";
-                        showJumpDialog(division);
+//                        String division = "levelFirst";
+                        showJumpDialog(zoom);
                     }
                 });
             } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
             }
         }
-
     }
 
     protected void initMapEvents() {
@@ -2582,7 +2535,7 @@ public class MainFragment extends BaseFragment {
         } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
-        mProgress.hide();
+        mProgress.dismiss();
     }
 
 
@@ -2751,7 +2704,7 @@ public class MainFragment extends BaseFragment {
         } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }
-        mProgress.hide();
+        mProgress.dismiss();
     }
 
     private void loadMainMarkers() {
@@ -2777,7 +2730,7 @@ public class MainFragment extends BaseFragment {
             } catch (JSONException e) {
                 Log.e(TAG, "Error " + e.toString());
             }
-            mProgress.hide();
+            mProgress.dismiss();
     }
 
     private void addChannelsToMap(JSONObject jsonObject) {
@@ -2841,8 +2794,8 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void showJumpDialog(String division) {
-        mProgress.hide();
+    private void showJumpDialog(int level) {
+        mProgress.dismiss();
 
         final Dialog dialog = new Dialog(mActivity);
         dialog.setContentView(R.layout.dialog_zoom_changed);
@@ -2859,55 +2812,28 @@ public class MainFragment extends BaseFragment {
         Button okBtn = (Button) dialog.findViewById(R.id.moveDialogOK);
         Button cancelBtn = (Button) dialog.findViewById(R.id.moveDialogCancel);
 
-
-        if (division.equals("levelFirst")) {
-
-            okBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (TextUtils.isEmpty(mChannelByPoint.getId())) {
-
-                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(12), 2000, null);
-                    } else {
-                    }
-                    dialog.cancel();
-
-                }
-            });
-
-        } else if(division.equals("levelSecond")) {
-            okBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (TextUtils.isEmpty(mChannelByPoint.getId())) {
-
-                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
-                    } else {
-                    }
-                    dialog.cancel();
-                }
-            });
-
-        } else if(division.equals("levelThird")) {
-            okBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (TextUtils.isEmpty(mChannelByPoint.getId())) {
-
-                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
-                    } else {
-                    }
-                    dialog.cancel();
-                }
-            });
-
+        int zoom = level;
+        int toZoom = zoom +3;
+        if (toZoom >= 18){
+            toZoom = 18;
         }
+
+        final int finalToZoom = toZoom;
+
+        okBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (TextUtils.isEmpty(mChannelByPoint.getId())) {
+
+                        LatLng tmpPoint = Helper.getAdjustedPoint(mMap, mLatLngByPoint);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(tmpPoint));
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(finalToZoom), 2000, null);
+                    } else {
+                    }
+                    dialog.cancel();
+
+                }
+            });
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -2920,7 +2846,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void showCreateComplexDialog() {
-        mProgress.hide();
+        mProgress.dismiss();
 
         final Dialog dialog = new Dialog(mActivity);
         dialog.setContentView(R.layout.dialog_create_complex);
@@ -2956,7 +2882,7 @@ public class MainFragment extends BaseFragment {
     }
 
     private void showCreateSpotDialog() {
-        mProgress.hide();
+        mProgress.dismiss();
 
         final Dialog dialog = new Dialog(mActivity);
         dialog.setContentView(R.layout.dialog_create_spot);

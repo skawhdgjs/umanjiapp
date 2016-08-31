@@ -19,6 +19,8 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
 
+import org.json.JSONObject;
+
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -122,6 +124,17 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
             viewHolder.getParentName().setText("일반장소");
         }
 
+
+        JSONObject descObject = new JSONObject();
+        if (mChannels.get(position).getDesc() != null){
+            descObject = mChannels.get(position).getDesc();
+            String title = "";
+            if(descObject != null && descObject.optString("description") != null){
+                title = descObject.optString("description");
+                viewHolder.getExplain().setText(title);
+            }
+        }
+
     }
 
     public ArrayList<ChannelData> getDocs() {
@@ -160,12 +173,13 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final RelativeLayout mTalkCard;
+        private final ImageView mTalkCard;
         private final ImageView mUserPhoto;
         private final TextView mName;
         private final TextView mKeyword;
         private final TextView mAddressShort;
         private final TextView mParentName;
+        private final TextView mExplain;
 
 
         public ViewHolder(View v) {
@@ -180,16 +194,17 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
             });
 
 
-            mTalkCard = (RelativeLayout) v.findViewById(R.id.talkCard);
+            mTalkCard = (ImageView) v.findViewById(R.id.talkCard);
             mUserPhoto = (ImageView) v.findViewById(R.id.userPhoto);
             mKeyword = (TextView) v.findViewById(R.id.keyword);
             mName = (TextView) v.findViewById(R.id.name);
             mParentName = (TextView) v.findViewById(R.id.parentName);
             mAddressShort = (TextView) v.findViewById(R.id.address_short);
+            mExplain = (TextView) v.findViewById(R.id.explain);
 
         }
 
-        public RelativeLayout getTalkCard() {
+        public ImageView getTalkCard() {
             return mTalkCard;
         }
 
@@ -211,6 +226,10 @@ public class CommunityAdapter extends RecyclerView.Adapter<CommunityAdapter.View
 
         public TextView getAddressShort() {
             return mAddressShort;
+        }
+
+        public TextView getExplain() {
+            return mExplain;
         }
     }
 }

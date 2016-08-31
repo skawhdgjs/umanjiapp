@@ -11,7 +11,7 @@
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 
     <RelativeLayout
@@ -114,6 +114,47 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:layout_below="@+id/homePanel"
+                android:id="@+id/descPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ViewSwitcher
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/my_switcher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+                    <TextView
+                        android:id="@+id/clickable_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+
+                        android:text="this is community....."
+                        android:textSize="20dp"/>
+                    <!--
+                    android:onClick="TextViewClicked"
+                    -->
+
+                    <EditText
+                        android:id="@+id/hidden_edit_view"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="edit here...." >
+                    </EditText>
+                </ViewSwitcher>
+
+                <Button
+                    android:id="@+id/descEditBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="수정"
+                    android:layout_gravity="right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/descPanel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -128,6 +169,7 @@
                     android:paddingTop="10dp">
 
                     <TextView
+                        android:id="@+id/nameType"
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:text="장소이름"

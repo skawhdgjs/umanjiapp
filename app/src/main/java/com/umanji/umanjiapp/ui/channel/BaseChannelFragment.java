@@ -95,6 +95,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     protected ChannelData mOwner;
 
     protected ImageView mToolbarBtn;
+    protected TextView mExplain;
 
 
     /****************************************************
@@ -300,6 +301,16 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         mInfoBtn = (ImageView) view.findViewById(R.id.infoButton);
         if (mInfoBtn != null) {
             mInfoBtn.setOnClickListener(this);
+        }
+
+        JSONObject descObject = new JSONObject();
+        descObject = mChannel.getDesc();
+
+        String title = "";
+        if(descObject != null && descObject.optString("description") != null){
+            title = descObject.optString("description");
+            mExplain = (TextView) view.findViewById(R.id.explain);
+            mExplain.setText(title);
         }
     }
 
