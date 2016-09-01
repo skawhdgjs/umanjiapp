@@ -497,22 +497,38 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                         mUser = auth.getUser();
                         mExperts = mUser.getSubLinks();
                         SubLinkData element;
+                        SubLinkData checkElement;
 
-                        for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
-                            element = mExperts.get(idx);
-                            String name = element.getName().toString();
-
-                            if (name.length() != 0) {
-                                mExpertsArr.add(name);
-                            }
-
-                            if (thisChannelKeywords[0].equals(name) && element.getPoint().equals("1000")) {               // channel keyword == user has keyword
-                                askUpdateToExpert();
+                        boolean isManager = false;
+                        for(int index = 0; mExperts.size() > index; index++){       // check Manager in this keyword
+                            checkElement = mExperts.get(index);
+                            String checkName = checkElement.getName().toString();
+                            if(thisChannelKeywords[0].equals(checkName)){
+                                String thisType = checkElement.getType();
+                                if(thisType.equals(TYPE_MANAGER)){
+                                    isManager = true;
+                                    Toast.makeText(mActivity, "You are the KING of" +thisChannelKeywords[0], Toast.LENGTH_LONG).show();
+                                }
                             }
                         }
-                        Log.d("Paul", "auth :: " + mUser);
-                    }
 
+                        if (isManager) {
+
+                        } else {
+                            for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
+                                element = mExperts.get(idx);
+                                String name = element.getName().toString();
+
+                                if (name.length() != 0) {
+                                    mExpertsArr.add(name);
+                                }
+
+                                if (thisChannelKeywords[0].equals(name) && element.getPoint().equals("1000")) {   // channel keyword == user has keyword
+                                    askUpdateToManager(thisChannelKeywords[0]);
+                                }
+                            }
+                        }
+                    }
                 }
             });
 
@@ -521,19 +537,54 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         }
     }
 
-    private void askUpdateToExpert() {
+    private void askUpdateToManager(String keyword) {
         new SweetAlertDialog(mActivity, SweetAlertDialog.NORMAL_TYPE)
-                .setTitleText("관리자 승격!")
-                .setContentText("키워드 전문가가 되시겠습니까?")
+                .setTitleText("채널관리자 후보!")
+                .setContentText(keyword + " 채널 관리자가 되시겠습니까?")
                 .setConfirmText("확인")
                 .setCancelText("취소")
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
+                        request();
                         sDialog.dismissWithAnimation();
                     }
                 })
                 .show();
+    }
+    //                        doing here
+
+    private void request() {
+        if (mClicked == true) {
+            Toast.makeText(mActivity, "이미 요청했습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mUser = auth.getUser();
+        String[] keywords = mChannel.getKeywords();
+        String keyword = keywords[0];
+
+
+        try {
+            JSONObject params = mChannel.getAddressJSONObject();
+            params.put("owner", mUser.getId());
+            params.put("sub_name", keyword);
+            params.put("sub_type", TYPE_MANAGER);
+//            mApi.call(api_channels_id_createManager, params);   //api_channels_id_createManager   api_channels_id_update
+
+            mApi.call(api_channels_id_createManager, params, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject object, AjaxStatus status) {
+
+
+                }
+            });
+            Toast.makeText(mActivity, "축하합니다! " + keyword + " 채널 관리자가 되셨습니다!", Toast.LENGTH_LONG).show();
+
+            mClicked = true;
+        } catch (JSONException e) {
+            Log.e("BaseChannelCreate", "error " + e.toString());
+        }
+
     }
 
 
@@ -579,7 +630,6 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                         }
                     } else {                                                 // 일반 장소
                         if (hasKeyword()) {               // 키워드가 있냐
-//                            doing now
                             String[] keywords = mChannel.getKeywords();
                             String keyword = keywords[0];
                             openCreatePost(keyword);

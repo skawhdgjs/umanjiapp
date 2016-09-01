@@ -85,8 +85,9 @@ public class TalkAdapter extends RecyclerView.Adapter<TalkAdapter.ViewHolder> {
                         Helper.startActivity(mActivity, mChannel, "BottomList");
                     }
 
-                } else {
-                    Toast.makeText(mActivity, "준비중입니다", Toast.LENGTH_SHORT).show();
+                } else {        // 발자취 흔적
+                    mChannel = mChannels.get(position);
+                    Helper.startActivity(mActivity, mChannel, "BottomList");
                 }
 
             }

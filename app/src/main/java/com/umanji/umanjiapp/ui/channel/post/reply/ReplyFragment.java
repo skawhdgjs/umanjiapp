@@ -567,23 +567,22 @@ public class ReplyFragment extends BaseChannelListFragment {
         title.setTextSize(22);
 
         mGotoSpot = (LinearLayout) dialog.findViewById(R.id.gotoSpot);
-
-        mAdvertise = (LinearLayout) dialog.findViewById(R.id.advertise);
-        mAbuse = (LinearLayout) dialog.findViewById(R.id.abuse);
-        mEdit = (LinearLayout) dialog.findViewById(R.id.edit);
-        mCancel = (Button) dialog.findViewById(R.id.cancelButton);
-
         mGotoSpot.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 EventBus.getDefault().post(new SuccessData(EVENT_LOOK_AROUND, mChannel.getJsonObject()));
+//                mActivity.finish();
                 dialog.dismiss();
             }
         });
         mGotoSpot.startAnimation(buttonClick);
         buttonClick.setDuration(500);
 
+        mAdvertise = (LinearLayout) dialog.findViewById(R.id.advertise);
+        mAbuse = (LinearLayout) dialog.findViewById(R.id.abuse);
+        mEdit = (LinearLayout) dialog.findViewById(R.id.edit);
+        mCancel = (Button) dialog.findViewById(R.id.cancelButton);
 
         mAdvertise.setOnClickListener(new View.OnClickListener() {
             @Override

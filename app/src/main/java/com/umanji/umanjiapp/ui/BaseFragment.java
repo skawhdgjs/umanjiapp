@@ -38,6 +38,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
      ****************************************************/
     public AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
     public AlertDialog.Builder mAlert;
+    public boolean mClicked = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
