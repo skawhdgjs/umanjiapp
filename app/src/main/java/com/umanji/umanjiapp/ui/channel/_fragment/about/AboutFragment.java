@@ -130,7 +130,7 @@ public class AboutFragment extends BaseChannelListFragment {
                     boolean isUpper = false;
                     isUpper = mCdn.isUpper(myRole, centerManager);
 
-                    if (mChannel.getType().equals(TYPE_INFO_CENTER)){
+                    if (mChannel.getType().equals(TYPE_INFO_CENTER) || mChannel.getType().equals(TYPE_KEYWORD_COMMUNITY)){
                         if(mUserId.equals(mOwnerId)){                         // Info의 owner ID와 User의 ID가 같은면
                             mAppointmentBar.setVisibility(View.VISIBLE);
                         } else if (isUpper) {

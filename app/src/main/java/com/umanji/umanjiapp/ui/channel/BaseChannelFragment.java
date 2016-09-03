@@ -72,7 +72,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
     protected TextView mName;
     protected LinearLayout mParentNamePanel;
     protected TextView mParentName;
-//    protected ImageView mParentInfoCenter;
+    //    protected ImageView mParentInfoCenter;
     protected ImageView mPhoto;
 
     protected ImageView mUserPhoto;
@@ -307,7 +307,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         descObject = mChannel.getDesc();
 
         String title = "";
-        if(descObject != null && descObject.optString("description") != null){
+        if (descObject != null && descObject.optString("description") != null) {
             title = descObject.optString("description");
             mExplain = (TextView) view.findViewById(R.id.explain);
             mExplain.setText(title);
@@ -500,14 +500,14 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                         SubLinkData checkElement;
 
                         boolean isManager = false;
-                        for(int index = 0; mExperts.size() > index; index++){       // check Manager in this keyword
+                        for (int index = 0; mExperts.size() > index; index++) {       // check Manager in this keyword
                             checkElement = mExperts.get(index);
                             String checkName = checkElement.getName().toString();
-                            if(thisChannelKeywords[0].equals(checkName)){
+                            if (thisChannelKeywords[0].equals(checkName)) {
                                 String thisType = checkElement.getType();
-                                if(thisType.equals(TYPE_MANAGER)){
+                                if (thisType.equals(TYPE_MANAGER)) {
                                     isManager = true;
-                                    Toast.makeText(mActivity, "You are the KING of" +thisChannelKeywords[0], Toast.LENGTH_LONG).show();
+                                    Toast.makeText(mActivity, "You are the KING of " + thisChannelKeywords[0], Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
@@ -563,6 +563,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
         String[] keywords = mChannel.getKeywords();
         String keyword = keywords[0];
 
+        final ChannelData[] keywordChannel = new ChannelData[1];
 
         try {
             JSONObject params = mChannel.getAddressJSONObject();
@@ -575,25 +576,43 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
 
-
                 }
             });
             Toast.makeText(mActivity, "축하합니다! " + keyword + " 채널 관리자가 되셨습니다!", Toast.LENGTH_LONG).show();
+            JSONObject params1 = new JSONObject();
+            params1.put("type", TYPE_KEYWORD_COMMUNITY);
+            params1.put("name", keyword);
+            params1.put("level", 2);
+
+            mApi.call(api_channels_findOne, params1, new AjaxCallback<JSONObject>() {
+                @Override
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    keywordChannel[0] = new ChannelData(json);
+                    //mHomeChannel.setType("INFO_CENTER");
+
+                    JSONObject params2 = keywordChannel[0].getAddressJSONObject();
+                    try {
+                        params2.put("owner", auth.getUser().getId());
+                        params2.put("id", keywordChannel[0].getId());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    mApi.call(api_channels_id_update, params2);
+                }
+            });
 
             mClicked = true;
         } catch (JSONException e) {
             Log.e("BaseChannelCreate", "error " + e.toString());
         }
-
     }
-
 
     @Override
     public void onClick(View v) {
         sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String moneyString = sharedpreferences.getString("userPoint", "empty");
         int money = 0;
-        if (!moneyString.equals("empty")){
+        if (!moneyString.equals("empty")) {
             money = Integer.parseInt(moneyString);
         } else {
             money = 0;
@@ -871,7 +890,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
                 TextView keywordView = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView);
-                keywordView.setText(keywords[0] +" 채널 >");
+                keywordView.setText(keywords[0] + " 채널 >");
 
 
                 try {
@@ -898,7 +917,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
                 TextView keywordView2 = (TextView) LayoutInflater.from(mActivity).inflate(R.layout.include_keyword_text, null);
                 mKeywordPanel.addView(keywordView2);
-                keywordView2.setText(keywords[1] +" 채널 >");
+                keywordView2.setText(keywords[1] + " 채널 >");
 
 
                 try {

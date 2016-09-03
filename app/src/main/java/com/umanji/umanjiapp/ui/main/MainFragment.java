@@ -69,11 +69,13 @@ import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
+import com.umanji.umanjiapp.model.NotyData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
+import com.umanji.umanjiapp.ui.channel._fragment.noties.NotyListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel.bottomWindow.BottomMainActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
@@ -129,11 +131,7 @@ public class MainFragment extends BaseFragment {
     private RoundedImageView mZoomBtn;
 
     private ImageView mInterior;
-    private String mInteriorStatus = "비활성화";
     private ImageView mTowerCrane;
-    private String mTowerCraneStatus = "비활성화";
-//    private ImageView mEye;
-//    private ImageView mSay;
 
 
     private Marker mDraggableMarker;
@@ -1260,9 +1258,6 @@ public class MainFragment extends BaseFragment {
             case R.id.interior:
                 mInterior.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
-                Toast.makeText(mActivity, mInteriorStatus, Toast.LENGTH_SHORT).show();
-//                String division = "interior";
-//                showTutorialDialog(division);
                 LatLng center = mMap.getCameraPosition().target;
                 mapClickEvent(center);
                 break;
@@ -1270,9 +1265,6 @@ public class MainFragment extends BaseFragment {
             case R.id.towerCrane:
                 mTowerCrane.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
-                Toast.makeText(mActivity, mTowerCraneStatus, Toast.LENGTH_SHORT).show();
-                String division2 = "towerCrane";
-//                showTutorialDialog(division2);
                 break;
 
         }
@@ -2926,7 +2918,6 @@ public class MainFragment extends BaseFragment {
         btnFootPrint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mActivity, "Foot Print", Toast.LENGTH_SHORT).show();
                 openWriteFootPrint();
 
                 dialog.dismiss();
@@ -3055,26 +3046,80 @@ public class MainFragment extends BaseFragment {
 */
 
     private void loadNewNoties() {
-        try {
-            JSONObject params = new JSONObject();
-            params.put("read", false);
-            mApi.call(api_noites_new_count, params, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
-                    super.callback(url, object, status);
-                    int notyCount = object.optInt("data");
-                    if (notyCount > 0) {
-                        mNotyCountBtn.setVisibility(View.VISIBLE);
-                        mNotyCountBtn.setText(String.valueOf(notyCount));
-                    } else {
-                        mNotyCountBtn.setVisibility(View.GONE);
-                        mNotyCountBtn.setText("0");
+        /*
+            try {
+                JSONObject params = new JSONObject();
+                params.put("id", mUser.getId());
+                params.put("read", false);
+                mApi.call(api_noites_new_count, params, new AjaxCallback<JSONObject>() {
+                    @Override
+                    public void callback(String url, JSONObject object, AjaxStatus status) {
+                        super.callback(url, object, status);
+
+                        if (object != null) {
+                            int notyCount = object.optInt("data");
+                            if (notyCount > 0) {
+                                mNotyCountBtn.setVisibility(View.VISIBLE);
+                                mNotyCountBtn.setText(String.valueOf(notyCount));
+                            } else {
+                                mNotyCountBtn.setVisibility(View.GONE);
+                                mNotyCountBtn.setText("0");
+                            }
+                        } else {
+                            Toast.makeText(mActivity, "Noty Data is Null", Toast.LENGTH_LONG).show();
+                        }
                     }
-                }
-            });
+                });
+            } catch (JSONException e) {
+                Log.e(TAG, "Error " + e.toString());
+            }
+*/
+        JSONObject params = new JSONObject();
+        try {
+            params.put("read", false);
         } catch (JSONException e) {
-            Log.e(TAG, "Error " + e.toString());
+            e.printStackTrace();
         }
+
+        mApi.call(api_noites_new_count, params, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject object, AjaxStatus status) {
+                if(status.getCode() == 500) {
+                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                }else {
+                    boolean hasNewNoty = false;
+//                        JSONArray jsonArray = object.getJSONArray("data");
+
+                    if (object != null) {
+                        int notyCount = object.optInt("data");
+                        if (notyCount > 0) {
+                            mNotyCountBtn.setVisibility(View.VISIBLE);
+                            mNotyCountBtn.setText(String.valueOf(notyCount));
+                        } else {
+                            mNotyCountBtn.setVisibility(View.GONE);
+                            mNotyCountBtn.setText("0");
+                        }
+                    } else {
+                        Toast.makeText(mActivity, "Noty Data is Null", Toast.LENGTH_LONG).show();
+                    }
+                        /*for(int idx = 0; idx < jsonArray.length(); idx++) {
+                            JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                            NotyData notyData = new NotyData(jsonDoc);
+
+                            if(notyData.getChannel().getId() != null && notyData.getParent().getId() != null) {
+                                if(!hasNewNoty) {
+                                    hasNewNoty = !notyData.isRead();
+                                }
+                            }
+                        }*/
+
+                    if(hasNewNoty) {
+                    }
+
+                    isLoading = false;
+                }
+            }
+        });
     }
 
     private boolean checkPlayServices() {
