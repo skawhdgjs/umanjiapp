@@ -61,7 +61,7 @@ public class InfoFragment extends BaseChannelFragment {
         bundle.putString("channel", mChannel.getJsonObject().toString());
         adapter.addFragment(PostListFragment.newInstance(bundle), "광장");
         adapter.addFragment(MemberListFragment.newInstance(bundle), "시민");
-        adapter.addFragment(KeywordListFragment.newInstance(bundle), "단체 : 커뮤니티");
+        adapter.addFragment(KeywordListFragment.newInstance(bundle), "채널");
         adapter.addFragment(AboutFragment.newInstance(bundle), "세부정보 및 수정");
     }
 

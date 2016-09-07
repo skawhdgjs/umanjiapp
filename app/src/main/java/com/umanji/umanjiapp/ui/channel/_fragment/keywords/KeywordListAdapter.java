@@ -56,9 +56,10 @@ public class KeywordListAdapter extends BaseChannelListAdapter {
         super.setName(holder, channelData);
 
         if(TextUtils.isEmpty(channelData.getName())) {
-            holder.name.setText("단체 없음");
+            holder.name.setText("채널 없음");
         } else {
-            holder.name.setText(Helper.getShortenString(channelData.getName()  + " 단체", 200));
+            holder.name.setText(Helper.getShortenString(channelData.getName(), 200));
+//            holder.name.setTextSize(17);
         }
     }
 

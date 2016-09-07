@@ -38,6 +38,7 @@ import com.umanji.umanjiapp.ui.channel.post.create.PostCreateActivity;
 import com.umanji.umanjiapp.ui.main.MainActivity;
 import com.umanji.umanjiapp.ui.modal.WebViewActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -280,7 +281,7 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
                 mNameType.setText("커뮤니티");
                 break;
             case TYPE_KEYWORD_COMMUNITY:
-                mNameType.setText("지역연합");
+                mNameType.setText("지역채널");
                 break;
             case TYPE_INFO_CENTER:
                 mNameType.setText("정보센터");
@@ -484,57 +485,94 @@ public abstract class BaseChannelFragment extends BaseFragment implements AppCon
 
     public void getUserData() {
         final String[] thisChannelKeywords = mChannel.getKeywords();
+        String[] keywords = mChannel.getKeywords();
+        String keyword = null;
+        final ChannelData[] testChan = new ChannelData[1];
+        JSONObject params1 = new JSONObject();
 
-        try {
-            JSONObject params = new JSONObject();
-            params.put("access_token", AuthHelper.getToken(mActivity));
-            mApi.call(api_token_check, params, new AjaxCallback<JSONObject>() {
+        final boolean[] isKeywordManager = {false};
+        if (keywords != null){
+            keyword = keywords[0];
+
+            try {
+                params1.put("type", TYPE_KEYWORD_COMMUNITY);
+                params1.put("name", keyword);
+                params1.put("level", 2);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mApi.call(api_channels_findOne, params1, new AjaxCallback<JSONObject>() {
                 @Override
-                public void callback(String url, JSONObject object, AjaxStatus status) {
+                public void callback(String url, JSONObject json, AjaxStatus status) {
+                    testChan[0] = new ChannelData(json);
+                    String keyword1 = testChan[0].getOwner().toString();
+//                    JSONArray jsonArray = json.getJSONArray("data");
+//                    JSONObject jsonDoc = jsonArray.getJSONObject(0);
+                    if (keyword1 != null){
+                        isKeywordManager[0] = true;
+                    }
 
-                    auth = new AuthData(object);
-                    if (auth != null && auth.getToken() != null) {
-                        mUser = auth.getUser();
-                        mExperts = mUser.getSubLinks();
-                        SubLinkData element;
-                        SubLinkData checkElement;
+                    if(isKeywordManager[0]) {  // 이미 채널에 왕이 있으면 do nothing
 
-                        boolean isManager = false;
-                        for (int index = 0; mExperts.size() > index; index++) {       // check Manager in this keyword
-                            checkElement = mExperts.get(index);
-                            String checkName = checkElement.getName().toString();
-                            if (thisChannelKeywords[0].equals(checkName)) {
-                                String thisType = checkElement.getType();
-                                if (thisType.equals(TYPE_MANAGER)) {
-                                    isManager = true;
-                                    Toast.makeText(mActivity, "You are the KING of " + thisChannelKeywords[0], Toast.LENGTH_LONG).show();
+                    } else {    // There's no Manager yet.
+                        try {
+                            JSONObject params = new JSONObject();
+                            params.put("access_token", AuthHelper.getToken(mActivity));
+                            mApi.call(api_token_check, params, new AjaxCallback<JSONObject>() {
+                                @Override
+                                public void callback(String url, JSONObject object, AjaxStatus status) {
+
+                                    auth = new AuthData(object);
+                                    if (auth != null && auth.getToken() != null) {
+                                        mUser = auth.getUser();
+                                        mExperts = mUser.getSubLinks();
+                                        SubLinkData element;
+                                        SubLinkData checkElement;
+
+                                        boolean isManager = false;
+                                        for (int index = 0; mExperts.size() > index; index++) {       // check Manager in this keyword
+                                            checkElement = mExperts.get(index);
+                                            String checkName = checkElement.getName().toString();
+                                            if (thisChannelKeywords[0].equals(checkName)) {
+                                                String thisType = checkElement.getType();
+                                                if (thisType.equals(TYPE_MANAGER)) {
+                                                    isManager = true;
+                                                    Toast.makeText(mActivity, "You are the KING of " + thisChannelKeywords[0], Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }
+
+                                        if (isManager) {
+
+                                        } else {
+                                            for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
+                                                element = mExperts.get(idx);
+                                                String name = element.getName().toString();
+
+                                                if (name.length() != 0) {
+                                                    mExpertsArr.add(name);
+                                                }
+
+                                                if (thisChannelKeywords[0].equals(name) && element.getPoint().equals("1000")) {   // channel keyword == user has keyword
+                                                    askUpdateToManager(thisChannelKeywords[0]);
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
-                            }
-                        }
+                            });
 
-                        if (isManager) {
-
-                        } else {
-                            for (int idx = 0; mExperts.size() > idx; idx++) {    // sublinks 배열 갯수
-                                element = mExperts.get(idx);
-                                String name = element.getName().toString();
-
-                                if (name.length() != 0) {
-                                    mExpertsArr.add(name);
-                                }
-
-                                if (thisChannelKeywords[0].equals(name) && element.getPoint().equals("1000")) {   // channel keyword == user has keyword
-                                    askUpdateToManager(thisChannelKeywords[0]);
-                                }
-                            }
+                        } catch (JSONException e) {
+                            Log.e(TAG, "error " + e.toString());
                         }
                     }
                 }
             });
-
-        } catch (JSONException e) {
-            Log.e(TAG, "error " + e.toString());
         }
+
+
+
     }
 
     private void askUpdateToManager(String keyword) {

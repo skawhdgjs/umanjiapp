@@ -3084,39 +3084,30 @@ public class MainFragment extends BaseFragment {
         mApi.call(api_noites_new_count, params, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject object, AjaxStatus status) {
-                if(status.getCode() == 500) {
-                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                }else {
-                    boolean hasNewNoty = false;
+                //                    2016.09.03 temp
+                if(object != null){
+                    if(status.getCode() == 500) {
+                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    } else {
+                        boolean hasNewNoty = false;
 //                        JSONArray jsonArray = object.getJSONArray("data");
 
-                    if (object != null) {
-                        int notyCount = object.optInt("data");
-                        if (notyCount > 0) {
-                            mNotyCountBtn.setVisibility(View.VISIBLE);
-                            mNotyCountBtn.setText(String.valueOf(notyCount));
-                        } else {
-                            mNotyCountBtn.setVisibility(View.GONE);
-                            mNotyCountBtn.setText("0");
-                        }
-                    } else {
-                        Toast.makeText(mActivity, "Noty Data is Null", Toast.LENGTH_LONG).show();
-                    }
-                        /*for(int idx = 0; idx < jsonArray.length(); idx++) {
-                            JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                            NotyData notyData = new NotyData(jsonDoc);
-
-                            if(notyData.getChannel().getId() != null && notyData.getParent().getId() != null) {
-                                if(!hasNewNoty) {
-                                    hasNewNoty = !notyData.isRead();
-                                }
+                        if (object != null) {
+                            int notyCount = object.optInt("data");
+                            if (notyCount > 0) {
+                                mNotyCountBtn.setVisibility(View.VISIBLE);
+                                mNotyCountBtn.setText(String.valueOf(notyCount));
+                            } else {
+                                mNotyCountBtn.setVisibility(View.GONE);
+                                mNotyCountBtn.setText("0");
                             }
-                        }*/
-
-                    if(hasNewNoty) {
+                        } else {
+                            Toast.makeText(mActivity, "Noty Data is Null", Toast.LENGTH_LONG).show();
+                        }
+                        if(hasNewNoty) {
+                        }
+                        isLoading = false;
                     }
-
-                    isLoading = false;
                 }
             }
         });

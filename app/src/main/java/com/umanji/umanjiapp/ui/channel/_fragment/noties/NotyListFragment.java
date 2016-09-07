@@ -62,35 +62,35 @@ public class NotyListFragment extends BaseChannelListFragment {
             mApi.call(api_noites_find, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
-                    if(status.getCode() == 500) {
-                        EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
-                    }else {
-                        try {
-                            boolean hasNewNoty = false;
-                            JSONArray jsonArray = object.getJSONArray("data");
-                            for(int idx = 0; idx < jsonArray.length(); idx++) {
-                                JSONObject jsonDoc = jsonArray.getJSONObject(idx);
-                                NotyData notyData = new NotyData(jsonDoc);
+                    if(object != null){
+                        if(status.getCode() == 500) {
+                            EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                        }else {
+                            try {
+                                boolean hasNewNoty = false;
+                                JSONArray jsonArray = object.getJSONArray("data");
+                                for(int idx = 0; idx < jsonArray.length(); idx++) {
+                                    JSONObject jsonDoc = jsonArray.getJSONObject(idx);
+                                    NotyData notyData = new NotyData(jsonDoc);
 
-                                if(notyData.getChannel().getId() != null && notyData.getParent().getId() != null) {
-                                    if(!hasNewNoty) {
-                                        hasNewNoty = !notyData.isRead();
+                                    if(notyData.getChannel().getId() != null && notyData.getParent().getId() != null) {
+                                        if(!hasNewNoty) {
+                                            hasNewNoty = !notyData.isRead();
+                                        }
+                                        ((NotyListAdapter)mAdapter).addBottom(notyData);
                                     }
-                                    ((NotyListAdapter)mAdapter).addBottom(notyData);
                                 }
+
+                                updateView();
+
+                                if(hasNewNoty) {
+                                    mApi.call(api_noites_read);
+                                }
+                            } catch(JSONException e) {
+                                Log.e(TAG, "error " + e.toString());
                             }
-
-                            updateView();
-
-                            if(hasNewNoty) {
-                                mApi.call(api_noites_read);
-                            }
-
-                        } catch(JSONException e) {
-                            Log.e(TAG, "error " + e.toString());
+                            isLoading = false;
                         }
-
-                        isLoading = false;
                     }
                 }
             });
