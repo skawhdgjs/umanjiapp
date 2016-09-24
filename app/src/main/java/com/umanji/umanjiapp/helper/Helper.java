@@ -83,6 +83,8 @@ import java.util.concurrent.ExecutionException;
 import de.greenrobot.event.EventBus;
 
 public final class Helper implements AppConfig {
+//    git test all rignt
+
     private static final String TAG = "Helper";
     private String args;
 
@@ -125,6 +127,7 @@ public final class Helper implements AppConfig {
                 "식당=초밥, 비빔밥, 한식, 한식집, 간장게장 /" +
                 "축구=사커, soccer, 조기축구, 조기축구회, 동네축구 /" +
                 "NGO=앤지오, 엔지오, ngo, 비영리재단, 비정부조직 /" +
+                "개혁=혁명, 개국, 민주 /" +
                 "프로그래머=프로그레머, 프로그래밍, programmer, programer, programing, 개발자";
 
         // 연습장일경우 야구인지 골프인지 모른다
@@ -492,7 +495,8 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto, 100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg, 100, 100, activity)))
+//                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto, 100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -501,7 +505,8 @@ public final class Helper implements AppConfig {
                     marker = map.addMarker(new MarkerOptions().position(point)
                             .title(name)
                             .snippet(String.valueOf(index))
-                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto, 100, 100, activity)))
+                            .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg, 100, 100, activity)))
+//                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto, 100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -511,6 +516,7 @@ public final class Helper implements AppConfig {
                             .title(name)
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg, 100, 100, activity)))
+//                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto, 100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
@@ -520,6 +526,7 @@ public final class Helper implements AppConfig {
                             .title(name)
                             .snippet(String.valueOf(index))
                             .icon(BitmapDescriptorFactory.fromBitmap(myResizeMapIcons(bmImg, 100, 100, activity)))
+//                            .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(userPhoto, 100, 100, activity)))
                             .draggable(isDraggable)
                             .alpha(0.9f)  // default 1.0
                             .anchor(0.45f, 1.0f));
