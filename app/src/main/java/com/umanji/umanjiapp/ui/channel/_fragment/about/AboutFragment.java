@@ -113,12 +113,21 @@ public class AboutFragment extends BaseChannelListFragment {
                 @Override
                 public void callback(String url, JSONObject object, AjaxStatus status) {
                     AuthData auth = new AuthData(object);
+
+                    // info center의 about tab에서 현재 사용자와 info center의 owner이 같은지 비교
                     if (auth != null && auth.getToken() != null) {
                         mUserId = auth.getUser().getId();
                     }
-                    mOwnerId = mChannel.getOwner().getId();
+                    String[] centerManagerArr = new String[0];
+                    if(mChannel.getOwner() != null){
+                        mOwnerId = mChannel.getOwner().getId();
+//                        centerManagerArr = mChannel.getOwner().getRoles();
+                    } else {
+                        mOwnerId = mChannel.getOwnerId();
+                    }
+/*
+
                     String[] myRoleArr = auth.getUser().getRoles();
-                    String[] centerManagerArr = mChannel.getOwner().getRoles();
                     String myRole = null;
                     String centerManager = null;
                     if(myRoleArr.length > 0){
@@ -129,14 +138,15 @@ public class AboutFragment extends BaseChannelListFragment {
                     }
                     boolean isUpper = false;
                     isUpper = mCdn.isUpper(myRole, centerManager);
+*/
 
                     if (mChannel.getType().equals(TYPE_INFO_CENTER) || mChannel.getType().equals(TYPE_KEYWORD_COMMUNITY)){
                         if(mUserId.equals(mOwnerId)){                         // Info의 owner ID와 User의 ID가 같은면
                             mAppointmentBar.setVisibility(View.VISIBLE);
-                        } else if (isUpper) {
+                        } /*else if (isUpper) {
                             mAppointmentBar.setVisibility(View.VISIBLE);
 
-                        } else {
+                        } */else {
                             mAppointmentBar.setVisibility(View.GONE);
                         }
 

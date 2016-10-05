@@ -110,7 +110,7 @@ public class MainFragment extends BaseFragment {
     private ImageView mAvatarImageBtn;
     private Button mLoginBtn;
     private LinearLayout mSearchLayout;
-    private FrameLayout mKeywordCommunityToolbar;
+    private FrameLayout mKeywordChannelToolbar;
     private TextView mKeywordTitle;
 
     private TextView mUmanji;
@@ -288,7 +288,7 @@ public class MainFragment extends BaseFragment {
     private ImageView mTalk;
 
     boolean mMapIsTouched = false;
-    private boolean isKeywordCommunityMode;
+    private boolean isKeywordChannelMode;
     boolean isTalkFlag = false;
     boolean mTalkExpanded = false;
     boolean touchedOnce = false;
@@ -333,8 +333,8 @@ public class MainFragment extends BaseFragment {
             }
 
             if (getArguments().getString("type") != null) {
-//******************************************************************** isKeywordCommunityMode
-                isKeywordCommunityMode = true;
+//******************************************************************** isKeywordChannelMode
+                isKeywordChannelMode = true;
 
                 if (mChannel == null) {
 //                    do nothing!!!
@@ -495,7 +495,7 @@ public class MainFragment extends BaseFragment {
         mCenterCircle = (ImageView) view.findViewById(R.id.centerCircle);
         mCurrentAddress = (TextView) view.findViewById(R.id.currentAddress);
 
-        mKeywordCommunityToolbar = (FrameLayout) view.findViewById(R.id.keywordCommunityToolbar);
+        mKeywordChannelToolbar = (FrameLayout) view.findViewById(R.id.KeywordChannelToolbar);
         mKeywordTitle = (TextView) view.findViewById(R.id.keywordTitle);
         mSearchLayout = (LinearLayout) view.findViewById(R.id.searchLayout);
 /*
@@ -627,7 +627,7 @@ public class MainFragment extends BaseFragment {
 //        mViewPager = (ViewPager) view.findViewById(R.id.viewPaper);
 //        mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
 //        mTabAdapter = new BaseTabAdapter(getActivity().getSupportFragmentManager());
-//        addFragmentToTabAdapter(mTabAdapter, "keywordCommunity");
+//        addFragmentToTabAdapter(mTabAdapter, "KeywordChannel");
 //        addFragmentToTabAdapter(mTabAdapter, "talk");
 //        mViewPager.setAdapter(mTabAdapter);
 //        mTabLayout.setupWithViewPager(mViewPager);
@@ -645,7 +645,7 @@ public class MainFragment extends BaseFragment {
         }
 
 //        loadMainMarkers();  // origin before 2016.08.20
-        if(isKeywordCommunityMode){
+        if(isKeywordChannelMode){
             loadMainKeywordMarkers();
         } else {
             loadMainMarkers();
@@ -691,7 +691,7 @@ public class MainFragment extends BaseFragment {
         *  Keyword community Mode
         * */
 
-        if (isKeywordCommunityMode) {
+        if (isKeywordChannelMode) {
             JSONObject params = null;
             try {
                 if (mMap == null) {
@@ -729,15 +729,15 @@ public class MainFragment extends BaseFragment {
             mCommunityListContainer.setVisibility(View.VISIBLE);
             mLauncherLevel8.setVisibility(View.VISIBLE);
             mSearchLayout.setVisibility(View.GONE);
-            mKeywordCommunityToolbar.setVisibility(View.VISIBLE);
+            mKeywordChannelToolbar.setVisibility(View.VISIBLE);
             mKeywordTitle.setText(communityName);
-            getKeywordCommunityData();  // keywordCommunityMode 일때 키워드 전문가 tab 추가
-//            loadKeywordCommunityMarkers(communityName);
+            getKeywordChannelData();  // KeywordChannelMode 일때 키워드 전문가 tab 추가
+//            loadKeywordChannelMarkers(communityName);
 //            mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 120));
         }
     }
 
-    private void getKeywordCommunityData() {
+    private void getKeywordChannelData() {
         isLoading = true;
 
         final Animation talkAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.talk_animation);
@@ -1045,9 +1045,9 @@ public class MainFragment extends BaseFragment {
                     break;
             }
 
-            isKeywordCommunityMode = true;
+            isKeywordChannelMode = true;
 //            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-            mKeywordCommunityToolbar.setVisibility(View.VISIBLE);
+            mKeywordChannelToolbar.setVisibility(View.VISIBLE);
             mCommunityCloseBtn.setVisibility(View.VISIBLE);
 //            mToCommunityBtn.setVisibility(View.VISIBLE);
 //            mCommunityGoToPanel.setVisibility(View.VISIBLE);
@@ -1058,7 +1058,7 @@ public class MainFragment extends BaseFragment {
             buttonClick.setDuration(500);
             mKeywordTitle.setText(communityName);
 //            updateCommunityBtn(zoom);
-            loadKeywordCommunityMarkers(communityName);
+            loadKeywordChannelMarkers(communityName);
         }
 
         switch (v.getId()) {
@@ -1101,11 +1101,11 @@ public class MainFragment extends BaseFragment {
 //                mToCommunityBtn.setVisibility(View.GONE);           // 커뮤니티 정보센터 바로가기
 //                mCommunityGoToPanel.setVisibility(View.GONE);       // 커뮤니티 정보센터 바로가기 새로운 버전
                 mCommunityListContainer.setVisibility(View.GONE);   // 커뮤니티 포스트 Tab
-                mKeywordCommunityToolbar.setVisibility(View.GONE);                // Title의 '커뮤니티'
+                mKeywordChannelToolbar.setVisibility(View.GONE);                // Title의 '커뮤니티'
                 mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
                 mSearchLayout.setVisibility(View.VISIBLE);          // search bar
                 mLauncherLevel8.setVisibility(View.VISIBLE);           // talk 보임
-                isKeywordCommunityMode = false;
+                isKeywordChannelMode = false;
                 loadData();
                 */
                 break;
@@ -1142,6 +1142,7 @@ public class MainFragment extends BaseFragment {
                 break;
 
             case R.id.talk:
+                int talkZoom = (int) mMap.getCameraPosition().zoom;
                 mTalk.startAnimation(buttonClick);
                 buttonClick.setDuration(500);
 
@@ -1150,16 +1151,19 @@ public class MainFragment extends BaseFragment {
                 if (isTalkFlag) {
 //                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
 //                    mTalkExpanded = true;
-                    if (isKeywordCommunityMode == false) {
+                    if (isKeywordChannelMode == false) {
                         bottomIntent.putExtra("type", "talkMode");
                         bottomIntent.putExtra("keywordName", communityName);
                     } else {
-                        bottomIntent.putExtra("type", "keywordCommunityMode");
+                        bottomIntent.putExtra("type", "KeywordChannelMode");
                         bottomIntent.putExtra("keywordName", communityName);
+                        bottomIntent.putExtra("zoom", String.valueOf(talkZoom));
                     }
                     bottomIntent.putExtra("params", getMinMaxParams.toString());
                     bottomIntent.putExtra("currentAddress", currentAddress);
+
 //                    intent.putExtra("channels", jsonArrayBottom.toString());
+//                    bottomIntent.putExtra("bundle", bundle)
                     startActivity(bottomIntent);
 
                     mTouchView.setEnabled(false);
@@ -1524,17 +1528,17 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void loadKeywordCommunityMarkers(String communityName) {
+    private void loadKeywordChannelMarkers(String communityName) {
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
             params.put("keywords", communityName);
 //            params.put("zoom", (int) mMap.getCameraPosition().zoom);
-// 2016.08.30 :: api_main_findDistributions  -> get all type of spot, keywordcommunity
+// 2016.08.30 :: api_main_findDistributions  -> get all type of spot, KeywordChannel
 // 2016.08.30 :: api_main_findPosts  -> get only type of post
             mApi.call(api_main_findDistributions, params, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
-                    addKeywordCommunityMarkersToMap(json);
+                    addKeywordChannelMarkersToMap(json);
 //                    mCommunityChannel = new ChannelData(json);
                 }
             });
@@ -1544,7 +1548,7 @@ public class MainFragment extends BaseFragment {
         }
     }
 
-    private void addKeywordCommunityMarkersToMap(JSONObject jsonObject) {
+    private void addKeywordChannelMarkersToMap(JSONObject jsonObject) {
         try {
             mMap.clear();
             int currentZoom = (int) mMap.getCameraPosition().zoom;
@@ -1870,7 +1874,7 @@ public class MainFragment extends BaseFragment {
                 if (marker.isInfoWindowShown()) {
                     marker.hideInfoWindow();
                 } else {
-                    if (isKeywordCommunityMode) {
+                    if (isKeywordChannelMode) {
                         marker.setInfoWindowAnchor(0.5f, 0f);  // 0.5f, 1.0  0 :center is Left / 0.5 : c is middle / 1 : c is Right
                     }
                     marker.showInfoWindow();
@@ -1967,8 +1971,8 @@ public class MainFragment extends BaseFragment {
                 LatLng center = mMap.getCameraPosition().target;
 //                getCountryDivision(center.latitude, center.longitude);
                 getCenterAddress(center, zoom);
-//************************************************************************************************** isKeywordCommunityMode
-                if (isKeywordCommunityMode) {
+//************************************************************************************************** isKeywordChannelMode
+                if (isKeywordChannelMode) {
                     if (mMapIsTouched) return;
                     mCenterCircle.setVisibility(View.GONE);
 
@@ -2003,10 +2007,10 @@ public class MainFragment extends BaseFragment {
 
 
 //                        updateCommunityBtn(zoom);
-                        getKeywordCommunityData();  //kakao button toggle
+                        getKeywordChannelData();  //kakao button toggle
 //                        keyword Parse
                         String keywordParse = Helper.dictionaryHasKeyword(communityName);
-                        loadKeywordCommunityMarkers(keywordParse);
+                        loadKeywordChannelMarkers(keywordParse);
                     }
 //************************************************************************************************** isTalkMode (normalMode)
                 } else {                  // start main
@@ -2336,7 +2340,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void getKeywordCommunityBtn(int zoom) {
+    private void getKeywordChannelBtn(int zoom) {
         mLauncherLevel2.setVisibility(View.GONE);
         mLauncherLevel3.setVisibility(View.GONE);
         mLauncherLevel4.setVisibility(View.GONE);

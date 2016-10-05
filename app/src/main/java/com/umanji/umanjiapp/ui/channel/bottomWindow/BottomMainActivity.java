@@ -55,6 +55,7 @@ public class BottomMainActivity extends AppCompatActivity{
     private String currentTitle;
     private String keywordName;
     private ImageView mBottomCloseBtn;
+    private String zoom;
 
     private AlphaAnimation buttonClick = new AlphaAnimation(0F, 1F);
 
@@ -71,6 +72,9 @@ public class BottomMainActivity extends AppCompatActivity{
         thisType = getIntent().getStringExtra("type");
         currentTitle = getIntent().getStringExtra("currentAddress");
         keywordName = getIntent().getStringExtra("keywordName");
+        if(getIntent().getStringExtra("zoom") != null){
+            zoom = getIntent().getStringExtra("zoom");
+        }
 
         try {
             mParamsObj = new JSONObject(mParams);
@@ -87,7 +91,7 @@ public class BottomMainActivity extends AppCompatActivity{
         if (thisType.equals("talkMode")){
             thisType = "talk";
         } else {
-            thisType = "keywordCommunity";
+            thisType = "KeywordChannelMode";
         }
 
         mEnterAnim = getIntent().getIntExtra("enterAnim", R.anim.slide_in_up);
@@ -127,6 +131,7 @@ public class BottomMainActivity extends AppCompatActivity{
         bundle.putString("thisType", thisType);
         if(thisType.equals("keywordCommunity")){
             bundle.putString("keywordName", keywordName);
+            bundle.putString("zoom", zoom);
         } else {
             bundle.putString("keywordName", keywordName);
         }

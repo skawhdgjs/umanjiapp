@@ -392,10 +392,25 @@ public class DistributionFragment extends BaseFragment {
 
     private void loadMainMarkers() {
         //mProgress.show();
+//        스탭 임명시 바로 아래 관리자만 보이도록..
+        int managerLevel = 2;
+        int zoomLevel = 2;
+        switch(managerLevel){
+            case 2:
+                zoomLevel = 8;
+                break;
+            case 8:
+                zoomLevel = 14;
+                break;
+            case 14:
+                zoomLevel = 14;
+                break;
+        }
 
         try {
             JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
-            params.put("zoom", (int) mMap.getCameraPosition().zoom);
+//            params.put("zoom", (int) mMap.getCameraPosition().zoom);
+            params.put("zoom", zoomLevel);
             params.put("limit", 100);
             params.put("sort", "point DESC");
             mApi.call(api_Staff_find, params, new AjaxCallback<JSONObject>() {

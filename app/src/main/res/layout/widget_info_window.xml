@@ -18,17 +18,24 @@
         android:ellipsize="end"
         android:text="Empty Data"
         android:gravity="center_horizontal" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
 
-   <Button
-       android:id="@+id/wiMarkerEnterBtn"
-       android:layout_width="match_parent"
-       android:layout_height="30dp"
-       android:layout_marginTop="5dp"
-       android:padding="5dp"
-       android:background="@drawable/default_btn_radius"
-       android:text="더보기"
-       android:textColor="#FFFFFF"
-       android:textSize="12sp"
-       />
+        <Button
+            android:id="@+id/wiMarkerEnterBtn"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:background="@drawable/default_btn_radius"
+            android:text="더보기"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
@@ -19,6 +20,7 @@ import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.ChannelData;
+import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.model.SubLinkData;
 
 import org.json.JSONArray;
@@ -26,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by paul on 7/6/16.
@@ -76,7 +80,7 @@ public class CommunityFragment extends BottomBaseFragment {
 
         mApi = new ApiHelper(getContext());
 
-        String getData = getArguments().getString("params");
+        String getData = getArguments().getString("params");  // {"limit":1,"maxLatitude":37.61391165041668,"minLongitude":126.99732329696418,"type":"COMMUNITY","maxLongitude":127.02822234481572,"minLatitude":37.578888532873265,"access_token":""}
         thisType = getArguments().getString("thisType");
         keywordName = getArguments().getString("keywordName");
 
@@ -302,7 +306,7 @@ public class CommunityFragment extends BottomBaseFragment {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 if (status.getCode() == 500) {
-//                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
                 } else {
                     try {
                         JSONArray jsonArray = json.getJSONArray("data");
@@ -341,6 +345,55 @@ public class CommunityFragment extends BottomBaseFragment {
             }
         });
         mAdapter.setCurrentPage(mAdapter.getCurrentPage() + 1);
+
+//        params 2  :: get info center
+        JSONObject params2 = new JSONObject();
+        params2 = mParams;
+//        params2.remove("keywords");
+        params2.remove("page");
+        params2.remove("typeFilter");
+        params2.remove("type");
+
+        String zoom = getArguments().getString("zoom");
+        int intZoom = Integer.parseInt(zoom);
+        switch(intZoom){
+            case LEVEL_DOSI:
+                break;
+            case LEVEL_GUGUN:
+                break;
+            case LEVEL_DONG:
+                break;
+            case LEVEL_COMPLEX:
+                break;
+
+        }
+
+        try {
+            params2.put("type", TYPE_KEYWORD_COMMUNITY);
+//            params2.put("zoom", zoom);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mApi.call(api_channels_community_find, params2, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject json, AjaxStatus status) {
+                if (status.getCode() == 500) {
+//                    EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
+                } else {
+                    Log.d("Paul", json.toString());
+                    try {
+                        JSONArray arr = json.getJSONArray("data");
+                        Log.d("Paul", String.valueOf(arr.length()));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    mProgress.dismiss();
+
+                }
+            }
+        });
+
     }
 }
 

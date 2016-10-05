@@ -60,7 +60,7 @@
                 android:background="@color/white"
                 android:padding="5dp">
 
-                <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                <!--<com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/userPhoto"
                     android:layout_width="@dimen/list_item_avatar_size"
                     android:layout_height="@dimen/list_item_avatar_size"
@@ -72,7 +72,18 @@
                     app:riv_border_color="@color/colorPrimary"
                     app:riv_border_width="1px"
                     app:riv_corner_radius="5dp"
-                    app:riv_oval="false" />
+                    app:riv_oval="false" />-->
+                <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/userPhoto"
+                    android:layout_width="@dimen/list_item_avatar_size"
+                    android:layout_height="@dimen/list_item_avatar_size"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/avatar_default_0" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout2"
@@ -88,23 +99,38 @@
                         android:id="@+id/userName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
                         android:text="bruce"
                         android:textAppearance="?attr/textAppearanceListItem"
-                        android:textSize="14dp" />
+                        android:textSize="14dp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="님이 "
+                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/parentName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/userName"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/userName"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
                         android:text="이름없음"
                         android:textAppearance="?attr/textAppearanceListItem"
                         android:textColor="@color/text"
-                        android:textSize="12dp"
+                        android:textSize="14dp"
                         android:textStyle="bold"
                         android:visibility="gone" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="에서"
+                        android:textSize="12dp" />
 
 
                 </LinearLayout>

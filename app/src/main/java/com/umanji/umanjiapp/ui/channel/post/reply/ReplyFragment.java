@@ -238,8 +238,10 @@ public class ReplyFragment extends BaseChannelListFragment {
                         .load(userPhoto)
                         .placeholder(R.drawable.empty)
                         .animate(R.anim.abc_fade_in)
-                        .override(40, 40)
+//                        .override(40, 40)
+                        .thumbnail(1f)
                         .into(mUserPhoto);
+
             }
 
             mUserPhoto.setOnClickListener(new View.OnClickListener() {
@@ -369,7 +371,7 @@ public class ReplyFragment extends BaseChannelListFragment {
         }
     }
 
-    protected void setUserName(Activity activity, ChannelData channelData) {
+    protected void setUserName(Activity activity, final ChannelData channelData) {
         if(channelData == null){
             if(!TextUtils.isEmpty(mChannel.getUserName())) {
                 mUserName.setText(mChannel.getUserName());
@@ -383,6 +385,13 @@ public class ReplyFragment extends BaseChannelListFragment {
                 mUserName.setText("아무개");
             }
         }
+
+        mUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Helper.startActivity(mActivity, channelData);
+            }
+        });
 
     }
 

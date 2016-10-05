@@ -71,5 +71,4 @@ dependencies {
     compile 'com.koushikdutta.ion:ion:2.+'
 //    compile 'com.github.mothcar:umanji_CDN:Tag'
 //    compile 'org.greenrobot:eventbus:3.0.0'
-
 }
