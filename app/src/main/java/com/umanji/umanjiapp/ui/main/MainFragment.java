@@ -66,16 +66,15 @@ import com.umanji.umanjiapp.gcm.GcmRegistrationIntentService;
 import com.umanji.umanjiapp.helper.AuthHelper;
 import com.umanji.umanjiapp.helper.GridAdapter;
 import com.umanji.umanjiapp.helper.Helper;
+import com.umanji.umanjiapp.helper.LevelModule;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.model.NotyData;
 import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.noties.NotyListAdapter;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
 import com.umanji.umanjiapp.ui.channel.bottomWindow.BottomMainActivity;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
@@ -97,8 +96,6 @@ import java.util.Random;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.greenrobot.event.EventBus;
-
-import com.umanji.umanjiapp.helper.LevelModule;
 
 public class MainFragment extends BaseFragment {
     private static final String TAG = "MainFragment";
@@ -856,6 +853,7 @@ public class MainFragment extends BaseFragment {
                             EventBus.getDefault().post(new ErrorData(TYPE_ERROR_AUTH, TYPE_ERROR_AUTH));
                         } else {
                             try {
+                                Log.d("Paul", "My Error :" + json);
                                 JSONArray jsonArray = json.getJSONArray("data");
                                 jsonArrayBottom = jsonArray;
                                 if (jsonArray.length() != 0) {
