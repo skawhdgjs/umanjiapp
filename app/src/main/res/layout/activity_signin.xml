@@ -125,6 +125,38 @@
                 android:layout_gravity="center_horizontal"
                 android:visibility="gone"/>
 
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign in google"
+                android:id="@+id/singinG"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign out google"
+                android:id="@+id/singinOutG"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="disconnect google"
+                android:id="@+id/disconnectGG"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/signGGStatus"
+                android:text="show status of siging Google accont"
+                />
+
         </LinearLayout>
     </ScrollView>
 
