@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,11 +52,13 @@ public class SigninFragment extends BaseFragment {
     private AutoCompleteTextView mEmail;
     private EditText mPassword;
     private Button mSubmit;
-    private TextView mSignIn;
+//    private TextView mSignIn;
 
-    private EditText mSecret;
-    private Button mHiddenBtn;
+//    private EditText mSecret;
+//    private Button mHiddenBtn;
     private boolean isSecretReady = false;
+
+    private Button mSwitchSignUp;
 
     /*****************
      * Sign in google
@@ -111,8 +111,11 @@ public class SigninFragment extends BaseFragment {
         mSubmit = (Button)view.findViewById(R.id.submit);
         mSubmit.setOnClickListener(this);
 
-        mSignIn = (TextView)view.findViewById(R.id.signup);
-        mSignIn.setOnClickListener(this);
+//        mSignIn = (TextView)view.findViewById(R.id.signup);
+//        mSignIn.setOnClickListener(this);
+
+        mSwitchSignUp = (Button)view.findViewById(R.id.switch_sign_up);
+        mSwitchSignUp.setOnClickListener(this);
 
 
         String email = FileHelper.getString(mActivity, "pre_email");
@@ -124,11 +127,11 @@ public class SigninFragment extends BaseFragment {
             loadData();
         }
 
-        mSecret = (EditText) view.findViewById(R.id.secret);
-        mHiddenBtn = (Button) view.findViewById(R.id.hiddenBtn);
-        mHiddenBtn.setOnClickListener(this);
+//        mSecret = (EditText) view.findViewById(R.id.secret);
+//        mHiddenBtn = (Button) view.findViewById(R.id.hiddenBtn);
+//        mHiddenBtn.setOnClickListener(this);
 // doing now
-        mSecret.addTextChangedListener(new TextWatcher() {
+        /*mSecret.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable arg0) {
                 isSecretReady = true;
@@ -147,7 +150,7 @@ public class SigninFragment extends BaseFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-        });
+        });*/
 
 
         /*******************
@@ -187,8 +190,8 @@ public class SigninFragment extends BaseFragment {
 
     public void enableSubmitIfReady() {
 
-        boolean isSecretReady = mSecret.getText().toString().equals("siyoon");
-        mHiddenBtn.setEnabled(isSecretReady);
+//        boolean isSecretReady = mSecret.getText().toString().equals("siyoon");
+//        mHiddenBtn.setEnabled(isSecretReady);
     }
 
     @Override
@@ -223,6 +226,7 @@ public class SigninFragment extends BaseFragment {
                     signin();
                 }
                 break;
+/*
 
             case R.id.signup:
                 Intent signIn = new Intent(mActivity, SignupActivity.class);
@@ -236,6 +240,7 @@ public class SigninFragment extends BaseFragment {
                 signIn.putExtra("bundle", bundle);
                 startActivity(signIn);
                 break;
+*/
 
             case R.id.hiddenBtn:
                 Toast.makeText(mActivity, "Hidden clicked", Toast.LENGTH_SHORT).show();
@@ -250,6 +255,11 @@ public class SigninFragment extends BaseFragment {
                 break;
             case R.id.disconnectGG:
                 revokeAccess();
+                break;
+
+            case R.id.switch_sign_up:
+                Intent intentSign = new Intent(mActivity, SignSelectActivity.class);
+                startActivity(intentSign);
                 break;
 
         }

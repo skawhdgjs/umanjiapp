@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="로그인"
+            android:text="회원가입 선택"
             android:textColor="#fff"
             android:textSize="18dp" />
 
@@ -53,87 +53,29 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <android.support.design.widget.TextInputLayout
+            <Button
+                android:id="@+id/select_email"
+                android:text="이메일 직접입력"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/login_input_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:padding="16dp"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/login_input_password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/login_action_sign_in"
-                    android:imeOptions="actionUnspecified"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:padding="16dp"
-                    android:singleLine="true" />
-
-            </android.support.design.widget.TextInputLayout>
+                android:layout_height="80dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1" />
 
             <Button
-                android:id="@+id/submit"
-                style="?android:textAppearanceSmall"
+                android:id="@+id/select_naver"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="로그인"
-                android:textStyle="bold" />
-
-            <!--<TextView
-                android:id="@+id/signup"
-                style="?android:textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="16dp"
-                android:text="회원가입"
-                android:textSize="18dp"
-                android:textStyle="bold" />-->
+                android:layout_height="80dp"
+                android:background="@drawable/button_naver_login"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1" />
 
             <Button
-                android:id="@+id/hiddenBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="submit"
-                android:visibility="gone" />
-
-            <LinearLayout
+                android:id="@+id/select_facebook"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="비밀번호를 잃어버리셨나요 ?"
-                    android:layout_marginRight="5dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="관리자에게 연락"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+                android:layout_height="80dp"
+                android:background="@drawable/button_facebook_login"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1" />
 
 
             <!--
@@ -145,9 +87,10 @@
             <Button
                 android:id="@+id/singinG"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
-                android:text="Sign in google" />
+                android:background="@drawable/button_google_login"
+                 />
 
             <Button
                 android:id="@+id/singinOutG"
@@ -170,12 +113,27 @@
                 android:layout_gravity="center_horizontal"
                 android:text="show status of siging Google accont" />
 
-            <Button
-                android:id="@+id/switch_sign_up"
-                android:text="다른 계정으로 Sign Up"
+            <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                 />
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이미 계정이 있으세요 ?"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Log in 으로 이동"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
