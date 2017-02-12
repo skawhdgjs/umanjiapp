@@ -642,7 +642,7 @@ public class MainFragment extends BaseFragment {
         }
 
 //        loadMainMarkers();  // origin before 2016.08.20
-        if(isKeywordChannelMode){
+        if (isKeywordChannelMode) {
             loadMainKeywordMarkers();
         } else {
             loadMainMarkers();
@@ -803,7 +803,7 @@ public class MainFragment extends BaseFragment {
         mMainListContainer.setVisibility(View.GONE);
 //        mCommunityListContainer.setVisibility(View.VISIBLE);
         int zoom = (int) mMap.getCameraPosition().zoom;
-        if(LevelModule.isHighLevel(zoom)){
+        if (LevelModule.isHighLevel(zoom)) {
             JSONObject params = null;
             try {
                 if (mMap == null) {
@@ -1557,11 +1557,11 @@ public class MainFragment extends BaseFragment {
                 for (int idx = 0; idx < mMarkers.length(); idx++) {
                     ChannelData channelData = new ChannelData(mMarkers.getJSONObject(idx));
                     int channelZoom = channelData.getLevel();
-                   if(channelData.getType().equals(TYPE_POST) && channelZoom <= currentZoom ){
+                    if (channelData.getType().equals(TYPE_POST) && channelZoom <= currentZoom) {
                         Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
-                    } else if(channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_SPOT_INNER) || channelData.getType().equals(TYPE_COMPLEX)){
-                       Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
-                   }
+                    } else if (channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_SPOT_INNER) || channelData.getType().equals(TYPE_COMPLEX)) {
+                        Helper.addMarkerToMapOnKeyword(mMap, channelData, idx, mActivity);
+                    }
 
 
 /*                     else if(channelData.getType().equals(TYPE_COMMUNITY) || channelData.getType().equals(TYPE_SPOT) || channelData.getType().equals(TYPE_COMPLEX)){
@@ -1628,7 +1628,19 @@ public class MainFragment extends BaseFragment {
 
             mMap.setPadding(0, paddingInPx, 0, 0);
             mMap.getUiSettings().setZoomControlsEnabled(true);
+
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             mMap.setMyLocationEnabled(true);
+
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
             initMyLocation();
