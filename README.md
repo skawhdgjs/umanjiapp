@@ -5,7 +5,7 @@
   2. Noty : push
   3. 새로운 main 화면 : SeekBar + listview (Recycler Viewr)
   
-  ![alt text](http://postfiles10.naver.net/MjAxNzAyMTNfMTM4/MDAxNDg2OTY3OTE5MjY5.UHBO2PqJUNUpFz33lzAYeseDRXpZx1LlNK1pvSAMK-Ag.eCISuVER6JgYvkdcCW6cWIP_7L6FetW3IgYok4a8yXsg.JPEG.mothcar/new_UI.jpg?type=w3)
+  ![alt text](http://postfiles10.naver.net/MjAxNzAyMTNfMTM4/MDAxNDg2OTY3OTE5MjY5.UHBO2PqJUNUpFz33lzAYeseDRXpZx1LlNK1pvSAMK-Ag.eCISuVER6JgYvkdcCW6cWIP_7L6FetW3IgYok4a8yXsg.JPEG.mothcar/new_UI.jpg)
   
   
   
