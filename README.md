@@ -1,8 +1,12 @@
 
-2017.02.13
+### 2017.02.13
+
   1. 로그인 
+  
   2. Noty : push
+  
   3. 새로운 main 화면 : SeekBar + listview (Recycler Viewr)
+  
   ---
   
   
