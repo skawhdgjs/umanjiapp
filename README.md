@@ -5,7 +5,7 @@
   2. Noty : push
   3. 새로운 main 화면 : SeekBar + listview (Recycler Viewr)
   
-  ![alt text](https://drive.google.com/file/d/0B6dgs0Zm4SKqSVdJQUpwTzg4cWs)
+  ![alt text](https://drive.google.com/file/d/new UI.jpg)
   
   ---
   
