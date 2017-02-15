@@ -18,6 +18,17 @@ import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -35,6 +46,7 @@ import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.facebook.FacebookSdk;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,14 +72,6 @@ public class SigninFragment extends BaseFragment {
 
     private Button mSwitchSignUp;
 
-    /*****************
-     * Sign in google
-     *****************/
-    private static final int RC_SIGN_IN = 9001;
-    private GoogleApiClient mGoogleApiClient;
-    private ProgressDialog mProgressDialog;
-    private TextView mSignGG_STATUS;
-
     /****************************************************
      *  Etc
      ****************************************************/
@@ -91,6 +95,7 @@ public class SigninFragment extends BaseFragment {
             double longitude = getArguments().getDouble("longitude");
             mCurrentMyPosition = new LatLng(latitude, longitude);
         }
+
     }
 
     @Override
@@ -153,40 +158,9 @@ public class SigninFragment extends BaseFragment {
         });*/
 
 
-        /*******************
-         *  google signin setup
-         *******************/
-        view.findViewById(R.id.singinG).setOnClickListener(this);
-        view.findViewById(R.id.singinOutG).setOnClickListener(this);
-        view.findViewById(R.id.disconnectGG).setOnClickListener(this);
 
-        mSignGG_STATUS = (TextView) view.findViewById(R.id.signGGStatus);
-
-        // [START configure_signin]
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-
-        // [START build_client]
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage((AppCompatActivity) getActivity(), new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                        Log.d("SingingFramgent","onConeectionFail"+connectionResult);
-                    }
-                })
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-        //[END google signin setup]
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        CheckInGoogleSingin();
-    }
 
     public void enableSubmitIfReady() {
 
@@ -247,137 +221,14 @@ public class SigninFragment extends BaseFragment {
                 Intent intent = new Intent(mActivity, SecretActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.singinG:
-                signInGoogle();
-                break;
-            case R.id.singinOutG:
-                singOutGoogle();
-                break;
-            case R.id.disconnectGG:
-                revokeAccess();
-                break;
 
             case R.id.switch_sign_up:
                 Intent intentSign = new Intent(mActivity, SignSelectActivity.class);
                 startActivity(intentSign);
                 break;
-
         }
     }
 
-    /***************************************************
-     * google Sign method
-     ***************************************************/
-
-    private void signInGoogle(){
-        Intent singinIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(singinIntent, RC_SIGN_IN);
-    }
-
-    private void singOutGoogle(){
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(@NonNull Status status) {
-                mSignGG_STATUS.setText("Sign out");
-                updateUI(false);
-            }
-        });
-    }
-
-    private void revokeAccess() {
-        Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        mSignGG_STATUS.setText("Revoke");
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
-    }
-
-
-    private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            mSignGG_STATUS.setText(acct.getEmail() + " connect success");
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            updateUI(true);
-        } else {
-            // Signed out, show unauthenticated UI.
-            mSignGG_STATUS.setText("disonnect success");
-            updateUI(false);
-        }
-    }
-
-    private void CheckInGoogleSingin(){
-
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            Log.d(TAG, "Got cached sign-in");
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-            showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
-        }
-    }
-
-
-    private void updateUI(boolean signedIn) {
-        if (signedIn) {
-            getView().findViewById(R.id.singinG).setVisibility(getView().GONE);
-            getView().findViewById(R.id.singinOutG).setVisibility(getView().VISIBLE);
-        } else {
-            //mStatusTextView.setText(R.string.signed_out);
-
-            getView().findViewById(R.id.singinG).setVisibility(getView().VISIBLE);
-            getView().findViewById(R.id.singinOutG).setVisibility(getView().GONE);
-        }
-    }
-
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setMessage("연동중입니다");
-            mProgressDialog.setIndeterminate(true);
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
 
     /****************************************************
      *  Event Bus

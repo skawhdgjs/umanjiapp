@@ -69,8 +69,19 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
+            <!---
+            Facebook Sign in
+            -->
+
             <Button
                 android:id="@+id/select_facebook"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/button_facebook_login"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1" />
+            <Button
+                android:id="@+id/select_facebook_out"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:background="@drawable/button_facebook_login"
@@ -91,27 +102,13 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/button_google_login"
                  />
-
             <Button
-                android:id="@+id/singinOutG"
+                android:id="@+id/singoutG"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
-                android:text="Sign out google" />
-
-            <Button
-                android:id="@+id/disconnectGG"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="disconnect google" />
-
-            <TextView
-                android:id="@+id/signGGStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="show status of siging Google accont" />
+                android:background="@drawable/button_google_logout"
+                />
 
             <LinearLayout
                 android:layout_marginTop="10dp"

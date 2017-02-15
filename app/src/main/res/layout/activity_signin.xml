@@ -136,43 +136,9 @@
             </LinearLayout>
 
 
-            <!--
-            ======================================================
-            Google Sign In
-            ======================================================
-            -->
-
-            <Button
-                android:id="@+id/singinG"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Sign in google" />
-
-            <Button
-                android:id="@+id/singinOutG"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Sign out google" />
-
-            <Button
-                android:id="@+id/disconnectGG"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="disconnect google" />
-
-            <TextView
-                android:id="@+id/signGGStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="show status of siging Google accont" />
-
             <Button
                 android:id="@+id/switch_sign_up"
-                android:text="다른 계정으로 Sign Up"
+                android:text="Sign UP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                  />
