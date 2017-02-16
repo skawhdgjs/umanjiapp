@@ -117,7 +117,7 @@ public class SignSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplication(), "Sorry Facebook is Preparing", Toast.LENGTH_SHORT).show();
-                LoginManager.getInstance().logInWithReadPermissions( SignSelectActivity.this , Arrays.asList("public_profile"));
+                LoginManager.getInstance().logInWithReadPermissions( SignSelectActivity.this , Arrays.asList("public_profile","email"));
 
             }
         });
@@ -204,7 +204,6 @@ public class SignSelectActivity extends AppCompatActivity {
         tokenTracker.startTracking();
         profileTracker.startTracking();
 
-        FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_RAW_RESPONSES);
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -267,6 +266,12 @@ public class SignSelectActivity extends AppCompatActivity {
             Log.d(TAG_Google,"success get account");
 
             updateUI_G(true);
+
+            Intent intent = new Intent();
+            intent.putExtra("email",acct.getEmail());
+            intent.setClass(SignSelectActivity.this, SignupOtherActivity.class);
+            startActivity(intent);
+
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -342,14 +347,19 @@ public class SignSelectActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Log.d("facebook","success");
 
-/*
-                GraphRequest requset = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+
+                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 try {
                                     String email = object.getString("email");
-                                    Log.d("facebook-email",email);
+                                    Log.d("facebook-email","success");
+
+                                    Intent intent = new Intent();
+                                    intent.putExtra("email",email);
+                                    intent.setClass(SignSelectActivity.this, SignupOtherActivity.class);
+                                    startActivity(intent);
 
                                 }catch(JSONException e){
                                     Log.d("facebook-email","fail");
@@ -358,8 +368,12 @@ public class SignSelectActivity extends AppCompatActivity {
                         }
                 );
 
-*/
                 updateUI_F(true);
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "email"); // Parámetros que pedimos a facebook
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override

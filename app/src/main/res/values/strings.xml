@@ -117,6 +117,7 @@
 
     <!-- facebook service-->
     <string name="facebook_app_id">755851314564503</string>
+    <string name="title_activity_signup_other">SignupOther</string>
 
 
 </resources>
