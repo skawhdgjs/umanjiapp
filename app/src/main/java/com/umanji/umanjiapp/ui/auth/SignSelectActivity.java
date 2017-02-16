@@ -17,8 +17,10 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.LoggingBehavior;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
@@ -36,6 +38,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import com.koushikdutta.ion.builder.Builders;
 import com.umanji.umanjiapp.R;
 
 import org.json.JSONException;
@@ -48,7 +51,9 @@ public class SignSelectActivity extends AppCompatActivity {
     private Button mEmailButton;
     private Button mNaverButton;
     private Button mFacebookButton;
+    private Button mFacebookLogOutBt;
     private Button mGoogleButton;
+    private Button mGoogleLogOutBt;
 
     private TextView mLogin;
 
@@ -69,6 +74,7 @@ public class SignSelectActivity extends AppCompatActivity {
     private AccessTokenTracker tokenTracker;
     private ProfileTracker profileTracker;
     private Profile profile;
+    private AccessToken toeknAccess;
 
     /*
        Debug TAG
@@ -85,7 +91,9 @@ public class SignSelectActivity extends AppCompatActivity {
         mEmailButton = (Button) findViewById(R.id.select_email);
         mNaverButton = (Button) findViewById(R.id.select_naver);
         mFacebookButton = (Button) findViewById(R.id.select_facebook);
+        mFacebookLogOutBt = (Button) findViewById(R.id.select_facebook_out);
         mGoogleButton = (Button) findViewById(R.id.singinG);
+        mGoogleLogOutBt = (Button) findViewById(R.id.singoutG);
 
         mLogin = (TextView) findViewById(R.id.login);
 
@@ -109,8 +117,16 @@ public class SignSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getApplication(), "Sorry Facebook is Preparing", Toast.LENGTH_SHORT).show();
-                LoginManager.getInstance().logInWithReadPermissions( SignSelectActivity.this , Arrays.asList("public_profile","email"));
+                LoginManager.getInstance().logInWithReadPermissions( SignSelectActivity.this , Arrays.asList("public_profile"));
 
+            }
+        });
+
+        mFacebookLogOutBt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logOut();
+                updateUI_F(false);
             }
         });
 
@@ -119,6 +135,13 @@ public class SignSelectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Toast.makeText(getApplication(), "Sorry Google is Preparing", Toast.LENGTH_SHORT).show();
                 signInGoogle();
+            }
+        });
+
+        mGoogleLogOutBt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                signOutGoogle();
             }
         });
 
@@ -158,9 +181,33 @@ public class SignSelectActivity extends AppCompatActivity {
          ************************/
         updateUI_F(false);
 
+        tokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(
+                    AccessToken oldAccessToken,
+                    AccessToken currentAccessToken) {
+                // Set the access token using
+                // currentAccessToken when it's loaded or set.
+            }
+        };
+        // If the access token is available already assign it.
 
+        profileTracker = new ProfileTracker() {
+            @Override
+            protected void onCurrentProfileChanged(
+                    Profile oldProfile,
+                    Profile currentProfile) {
+                // App code
+            }
+        };
+
+        tokenTracker.startTracking();
+        profileTracker.startTracking();
+
+        FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_RAW_RESPONSES);
 
         callbackManager = CallbackManager.Factory.create();
+
         LoginManager.getInstance().registerCallback(callbackManager, buildFacebookCallback());
 
     }
@@ -168,14 +215,15 @@ public class SignSelectActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
+        //CheckInGoogleSingin();
     }
 
 
     @Override
     public void onStop() {
         super.onStop();
-
+        tokenTracker.stopTracking();
+        profileTracker.stopTracking();
     }
 
     /***************************************************
@@ -187,7 +235,7 @@ public class SignSelectActivity extends AppCompatActivity {
         startActivityForResult(singinIntent, RC_SIGN_IN);
     }
 
-    private void singOutGoogle(){
+    private void signOutGoogle(){
 
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
@@ -311,17 +359,17 @@ public class SignSelectActivity extends AppCompatActivity {
                 );
 
 */
-
+                updateUI_F(true);
             }
 
             @Override
             public void onCancel() {
-
+                Log.d(TAG_Facebook,"cancel");
             }
 
             @Override
             public void onError(FacebookException error) {
-
+                Log.d(TAG_Facebook,"error");
             }
         };
 

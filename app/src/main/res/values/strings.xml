@@ -111,12 +111,12 @@
     <string name="error_field_required">값을 입력해 주세요</string>
 
     <!-- google map service -->
-    <!--<string name="google_maps_key">AIzaSyCwUwcHv8stuuS9oZ7KbtRnciBv3BadPag</string>-->
-    <!--<string name="gcm_sender_id">AIzaSyCwUwcHv8stuuS9oZ7KbtRnciBv3BadPag</string>-->
+    <string name="google_maps_key">AIzaSyC69r9yZNjPQGKzH20jvqcxqBorNPDvZCw</string>
+    <string name="gcm_sender_id">AIzaSyC69r9yZNjPQGKzH20jvqcxqBorNPDvZCw</string>
 
 
     <!-- facebook service-->
-    <string name="facebook_app_id">1801354526781955</string>
+    <string name="facebook_app_id">755851314564503</string>
 
 
 </resources>

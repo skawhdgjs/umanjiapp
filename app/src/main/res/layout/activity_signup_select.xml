@@ -84,7 +84,7 @@
                 android:id="@+id/select_facebook_out"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
-                android:background="@drawable/button_facebook_login"
+                android:background="@drawable/button_facebook_logout"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1" />
 
