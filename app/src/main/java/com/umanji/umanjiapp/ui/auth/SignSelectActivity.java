@@ -272,6 +272,7 @@ public class SignSelectActivity extends AppCompatActivity {
             intent.setClass(SignSelectActivity.this, SignupOtherActivity.class);
             startActivity(intent);
 
+            finish();
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -361,6 +362,7 @@ public class SignSelectActivity extends AppCompatActivity {
                                     intent.setClass(SignSelectActivity.this, SignupOtherActivity.class);
                                     startActivity(intent);
 
+                                    finish();
                                 }catch(JSONException e){
                                     Log.d("facebook-email","fail");
                                 }

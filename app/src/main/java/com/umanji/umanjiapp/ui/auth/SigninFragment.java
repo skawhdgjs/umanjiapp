@@ -47,6 +47,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.facebook.FacebookSdk;
+import com.umanji.umanjiapp.ui.newMain.newMainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,6 +78,12 @@ public class SigninFragment extends BaseFragment {
      ****************************************************/
     ChannelData mAddressChannel;
     private LatLng mCurrentMyPosition;
+
+
+    /*********
+     *tempoary
+     ********/
+    private Button mToNewMain;
 
 
     public static SigninFragment newInstance(Bundle bundle) {
@@ -158,6 +165,14 @@ public class SigninFragment extends BaseFragment {
         });*/
 
 
+        mToNewMain = (Button) view.findViewById(R.id.toNewMain);
+        mToNewMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, newMainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

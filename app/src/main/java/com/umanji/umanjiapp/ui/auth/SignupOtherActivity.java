@@ -88,5 +88,5 @@ public class SignupOtherActivity extends AppCompatActivity {
         mSubmit = (Button) findViewById(R.id.so_submit);
     }
 
-    
+
 }
