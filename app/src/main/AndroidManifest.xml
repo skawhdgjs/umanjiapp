@@ -29,15 +29,16 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+<!--    <uses-permission android:name="android.permission.WAKE_LOCK" />  -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission
+<!-- GCM to FCM (2017 2/28)
+   <permission
         android:name="com.umanji.umanjiapp.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.umanji.umanjiapp.permission.C2D_MESSAGE" />
-
+-->
     <application
         android:name=".analytics.ApplicationController"
         android:allowBackup="true"
@@ -172,6 +173,7 @@
         <activity android:name=".ui.modal.imageview.ImageViewActivity" />
         <activity android:name=".ui.modal.map.MapActivity" />
         <activity android:name=".ui.modal.map.update_address.MapUpdateAddressActivity" />
+<!--   GCM to FCM (2017 2/28 )
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
@@ -192,6 +194,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
+
         <service
             android:name=".gcm.GcmInstanceIDListenerService"
             android:exported="false">
@@ -199,9 +202,22 @@
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
+
         <service
             android:name=".gcm.GcmRegistrationIntentService"
             android:exported="false" />
+-->
+        <service android:name=".fcm.FcmInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".fcm.FcmMessageService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <meta-data
             android:name="com.google.android.gms.version"

@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.ui.BaseFragment;
 
 /**
  * Created by nam on 2017. 2. 20..
  */
 
-public class worldFragment extends Fragment {
+public class worldFragment extends BaseFragment {
 
     public static worldFragment newInstance(Bundle bundle) {
         worldFragment fragment = new worldFragment();
@@ -23,7 +24,28 @@ public class worldFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void updateView() {
+
+    }
+
+    @Override
+    public View getView(LayoutInflater inflater, ViewGroup container) {
         return inflater.inflate(R.layout.fragment_world_list, container, false);
     }
+
+    @Override
+    public void loadData() {
+
+    }
+
+    @Override
+    public void initWidgets(View view) {
+
+    }
+
 }

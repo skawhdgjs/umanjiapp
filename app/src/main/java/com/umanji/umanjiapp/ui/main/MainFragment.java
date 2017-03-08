@@ -756,6 +756,7 @@ public class MainFragment extends BaseFragment {
             params.put("limit", 1);
 
             getMinMaxParams = params;
+
 //            EventBus.getDefault().post(new PaulBusData("talk", getMinMaxParams));
 // api_channels_communities_num
             mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
@@ -799,11 +800,12 @@ public class MainFragment extends BaseFragment {
 
         final Animation talkAnimation = AnimationUtils.loadAnimation(mActivity, R.anim.talk_animation);
         final ScaleAnimation animation = new ScaleAnimation(1f, 0.5f, 1f, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-
+        Log.d("post_tester","1");
         mMainListContainer.setVisibility(View.GONE);
 //        mCommunityListContainer.setVisibility(View.VISIBLE);
         int zoom = (int) mMap.getCameraPosition().zoom;
         if (LevelModule.isHighLevel(zoom)) {
+            Log.d("post_tester","2");
             JSONObject params = null;
             try {
                 if (mMap == null) {
@@ -860,8 +862,10 @@ public class MainFragment extends BaseFragment {
                                     isTalkFlag = true;
                                     mTalk.setImageResource(R.drawable.button_kakao);
                                     mTalk.startAnimation(talkAnimation);
-
+                                    Log.d("post_tester","2-1");
                                     mChannel = new ChannelData(json);
+//                                    Log.d("post_tester", mChannel.getName());
+//                                    Log.d("post_tester", params.toString());
                                 } else {
                                     isTalkFlag = false;
                                     mTalk.setImageResource(R.drawable.button_kakao_black);
@@ -871,6 +875,7 @@ public class MainFragment extends BaseFragment {
                                 //mTalkAdapter.notifyDataSetChanged();
                             } catch (JSONException e) {
                                 Log.e(TAG, "Error " + e.toString());
+                                Log.d("post_tester","2-2");
                             }
                         }
                     }
@@ -879,10 +884,11 @@ public class MainFragment extends BaseFragment {
 
             } catch (JSONException e) {
                 Log.e(TAG, "error " + e.toString());
+                Log.d("post_tester","2-3");
             }
         } else {
             try {
-
+                Log.d("post_tester","3");
                 JSONObject params = Helper.getZoomMinMaxLatLngParams(mMap);
                 params.put("page", 0);  //mTalkAdapter.getCurrentPage()
                 params.put("limit", 1);
@@ -910,7 +916,7 @@ public class MainFragment extends BaseFragment {
                                     isTalkFlag = true;
                                     mTalk.setImageResource(R.drawable.button_kakao);
                                     mTalk.startAnimation(talkAnimation);
-
+                                    Log.d("post_tester","hello");
                                     mChannel = new ChannelData(json);
                                 } else {
                                     isTalkFlag = false;
@@ -1162,6 +1168,7 @@ public class MainFragment extends BaseFragment {
 
 //                    intent.putExtra("channels", jsonArrayBottom.toString());
 //                    bottomIntent.putExtra("bundle", bundle)
+
                     startActivity(bottomIntent);
 
                     mTouchView.setEnabled(false);

@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.newMain;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -9,8 +10,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +25,13 @@ import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.R;
@@ -34,11 +43,14 @@ import com.umanji.umanjiapp.ui.setting.home.HomeFragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by nam on 2017. 2. 20..
  */
 
-public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarChangeListener {
+public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback {
 
     private SeekBar seekbar;
     private static final String TAG = "newMainActivity";
@@ -48,17 +60,23 @@ public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
     private FragmentTransaction ft;
     private Fragment fr;
 
+    private GoogleMap mMap;
     private int zoom;
     private TextView mCurrentAddress;
 
+    private GoogleApiClient mGoogleApiClient;
 
     private String isInitLocationUsed = "false";
     private LatLng mCurrentMyPosition;
 
+    private ViewPager mViewPager;
+    String mParams;
 
-    private final int SIDO_ZOOM = 10;
+
+    // LEVEL 로 바꿔줘야겠군
+    private final int DONGMUN_ZOOM = 18;
     private final int GOGOUN_ZOOM = 12;
-    private final int DONGMUN_ZOOM = 17;
+    private final int SIDO_ZOOM = 10; //
     private final int NATION_ZOOM = 8;
     private final int WORLD_ZOOM = 4;
 
@@ -68,33 +86,84 @@ public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
         return fragment;
     }
 
+    @Override
+    public void loadData() {
+
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public View getView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.activity_new_main, container, false);
+    }
+
+    @Override
+    public void updateView() {
+
+    }
+
 
     @Override
     public void initWidgets(View view) {
-        seekbar = (SeekBar) view.findViewById(R.id.seekBar1);
 
         seekbar=(SeekBar)view.findViewById(R.id.seekBar1);
         seekbar.setOnSeekBarChangeListener(this);
         seekbar.setRotation(180);
         seekbar.setProgress(0);
 
-
         mCurrentAddress = (TextView) view.findViewById(R.id.address_newMain);
 
         myLocation();
 
+        //fragment case 1. login 2. not login
+
+
+
+        //fm = new Fraget
         //default
-        setAdressWithZoom(SIDO_ZOOM);
+        //setAdressWithZoom(SIDO_ZOOM);
 
 
+        //ViewPager setting
+        mViewPager = (ViewPager) view.findViewById(R.id.ViewPager_newMain);
+        setupViewPager(mViewPager);
+        mViewPager.setCurrentItem(4);
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        seekbar.setProgress(100); break;
+                    case 1:
+                        seekbar.setProgress(75); break;
+                    case 2:
+                        seekbar.setProgress(50); break;
+                    case 3:
+                        seekbar.setProgress(25); break;
+                    case 4:
+                        seekbar.setProgress(0); break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
 
-        fm = getFragmentManager();
-        ft = fm.beginTransaction();
-        ft.add(R.id.fragment_writeInfo, writeInfoFragment.newInstance(getActivity().getIntent().getBundleExtra("bundle")));
-        ft.add(R.id.fragment_mainlist, sidoFragment.newInstance(getActivity().getIntent().getBundleExtra("bundle")));
-        ft.commit();
     }
+
 
 
     private void setAdressWithZoom(int zoomInt){
@@ -166,59 +235,29 @@ public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
         }
     }
 
-    @Override
-    public void loadData() {
-
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
-    @Override
-    public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.activity_new_main, container, false);
-    }
-
-    @Override
-    public void updateView() {
-
-    }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if(progress >= 0 && progress < 20){
             seekBar.setProgress(0);
             setAdressWithZoom(DONGMUN_ZOOM);
-            ft = fm.beginTransaction();
-            ft.replace(R.id.fragment_mainlist, mundongFragment.newInstance(getActivity().getIntent().getBundleExtra("bundle")));
-            ft.commit();
+            mViewPager.setCurrentItem(4);
         } else if(progress >= 20 && progress < 30){
             seekBar.setProgress(25);
             setAdressWithZoom(GOGOUN_ZOOM);
-            ft = fm.beginTransaction();
-            ft.replace(R.id.fragment_mainlist, gogunFragment.newInstance(getActivity().getIntent().getBundleExtra("bundle")));
-            ft.commit();
+            mViewPager.setCurrentItem(3);
         } else if(progress >= 30 && progress < 60){
             seekBar.setProgress(50);
             setAdressWithZoom(SIDO_ZOOM);
-            ft = fm.beginTransaction();
-            ft.replace(R.id.fragment_mainlist, sidoFragment.newInstance(getActivity().getIntent().getBundleExtra("bundle")));
-            ft.commit();
+            mViewPager.setCurrentItem(2);
         } else if(progress >= 60 && progress < 80){
             seekBar.setProgress(75);
             setAdressWithZoom(NATION_ZOOM);
-            ft = fm.beginTransaction();
-            ft.replace(R.id.fragment_mainlist, nationFragment.newInstance(getActivity().getIntent().getBundleExtra("bundle")));
-            ft.commit();
+            mViewPager.setCurrentItem(1);
         } else if(progress >= 80 && progress <= 100){
             seekBar.setProgress(100);
             setAdressWithZoom(WORLD_ZOOM);
-            ft = fm.beginTransaction();
-            ft.replace(R.id.fragment_mainlist, worldFragment.newInstance(getActivity().getIntent().getBundleExtra("bundle")));
-            ft.commit();
+            mViewPager.setCurrentItem(0);
         }
     }
 
@@ -302,6 +341,7 @@ public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
                 location = locationManager.getLastKnownLocation(provider);
 
                 if (location != null) {
+
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
                     mCurrentMyPosition = new LatLng(latitude, longitude);
@@ -336,5 +376,73 @@ public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
         public void onStatusChanged(String provider, int status, Bundle extras) {
             // called when the status of the GPS provider changes
         }
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+    }
+
+    //setup viewPager type =
+    private void setupViewPager(ViewPager viewPager){
+            ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+
+            Bundle bundle = new Bundle();
+
+            JSONObject params = new JSONObject();
+/*
+          params.put("minLatitude", nearLeft.latitude);
+          params.put("maxLatitude", farRight.latitude);
+          params.put("minLongitude", nearLeft.longitude);
+          params.put("maxLongitude", farRight.longitude);
+
+*/
+
+            adapter.addFragment(worldFragment.newInstance(bundle),"world");
+            adapter.addFragment(nationFragment.newInstance(bundle),"nation");
+            adapter.addFragment(sidoFragment.newInstance(bundle),"sido");
+            adapter.addFragment(gogunFragment.newInstance(bundle),"gogun");
+            adapter.addFragment(mundongFragment.newInstance(bundle),"mundong");
+
+
+
+            viewPager.setAdapter(adapter);
+    }
+
+
+    private class ViewPagerAdapter extends FragmentPagerAdapter{
+
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title){
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        public CharSequence getmFragmentTitleList(int position) {
+            return mFragmentTitleList.get(position);
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            super.destroyItem(container, position, object);
+        }
+
     }
 }

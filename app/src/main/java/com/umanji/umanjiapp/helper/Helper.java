@@ -1095,6 +1095,8 @@ public final class Helper implements AppConfig {
             params.put("minLongitude", nearLeft.longitude);
             params.put("maxLongitude", farRight.longitude);
 
+            Log.d("Tester-latitue",String.valueOf(farRight.latitude - nearLeft.latitude));
+            Log.d("Tester-logitu",String.valueOf(farRight.longitude - nearLeft.longitude));
         } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());
         }

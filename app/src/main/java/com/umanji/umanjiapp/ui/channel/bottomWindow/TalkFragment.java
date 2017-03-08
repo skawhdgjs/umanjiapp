@@ -21,6 +21,7 @@ import com.umanji.umanjiapp.model.ChannelData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONStringer;
 
 import java.util.ArrayList;
 
@@ -160,6 +161,7 @@ public class TalkFragment extends BottomBaseFragment {
     }
 
     public void updateView() {
+
         mAdapter.notifyDataSetChanged();
         mProgress.hide();
     }
@@ -209,6 +211,7 @@ public class TalkFragment extends BottomBaseFragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.d("post_tester2", params.toString());
 
         mApi.call(api_main_findPosts, params, new AjaxCallback<JSONObject>() {
             @Override

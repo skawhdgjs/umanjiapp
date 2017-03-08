@@ -127,6 +127,7 @@ public class BottomMainActivity extends AppCompatActivity{
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         Bundle bundle = new Bundle();
 //        bundle.putString("channels", mData);
+        Log.d("Tester_2",mParamsObj.toString());
         bundle.putString("params", mParams);
         bundle.putString("thisType", thisType);
         if(thisType.equals("keywordCommunity")){
