@@ -454,10 +454,6 @@ public class MainFragment extends BaseFragment {
         mInterior.setOnClickListener(this);
         mTowerCrane = (ImageView) view.findViewById(R.id.towerCrane);
         mTowerCrane.setOnClickListener(this);
-//        mSay = (ImageView) view.findViewById(R.id.say);
-//        mSay.setOnClickListener(this);
-//        mEye = (ImageView) view.findViewById(R.id.eye);
-//        mEye.setOnClickListener(this);
 
         mSearch = (TextView) view.findViewById(R.id.search);
         mSearch.setOnClickListener(this);
@@ -1067,47 +1063,7 @@ public class MainFragment extends BaseFragment {
     *
     * */
 
-    private void showComplexTutorialDialog() {
 
-        final Dialog dialog = new Dialog(mActivity);
-        dialog.setContentView(R.layout.dialog_complex_alert);
-        TextView title = (TextView) dialog.findViewById(android.R.id.title);
-        title.setText("사용 설명");
-//        title.setBackgroundResource(R.drawable.gradient);
-        title.setPadding(10, 10, 10, 10);
-        title.setGravity(Gravity.CENTER); // this is required to bring it to center.
-        title.setTextSize(22);
-
-        TextView text = (TextView) dialog.findViewById(R.id.content);
-        final TextView tutorial = (TextView) dialog.findViewById(R.id.tutorial);
-
-        text.setText("복합단지는 10,000포인트 이상부터 생성 가능합니다");
-
-        tutorial.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                tutorial.startAnimation(buttonClick);
-                buttonClick.setDuration(500);
-
-                Intent webInt = new Intent(mActivity, WebViewActivity.class);
-                webInt.putExtra("url", "http://umanji.com/2016/06/22/input_level_explain/ ");
-                mActivity.startActivity(webInt);
-            }
-        });
-
-        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        // if button is clicked, close the custom dialog
-        dialogButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
-
-    }
 
     private void showCommunityPanel() {
 
@@ -1185,90 +1141,6 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void showTutorialDialog(String division) {
-
-        final Dialog dialog = new Dialog(mActivity);
-        dialog.setContentView(R.layout.dialog_create_tutorial);
-        TextView title = (TextView) dialog.findViewById(android.R.id.title);
-        title.setText("활동에 대한 사용설명");
-        title.setPadding(10, 10, 10, 10);
-        title.setGravity(Gravity.CENTER); // this is required to bring it to center.
-        title.setTextSize(22);
-
-        Button okBtn = (Button) dialog.findViewById(R.id.dialogOK);
-        Button cancelBtn = (Button) dialog.findViewById(R.id.dialogCancel);
-
-        TextView mMoveMessage1 = (TextView) dialog.findViewById(R.id.contentsLine1);
-        TextView mMoveMessage2 = (TextView) dialog.findViewById(R.id.contentsLine2);
-
-        final LatLng center = mMap.getCameraPosition().target;
-// *********************************************************************************** level 18 spot create
-        if (division.equals("interior")) {
-            mMoveMessage1.setText("일반 건물과 상점과 같은 장소");
-            mMoveMessage2.setText("장소를 만드시겠습니까?");
-
-            okBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    mapClickEvent(center);
-                    dialog.cancel();
-
-                }
-            });
-            cancelBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.cancel();
-                }
-            });
-// *********************************************************************************** level 15 complex create
-
-        } else if (division.equals("towerCrane")) {
-            mMoveMessage1.setText("대학교, 공원, 골프장과 같은 넓은 장소");
-            mMoveMessage2.setText("장소를 만드시겠습니까?");
-
-            okBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    mapClickEvent(center);
-                    dialog.cancel();
-
-                }
-            });
-            cancelBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.cancel();
-                }
-            });
-
-        } else if (division.equals("talk")) {
-            mMoveMessage1.setText("이곳에는 아직 정보가 없습니다");
-            okBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    dialog.cancel();
-
-                }
-            });
-        } else {
-            mMoveMessage1.setText("구경하기 : 지역과 건물에서의 커뮤니티를 자유롭게 여행하세요");
-            okBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    dialog.cancel();
-
-                }
-            });
-        }
-
-        dialog.show();
-
-    }
 
     private void loadKeywordChannelMarkers(String communityName) {
         try {

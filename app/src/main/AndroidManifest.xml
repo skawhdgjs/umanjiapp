@@ -65,21 +65,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.mainHome.MainHomeActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.channel.bottomWindow.BottomMainActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.mainHome.localCommunity.CreateLocalCommunityActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.mainHome.localCommunity.StepOneActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.mainHome.localCommunity.StepTwoActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"

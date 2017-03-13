@@ -438,15 +438,15 @@
                     android:layout_height="48dp"
                     android:layout_gravity="bottom" />
 
-                <View
+               <!-- <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/tabs"
-                    android:background="@color/gray_dim_soft" />
+                    android:background="@color/gray_dim_soft" />-->
 
                 <!--app:tabMode="scrollable"-->
-
-                <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--이게 투명한 것으로 지도를 막고 있었다-->
+                <!--<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -459,7 +459,7 @@
                         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-                </android.support.design.widget.CoordinatorLayout>
+                </android.support.design.widget.CoordinatorLayout>-->
             </LinearLayout>
 
         </LinearLayout>

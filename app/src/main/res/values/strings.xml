@@ -111,8 +111,8 @@
     <string name="error_field_required">값을 입력해 주세요</string>
 
     <!-- google map service -->
-    <string name="google_maps_key">AIzaSyC69r9yZNjPQGKzH20jvqcxqBorNPDvZCw</string>
-    <string name="gcm_sender_id">524243808288</string>
+    <!--<string name="google_maps_key">AIzaSyC69r9yZNjPQGKzH20jvqcxqBorNPDvZCw</string>-->
+    <!--<string name="gcm_sender_id">524243808288</string>-->
 
 
     <!-- facebook service-->

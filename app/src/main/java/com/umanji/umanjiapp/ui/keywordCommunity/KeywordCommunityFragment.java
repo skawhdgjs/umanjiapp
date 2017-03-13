@@ -16,8 +16,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,18 +54,11 @@ import com.umanji.umanjiapp.helper.Helper;
 import com.umanji.umanjiapp.model.AuthData;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
-import com.umanji.umanjiapp.model.SubLinkData;
 import com.umanji.umanjiapp.model.SuccessData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.channel.BaseTabAdapter;
-import com.umanji.umanjiapp.ui.channel._fragment.about.AboutFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.communities.CommunityListKeywordFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.members.MemberListFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListAdapter;
-import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListFragment;
 import com.umanji.umanjiapp.ui.channel._fragment.posts.PostListKeywordFragment;
-import com.umanji.umanjiapp.ui.channel._fragment.spots.SpotListFragment;
 import com.umanji.umanjiapp.ui.channel.complex.ComplexActivity;
 import com.umanji.umanjiapp.ui.channel.profile.ProfileActivity;
 import com.umanji.umanjiapp.ui.channel.spot.SpotActivity;
@@ -622,7 +613,7 @@ public class KeywordCommunityFragment extends BaseFragment {
 
             mMap.setPadding(0, paddingInPx, 0, 0);
             mMap.getUiSettings().setZoomControlsEnabled(true);
-            mMap.setMyLocationEnabled(true);
+//            mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
             initMyLocation();
