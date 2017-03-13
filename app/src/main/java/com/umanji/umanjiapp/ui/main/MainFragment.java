@@ -59,7 +59,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.analytics.ApplicationController;
 import com.umanji.umanjiapp.gcm.GcmRegistrationIntentService;
@@ -166,7 +165,6 @@ public class MainFragment extends BaseFragment {
      ****************************************************/
     private android.widget.RelativeLayout.LayoutParams layoutParams;
 
-    private SlidingUpPanelLayout mSlidingUpPanelLayout;
     private RelativeLayout mHeaderPanel;
     private Button mNotyCountBtn;
     private ImageView mPanelArrowImage;
@@ -192,58 +190,13 @@ public class MainFragment extends BaseFragment {
     /****************************************************
      * View
      ****************************************************/
-    /*
-    private LinearLayout mCommunityGoToPanel;
-    private ImageView mCommunityCountryBtn;
-    private ImageView mCommunityAdminBtn;
-    private ImageView mCommunityLocalityBtn;
-    private ImageView mCommunityThoroughBtn;
-*/
-    private ChannelData mHomeChannel;
 
-    //    private ImageView mInfoButton;
-    private LinearLayout mLauncherLevel2;
-    private LinearLayout mLauncherLevel3;
-    private LinearLayout mLauncherLevel4;
-    private LinearLayout mLauncherLevel5;
-    private LinearLayout mLauncherLevel6;
-    private LinearLayout mLauncherLevel7;
+
     private LinearLayout mLauncherLevel8;
 
     // Level 2
     private ChannelData mEnvironmentChannel;
-    private ChannelData mEnergyChannel;
 
-    private ImageView mEnvironmentImageView;
-    private ImageView mEnergyImageView;
-    // Level 3
-    private ChannelData mSpiritualChannel;
-    private ImageView mSpiritualImageView;
-
-    // Level 4
-    private ChannelData mHistoryChannel;
-    private ImageView mHistoryImageView;
-
-    // Level 5
-    private ChannelData mUnityChannel;
-    private ImageView mUnityImageView;
-
-    // Level 6
-    private ChannelData mHealthChannel;
-    private ChannelData mPoliticsChannel;
-
-    private ImageView mHealthImageView;
-    private ImageView mPoliticsImageView;
-    // Level 7
-    private ChannelData mClimbChannel;
-    private ChannelData mGolfChannel;
-
-    private ImageView mClimbImageView;
-    private ImageView mGolfImageView;
-    // Level 8
-    private ChannelData mDefaultChannel;
-
-    private ImageView mEtcImageView;
 
     /****************************************************
      * Controler
@@ -495,18 +448,7 @@ public class MainFragment extends BaseFragment {
         mKeywordChannelToolbar = (FrameLayout) view.findViewById(R.id.KeywordChannelToolbar);
         mKeywordTitle = (TextView) view.findViewById(R.id.keywordTitle);
         mSearchLayout = (LinearLayout) view.findViewById(R.id.searchLayout);
-/*
 
-        mCommunityGoToPanel = (LinearLayout) view.findViewById(R.id.communityGotoPanel);
-        mCommunityCountryBtn = (ImageView) view.findViewById(R.id.communityCountry);
-        mCommunityCountryBtn.setOnClickListener(this);
-        mCommunityAdminBtn = (ImageView) view.findViewById(R.id.communityAdmin);
-        mCommunityAdminBtn.setOnClickListener(this);
-        mCommunityLocalityBtn = (ImageView) view.findViewById(R.id.communityLocality);
-        mCommunityLocalityBtn.setOnClickListener(this);
-        mCommunityThoroughBtn = (ImageView) view.findViewById(R.id.communityThorough);
-        mCommunityThoroughBtn.setOnClickListener(this);
-*/
 
         mInterior = (ImageView) view.findViewById(R.id.interior);
         mInterior.setOnClickListener(this);
@@ -520,11 +462,6 @@ public class MainFragment extends BaseFragment {
         mSearch = (TextView) view.findViewById(R.id.search);
         mSearch.setOnClickListener(this);
         mNoticePanel = view.findViewById(R.id.noticePanel);
-
-        mSlidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanelLayout);
-        mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 0));  // before 48
-        mSlidingUpPanelLayout.setAnchorPoint(0.7f);
-        mSlidingUpPanelLayout.setMinFlingVelocity(DEFAULT_MIN_FLING_VELOCITY);
 
         mHeaderPanel = (RelativeLayout) view.findViewById(R.id.headerPanel);
         mHeaderPanel.setOnClickListener(this);
@@ -566,56 +503,7 @@ public class MainFragment extends BaseFragment {
 
         mLauncherLevel8 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level8);
         mLauncherLevel8.setVisibility(View.VISIBLE);
-/*
 
-        mLauncherLevel2 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level2);
-        mLauncherLevel3 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level3);
-        mLauncherLevel4 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level4);
-        mLauncherLevel5 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level5);
-        mLauncherLevel6 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level6);
-        mLauncherLevel7 = (LinearLayout) view.findViewById(R.id.keyword_launcher_level7);
-
-
-
-        // Level 2
-        mEnvironmentImageView = (ImageView) view.findViewById(R.id.environment);
-        mEnergyImageView = (ImageView) view.findViewById(R.id.energy);
-        mEnvironmentImageView.setOnClickListener(this);
-        mEnergyImageView.setOnClickListener(this);
-
-
-        // Level 3
-        mSpiritualImageView = (ImageView) view.findViewById(R.id.spiritual);
-        mSpiritualImageView.setOnClickListener(this);
-
-        // Level 4
-        mHistoryImageView = (ImageView) view.findViewById(R.id.history);
-        mHistoryImageView.setOnClickListener(this);
-
-        // Level 5
-        mUnityImageView = (ImageView) view.findViewById(R.id.unity);
-        mUnityImageView.setOnClickListener(this);
-
-        // Level 6
-        mHealthImageView = (ImageView) view.findViewById(R.id.health);
-        mPoliticsImageView = (ImageView) view.findViewById(R.id.politics);
-
-        mHealthImageView.setOnClickListener(this);
-        mPoliticsImageView.setOnClickListener(this);
-
-        // Level 7
-        mClimbImageView = (ImageView) view.findViewById(R.id.climb);
-//        mClimbImageView.setBackgroundColor(Color.parseColor("#11000000"));
-        mGolfImageView = (ImageView) view.findViewById(R.id.golf);
-//        mGolfImageView.setBackgroundColor(Color.parseColor("#aa000000"));
-
-        mClimbImageView.setOnClickListener(this);
-        mGolfImageView.setOnClickListener(this);
-
-        // Level 8
-//        mEtcImageView = (ImageView) view.findViewById(R.id.keyword_etc);
-//        mEtcImageView.setOnClickListener(this);
-*/
 
         mTalk = (ImageView) view.findViewById(R.id.talk);
         mTalk.setOnClickListener(this);
@@ -1037,33 +925,7 @@ public class MainFragment extends BaseFragment {
 
         String keywordGroup = "Environment, Energy, Spiritual, History, Unity, Health, Politics, Climb, Golf";
 
-        if (keywordGroup.contains(extractName)) {
-            int zoom = (int) mMap.getCameraPosition().zoom;
 
-            switch (extractName) {
-                case "Environment":
-                    mEnvironmentImageView.startAnimation(buttonClick);
-                    communityName = mEnvironmentChannel.getName();
-                    mLauncherLevel2.setVisibility(View.GONE);
-                    initTabAdapter(mView, mEnvironmentChannel);
-                    break;
-            }
-
-            isKeywordChannelMode = true;
-//            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-            mKeywordChannelToolbar.setVisibility(View.VISIBLE);
-            mCommunityCloseBtn.setVisibility(View.VISIBLE);
-//            mToCommunityBtn.setVisibility(View.VISIBLE);
-//            mCommunityGoToPanel.setVisibility(View.VISIBLE);
-            mMainListContainer.setVisibility(View.GONE);
-//            mCommunityListContainer.setVisibility(View.VISIBLE);
-            mSearchLayout.setVisibility(View.GONE);
-            mLauncherLevel8.setVisibility(View.VISIBLE);
-            buttonClick.setDuration(500);
-            mKeywordTitle.setText(communityName);
-//            updateCommunityBtn(zoom);
-            loadKeywordChannelMarkers(communityName);
-        }
 
         switch (v.getId()) {
 
@@ -1074,44 +936,6 @@ public class MainFragment extends BaseFragment {
                 Intent webInt = new Intent(mActivity, WebViewActivity.class);
                 webInt.putExtra("url", "http://umanji.com");
                 mActivity.startActivity(webInt);
-                break;
-
-            case R.id.community_close_button:
-                int zoom = (int) mMap.getCameraPosition().zoom;
-                switch (zoom) {
-                    case 2:
-                        mLauncherLevel2.setVisibility(View.VISIBLE);
-                        break;
-                    case 3:
-                        mLauncherLevel3.setVisibility(View.VISIBLE);
-                        break;
-                    case 4:
-                        mLauncherLevel4.setVisibility(View.VISIBLE);
-                        break;
-                    case 5:
-                        mLauncherLevel5.setVisibility(View.VISIBLE);
-                        break;
-                    case 6:
-                        mLauncherLevel6.setVisibility(View.VISIBLE);
-                        break;
-                    case 7:
-                        mLauncherLevel7.setVisibility(View.VISIBLE);
-                        break;
-                }
-                mActivity.finish();
-                /*
-//                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);         // mapy type :: MAP_TYPE_NORMAL / MAP_TYPE_TERRAIN / MAP_TYPE_SATELLITE / MAP_TYPE_HYBRID /
-                mCommunityCloseBtn.setVisibility(View.GONE);        // 오른쪽 닫기 버튼
-//                mToCommunityBtn.setVisibility(View.GONE);           // 커뮤니티 정보센터 바로가기
-//                mCommunityGoToPanel.setVisibility(View.GONE);       // 커뮤니티 정보센터 바로가기 새로운 버전
-                mCommunityListContainer.setVisibility(View.GONE);   // 커뮤니티 포스트 Tab
-                mKeywordChannelToolbar.setVisibility(View.GONE);                // Title의 '커뮤니티'
-                mMainListContainer.setVisibility(View.VISIBLE);     // main에서 아래 post
-                mSearchLayout.setVisibility(View.VISIBLE);          // search bar
-                mLauncherLevel8.setVisibility(View.VISIBLE);           // talk 보임
-                isKeywordChannelMode = false;
-                loadData();
-                */
                 break;
 
             case R.id.logo:
@@ -1178,37 +1002,7 @@ public class MainFragment extends BaseFragment {
 
                 break;
 
-            case R.id.headerPanel:
-                /*
-                if (TextUtils.equals(mSlidingState, SLIDING_COLLAPSED)) {
-                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
-                    mSlidingState = SLIDING_ANCHORED;
 
-                } else if (TextUtils.equals(mSlidingState, SLIDING_ANCHORED)) {
-                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    mSlidingState = SLIDING_COLLAPSED;
-*/
-
-                if (TextUtils.equals(mSlidingState, SLIDING_COLLAPSED)) {
-                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
-                    mSlidingState = SLIDING_EXPANDED;
-                    mPanelArrowImage.setImageResource(R.drawable.ic_arrow_down);
-
-                } else if (TextUtils.equals(mSlidingState, SLIDING_EXPANDED)) {
-                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    mSlidingState = SLIDING_COLLAPSED;
-                    mPanelArrowImage.setImageResource(R.drawable.ic_arrow_up);
-                    /*
-                    *
-                    * EXPANDED,
-                    * COLLAPSED,    oo
-                    * ANCHORED,     oo
-                    * HIDDEN,
-                    * DRAGGING
-                    * */
-                }
-
-                break;
             case R.id.mZoomBtn:
                 if (mZoomBtn.getTag().equals(ZOOM_IN)) {
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 1000, null);
@@ -1240,23 +1034,6 @@ public class MainFragment extends BaseFragment {
                 Intent webIntent = new Intent(mActivity, WebViewActivity.class);
                 mActivity.startActivity(webIntent);
                 break;
-/*
-
-            case R.id.infoButton:
-                zoom = (int) mMap.getCameraPosition().zoom;
-
-                Intent mwebInt = new Intent(mActivity, WebViewActivity.class);
-                switch (zoom) {
-                    case 15:
-                        mwebInt.putExtra("url", "http://blog.naver.com/mothcar/220715838911"); // 복합단지 설명
-                        break;
-                    default:
-                        mwebInt.putExtra("url", "http://blog.naver.com/mothcar/220720111996");  // 일반 사용설명
-                }
-
-                mActivity.startActivity(mwebInt);
-                break;
-*/
 
 
             case R.id.search:
@@ -2214,20 +1991,7 @@ public class MainFragment extends BaseFragment {
             adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
         }
 
-        /*
-        if (mChannel2.getJsonObject().toString()!= null){
-            Bundle bundle2 = new Bundle();
-            bundle2.putString("channel", mChannel2.getJsonObject().toString());
-            adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
-            adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
-        }
 
-        if (mChannel3.getJsonObject().toString()!= null){
-            Bundle bundle3 = new Bundle();
-            bundle3.putString("channel", mChannel3.getJsonObject().toString());
-            adapter.addFragment(PostListKeywordFragment.newInstance(bundle), "정보광장");
-            adapter.addFragment(CommunityListKeywordFragment.newInstance(bundle), "단체들");
-        }*/
 
     }
 
@@ -2317,156 +2081,7 @@ public class MainFragment extends BaseFragment {
 
     }
 
-    private void getKeywordChannelBtn(int zoom) {
-        mLauncherLevel2.setVisibility(View.GONE);
-        mLauncherLevel3.setVisibility(View.GONE);
-        mLauncherLevel4.setVisibility(View.GONE);
-        mLauncherLevel5.setVisibility(View.GONE);
-        mLauncherLevel6.setVisibility(View.GONE);
-        mLauncherLevel7.setVisibility(View.GONE);
-        mLauncherLevel8.setVisibility(View.GONE);
 
-        if (zoom == 2) {
-            mLauncherLevel2.setVisibility(View.VISIBLE);
-
-            try {
-                JSONObject params1 = new JSONObject();
-                params1.put("name", "환경");
-
-                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mEnvironmentChannel = new ChannelData(json);
-                    }
-                });
-
-                JSONObject params2 = new JSONObject();
-                params2.put("name", "에너지");
-
-                mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mEnergyChannel = new ChannelData(json);
-                    }
-                });
-
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-
-
-        } else if (zoom == 3) {
-            mLauncherLevel3.setVisibility(View.VISIBLE);
-
-            try {
-                JSONObject params1 = new JSONObject();
-                params1.put("name", "철학");
-
-                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mSpiritualChannel = new ChannelData(json);
-                    }
-                });
-
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-
-        } else if (zoom == 4) {
-            mLauncherLevel4.setVisibility(View.VISIBLE);
-
-            try {
-                JSONObject params1 = new JSONObject();
-                params1.put("name", "역사");
-
-                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mHistoryChannel = new ChannelData(json);
-                    }
-                });
-
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-
-        } else if (zoom == 5) {
-            mLauncherLevel5.setVisibility(View.VISIBLE);
-
-            try {
-                JSONObject params1 = new JSONObject();
-                params1.put("name", "통일");
-
-                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mUnityChannel = new ChannelData(json);
-                    }
-                });
-
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-        } else if (zoom == 6) {
-            mLauncherLevel6.setVisibility(View.VISIBLE);
-
-            try {
-                JSONObject params1 = new JSONObject();
-                params1.put("name", "건강");
-
-                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mHealthChannel = new ChannelData(json);
-                    }
-                });
-
-                JSONObject params2 = new JSONObject();
-                params2.put("name", "정치");
-
-                mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mPoliticsChannel = new ChannelData(json);
-                    }
-                });
-
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-        } else if (zoom == 7) {
-            mLauncherLevel7.setVisibility(View.VISIBLE);
-
-            try {
-                JSONObject params1 = new JSONObject();
-                params1.put("name", "등산");
-
-                mApi.call(api_findCommunity, params1, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mClimbChannel = new ChannelData(json);
-                    }
-                });
-
-
-                JSONObject params2 = new JSONObject();
-                params2.put("name", "골프");
-
-                mApi.call(api_findCommunity, params2, new AjaxCallback<JSONObject>() {
-                    @Override
-                    public void callback(String url, JSONObject json, AjaxStatus status) {
-                        mGolfChannel = new ChannelData(json);
-                    }
-                });
-
-            } catch (JSONException e) {
-                Log.e(TAG, "error " + e.toString());
-            }
-        } else if (zoom == 8 || zoom >= 9) {
-            mLauncherLevel8.setVisibility(View.VISIBLE);
-        }
-    }
 /*
 
     private void loadMainPosts() {
@@ -2662,17 +2277,6 @@ public class MainFragment extends BaseFragment {
                 }
             });
 
-
-            JSONObject params1 = new JSONObject();
-            params1.put("name", "대한민국 정보센터");
-
-            mApi.call(api_channels_findOne, params1, new AjaxCallback<JSONObject>() {
-                @Override
-                public void callback(String url, JSONObject json, AjaxStatus status) {
-                    mHomeChannel = new ChannelData(json);
-                    //mHomeChannel.setType("INFO_CENTER");
-                }
-            });
 
         } catch (JSONException e) {
             Log.e(TAG, "Error " + e.toString());

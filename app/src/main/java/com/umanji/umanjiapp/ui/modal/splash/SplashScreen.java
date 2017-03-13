@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.umanji.umanjiapp.R;
-import com.umanji.umanjiapp.ui.main.MainActivity;
+import com.umanji.umanjiapp.ui.newMain.NewMainActivity;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -41,7 +41,7 @@ public class SplashScreen extends Activity {
 
                 // Run next activity
                 Intent intent = new Intent();
-                intent.setClass(sPlashScreen, MainActivity.class);
+                intent.setClass(sPlashScreen, NewMainActivity.class);
                 startActivity(intent);
                 finish();
             }

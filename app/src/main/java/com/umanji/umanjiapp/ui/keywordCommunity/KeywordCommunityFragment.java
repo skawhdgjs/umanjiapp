@@ -47,7 +47,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.analytics.ApplicationController;
 import com.umanji.umanjiapp.gcm.GcmRegistrationIntentService;
@@ -96,7 +95,6 @@ public class KeywordCommunityFragment extends BaseFragment {
 
     //private PostListAdapter mAdapter;
 
-    private SlidingUpPanelLayout mSlidingUpPanelLayout;
     //private LinearLayout mHeaderPanel;
     private RoundedImageView mAvatarImageBtn;
     private Button mNotyCountBtn;
@@ -381,12 +379,6 @@ public class KeywordCommunityFragment extends BaseFragment {
     public void initWidgets(View view) {
         mNoticePanel = view.findViewById(R.id.noticePanel);
 
-        mSlidingUpPanelLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingUpPanelLayout);
-        mSlidingUpPanelLayout.setPanelHeight(Helper.dpToPixel(mActivity, 200));
-        mSlidingUpPanelLayout.setAnchorPoint(0.7f);
-        mSlidingUpPanelLayout.setMinFlingVelocity(DEFAULT_MIN_FLING_VELOCITY);
-
-
 //        mHeaderPanel = (LinearLayout) view.findViewById(R.id.headerPanel);
 //        mHeaderPanel.setOnClickListener(this);
 
@@ -536,17 +528,7 @@ public class KeywordCommunityFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.headerPanel:
-                if (TextUtils.equals(mSlidingState, SLIDING_COLLAPSED)) {
-                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
-                    mSlidingState = SLIDING_ANCHORED;
 
-                } else if (TextUtils.equals(mSlidingState, SLIDING_ANCHORED)) {
-                    mSlidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                    mSlidingState = SLIDING_COLLAPSED;
-                }
-
-                break;
             case R.id.mZoomBtn:
                 if (mZoomBtn.getTag().equals(ZOOM_IN)) {
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(18), 1000, null);

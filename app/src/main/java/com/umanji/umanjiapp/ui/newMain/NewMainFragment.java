@@ -1,6 +1,7 @@
 package com.umanji.umanjiapp.ui.newMain;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseFragment;
+import com.umanji.umanjiapp.ui.main.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,6 +75,8 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
     private final int NATION_ZOOM = 8;
     private final int WORLD_ZOOM = 4;
 
+    private ImageButton toggleMap;
+
     public static NewMainFragment newInstance(Bundle bundle) {
         NewMainFragment fragment = new NewMainFragment();
         fragment.setArguments(bundle);
@@ -102,6 +107,16 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
 
     @Override
     public void initWidgets(View view) {
+
+        toggleMap = (ImageButton) view.findViewById(R.id.to_map_newMain);
+        toggleMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getContext(), MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         seekbar=(SeekBar)view.findViewById(R.id.seekBar1);
         seekbar.setOnSeekBarChangeListener(this);
