@@ -1378,46 +1378,6 @@ public class MainFragment extends BaseFragment {
                             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                             dialog.setContentView(R.layout.dialog_community_panel);
 
-                            final ImageView mMyCommunityCountryBtn;
-                            mMyCommunityCountryBtn = (ImageView) dialog.findViewById(R.id.communityCountry);
-                            mMyCommunityCountryBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mMyCommunityCountryBtn.startAnimation(buttonClick);
-                                    buttonClick.setDuration(500);
-                                    Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            final ImageView mMyCommunityAdminBtn;
-                            mMyCommunityAdminBtn = (ImageView) dialog.findViewById(R.id.communityAdmin);
-                            mMyCommunityAdminBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mMyCommunityAdminBtn.startAnimation(buttonClick);
-                                    buttonClick.setDuration(500);
-                                    Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            final ImageView mMyCommunityLocalityBtn;
-                            mMyCommunityLocalityBtn = (ImageView) dialog.findViewById(R.id.communityLocality);
-                            mMyCommunityLocalityBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mMyCommunityLocalityBtn.startAnimation(buttonClick);
-                                    buttonClick.setDuration(500);
-                                    Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            final ImageView mMyCommunityThoroughBtn;
-                            mMyCommunityThoroughBtn = (ImageView) dialog.findViewById(R.id.communityThorough);
-                            mMyCommunityThoroughBtn.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mMyCommunityThoroughBtn.startAnimation(buttonClick);
-                                    buttonClick.setDuration(500);
-                                    Toast.makeText(mActivity, "clicked", Toast.LENGTH_SHORT).show();
-                                }
-                            });
 
                             GridView gridView = (GridView) dialog.findViewById(R.id.gridView1);
 

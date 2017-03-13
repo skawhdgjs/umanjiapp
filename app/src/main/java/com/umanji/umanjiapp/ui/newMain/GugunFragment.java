@@ -1,33 +1,22 @@
 package com.umanji.umanjiapp.ui.newMain;
 
-
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.makeramen.roundedimageview.RoundedImageView;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.ui.BaseFragment;
 
 /**
- * Created by nam on 2017. 2. 21..
+ * Created by nam on 2017. 2. 20..
  */
 
-public class writeInfoFragment extends BaseFragment {
+public class GugunFragment extends BaseFragment {
 
-    private RoundedImageView mUserPhoto;
-
-    public static writeInfoFragment newInstance(Bundle bundle) {
-        writeInfoFragment fragment = new writeInfoFragment();
+    public static GugunFragment newInstance(Bundle bundle) {
+        GugunFragment fragment = new GugunFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -45,7 +34,7 @@ public class writeInfoFragment extends BaseFragment {
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_writeinfo, container, false);
+        return inflater.inflate(R.layout.fragment_gogun_list, container, false);
     }
 
     @Override
@@ -55,9 +44,6 @@ public class writeInfoFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
-
-        mUserPhoto = (RoundedImageView) view.findViewById(R.id.UserPhoto_write);
-
 
     }
 

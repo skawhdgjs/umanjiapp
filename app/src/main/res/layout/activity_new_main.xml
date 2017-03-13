@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.umanji.umanjiapp.ui.newMain.newMainActivity">
+    tools:context="com.umanji.umanjiapp.ui.newMain.NewMainActivity">
 
         <RelativeLayout
             android:layout_margin="0dp"

@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.ui.main.MainActivity;
-import com.umanji.umanjiapp.ui.mainHome.MainHomeActivity;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

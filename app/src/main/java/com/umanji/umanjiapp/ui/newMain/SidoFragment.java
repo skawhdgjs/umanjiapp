@@ -3,7 +3,6 @@ package com.umanji.umanjiapp.ui.newMain;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +18,6 @@ import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.model.ErrorData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.channel.bottomWindow.TalkAdapter;
-import com.umanji.umanjiapp.ui.channel.bottomWindow.TalkFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,9 +31,9 @@ import de.greenrobot.event.EventBus;
  * Created by nam on 2017. 2. 17..
  */
 
-public class sidoFragment extends BaseFragment {
+public class SidoFragment extends BaseFragment {
 
-    private static final String TAG = "sidoFragment";
+    private static final String TAG = "SidoFragment";
     private static final String KEY_LAYOU_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
 
@@ -58,8 +55,8 @@ public class sidoFragment extends BaseFragment {
     protected int mPreFocusedItem = 0;
     protected int mLoadCount = 0;
 
-    public static sidoFragment newInstance(Bundle bundle){
-        sidoFragment fragment = new sidoFragment();
+    public static SidoFragment newInstance(Bundle bundle){
+        SidoFragment fragment = new SidoFragment();
         fragment.setArguments(bundle);
         return fragment;
     }

@@ -62,7 +62,6 @@ import com.umanji.umanjiapp.ui.channel.spot.create.SpotCreateActivity;
 import com.umanji.umanjiapp.ui.channel.spot.update.SpotUpdateActivity;
 import com.umanji.umanjiapp.ui.channelInterface.ChannelInterfaceActivity;
 import com.umanji.umanjiapp.ui.main.MainActivity;
-import com.umanji.umanjiapp.ui.mainHome.localCommunity.StepTwoActivity;
 import com.umanji.umanjiapp.ui.modal.imageview.ImageViewActivity;
 import com.umanji.umanjiapp.ui.modal.map.MapActivity;
 
@@ -964,14 +963,7 @@ public final class Helper implements AppConfig {
             case TYPE_POST:
                 intent = new Intent(activity, ReplyActivity.class);
                 break;
-            case TYPE_LOCAL_SPOT:
-                intent = new Intent(activity, StepTwoActivity.class);
-                bundle.putString("localType", "local_spot");
-                break;
-            case TYPE_LOCAL_COMPLEX:
-                intent = new Intent(activity, StepTwoActivity.class);
-                bundle.putString("localType", "local_complex");
-                break;
+
             case TYPE_INTERFACE:
                 intent = new Intent(activity, ChannelInterfaceActivity.class);
                 break;
@@ -1030,14 +1022,7 @@ public final class Helper implements AppConfig {
             case TYPE_POST:
                 intent = new Intent(activity, ReplyActivity.class);
                 break;
-            case TYPE_LOCAL_SPOT:
-                intent = new Intent(activity, StepTwoActivity.class);
-                bundle.putString("localType", "local_spot");
-                break;
-            case TYPE_LOCAL_COMPLEX:
-                intent = new Intent(activity, StepTwoActivity.class);
-                bundle.putString("localType", "local_complex");
-                break;
+
             case TYPE_INTERFACE:
                 intent = new Intent(activity, ChannelInterfaceActivity.class);
                 break;

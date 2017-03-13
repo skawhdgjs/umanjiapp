@@ -5,7 +5,7 @@ public interface AppConfig {
     int APP_VERSION = 1;
 
 //    String REST_SERVER_URL = "http://172.30.1.13:3000/v1"; /* 로컬 집 API Server */
-//    String REST_SERVER_URL = "http://172.30.1.4:3000/v1";   /* 로컬 커피숍 API Server */
+//    String REST_SERVER_URL = "http://192.168.0.31:3000/v1";   /* 로컬 사무실 API Server */
 //    String REST_SERVER_URL = "http://52.24.76.87:3000/v1"; /* 아마존 API Server */
     String REST_SERVER_URL = "http://222.122.203.14:3000/v1"; /* 카페24  API Server */
 

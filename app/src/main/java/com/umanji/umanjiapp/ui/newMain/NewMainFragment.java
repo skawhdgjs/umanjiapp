@@ -1,7 +1,6 @@
 package com.umanji.umanjiapp.ui.newMain;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -10,7 +9,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -25,20 +23,14 @@ import android.widget.Toast;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseFragment;
-import com.umanji.umanjiapp.ui.main.MainFragment;
-import com.umanji.umanjiapp.ui.setting.home.HomeFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,10 +42,10 @@ import java.util.List;
  * Created by nam on 2017. 2. 20..
  */
 
-public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback {
+public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarChangeListener, OnMapReadyCallback {
 
     private SeekBar seekbar;
-    private static final String TAG = "newMainActivity";
+    private static final String TAG = "NewMainActivity";
     private ChannelData mAddressChannel;
 
     private FragmentManager fm;
@@ -80,8 +72,8 @@ public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
     private final int NATION_ZOOM = 8;
     private final int WORLD_ZOOM = 4;
 
-    public static newMainFragment newInstance(Bundle bundle) {
-        newMainFragment fragment = new newMainFragment();
+    public static NewMainFragment newInstance(Bundle bundle) {
+        NewMainFragment fragment = new NewMainFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -399,11 +391,11 @@ public class newMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
 
 */
 
-            adapter.addFragment(worldFragment.newInstance(bundle),"world");
-            adapter.addFragment(nationFragment.newInstance(bundle),"nation");
-            adapter.addFragment(sidoFragment.newInstance(bundle),"sido");
-            adapter.addFragment(gogunFragment.newInstance(bundle),"gogun");
-            adapter.addFragment(mundongFragment.newInstance(bundle),"mundong");
+            adapter.addFragment(WorldFragment.newInstance(bundle),"world");
+            adapter.addFragment(NationFragment.newInstance(bundle),"nation");
+            adapter.addFragment(SidoFragment.newInstance(bundle),"sido");
+            adapter.addFragment(GugunFragment.newInstance(bundle),"gogun");
+            adapter.addFragment(MyundongFragment.newInstance(bundle),"mundong");
 
 
 

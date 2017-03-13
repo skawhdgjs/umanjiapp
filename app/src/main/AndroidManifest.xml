@@ -230,7 +230,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity android:name=".ui.auth.SignupOtherActivity" />
-        <activity android:name=".ui.newMain.newMainActivity"/>
+        <activity android:name=".ui.newMain.NewMainActivity"/>
     </application>
 
 </manifest>

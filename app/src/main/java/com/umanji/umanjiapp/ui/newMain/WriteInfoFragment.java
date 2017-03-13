@@ -1,23 +1,26 @@
 package com.umanji.umanjiapp.ui.newMain;
 
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.ui.BaseFragment;
 
 /**
- * Created by nam on 2017. 2. 20..
+ * Created by nam on 2017. 2. 21..
  */
 
-public class nationFragment extends BaseFragment {
+public class WriteInfoFragment extends BaseFragment {
 
-    public static nationFragment newInstance(Bundle bundle) {
-        nationFragment fragment = new nationFragment();
+    private RoundedImageView mUserPhoto;
+
+    public static WriteInfoFragment newInstance(Bundle bundle) {
+        WriteInfoFragment fragment = new WriteInfoFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -35,7 +38,7 @@ public class nationFragment extends BaseFragment {
 
     @Override
     public View getView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_nation_list, container, false);
+        return inflater.inflate(R.layout.fragment_writeinfo, container, false);
     }
 
     @Override
@@ -45,6 +48,9 @@ public class nationFragment extends BaseFragment {
 
     @Override
     public void initWidgets(View view) {
+
+        mUserPhoto = (RoundedImageView) view.findViewById(R.id.UserPhoto_write);
+
 
     }
 

@@ -424,33 +424,6 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true">
-
-                    <ImageView
-                        android:id="@+id/environment"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/keyword_image"
-                        android:src="@drawable/keyword_environment_jpg" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:shadowColor="#000"
-                        android:shadowRadius="7.0"
-                        android:text="환경"
-                        android:textColor="@color/white"
-                        android:textSize="14dp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
