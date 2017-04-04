@@ -2,15 +2,13 @@ package com.umanji.umanjiapp.ui.newMain;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,8 +17,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.model.ChannelData;
 
-import java.lang.reflect.Array;
-import java.net.URI;
 import java.util.ArrayList;
 
 /**
@@ -125,6 +121,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             mBox = (RelativeLayout) itemView.findViewById(R.id.Box_newMain);
             mImage = (ImageView) itemView.findViewById(R.id.dataPicture_post);
             mText = (TextView) itemView.findViewById(R.id.data_post);
+
+            mBox.setBackgroundColor(Color.parseColor("#ffffff"));
 
         }
 

@@ -3,9 +3,9 @@ package com.umanji.umanjiapp.ui.newMain;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -119,9 +119,10 @@ public class SidoFragment extends BaseFragment {
 
     protected void addOnScrollListener(RecyclerView rView) {
         final LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        final GridLayoutManager mGridLayoutManager = new GridLayoutManager(getContext(), 2);
+//        final GridLayoutManager mGridLayoutManager = new GridLayoutManager(getContext(), 2);
 
-        rView.setLayoutManager(mGridLayoutManager);
+//        rView.setLayoutManager(mLayoutManager);
+        rView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
         rView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
