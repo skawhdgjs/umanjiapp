@@ -3,7 +3,6 @@ package com.umanji.umanjiapp.ui.channel.bottomWindow;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import com.umanji.umanjiapp.AppConfig;
 import com.umanji.umanjiapp.R;
 import com.umanji.umanjiapp.helper.ApiHelper;
 import com.umanji.umanjiapp.model.ChannelData;
@@ -21,7 +19,6 @@ import com.umanji.umanjiapp.model.ChannelData;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.util.ArrayList;
 
@@ -75,11 +72,6 @@ public class TalkFragment extends BottomBaseFragment {
         thisType = getArguments().getString("thisType");
         keywordName = getArguments().getString("keywordName");
 
-        try {
-            mParams = new JSONObject(getData);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
 //        getTalkData(mParams);
     }

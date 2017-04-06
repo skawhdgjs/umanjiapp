@@ -34,13 +34,14 @@ import de.greenrobot.event.EventBus;
 public class SidoFragment extends BaseFragment {
 
     private static final String TAG = "SidoFragment";
-    private static final String KEY_LAYOU_MANAGER = "layoutManager";
+    private static final String KEY_LAYOUT_MANAGER = "layoutManager";
     private static final int SPAN_COUNT = 2;
 
     private boolean isFirst = true;
 
     private JSONObject mParams;
     private int Level;
+    public ApiHelper mApi;
 
     private RecyclerView mRecyclerView;
     private RecycleViewAdapter mAdapter;
@@ -54,6 +55,7 @@ public class SidoFragment extends BaseFragment {
     protected boolean isLoading = false;
     protected int mPreFocusedItem = 0;
     protected int mLoadCount = 0;
+    String getData;
 
     public static SidoFragment newInstance(Bundle bundle){
         SidoFragment fragment = new SidoFragment();
@@ -67,6 +69,9 @@ public class SidoFragment extends BaseFragment {
 
         mApi = new ApiHelper(getContext());
 
+        getData = getArguments().getString("channel");
+
+
     }
 
 
@@ -75,13 +80,26 @@ public class SidoFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+//        return super.onCreateView(inflater, container, savedInstanceState);
+
+        View v =  inflater.inflate(R.layout.fragment_sido_list, container, false);
+
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.recyclerView_sido);
+        addOnScrollListener(mRecyclerView);
+        //mAdapter = new RecycleViewAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
+        mAdapter = new RecycleViewAdapter(getActivity(), getActivity().getApplicationContext(), mChannels);
+        mRecyclerView.setAdapter(mAdapter);
+
+        loadData();
+
+        return v;
     }
 
     @Override
     public void updateView() {
         mAdapter.notifyDataSetChanged();
         mProgress.hide();
+        mProgress.dismiss();
     }
 
     @Override
@@ -160,30 +178,38 @@ public class SidoFragment extends BaseFragment {
 
     private void loadMoreData(JSONObject params){
 
+        JSONObject mparams = new JSONObject();
+
         isLoading = true;
         mLoadCount = mLoadCount + 1;
+        String testCount = Integer.toString(mAdapter.getCurrentPage());
+
 
         if(isFirst) {
             showProgress();
         }
 
         try{
-            // mParams = new JSONObject(getData);
-            mParams = new JSONObject();
+
+            mparams.put("type", "POST");
+            mparams.put("level", 18);
+            mparams.put("limit", 30);
+            mparams.put("page", mAdapter.getCurrentPage());
+            /*mParams = new JSONObject();
             mParams.put("minLatitude", 37.227384404109785);
             mParams.put("maxLatitude",37.67364796417896);
             mParams.put("minLongitude",126.73921667039394);
             mParams.put("maxLongitude",127.17866979539394);
             mParams.put("type","COMMUNITY");
             mParams.put("limit",10);
-            mParams.put("access_token","");
-            mParams.put("page",mAdapter.getCurrentPage());
+            mParams.put("access_token","");*/
 
         }catch (JSONException e){
             e.printStackTrace();
         }
-        Log.d("sido_Tester", mParams.toString());
-        mApi.call(api_main_findPosts, mParams, new AjaxCallback<JSONObject>() {
+        String myparams = mparams.toString();
+        Log.d("Paul", "this is param" + mparams.toString());
+        mApi.call(api_main_findPosts, mparams, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 if (status.getCode() == 500) {

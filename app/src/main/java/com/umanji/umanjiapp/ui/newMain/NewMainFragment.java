@@ -1,14 +1,10 @@
 package com.umanji.umanjiapp.ui.newMain;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -28,9 +24,9 @@ import com.androidquery.callback.AjaxStatus;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.umanji.umanjiapp.R;
+import com.umanji.umanjiapp.helper.GPSTracker;
 import com.umanji.umanjiapp.model.ChannelData;
 import com.umanji.umanjiapp.ui.BaseFragment;
 import com.umanji.umanjiapp.ui.main.MainActivity;
@@ -164,6 +160,7 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                myLocation();
 
             }
         });
@@ -293,11 +290,17 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
 
     private void myLocation() {
 
-        LocationManager locationManager = (LocationManager) mActivity.getSystemService(mActivity.LOCATION_SERVICE);
-        LocationListener locationListener = new MyLocationListener();
+        GPSTracker gps = new GPSTracker(getActivity());
+        double latitude = gps.getLatitude();
+        double longitude= gps.getLongitude();
+
+//        LocationManager locationManager = (LocationManager) mActivity.getSystemService(mActivity.LOCATION_SERVICE);
+//        LocationListener locationListener = new MyLocationListener();
         Criteria criteria = new Criteria();
 
-        String provider = locationManager.getBestProvider(criteria, true);
+        mCurrentMyPosition = new LatLng(latitude, longitude);
+
+        /*String provider = locationManager.getBestProvider(criteria, true);
         CameraPosition cameraPosition;
         Location location = null;
 
@@ -359,7 +362,7 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
             } catch (SecurityException e) {
                 Log.e("SecurityException", "SecurityException 에러발생:" + e.toString());
             }
-        }
+        }*/
     }
 
     private final class MyLocationListener implements LocationListener {
@@ -398,6 +401,7 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
             Bundle bundle = new Bundle();
 
             JSONObject params = new JSONObject();
+        bundle.putString("channel", mCurrentAddress.toString());
 /*
           params.put("minLatitude", nearLeft.latitude);
           params.put("maxLatitude", farRight.latitude);
