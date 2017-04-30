@@ -116,7 +116,7 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
 
         seekbar=(SeekBar)view.findViewById(R.id.seekBar1);
         seekbar.setOnSeekBarChangeListener(this);
-        seekbar.setRotation(180);
+        seekbar.setRotation(0);
         seekbar.setProgress(0);
 
         mCurrentAddress = (TextView) view.findViewById(R.id.address_newMain);
@@ -135,7 +135,7 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
         //ViewPager setting
         mViewPager = (ViewPager) view.findViewById(R.id.ViewPager_newMain);
         setupViewPager(mViewPager);
-        mViewPager.setCurrentItem(4);
+        mViewPager.setCurrentItem(0);
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -146,15 +146,15 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        seekbar.setProgress(100); break;
+                        seekbar.setProgress(0); break;
                     case 1:
-                        seekbar.setProgress(75); break;
+                        seekbar.setProgress(25); break;
                     case 2:
                         seekbar.setProgress(50); break;
                     case 3:
-                        seekbar.setProgress(25); break;
+                        seekbar.setProgress(75); break;
                     case 4:
-                        seekbar.setProgress(0); break;
+                        seekbar.setProgress(100); break;
                 }
             }
 
@@ -245,11 +245,11 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
         if(progress >= 0 && progress < 20){
             seekBar.setProgress(0);
             setAdressWithZoom(DONGMUN_ZOOM);
-            mViewPager.setCurrentItem(4);
+            mViewPager.setCurrentItem(0);
         } else if(progress >= 20 && progress < 30){
             seekBar.setProgress(25);
             setAdressWithZoom(GOGOUN_ZOOM);
-            mViewPager.setCurrentItem(3);
+            mViewPager.setCurrentItem(1);
         } else if(progress >= 30 && progress < 60){
             seekBar.setProgress(50);
             setAdressWithZoom(SIDO_ZOOM);
@@ -257,11 +257,11 @@ public class NewMainFragment extends BaseFragment implements SeekBar.OnSeekBarCh
         } else if(progress >= 60 && progress < 80){
             seekBar.setProgress(75);
             setAdressWithZoom(NATION_ZOOM);
-            mViewPager.setCurrentItem(1);
+            mViewPager.setCurrentItem(3);
         } else if(progress >= 80 && progress <= 100){
             seekBar.setProgress(100);
             setAdressWithZoom(WORLD_ZOOM);
-            mViewPager.setCurrentItem(0);
+            mViewPager.setCurrentItem(4);
         }
     }
 
